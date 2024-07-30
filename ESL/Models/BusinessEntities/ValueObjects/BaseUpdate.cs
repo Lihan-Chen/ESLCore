@@ -4,7 +4,7 @@ using System;
 
 namespace ESL.Models.BusinessEntities.ValueObjects
 {
-    public class BaseUpdate : BaseOperator
+    public class BaseUpdate // : BaseOperator
     {
         /// <summary>
         /// Gets or sets the modifyFlag of the FlowChange.

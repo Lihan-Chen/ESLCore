@@ -9,7 +9,7 @@ namespace ESL.Models.BusinessEntities
     /// The Employee class represents an Employee that belongs to a <see cref="Facility">Employee</see>.
     /// </summary>
     [DebuggerDisplay("Employee: {Employee, nq}")]
-    public class Employee:IEntity
+    public class Employee : IEntity
     {
         #region Public Properties
 

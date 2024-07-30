@@ -8,7 +8,7 @@ using Microsoft.Graph.TermStore;
 
 namespace ESL.Repositories
 {
-    public abstract class EfCoreRepository<TEntity, TContext> : IRepository<TEntity>
+    public abstract class EfCoreRepository<TEntity, TContext> : IEfCoreRepository<TEntity>
         where TEntity : class, IEntity
         where TContext : DbContext
     {

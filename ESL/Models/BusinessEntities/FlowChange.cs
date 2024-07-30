@@ -31,7 +31,7 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectFieldAttribute(false, false, true, 80)]
         [Display(Name = "Requested By (optional)")]
-        public string RequestedBy_Name => RequestedBy ? string.Empty : RequestedBy.ToString();
+        public string RequestedBy_Name => RequestedBy == null ? string.Empty : RequestedBy.ToString();
         //{
         //    get
         //    {

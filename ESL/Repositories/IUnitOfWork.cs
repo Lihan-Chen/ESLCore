@@ -15,5 +15,8 @@ namespace ESL.Repositories
         IFacilityRepository Facilities { get; }
         IEmployeeRepository Employees { get; }
         int Complete();
+
+        //public void Dispose();
+
     }
 }

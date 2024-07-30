@@ -153,7 +153,7 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         //[DataObjectFieldAttribute(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        public string EventHighlight => Subject ?? Subject + _CrLf + ( Details ?? Details +  _CrLf + "Updated By: " + UpdatedBy + " on " + UpdateDate);
+        public string EventHighlight => Subject ?? Subject + _CrLf + (Details ?? (Details +  _CrLf) + "Updated By: " + UpdatedBy + " on " + UpdateDate);
         
         // Navigation to be implemented with EF virtural
         public virtual ScanDoc? scandoc { get; set; }

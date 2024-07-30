@@ -1,37 +1,38 @@
 ﻿using ESL.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace ESL.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly ApplicationDbContext Context;
         public Repository(ApplicationDbContext context)
         {
             Context = context;
         }
-        public async Task<IEnumerable<T>> GetAllAync()
+        public async Task<IEnumerable<TEntity>> GetAllAync()
         {
-            return await Context.Set<T>().toListAsync();
+            return await Context.Set<TEntity>().ToListAsync();
         }
-        public Async Task<T> Get(int? id)
+        public async Task<TEntity> GetAsync(int? id)
         {
-            return Context.Set<T>().FindAsync(id);
+            return await Context.Set<TEntity>().FindAsync(id);
         }
-        public async task Add(T entity)
+        public async Task AddAsync(TEntity entity)
         {
-            await Context.Set<T>().Add(entity);
+            await Context.Set<TEntity>().AddAsync(entity);
         }
-        public async task Delete(T entity)
+        public async Task DeleteAsync(TEntity entity)
         {
-            Context.Set<T>().Remove(entity);
+            Context.Set<TEntity>().Remove(entity);
             await Context.SaveChangesAsync();
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<T>().Where(predicate);
+            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
         }
     }
 }

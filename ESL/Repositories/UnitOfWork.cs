@@ -1,22 +1,23 @@
 ﻿using ESL.Data;
+using ESL.Models.BusinessEntities;
 
 namespace ESL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext db;
-        //public UnitOfWork(ApplicationDbContext context)
-        //{
-        //    db = context;
-        //}
-        //public IRepository<Student> StudentRepository => new Repository<Student>(db);
+        public UnitOfWork(ApplicationDbContext context)
+        {
+            db = context;
+        }
+        public IRepository<Facility> FacilityRepository => new Repository<Facility>(db);
 
-        //public IRepository<Course> CourseRepositroy => new Repository<Course>(db);
+        public IRepository<Employee> EmployeeRepositroy => new Repository<Employee>(db);
 
         //public IRepository<Instructor> InstructorRepository => new Repository<Instructor>(db);
 
-        //public IStudentRepository Students => new StudentRepository(db);
-        //public IStudentRepository Student => new StudentRepository(db);
+        public IFacilityRepository Facilities => new FacilityRepository(db);
+        public IEmployeeRepository Employees => new EmployeeRepository(db);
 
         public int Complete()
         {
