@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Models
 {
-    public class ESLDbContext: DbContext
+    public class ApplicationDbContext: DbContext
     { 
-        public ESLDbContext(DbContextOptions<ESLDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
         public DbSet<Facility> facilities { get; set; }

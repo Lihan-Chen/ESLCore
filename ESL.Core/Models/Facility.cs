@@ -1,16 +1,20 @@
-﻿using ESL.Models.BusinessEntities.ValueObjects;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.Core.Models
 {
     /// <summary>
     /// The Facility class represents a Facility that belongs to a <see cref="Facility"> Facilility</see>.
     /// </summary>
     [DebuggerDisplay("Facility: {Facility, nq}")]
-    public class Facility: BaseUpdate, IEntity
+    [PrimaryKey(nameof(FacilNo))]
+    [Table("ESL_Facilities")]
+    public class Facility //: IEnumerable
     {
         #region Public Properties
+
 
         /// <summary>
         /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
@@ -18,13 +22,15 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(true, true, false, 3)]
         [DisplayName("Facility No.")]
-        public int Id { get; set; }
+        [Column(nameof(FacilNo))]
+        public int FacilNo { get; set; }
 
         /// <summary>
         /// Gets or sets the Facility Name [VARCHAR2(40)] of the Facility.
         /// </summary>
-        [DataObjectField(true, true, false, 40)]
+        [DataObjectField(false, true, false, 40)]
         [DisplayName("Facility")]
+        [Column(nameof(FacilName))]
         public string FacilName { get; set; } = string.Empty;
 
         /// <summary>
@@ -32,6 +38,7 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, true, false, 6)]
         [DisplayName("Abreviation")]
+        [Column(nameof(FacilAbbr))]
         public string FacilAbbr { get; set; } = string.Empty;
 
         /// <summary>
@@ -39,6 +46,7 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, false, 30)]
         [DisplayName("Facility Type")]
+        [Column(nameof(FacilType))]
         public string FacilType { get; set; } = string.Empty;
 
         /// <summary>
@@ -46,21 +54,39 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, false, 2)]
         [DisplayName("Sort Order")]
+        [Column(nameof(SortNo))]
         public int? SortNo { get; set; }
-        //public Nullable<short> SortNo { get; set; }
 
         /// <summary>
         /// Gets or sets the Notes [VARCHAR2(400)] of the Facility.
         /// </summary>
         [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
+        [Column(nameof(Notes))]
         public string? Notes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Updated By [VARCHAR2(60)] of the Facility.  UpdatedBy defaults to user
+        /// </summary>
+        [DataObjectField(false, false, true, 60)]
+        [DisplayName("Updated By")]
+        [Column(nameof(UpdatedBy))]
+        public string? UpdatedBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Update Date [DATE] of the Facility. UpdateTime is default to sysdate
+        /// </summary>
+        [DataObjectField(false, false, true)]
+        [DisplayName("Update Date")]
+        [Column(nameof(UpdateDate))]
+        public DateTime? UpdateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Disable [VARCHAR2(15)] of the Facility.
         /// </summary>
         [DataObjectField(false, false, true, 15)]
         [DisplayName("Disable?")]
+        [Column(nameof(Disable))]
         public string? Disable { get; set; }
 
         /// <summary>
@@ -68,6 +94,7 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Visible To")]
+        [Column(nameof(VisibleTo))]
         public string? VisibleTo { get; set; }
 
         /// <summary>
@@ -75,13 +102,14 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Full Name")]
-        public string FacilFullName { get; set; } = string.Empty;
+        [Column(nameof(FacilFullName))]
+        public string? FacilFullName { get; set; }
 
         /// <summary>
         /// Gets or sets a collection of <see cref="Employee" /> instances for the facility.
         /// </summary>
         public virtual List<Employee> EmployeeList { get; set; } = new List<Employee>();
-
+        
         #endregion
 
     }

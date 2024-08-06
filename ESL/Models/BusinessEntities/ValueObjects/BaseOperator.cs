@@ -8,7 +8,7 @@ namespace ESL.Models.BusinessEntities.ValueObjects
         ///// <summary>
         ///// Gets or sets the operatorID of the FlowChange.
         ///// </summary>
-        //[DataObjectFieldAttribute(false, false, false, 7)]
+        //[DataObjectField(false, false, false, 7)]
         //[Display(Name = "Operator")]
         //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         //public int OperatorID { get; set; }
@@ -16,14 +16,14 @@ namespace ESL.Models.BusinessEntities.ValueObjects
         /// <summary>
         /// Gets or sets the operatorType of the FlowChange.
         /// </summary>
-        [DataObjectFieldAttribute(false, false, true, 15)]
+        [DataObjectField(false, false, true, 15)]
         [Display(Name = "Operator Type (Optional)")]
         public string OperatorType { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the shiftNo of the FlowChange.
         /// </summary>
-        [DataObjectFieldAttribute(false, false, true, 2)]
+        [DataObjectField(false, false, true, 2)]
         [Display(Name = "Shift No")]
         public int? ShiftNo { get; set; }
 
