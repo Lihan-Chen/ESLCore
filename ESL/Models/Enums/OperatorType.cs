@@ -1,4 +1,4 @@
-﻿namespace ESL.Models.Enums
+﻿namespace ESL.API.Models.Enums
 {
     // <summary>
     /// Determines the type of Operator.

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using ESL.Core.Models.ComplexTypes;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace ESL.Core.Models
     [DebuggerDisplay("Facility: {Facility, nq}")]
     [PrimaryKey(nameof(FacilNo))]
     [Table("ESL_Facilities")]
-    public class Facility //: IEnumerable
+    public partial record Facility //: IEnumerable
     {
         #region Public Properties
 
@@ -31,7 +32,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, true, false, 40)]
         [DisplayName("Facility")]
         [Column(nameof(FacilName))]
-        public string FacilName { get; set; } = string.Empty;
+        public string FacilName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Facility Abbreviation [VARCHAR2(5)] of the Facility.
@@ -39,7 +40,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, true, false, 6)]
         [DisplayName("Abreviation")]
         [Column(nameof(FacilAbbr))]
-        public string FacilAbbr { get; set; } = string.Empty;
+        public string FacilAbbr { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Facility Type [VARCHAR2(30)] of the Facility.
@@ -47,7 +48,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, false, 30)]
         [DisplayName("Facility Type")]
         [Column(nameof(FacilType))]
-        public string FacilType { get; set; } = string.Empty;
+        public string FacilType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Sort Order [NUMBER(2)] of the Facility.
@@ -65,21 +66,7 @@ namespace ESL.Core.Models
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Updated By [VARCHAR2(60)] of the Facility.  UpdatedBy defaults to user
-        /// </summary>
-        [DataObjectField(false, false, true, 60)]
-        [DisplayName("Updated By")]
-        [Column(nameof(UpdatedBy))]
-        public string? UpdatedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Update Date [DATE] of the Facility. UpdateTime is default to sysdate
-        /// </summary>
-        [DataObjectField(false, false, true)]
-        [DisplayName("Update Date")]
-        [Column(nameof(UpdateDate))]
-        public DateTime? UpdateDate { get; set; }
+        public Update Update { get; set; } = new Update();
 
         /// <summary>
         /// Gets or sets the Disable [VARCHAR2(15)] of the Facility.

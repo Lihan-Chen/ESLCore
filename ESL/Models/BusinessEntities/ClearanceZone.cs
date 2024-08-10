@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using PocketBook.Models.Collections;
+using ESL.Core.Models.Collections;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     [PrimaryKey(nameof(FacilType), nameof(ZoneNo))]
     [Table("ESL_ClearanceZones")]
@@ -17,7 +17,7 @@ namespace PocketBook.Models
 
         [DataObjectField(true, true, false, 5)]
         [DisplayName("Facility Type")]
-        public string FacilType { get; set; } = string.Empty;
+        public string FacilType { get; set; } = null!;
 
         [DataObjectField(true, true, false, 3)]
         [DisplayName("Zone No.")]

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using PocketBook.Models.Validation;
+using ESL.Core.Models.Validation;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
   /// <summary>
   /// The Search class represents an Search that belongs to a <see cref="Search"> Search</see>.
@@ -31,7 +31,7 @@ namespace PocketBook.Models
     /// </summary>
     /// 
         [DataObjectField(false, false, false)]
-        public string FacilName { get; set; } = string.Empty;
+        public string FacilName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the logTypeName of the Search.
@@ -44,13 +44,13 @@ namespace PocketBook.Models
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
-        public string LogTypeName {get; set; } = string.Empty;
+        public string LogTypeName {get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventID of the Search.
         /// </summary>
         [DataObjectField(true, true, false)]
-        public string EventID  { get; set; } = string.Empty;
+        public string EventID  { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventID_RevNo of the Search.
@@ -68,46 +68,46 @@ namespace PocketBook.Models
         /// Gets or sets the eventTime of the Search.
         /// </summary>
         [DataObjectField(false, false, false)]
-        public string EventTime  { get; set; } = string.Empty;
+        public string EventTime  { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the subject of the Search.
         /// </summary>
         [DataObjectField(false, false, false)]
-        public string Subject  { get; set; } = string.Empty;
+        public string Subject  { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the details of the Search.
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        public string Details { get; set; } = string.Empty;
+        public string Details { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the operatorType of the Search.
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        public string OperatorType { get; set; } = string.Empty;
+        public string OperatorType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the updatedBy of the Search.
         /// </summary>
         [DataObjectField(false, false, false)]
-        public string UpdatedBy { get; set; } = string.Empty;
+        public string UpdatedBy { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the updateDate of the Search.
         /// </summary>
         [DataObjectField(false, false, false)]
-        public string UpdateDate { get; set; } = string.Empty;
+        public string UpdateDate { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the clearanceID of the Search.
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        public string ClearanceID { get; set; } = string.Empty;
+        public string ClearanceID { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventIdentifier of the Search.

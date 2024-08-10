@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using PocketBook.Models.Collections;
+using ESL.Core.Models.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     [NotMapped]
     public class Location
@@ -19,11 +19,11 @@ namespace PocketBook.Models
 
         [DataObjectField(false, true, false)]
         [DisplayName("Facility")]
-        public string FacilName { get; set; } = string.Empty;
+        public string FacilName { get; set; } = null!;
 
         [DataObjectField(false, true, false)]
         [DisplayName("Abreviation")]
-        public string FacilAbbr { get; set; } = string.Empty;
+        public string FacilAbbr { get; set; } = null!;
 
         [DataObjectField(false, false, true)]
         [DisplayName("Notes")]

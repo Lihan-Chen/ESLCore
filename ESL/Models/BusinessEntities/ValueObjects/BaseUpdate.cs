@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System;
 
-namespace ESL.Models.BusinessEntities.ValueObjects
+namespace ESL.API.Models.BusinessEntities.ValueObjects
 {
     public class BaseUpdate // : BaseOperator
     {
@@ -39,7 +39,7 @@ namespace ESL.Models.BusinessEntities.ValueObjects
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [Display(Name = "Updated By")]
-        public string UpdatedBy { get; set; } = string.Empty;
+        public string UpdatedBy { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the updateDate of the FlowChange.

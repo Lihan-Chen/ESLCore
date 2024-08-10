@@ -7,21 +7,28 @@ using System.Threading.Tasks;
 
 namespace ESL.Core.IRepositories
 {
-    internal interface IGenericRepository
+    public interface IGenericRepository<T> where T : class
     {
-        public interface IGenericRepository<T> where T : class
-        {
-            Task<IEnumerable<T>> GetAllAsync();
+        #region Queries
 
-            Task<T> GetByIdAsync(int id);
+        Task<IEnumerable<T>> GetAll();
 
-            Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+        Task<T> GetById(int id);
 
-            Task<bool> AddAsync(T entity);
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
 
-            Task<bool> DeleteAsync(int id);
+        #endregion
 
-            Task<bool> UpsertAsync(T entity);
-        }
+        #region Commands
+
+        Task Add(T entity);
+
+        // Soft Delete
+        Task Delete(int id);
+
+        // Update outgoing event, Add incoming event
+        Task Upsert(T entity);
+
+        #endregion
     }
 }

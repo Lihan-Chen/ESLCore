@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     /// <summary>
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="FlowChange"> FlowChange</see>.
@@ -206,7 +206,7 @@ namespace ESL.Models.BusinessEntities
         {
             get
             {
-                string _EventHighlight = String.Empty;
+                string _EventHighlight = null!;
                 _EventHighlight = "Meter ID: " + MeterID + _CrLf;
                 if (Convert.ToDecimal(ChangeBy) < 0)
                 {
@@ -285,7 +285,7 @@ namespace ESL.Models.BusinessEntities
         {
             get
             {
-                string _EventTrail = String.Empty;
+                string _EventTrail = null!;
 
                 if (RequestedBy != null)
                 {

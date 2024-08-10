@@ -1,12 +1,12 @@
-﻿using ESL.Repositories;
-using ESL.Models.BusinessEntities;
+﻿using ESL.API.Repositories;
+using ESL.API.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Pages.Account;
 using Microsoft.Graph.TermStore;
 
-namespace ESL.Repositories
+namespace ESL.API.Repositories
 {
     public abstract class EfCoreRepository<TEntity, TContext> : IEfCoreRepository<TEntity>
         where TEntity : class, IEntity
@@ -53,7 +53,7 @@ namespace ESL.Repositories
 
         public async Task<List<TEntity>> GetAll()
         {
-            return await context.Set<TEntity>().ToListAsync();
+            return await context.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
         public async Task<TEntity> Update(TEntity entity)

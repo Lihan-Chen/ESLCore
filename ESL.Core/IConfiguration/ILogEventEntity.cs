@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ESL.Core.IConfiguration
 {
-    public interface IBaseEvent
+    public interface ILogEventEntity // : IEventIdentity
     {
         #region Internal Variables
 
@@ -14,10 +14,10 @@ namespace ESL.Core.IConfiguration
 
         #region Public Properties
 
-        /// <summary>
-        /// Gets or sets the facilName of the event.
-        /// </summary>
-        public int FacilNo { get; set; }
+        ///// <summary>
+        ///// Gets or sets the facilName of the event.
+        ///// </summary>
+        //public int FacilNo { get; set; }
 
         /// <summary>
         /// Gets or sets the facilName of the event.
@@ -25,24 +25,25 @@ namespace ESL.Core.IConfiguration
         /// 
         public string FacilName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the logTypeNo of the FlowChange.
-        /// </summary>
-        public int LogTypeNo { get; set; }
+        ///// <summary>
+        ///// Gets or sets the logTypeNo of the FlowChange.
+        ///// </summary>
+        //public int LogTypeNo { get; set; }
 
         /// <summary>
         /// Gets or sets the logTypeName of the FlowChange.
         /// </summary>
         public string LogTypeName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the eventID of the FlowChange.
-        /// </summary>
-        public string EventID { get; set; }
-        /// <summary>
-        /// Gets or sets the eventID_RevNo of the FlowChange.
-        /// </summary>
-        public int EventID_RevNo { get; set; }
+        ///// <summary>
+        ///// Gets or sets the eventID of the FlowChange.
+        ///// </summary>
+        //public string EventID { get; set; }
+
+        ///// <summary>
+        ///// Gets or sets the eventID_RevNo of the FlowChange.
+        ///// </summary>
+        //public int EventID_RevNo { get; set; }
 
         /// <summary>
         /// Gets or sets the operatorID of the FlowChange.
@@ -108,15 +109,15 @@ namespace ESL.Core.IConfiguration
         /// </summary>
         public int SeqNo { get; set; }
 
-        /// <summary>
-        /// Gets or sets the updatedBy of the FlowChange.
-        /// </summary>
-        public string UpdatedBy { get; set; }
+        ///// <summary>
+        ///// Gets or sets the updatedBy of the FlowChange.
+        ///// </summary>
+        //public string UpdatedBy { get; set; }
 
-        /// <summary>
-        /// Gets or sets the updateDate of the FlowChange.
-        /// </summary>
-        public DateTime UpdateDate { get; set; }
+        ///// <summary>
+        ///// Gets or sets the updateDate of the FlowChange.
+        ///// </summary>
+        //public DateTime UpdateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the workOrders of the FlowChange.
@@ -142,4 +143,4 @@ namespace ESL.Core.IConfiguration
         #endregion
     }
 }
-}
+

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace ESL.Models.BusinessEntities.ValueObjects
+namespace ESL.API.Models.BusinessEntities.ValueObjects
 {
     public class BaseEventID: BaseUpdate   
     {
@@ -23,7 +23,7 @@ namespace ESL.Models.BusinessEntities.ValueObjects
         /// </summary>
         [DataObjectField(true, true, false, 20)]
         [Display(Name = "Event ID")]
-        public string EventID { get; set; } = string.Empty;
+        public string EventID { get; set; } = null!;
         /// <summary>
         /// Gets or sets the eventID_RevNo of the Event.
         /// </summary>

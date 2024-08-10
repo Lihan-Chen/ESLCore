@@ -6,21 +6,18 @@ using System.Threading.Tasks;
 
 namespace ESL.Core.IConfiguration
 {
-    internal interface IAuditable
+    public interface IAuditable
     {
-        public interface IAuditable
-        {
-            //String CreatedBy { get; }
+        //String CreatedBy { get; }
 
-            //DateTime CreatedOnUtc { get; }
+        //DateTime CreatedOnUtc { get; }
 
-            //String ModifiedBy { get; }
+        //String ModifiedBy { get; }
 
-            //DateTime? ModifiedOnUtc { get; }
+        //DateTime? ModifiedOnUtc { get; }
 
-            String UpdatedBy { get; }
+        String UpdatedBy { get; }
 
-            DateTime UpdateDate { get; }
-        }
+        DateTime UpdateDate { get; }
     }
 }

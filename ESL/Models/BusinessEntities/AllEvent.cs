@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     /// <summary>
     /// The AllEvent record is an immutable class for readonly  represents an AllEvents that belongs to a <see cref="AllEvent"> AllEvent</see>.
@@ -31,14 +31,14 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         /// 
         [DataObjectField(false, false, false, 40)]
-        public string FacilName { get; set; } = string.Empty;
+        public string FacilName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the facilAbbr of the AllEvents.
         /// </summary>
         /// 
         [DataObjectField(false, false, false, 5)]
-        public string FacilAbbr { get; set; } = string.Empty;
+        public string FacilAbbr { get; set; } = null!;
 
 
         /// <summary>
@@ -52,13 +52,13 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         /// 
         [DataObjectField(false, false, false, 100)]
-        public string LogTypeName { get; set; } = string.Empty;
+        public string LogTypeName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventID of the AllEvents.
         /// </summary>
         [DataObjectField(true, true, false, 20)]
-        public string EventID { get; set; } = string.Empty;
+        public string EventID { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventID_RevNo of the AllEvents.
@@ -76,20 +76,20 @@ namespace ESL.Models.BusinessEntities
         /// Gets or sets the eventTime of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false, 5)]
-        public string EventTime { get; set; } = string.Empty;
+        public string EventTime { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the subject of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false, 300)]
-        public string Subject { get; set; } = string.Empty;
+        public string Subject { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the details of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false, 2000)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        public string Details { get; set; } = string.Empty;
+        public string Details { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the modifyFlag of the FlowChange.
@@ -114,7 +114,7 @@ namespace ESL.Models.BusinessEntities
         /// Gets or sets the updatedBy uID of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false, 60)]
-        public string UpdatedBy { get; set; } = string.Empty;
+        public string UpdatedBy { get; set; } = null!;
 
         ///// <summary>
         ///// Gets or sets the updatedBy of the AllEvents.
@@ -126,14 +126,14 @@ namespace ESL.Models.BusinessEntities
         /// Gets or sets the updateDate of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false)]
-        public string UpdateDate { get; set; } = string.Empty;
+        public string UpdateDate { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the clearanceID of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false, 20)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        public string ClearanceID { get; set; } = string.Empty;
+        public string ClearanceID { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the ScanDocsNo of the AllEvents.

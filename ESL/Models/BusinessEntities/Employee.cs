@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Diagnostics;
-using ESL.Models.BusinessEntities.ValueObjects;
+using ESL.API.Models.BusinessEntities.ValueObjects;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     /// <summary>
     /// The Employee class represents an Employee that belongs to a <see cref="Facility">Employee</see>.
@@ -28,14 +28,14 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 50)]
         [DisplayName("Last Name")]
-        public string LastName { get; set; } = string.Empty;
+        public string LastName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the First Name [VARCHAR2(50)] of the Employee.
         /// </summary>
         [DataObjectField(false, false, true, 50)]
         [DisplayName("First Name")]
-        public string FirstName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Company Name [VARCHAR2(100)] of the Employee.

@@ -1,6 +1,6 @@
-﻿using ESL.Models.BusinessEntities;
+﻿using ESL.API.Models.BusinessEntities;
 
-namespace ESL.Repositories
+namespace ESL.API.Repositories
 {
     public interface IFacilityRepository : IRepository<Facility>
     {

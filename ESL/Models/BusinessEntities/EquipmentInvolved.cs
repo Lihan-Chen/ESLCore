@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using PocketBook.Models.Collections;
+using ESL.Core.Models.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     [PrimaryKey(nameof(FacilNo), nameof(EquipNo))]
     [Table("ESL_EquipmentInvolved")]
@@ -21,7 +21,7 @@ namespace PocketBook.Models
 
         [DataObjectField(false, true, false, 5)]
         [DisplayName("Facility Type")]
-        public string FacilType { get; set; } = string.Empty;
+        public string FacilType { get; set; } = null!;
 
         [DataObjectField(true, true, false, 3)]
         [DisplayName("Equipment No.")]
@@ -31,7 +31,7 @@ namespace PocketBook.Models
         [DataObjectField(false, true, false, 100)]
         [DisplayName("Equipment")]
         [Column(nameof(EquipName))]
-        public string EquipName { get; set; } = string.Empty;
+        public string EquipName { get; set; } = null!;
 
         [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]

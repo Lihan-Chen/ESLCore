@@ -1,7 +1,7 @@
-﻿using ESL.Models.BusinessEntities;
+﻿using ESL.API.Models.BusinessEntities;
 using System.Linq.Expressions;
 
-namespace ESL.Repositories
+namespace ESL.API.Repositories
 {
     public interface IFlowChangeRepository
     {

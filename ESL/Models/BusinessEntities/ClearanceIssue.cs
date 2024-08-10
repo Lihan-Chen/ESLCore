@@ -1,18 +1,17 @@
-﻿using System;
+﻿using 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using PocketBook.Models.Validation;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     /// <summary>
     /// The ClearanceIssues class represents an ClearanceIssues that belongs to a <see cref="ClearanceIssue"> ClearanceIssues</see>.
     /// </summary>
     [DebuggerDisplay("ClearanceIssues : {FacilName, nq} {LogTypeName, nq} {EventID, nq} - {EventID_RevNo, nq})")] // ({Type, nq})
     [Table("ESL_ClearanceIssues")]
-    public class ClearanceIssue : BaseEvent
+    public class ClearanceIssue : LogEvent
     {
 
         #region Private Variables
@@ -25,7 +24,7 @@ namespace PocketBook.Models
 
         [DataObjectField(false, false, true)]
         [Column(nameof(OperatorID))] 
-        public string Operator { get; set; } = string.Empty;
+        public string Operator { get; set; } = null!;
 
         //[DataObjectField(false, false, true)]
         //[Column("CreatedBy")] 
@@ -53,19 +52,19 @@ namespace PocketBook.Models
         [Display(Name = "Issued Time", Prompt = "hh:mm")]
         [RegularExpression("([01]?[0-9]|2[0-3]):[0-5][0-9]", ErrorMessage = "Time must be a valid 24 hour time in HH:MM format")]
         [Column(nameof(IssuedTime))]
-        public string IssuedTime { get; set; } = string.Empty;
+        public string IssuedTime { get; set; } = null!;
 
         [DataObjectField(false, false, false, 6)]
         [Column(nameof(FacilAbbr))]
-        public string FacilAbbr { get; set; } = string.Empty;
+        public string FacilAbbr { get; set; } = null!;
 
         [DataObjectField(false, false, false, 2)]
         [Column(nameof(ClearanceType))]
-        public string ClearanceType { get; set; } = string.Empty;
+        public string ClearanceType { get; set; } = null!;
 
         [DataObjectField(false, false, false, 300)]
         [Column(nameof(ClearanceZone))]
-        public string ClearanceZone { get; set; } = string.Empty;
+        public string ClearanceZone { get; set; } = null!;
         
         [DataObjectField(false, false, true, 200)]
         [Column(nameof(Location))] 
@@ -122,7 +121,7 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventHighlight = String.Empty;
+                string _EventHighlight = null!;
                 if (!String.IsNullOrEmpty(Location))
                 {
                     _EventHighlight = "Location: " + Location + _CrLf;
@@ -180,9 +179,9 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventTrail = String.Empty;
-                string _ReleasedBy = String.Empty;
-                string _ReleasedTo = String.Empty;
+                string _EventTrail = null!;
+                string _ReleasedBy = null!;
+                string _ReleasedTo = null!;
 
                 _EventTrail = "Issued to: " + Helpers.GetEmpFullName("IssuedTo", IssuedTo, FacilNo) + _CrLf;
 

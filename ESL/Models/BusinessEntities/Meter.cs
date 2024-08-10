@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     public class Meter
     {
@@ -10,10 +10,10 @@ namespace ESL.Models.BusinessEntities
 
         [DataObjectField(true, true, false, 20)]
         [DisplayName("Meter ID.")]
-        public string MeterID { get; set; } = string.Empty;
+        public string MeterID { get; set; } = null!;
 
         [DataObjectField(false, false, true, 20)]
-        public string MeterType { get; set; } = string.Empty;
+        public string MeterType { get; set; } = null!;
 
         [DataObjectField(false, false, true, 2)]
         public int? SortNo { get; set; }
@@ -26,7 +26,7 @@ namespace ESL.Models.BusinessEntities
         public string? Disable { get; set; }
 
         [DataObjectField(false, false, true, 60)]
-        public string UpdatedBy { get; set; } = string.Empty;
+        public string UpdatedBy { get; set; } = null!;
 
         [DataObjectField(false, false, true)]
         public DateTimeOffset? UpdateDate { get; set; }

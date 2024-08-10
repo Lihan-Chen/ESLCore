@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ESL.Core.Models.ComplexTypes;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,11 +12,15 @@ namespace ESL.Core.Models
     /// Added Email property for querying from the User class
     /// </summary>
     [DebuggerDisplay("Employee: {Employee, nq}")]
-    [PrimaryKey(nameof(EmployeeNo))]
+    [PrimaryKey(nameof(User.UserInfo.EmployeeNo))]
     [Table("ESL_Employees")]
-    public class Employee : User
+    public partial record Employee : User
     {
         #region Public Properties
+
+        public Employee() { }
+
+        public User User { get; set; } = new User();
 
         /// <summary>
         /// Gets or sets the Company Name [VARCHAR2(100)] of the Employee.
@@ -23,8 +28,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Company")]
         [Column(nameof(Company))]
-        public string Company { get; set; } = string.Empty;
-
+        public string Company { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Group Name [VARCHAR2(100)] of the Employee.
@@ -32,8 +36,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Group Name")]
         [Column(nameof(GroupName))]
-        public string GroupName { get; set; } = string.Empty;
-
+        public string GroupName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
@@ -61,21 +64,7 @@ namespace ESL.Core.Models
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Updated By [VARCHAR2(60)] of the Facility.  UpdatedBy defaults to user
-        /// </summary>
-        [DataObjectField(false, false, true, 60)]
-        [DisplayName("Updated By")]
-        [Column(nameof(UpdatedBy))]
-        public string? UpdatedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Update Date [DATE] of the Facility. UpdateTime is default to sysdate
-        /// </summary>
-        [DataObjectField(false, false, true)]
-        [DisplayName("Update Date")]
-        [Column(nameof(UpdateDate))]
-        public DateTimeOffset UpdateDate { get; set; }
+        public Update Update { get; set; } = new Update();
 
         /// <summary>
         /// Gets or sets the Disable [VARCHAR2(15)] of the Facility.
@@ -85,5 +74,13 @@ namespace ESL.Core.Models
         [Column(nameof(Disable))]
         public string? Disable { get; set; }
 
-        public Facility Facility { get; set; }  = new Facility();
+        public Facility Facility { get; set; } = new Facility();
+
+        [NotMapped]
+        public string UID => EmployeeNo.ToString().Length > 4 ? $"U{EmployeeNo.ToString()}" : $"U0{EmployeeNo.ToString()}";
+
+        //public string FullName => User.FullName;
+
+        #endregion
     }
+}

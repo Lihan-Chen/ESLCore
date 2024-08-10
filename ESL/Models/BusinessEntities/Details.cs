@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PocketBook.Models.Validation;
+using ESL.Core.Models.Validation;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
    
     [PrimaryKey(nameof(FacilNo), nameof(DetailsNo))]
@@ -27,11 +27,11 @@ namespace PocketBook.Models
         [DataObjectField(false, true, false, 100)]
         [DisplayName("Detail Name")]
         [Column(nameof(DetailsName))]
-        public string DetailsName { get; set; } = string.Empty;
+        public string DetailsName { get; set; } = null!;
 
         [DataObjectField(false, true, false, 5)]
         [Column(nameof(FacilType))]
-        public string FacilType { get; set; } = string.Empty;
+        public string FacilType { get; set; } = null!;
 
         [DataObjectField(false, false, true, 2)]
         [Column(nameof(SortNo))]
@@ -50,7 +50,7 @@ namespace PocketBook.Models
         [DataObjectField(false, false, true)]
         [DisplayName("Subject")]
         [NotMapped]
-        public string SubjectName { get; set; } = string.Empty;
+        public string SubjectName { get; set; } = null!;
 
         [DataObjectField(false, false, true, 30)]
         [Column(nameof(Disable))]

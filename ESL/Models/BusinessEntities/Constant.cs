@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using System.Diagnostics;
-using PocketBook.Models.Collections;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     [PrimaryKey(nameof(FacilNo), nameof(ConstantName), nameof(StartDate))]
     [Table("ESL_Constants")]
@@ -23,7 +18,7 @@ namespace PocketBook.Models
         [DataObjectField(true, true, false, 20)]
         [DisplayName("Constant")]
         [Column(nameof(ConstantName))]
-        public string ConstantName { get; set; } = string.Empty;
+        public string ConstantName { get; set; } = null!;
 
         [DataObjectField(true, true, false)]
         [DataType(DataType.Date)]

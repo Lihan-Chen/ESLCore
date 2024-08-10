@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using PocketBook.Models.Validation;
+using ESL.Core.Models.Validation;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
 
     [PrimaryKey(nameof(FacilNo),nameof(LogTypeNo),nameof(EventID),nameof(RelatedTo_Subject))]    
@@ -22,10 +22,10 @@ namespace PocketBook.Models
 
         //CONSTANTNAME  VARCHAR2(20 BYTE)
         [DataObjectField(true, true, false)]
-        public string EventID { get; set; } = string.Empty;
+        public string EventID { get; set; } = null!;
 
         [DataObjectField(true, true, false)]
-        public string RelatedTo_Subject { get; set; } = string.Empty;
+        public string RelatedTo_Subject { get; set; } = null!;
 
         [DataObjectField(false, false, true)]
         [DisplayName("Notes")]

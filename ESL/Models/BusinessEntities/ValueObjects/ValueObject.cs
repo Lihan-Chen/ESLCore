@@ -1,4 +1,4 @@
-﻿namespace ESL.Models.BusinessEntities.ValueObjects
+﻿namespace ESL.API.Models.BusinessEntities.ValueObjects
 {
     // Learn more: https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/implement-value-objects
     public abstract class ValueObject

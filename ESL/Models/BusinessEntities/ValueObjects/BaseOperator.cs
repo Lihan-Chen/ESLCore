@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace ESL.Models.BusinessEntities.ValueObjects
+namespace ESL.API.Models.BusinessEntities.ValueObjects
 {
     public class BaseOperator: Employee
     {
@@ -18,7 +18,7 @@ namespace ESL.Models.BusinessEntities.ValueObjects
         /// </summary>
         [DataObjectField(false, false, true, 15)]
         [Display(Name = "Operator Type (Optional)")]
-        public string OperatorType { get; set; } = string.Empty;
+        public string OperatorType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the shiftNo of the FlowChange.

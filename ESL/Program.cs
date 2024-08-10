@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.EntityFrameworkCore;
-using ESL.Repositories;
+using ESL.API.Repositories;
 using ESL.Data;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 
-namespace ESL
+namespace ESL.API
 {
     public class Program
     {
@@ -38,8 +38,11 @@ namespace ESL
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            // For Database Verification, use SQLite
+            // builder.Services.AddDbContext<ApplicationDbContext>(options => options.Usesqlite("ESL"));
+
             // For unit testing, use InMemoryDatabase
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("ESL"));
+             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("ESL"));
             // For real application use Oracle with ConnectionString of ESLConnection as defined in appsetting.json file
             // builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ESLConnection")); // "name=ConnectionStrings:DefaultConnection"
 

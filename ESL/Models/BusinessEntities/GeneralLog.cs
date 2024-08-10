@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     /// <summary>
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="AllEvent"> AllEvent</see>.
@@ -34,7 +34,7 @@ namespace PocketBook.Models
 
         [DataObjectField(false, false, false, 300)]
         [Column(nameof(Subject))]
-        public string Subject { get; set; } = string.Empty;
+        public string Subject { get; set; } = null!;
 
         [DataObjectField(false, false, true, 600)]
         [Column(nameof(Details))]
@@ -62,7 +62,7 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventHighlight = String.Empty;
+                string _EventHighlight = null!;
 
                 _EventHighlight = $"Location: {Location}{_CrLf}";
 
@@ -109,7 +109,7 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventTrail = String.Empty;
+                string _EventTrail = null!;
 
                 if (EventDate != null)
                 {

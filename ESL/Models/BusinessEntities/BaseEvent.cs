@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Diagnostics;
-using ESL.Models.BusinessEntities.ValueObjects;
+using ESL.API.Models.BusinessEntities.ValueObjects;
 using System.Data;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     /// <summary>
     /// The BaseEvent class represents an event for a type of log that belongs to a <see cref="FlowChange"> AllEvent</see>.
@@ -160,14 +160,14 @@ namespace ESL.Models.BusinessEntities
         ///// </summary>
         //[DataObjectField(false, false, true, 15)]
         //[Display(Name = "Operator Type (Optional)")]
-        //public string OperatorType { get; set; } = string.Empty;
+        //public string OperatorType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventSubject of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
         [Display(Name = "Subject")]
-        public string EventSubject { get; set; } = string.Empty;
+        public string EventSubject { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventDetails of the FlowChange.
@@ -175,7 +175,7 @@ namespace ESL.Models.BusinessEntities
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
         [Display(Name = "Details")]
-        public string EventDetails { get; set; } = string.Empty;
+        public string EventDetails { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the ScanDocsNo of the AllEvents.

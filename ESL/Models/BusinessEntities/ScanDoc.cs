@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     public class ScanDoc
     {
@@ -24,7 +24,7 @@ namespace ESL.Models.BusinessEntities
 
         [DataObjectField(false, false, false)]
         [DisplayName("Scan File Name")]
-        public string ScanFileName { get; set; } = string.Empty;
+        public string ScanFileName { get; set; } = null!;
 
         [DataObjectField(false, false, true)]
         [DisplayName("Notes")]
@@ -32,7 +32,7 @@ namespace ESL.Models.BusinessEntities
 
         [DataObjectField(false, false, true)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = string.Empty;
+        public string UpdatedBy { get; set; } = null!;
 
         [DataObjectField(false, false, true)]
         [DisplayName("Update Date")]

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using PocketBook.Models.Collections;
+using ESL.Core.Models.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
 
     [NotMapped]
@@ -20,9 +20,9 @@ namespace PocketBook.Models
         public int SubjectNo { get; set; }
 
         [DataObjectField(false, true, false, 100)]
-        public string SubjectName { get; set; } = string.Empty;
+        public string SubjectName { get; set; } = null!;
 
         [DataObjectField(false, false, false, 5)]
-        public string FacilType { get; set; } = string.Empty;
+        public string FacilType { get; set; } = null!;
     }
 }

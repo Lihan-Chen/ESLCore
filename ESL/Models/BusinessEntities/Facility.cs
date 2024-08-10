@@ -1,8 +1,8 @@
-﻿using ESL.Models.BusinessEntities.ValueObjects;
+﻿using ESL.API.Models.BusinessEntities.ValueObjects;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     /// <summary>
     /// The Facility class represents a Facility that belongs to a <see cref="Facility"> Facilility</see>.
@@ -25,21 +25,21 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(true, true, false, 40)]
         [DisplayName("Facility")]
-        public string FacilName { get; set; } = string.Empty;
+        public string FacilName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Facility Abbreviation [VARCHAR2(5)] of the Facility.
         /// </summary>
         [DataObjectField(false, true, false, 6)]
         [DisplayName("Abreviation")]
-        public string FacilAbbr { get; set; } = string.Empty;
+        public string FacilAbbr { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Facility Type [VARCHAR2(30)] of the Facility.
         /// </summary>
         [DataObjectField(false, false, false, 30)]
         [DisplayName("Facility Type")]
-        public string FacilType { get; set; } = string.Empty;
+        public string FacilType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Sort Order [NUMBER(2)] of the Facility.
@@ -75,7 +75,7 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Full Name")]
-        public string FacilFullName { get; set; } = string.Empty;
+        public string FacilFullName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets a collection of <see cref="Employee" /> instances for the facility.

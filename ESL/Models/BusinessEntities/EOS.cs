@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     /// <summary>
     /// The EOS class represents an EOS that belongs to a <see cref="EOS"> EOS</see>.
@@ -38,11 +38,11 @@ namespace PocketBook.Models
 
         [DataObjectField(false, false, false, 120)]
         [Column(nameof(EquipmentInvolved))]
-        public string EquipmentInvolved { get; set; } = string.Empty;
+        public string EquipmentInvolved { get; set; } = null!;
 
         [DataObjectField(false, false, false, 200)]
         [Column(nameof(Location))]
-        public string Location { get; set; } = string.Empty;
+        public string Location { get; set; } = null!;
 
         [DataObjectField(false, false, true, 7)]
         [Column(nameof(ReleasedBy))]
@@ -88,7 +88,7 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventHighlight = String.Empty;
+                string _EventHighlight = null!;
 
                 _EventHighlight = "Location: " + Location + _CrLf;
 
@@ -133,7 +133,7 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventTrail = String.Empty;
+                string _EventTrail = null!;
                 _EventTrail = "Reported By: " + ReportedBy != null ? Helpers.GetEmpFullName("ReportedBy", ReportedBy.Value, FacilNo) : "n/a" + _CrLf;
 
                 if (ReportedTo != null)

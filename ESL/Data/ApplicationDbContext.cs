@@ -1,9 +1,9 @@
-﻿using ESL.Models.BusinessEntities;
+﻿using ESL.API.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Graph;
 using System.Reflection.Metadata;
 
-namespace ESL.Data
+namespace ESL.API.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -22,7 +22,7 @@ namespace ESL.Data
 
         public virtual DbSet<Employee> Employees { get; set; }
 
-        public virtual DbSet<Constant> Constants { get; set; }
+        public virtual DbSet<ESL.Core.Models.Constant> Constants { get; set; }
 
         public virtual DbSet<AllEvent> AllEvents { get; set; }
 

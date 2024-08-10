@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     /// <summary>
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="AllEvent"> AllEvent</see>.
@@ -35,7 +35,7 @@ namespace PocketBook.Models
 
         [DataObjectField(false, false, true, 5)]
         [Column(nameof(ReportedTime))]
-        public string ReportedTime { get; set; } = string.Empty;
+        public string ReportedTime { get; set; } = null!;
 
         [DataObjectField(false, false, true, 7)]
         public int? ReleasedBy { get; set; }
@@ -60,18 +60,18 @@ namespace PocketBook.Models
 
         [DataObjectField(false, false, false, 5)]
         [Column(nameof(FacilAbbr))]
-        public string FacilAbbr { get; set; } = string.Empty;
+        public string FacilAbbr { get; set; } = null!;
 
         [DataObjectField(false, false, false, 200)]
         [Column(nameof(Location))]
-        public string Location { get; set; } = string.Empty;
+        public string Location { get; set; } = null!;
 
         //[DataObjectField(false, false, false, 300)]
         //public string ClearanceZone { get; set; }
 
         [DataObjectField(false, false, false, 600)]
         [Column(nameof(Limitations))]
-        public string Limitations { get; set; } = string.Empty;
+        public string Limitations { get; set; } = null!;
 
         //[DataObjectField(false, false, true, 600)]
         //public string WorkToBePerformed { get; set; }
@@ -103,7 +103,7 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventHighlight = String.Empty;
+                string _EventHighlight = null!;
 
                 _EventHighlight = $"Location: {Location}{_CrLf}";
 
@@ -154,7 +154,7 @@ namespace PocketBook.Models
         {
             get
             {
-                string _EventTrail = String.Empty;
+                string _EventTrail = null!;
                 _EventTrail = "Reported By: " + ReportedBy + _CrLf;
 
                 if (ReportedTo != null)
@@ -189,7 +189,7 @@ namespace PocketBook.Models
                             _EventTrail += "Transferred by: " + ReleasedBy != null ? Helpers.GetEmpFullName("ReleasedBy", ReleasedBy.Value, FacilNo) : "n/a" + _CrLf;
                             //if (ReleasedTo != null) // There are no IssuedTo, IssuedDate, IssuedTime in SOC table
                             //{
-                            //    _EventTrail += "Transferred to: " + IssuedTo != null ? PocketBook.Models.Dal.Helpers.GetEmpFullName("IssuedTo", IssuedTo.Value, FacilNo) : "n/a" + _CrLf;
+                            //    _EventTrail += "Transferred to: " + IssuedTo != null ? ESL.Core.Models.Dal.Helpers.GetEmpFullName("IssuedTo", IssuedTo.Value, FacilNo) : "n/a" + _CrLf;
                             //}     
                             //_EventTrail += "Transferred Dt/Tm: " + IssuedDate.ToString("MM/dd/yyyy") + " " + IssuedTime + _CrLf;
                             break;                        

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     public class AllEventDetails
     {
@@ -20,7 +20,7 @@ namespace ESL.Models.BusinessEntities
         /// Gets or sets the eventID of the AllEvents.
         /// </summary>
         [DataObjectField(true, true, false, 20)]
-        public string EventID { get; set; } =string.Empty;
+        public string EventID { get; set; } =null!;
 
         /// <summary>
         /// Gets or sets the eventID_RevNo of the AllEvents.
@@ -32,13 +32,13 @@ namespace ESL.Models.BusinessEntities
         /// Gets or sets the eventHighlight of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false, 400)]
-        public string EventHighlight { get; set; } = string.Empty;
+        public string EventHighlight { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventHighlight of the AllEvents.
         /// </summary>
         [DataObjectField(false, false, false, 400)]
-        public string EventTrail { get; set; } = string.Empty;
+        public string EventTrail { get; set; } = null!;
 
         public virtual AllEvent AllEvent { get; set; } = new AllEvent();
     }

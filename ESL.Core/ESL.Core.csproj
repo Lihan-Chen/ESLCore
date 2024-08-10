@@ -7,14 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.23.50" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Validation\bin\Debug\" />
+    <Folder Include="Models\Validation\bin\Release\" />
+    <Folder Include="Models\Validation\obj\Debug\TempPE\" />
+    <Folder Include="Models\Validation\obj\Release\TempPE\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Models\Validation\mvc4ESL.Models.Validation.csproj" />
   </ItemGroup>
 
 </Project>

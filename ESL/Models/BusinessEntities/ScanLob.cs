@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using PocketBook.Models.Collections;
+using ESL.Core.Models.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace PocketBook.Models
+namespace ESL.Core.Models
 {
     [PrimaryKey(nameof(ScanLobNo))]
     [Table("ESL_ScanLobs")]
@@ -29,7 +29,7 @@ namespace PocketBook.Models
         public int LogTypeNo { get; set; }
 
         [DataObjectField(false, false, false)]
-        public string EventID { get; set; } = string.Empty;
+        public string EventID { get; set; } = null!;
 
         [DataObjectField(false, false, false)]
         [DisplayName("Scanned Document No.")]
@@ -37,11 +37,11 @@ namespace PocketBook.Models
 
         [DataObjectField(false, false, false)]
         [DisplayName("Scan File Name")]
-        public string ScanFileName { get; set; } = string.Empty;
+        public string ScanFileName { get; set; } = null!;
 
         [DataObjectField(false, false, false)]
         [DisplayName("Scan File Type")]
-        public string ScanLobType { get; set; } = string.Empty;
+        public string ScanLobType { get; set; } = null!;
 
         [DataObjectField(false, false, false)]
         [DisplayName("File")]

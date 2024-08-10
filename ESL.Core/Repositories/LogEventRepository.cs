@@ -1,0 +1,70 @@
+﻿using Microsoft.EntityFrameworkCore;
+using ESL.Core.IRepositories;
+using ESL.Core.Data;
+using ESL.Core.IConfiguration;
+using ESL.Core.Models;
+using ESL.Core.Models.ComplexTypes;
+using System;
+using System.Linq.Expressions;
+
+using System.Net.WebSockets;
+using Microsoft.Extensions.Logging;
+
+namespace ESL.Core.Repositories
+{
+    public class LogEventRepository<TEntity> : ILogEventRepository<TEntity> where TEntity : LogEvent
+    {
+        protected ApplicationDbContext _context;
+
+        internal DbSet<TEntity> dbSet;
+
+        protected readonly ILogger _logger;
+
+        public LogEventRepository(ApplicationDbContext context, ILogger logger)
+        {
+            this._context = context;
+            this.dbSet = context.Set<TEntity>();
+            _logger = logger;
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            return await dbSet.ToListAsync();
+        }
+
+        public virtual async Task<TEntity> GetByIdAsync(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        {
+            var result = await dbSet.SingleOrDefaultAsync(e => e.FacilNo==facilNo&e.LogTypeNo==logTypeNo&e.EventID==eventID&e.EventID_RevNo==eventID_RevNo);
+
+            if (result == null)
+            {
+                throw new Exception($"{typeof(TEntity)}NotExist");
+            }
+
+            return result;
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            // return dbSet.Where(predicate).ToListAsync();
+            return await dbSet.Where(predicate).ToListAsync();
+        }
+
+        public virtual async Task<bool> AddAsync(TEntity entity)
+        {
+            await dbSet.AddAsync(entity);
+            return true;
+        }
+
+        public virtual Task<bool> DeleteAsync(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public virtual Task<bool> UpsertAsync(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

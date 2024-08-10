@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ESL.Models.BusinessEntities
+namespace ESL.API.Models.BusinessEntities
 {
     public class LogType: IEntity
     {
@@ -16,7 +16,7 @@ namespace ESL.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, true, false, 100)]
         [DisplayName("Log Type Name")]
-        public string LogTypeName { get; set; } = string.Empty;
+        public string LogTypeName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Notes [VARCHAR2(400)] of the Employee.
