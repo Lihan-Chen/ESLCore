@@ -31,12 +31,14 @@ namespace ESL.Core.Models.ComplexTypes
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [Display(Name = "Facil. No.")]
+        [ForeignKey(nameof(Facility))]
         public int FacilNo { get; set; }
         /// <summary>
         /// Gets or sets the logTypeNo of the Log Type.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [Display(Name = "Log Type No.")]
+        [ForeignKey(nameof(LogType))]
         public int LogTypeNo { get; set; }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace ESL.Core.Models.ComplexTypes
         [DataObjectField(false, false, false)]
         [Display(Name = "Facility")]
         [NotMapped]
-        public string FacilName { get; set; } = null!;
+        public string FacilName { get; set; }
 
         /// <summary>
         /// Gets or sets the logTypeName of the FlowChange.
@@ -76,6 +78,7 @@ namespace ESL.Core.Models.ComplexTypes
         [DataObjectField(false, false, false, 7)]
         [Display(Name = "Operator")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
+        [ForeignKey(nameof(Operator))]
         [Column(nameof(OperatorID))]
         public int OperatorID { get; set; }
 
@@ -85,6 +88,7 @@ namespace ESL.Core.Models.ComplexTypes
         [DataObjectField(false, false, true, 7)]
         //[Display(Name = "Created By")]
         //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
+        [ForeignKey(nameof(CreatedBy_Employee))]
         [Column(nameof(CreatedBy))]
         public int? CreatedBy { get; set; }
 
@@ -109,6 +113,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [Display(Name = "Modified By")]
+        [ForeignKey(nameof(ModifiedBy_Employee))]
         [Column(nameof(ModifiedBy))]
         public int? ModifiedBy { get; set; }
 
@@ -141,6 +146,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         // [Display(Name = "Notified Person (optional)")]
+        [ForeignKey(nameof(NotifiedPerson_Employee))]
         [Column(nameof(NotifiedPerson))]
         public int? NotifiedPerson { get; set; }
 
@@ -223,17 +229,21 @@ namespace ESL.Core.Models.ComplexTypes
         [NotMapped]
         public int ScanDocsNo { get; set; }
 
-        public Employee Operator { get; set; } = new Employee();
+        public Facility Facility { get; init; } = new Facility(); 
 
-        public Employee CreatedBy_Employee { get; set; } = new Employee();
+        public LogType LogType { get; init; } = new LogType();
+        
+        public Employee Operator { get; init; } = new Employee();
 
-        public Employee ModifiedBy_Employee { get; set; } = new Employee();
+        public Employee CreatedBy_Employee { get; init; } = new Employee();
 
-        public Employee NotifiedPerson_Employee { get; set; } = new Employee();
+        public Employee ModifiedBy_Employee { get; init; } = new Employee();
 
-        public Employee UpdatedBy_Employee { get; set; } = new Employee();
+        public Employee NotifiedPerson_Employee { get; init; } = new Employee();
 
-        public Facility NotifiedFacility { get; set; } = new Facility();
+        public Employee UpdatedBy_Employee { get; init; } = new Employee();
+
+        public Facility NotifiedFacility { get; init; } = new Facility();
 
 
 

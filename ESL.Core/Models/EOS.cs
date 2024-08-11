@@ -27,10 +27,12 @@ namespace ESL.Core.Models
         //public EventIdentity EventIdentity { get; set; } = new EventIdentity();
         
         [DataObjectFieldAttribute(false, false, true, 7)]
+        [ForeignKey(nameof(ReportedBy_Employee))]
         [Column(nameof(ReportedBy))]
         public int? ReportedBy { get; set; }
 
         [DataObjectFieldAttribute(false, false, true, 7)]
+        [ForeignKey(nameof(ReportedTo_Employee))]
         [Column(nameof(ReportedTo))]
         public int? ReportedTo { get; set; }
 
@@ -53,6 +55,7 @@ namespace ESL.Core.Models
         public string Location { get; set; } = string.Empty;
 
         [DataObjectFieldAttribute(false, false, true, 7)]
+        [ForeignKey(nameof(ReleasedBy_Employee))]
         [Column(nameof(ReleasedBy))]
         public int? ReleasedBy { get; set; }
 
