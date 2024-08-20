@@ -1,4 +1,4 @@
-namespace ESL.API.Models
+namespace ESL.Web.Models
 {
     public class ErrorViewModel
     {

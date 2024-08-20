@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using ESL.Core.Data;
 using ESL.Core.IRepositories;
-using ESL.Core.Data;
 using ESL.Core.Models;
-using ESL.Core.Repositories;
-using System.Threading;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ESL.Core.Repositories
 {
@@ -18,9 +16,9 @@ namespace ESL.Core.Repositories
         {
 
         }
-        public async Task<string> GetFullName(int id)
+        public async Task<string> GetFullName(int employeeNo)
         {
-            var employee = await dbSet.FindAsync(id);
+            var employee = await dbSet.FindAsync(employeeNo);
 
             if (employee == null)
             {
@@ -84,6 +82,20 @@ namespace ESL.Core.Repositories
                 _logger.LogError(ex, "{Repo} DeleteAsync Method error", typeof(EmployeeRepository));
                 return false;
             }
+        }
+
+        public async Task<Employee> GetEmployee(string firstName, string lastName)
+        {
+            //Employee? employee = await dbSet.Where(e => e.FirstName == firstName && e.LastName == lastName).FirstOrDefaultAsync();
+
+            Employee? employee = await dbSet.FirstOrDefaultAsync(e => e.FirstName == firstName && e.LastName == lastName);
+
+            if (employee == null)
+            {
+                throw new Exception();  // new StreetwoodException(ErrorCode.GenericNotExist(typeof(T)));
+            }
+
+            return employee;
         }
     }
 }

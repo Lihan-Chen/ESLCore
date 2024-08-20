@@ -49,6 +49,13 @@ namespace ESL.Core.Repositories
             await dbSet.AddAsync(entity);
         }
 
+        // SoftDelete
+
+        public virtual async Task Delete(T entity)
+        {
+
+        }
+
         //public virtual Task Delete(int id)
         //{
         //    //var entity = GetById(id);

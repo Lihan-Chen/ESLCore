@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Diagnostics;
-using ESL.API.Models.BusinessEntities.ValueObjects;
+using ESL.Web.Models.BusinessEntities.ValueObjects;
 using System.Data;
 
-namespace ESL.API.Models.BusinessEntities
+namespace ESL.Web.Models.BusinessEntities
 {
     /// <summary>
     /// The BaseEvent class represents an event for a type of log that belongs to a <see cref="FlowChange"> AllEvent</see>.

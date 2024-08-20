@@ -1,4 +1,4 @@
-﻿namespace ESL.API.Models.BusinessEntities
+﻿namespace ESL.Web.Models.BusinessEntities
 {
     public class IEventEntity
     {

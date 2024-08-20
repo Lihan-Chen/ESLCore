@@ -62,12 +62,7 @@ namespace ESL.Core.IConfiguration
 
         IWorkToBePerformedRepository WorkToBePerformedList { get; }
 
-
-
-
-
-
-
+        // CompleteAsync can include additional business rules such as IAuditable Implementation
         Task CompleteAsync();
     }
 

@@ -12,7 +12,7 @@ namespace ESL.Core.Models
     /// Added Email property for querying from the User class
     /// </summary>
     [DebuggerDisplay("Employee: {Employee, nq}")]
-    [PrimaryKey(nameof(User.UserInfo.EmployeeNo))]
+    //[PrimaryKey(nameof(User.UserInfo.EmployeeNo))]
     [Table("ESL_Employees")]
     public partial record Employee : User
     {
@@ -38,14 +38,14 @@ namespace ESL.Core.Models
         [Column(nameof(GroupName))]
         public string GroupName { get; set; } = null!;
 
-        /// <summary>
-        /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
-        /// [DataObjectField(key, identity, isNullable, length]
-        /// </summary>
-        [DataObjectField(false, false, true, 3)]
-        [DisplayName("Facility No.")]
-        [Column(nameof(FacilNo))]
-        public int? FacilNo { get; set; }
+        ///// <summary>
+        ///// Gets or sets the Facility No [NUMBER(3)] of the Facility.
+        ///// [DataObjectField(key, identity, isNullable, length]
+        ///// </summary>
+        //[DataObjectField(false, false, true, 3)]
+        //[DisplayName("Facility No.")]
+        //[Column(nameof(FacilNo))]
+        //public int? FacilNo { get; set; }
 
         /// <summary>
         /// Gets or sets the Job Title [VARCHAR2(100)] of the Employee.

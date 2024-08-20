@@ -1,21 +1,11 @@
-﻿//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-using System.Configuration;
-
-
-
-namespace mvc4ESL.Models.Dal
+﻿namespace ESL.Core.Models.Data
 {
     /// <summary>
     /// The AppConfiguaration class contains read-only properties that are essentially short cuts to settings in the web.config file.
     /// </summary>
     public static class AppConfiguration
-  {
-      
-        //OracleConnectionStringBuilder ocsb = new OracleConnectionStringBuilder(GetConnectionString());   
-   
-      #region Public Properties
+    {
+        #region Public Properties
 
         /// <summary>
         /// Returns the connectionstring  for the application.
@@ -27,9 +17,10 @@ namespace mvc4ESL.Models.Dal
         // For Unit Testing
         public static string DefaultConnection => "DataSource=app.db;Cache=Shared";
 
-
         #endregion
 
+        //OracleConnectionStringBuilder ocsb = new OracleConnectionStringBuilder(GetConnectionString());   
+   
         #region Private Properties
 
         //private string _connectionString = ConfigurationManager.ConnectionStrings["ConnectionESL"].ConnectionString;
@@ -43,7 +34,6 @@ namespace mvc4ESL.Models.Dal
 
         #endregion
 
-        // The following comes from Drew
         //read the connection string
         //string tempConnStr = config.ConnectionStrings["NameOfConnStringFromWebConfig"].ConnectionString; 
 

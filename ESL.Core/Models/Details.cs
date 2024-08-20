@@ -9,22 +9,23 @@ using ESL.Core.Models.ComplexTypes;
 
 namespace ESL.Core.Models
 {
-   
+
     [PrimaryKey(nameof(FacilNo), nameof(DetailsNo))]
     [Table($"ESL_{nameof(Details)}")]
     public partial class Details
     {
         [DataObjectFieldAttribute(true, true, false, 3)]
         [DisplayName("Facility No.")]
-        [ForeignKey(nameof(Subject))]
-        [Column(nameof(FacilNo))]
+        [ForeignKey(nameof(FacilNo)), Column(nameof(FacilNo),Order = 0)]
+        //[Column(nameof(FacilNo))]
         public int FacilNo { get; set; }
 
         [DataObjectFieldAttribute(true, true, false, 3)]
         [DisplayName("Details No.")]
-        [Column(nameof(DetailsNo))]
+        [ForeignKey(nameof(SubjectNo)), Column(nameof(DetailsNo),Order = 1)]
+        //[Column(nameof(DetailsNo))]
         public int DetailsNo { get; set; }
-        
+
         [DataObjectFieldAttribute(false, true, false, 100)]
         [DisplayName("Detail Name")]
         [Column(nameof(DetailsName))]
@@ -44,9 +45,8 @@ namespace ESL.Core.Models
         public string? Notes { get; set; }
 
         [DataObjectFieldAttribute(false, false, true, 2)]
-        [ForeignKey(nameof(Subject))]
         [Column("SubjNo")]
-        public int? SubjectRefNo { get; set; }
+        public int? SubjectNo { get; set; }
 
         [DataObjectFieldAttribute(false, false, true)]
         [DisplayName("Subject")]
@@ -59,6 +59,8 @@ namespace ESL.Core.Models
 
         public Update Update { get; set; } = new Update();
 
+        //[ForeignKey(nameof(FacilNo)), Column(Order = 0))]
+        //[ForeignKey(nameof(SubjectNo)), Column(Order = 1))]
         public virtual Subject Subject { get; set; } = new Subject();
     }
 }

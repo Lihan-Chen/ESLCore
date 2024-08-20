@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace ESL.API.Models.BusinessEntities.ValueObjects
+namespace ESL.Web.Models.BusinessEntities.ValueObjects
 {
     public class BaseEventID: BaseUpdate   
     {

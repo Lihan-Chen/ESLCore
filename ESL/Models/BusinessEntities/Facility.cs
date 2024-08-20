@@ -1,8 +1,8 @@
-﻿using ESL.API.Models.BusinessEntities.ValueObjects;
+﻿using ESL.Web.Models.BusinessEntities.ValueObjects;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace ESL.API.Models.BusinessEntities
+namespace ESL.Web.Models.BusinessEntities
 {
     /// <summary>
     /// The Facility class represents a Facility that belongs to a <see cref="Facility"> Facilility</see>.

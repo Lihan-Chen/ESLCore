@@ -1,12 +1,12 @@
-﻿using ESL.API.Repositories;
-using ESL.API.Models.BusinessEntities;
+﻿using ESL.Web.Repositories;
+using ESL.Web.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Pages.Account;
 using Microsoft.Graph.TermStore;
 
-namespace ESL.API.Repositories
+namespace ESL.Web.Repositories
 {
     public abstract class EfCoreRepository<TEntity, TContext> : IEfCoreRepository<TEntity>
         where TEntity : class, IEntity

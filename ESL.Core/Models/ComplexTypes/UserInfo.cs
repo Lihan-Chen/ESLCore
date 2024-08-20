@@ -19,6 +19,9 @@ namespace ESL.Core.Models.ComplexTypes
     [ComplexType]
     public partial record UserInfo
     {
+        //public UserInfo(int employeeNo, string surname, string givenName, string userPrincipalName)
+        //{
+        //}
         #region Public Properties
 
         /// <summary>
@@ -48,13 +51,13 @@ namespace ESL.Core.Models.ComplexTypes
 
 
         /// <summary>
-        /// Gets or sets the Email/PrincipleName [VARCHAR2(50)] of the User.
+        /// Gets or sets the Email/PrincipalName [VARCHAR2(50)] of the User.
         /// </summary>
         [EmailAddress]
         [DataObjectField(false, false, true, 50)]
         [DisplayName("Principle Name")]
-        [Column(nameof(PrincipleName))]
-        public string PrincipleName { get; set; } = null!;
+        [Column(nameof(PrincipalName))]
+        public string PrincipalName { get; set; } = null!;
 
         #endregion
     }

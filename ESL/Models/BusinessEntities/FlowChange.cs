@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace ESL.API.Models.BusinessEntities
+namespace ESL.Web.Models.BusinessEntities
 {
     /// <summary>
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="FlowChange"> FlowChange</see>.

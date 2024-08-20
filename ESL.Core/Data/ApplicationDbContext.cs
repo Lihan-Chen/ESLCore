@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ESL.Core.Models;
 using Microsoft.Extensions.Options;
+using System.Configuration;
 
 namespace ESL.Core.Data
 {
@@ -8,6 +9,7 @@ namespace ESL.Core.Data
     {
         // ConnectionString for the class library
 
+        //const string connectionString = Configuration.GetConnectionString("DataSource=app.db;Cache=Shared");
         const string connectionString = "DataSource=app.db;Cache=Shared";
 
         // the dbset property will tell ef core that we have a table that needs to be created if it does not exist.
@@ -62,17 +64,21 @@ namespace ESL.Core.Data
 
         public virtual DbSet<WorkToBePerformed> WorkToBePerformedList { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        //    : base(options)
+        //{
+        //    //options.UseSqlite(connectionString);
+        //}
+
+        public ApplicationDbContext()
         {
-            //options.UseSqlite(connectionString);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            
+        {            
             optionsBuilder.UseSqlite(connectionString);
+            
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

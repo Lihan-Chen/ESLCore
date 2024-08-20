@@ -1,4 +1,4 @@
-﻿namespace ESL.API.Models.BusinessEntities.ValueObjects
+﻿namespace ESL.Web.Models.BusinessEntities.ValueObjects
 {
     public class Color
     {

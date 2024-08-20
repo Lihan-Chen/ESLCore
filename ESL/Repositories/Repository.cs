@@ -1,9 +1,9 @@
-﻿using ESL.API.Data;
+﻿using ESL.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ESL.API.Repositories
+namespace ESL.Web.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

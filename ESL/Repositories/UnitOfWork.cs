@@ -1,7 +1,7 @@
 ﻿using ESL.Data;
-using ESL.API.Models.BusinessEntities;
+using ESL.Web.Models.BusinessEntities;
 
-namespace ESL.API.Repositories
+namespace ESL.Web.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

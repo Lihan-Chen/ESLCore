@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Diagnostics;
-using ESL.API.Models.BusinessEntities.ValueObjects;
+using ESL.Web.Models.BusinessEntities.ValueObjects;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESL.API.Models.BusinessEntities
+namespace ESL.Web.Models.BusinessEntities
 {
     /// <summary>
     /// The Employee class represents an Employee that belongs to a <see cref="Facility">Employee</see>.

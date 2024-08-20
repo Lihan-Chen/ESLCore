@@ -16,7 +16,7 @@ namespace ESL.Core.Models
 
         #region Private Variables
 
-        //private string _CrLf = "<br />"; // Environment.NewLine ; // "\\r?\\n"; "<br />"; "\r\n";
+        private string _CrLf = "<br />"; // Environment.NewLine ; // "\\r?\\n"; "<br />"; "\r\n";
 
         #endregion
 

@@ -6,9 +6,12 @@ using System.Diagnostics;
 //using ESL.Core.Models.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Core.Models
-{
+{ 
+    [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(ScanNo))]
+
     [Table($"ESL_{nameof(ScanDoc)}s")]
     public partial record ScanDoc
     {
@@ -40,6 +43,7 @@ namespace ESL.Core.Models
 
         public Update Update { get; set; } = new Update();
 
-        public ICollection<AllEvent> AllEvents { get; set; } = new List<AllEvent>();
+        // not supported
+        //public ICollection<AllEvent> AllEvents { get; set; } = new List<AllEvent>();
     }
 }

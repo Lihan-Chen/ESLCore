@@ -20,7 +20,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">ESL.net Web at MWD</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -38,8 +38,10 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - ESL - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+         <div class="container">
+           @* <partial name="debugFooter" />           <div id="mySessionStart" data-value="@Request.RequestContext.HttpContext.Session["sessionStart"]"></div> /> *@
+            &copy; 2024 - MWD ESL .Net Core Web App  @* -@ViewContext.Controller.GetType().Assembly.GetName().Version released on @File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location).ToShortDateString() *@ </p>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,30 +1,51 @@
-using ESL.API.Models;
+using ESL.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;
+using System.Diagnostics;
 
-namespace ESL.Controllers
+namespace ESL.Web.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
         private readonly GraphServiceClient _graphServiceClient;
         private readonly ILogger<HomeController> _logger;
+        //private readonly IEmployeeRepository _employees;
+        private readonly IAllEventRepository _allEvents;
 
-        public HomeController(ILogger<HomeController> logger, GraphServiceClient graphServiceClient)
+        public HomeController(ILogger<HomeController> logger, GraphServiceClient graphServiceClient, IAllEventRepository allEvents) 
         {
             _logger = logger;
-            _graphServiceClient = graphServiceClient;;
+            _graphServiceClient = graphServiceClient;
+            _allEvents = allEvents;
         }
 
         [AuthorizeForScopes(ScopeKeySection = "MicrosoftGraph:Scopes")]
         public async Task<IActionResult> Index()
         {
+            // From ClaimsPrincipal in base controller
+            string userName = User.Identity!.Name;
+            //
+            // user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
             var user = await _graphServiceClient.Me.Request().GetAsync();
-            ViewData["GraphApiResult"] = user.GivenName + ' ' + user.Surname; // user.DisplayName;
-            return View();
+
+            // var users = await _graphServiceClient.Users.Request().GetAsync().ConfigureAwait(false);
+
+            //Employee? employee = await _employees.GetEmployee(user.GivenName, user.Surname)!;
+
+            //UserInfo? userInfo = new UserInfo() { EmployeeNo = employee.EmployeeNo, LastName = employee.LastName, FirstName = employee.LastName, PrincipalName = user.UserPrincipalName };
+
+            //UserInfo userInfo = new(employee.EmployeeNo, user.Surname, user.GivenName, user.UserPrincipalName);
+
+            ViewData["GraphApiResult"] = $"From Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
+
+            var currentEvents = _allEvents.GetAll(4); // .GetDefaultAllEventsByFacil(facilNo, startDate, endDate);
+
+            return View(currentEvents);
+
+
         }
 
         public IActionResult Privacy()

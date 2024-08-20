@@ -1,4 +1,4 @@
-﻿namespace ESL.API.Models.Complex_Types
+﻿namespace ESL.Web.Models.Complex_Types
 {
     public class Auditable
     {

@@ -1,6 +1,6 @@
 ﻿namespace ESL.Core.IRepositories
 {
-    public class IEOSRepository
+    public interface IEOSRepository
     {
     }
 }

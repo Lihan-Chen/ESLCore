@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System;
 
-namespace ESL.API.Models.BusinessEntities.ValueObjects
+namespace ESL.Web.Models.BusinessEntities.ValueObjects
 {
     public class BaseUpdate // : BaseOperator
     {

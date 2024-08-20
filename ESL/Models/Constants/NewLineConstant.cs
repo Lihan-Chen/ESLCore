@@ -1,4 +1,4 @@
-﻿namespace ESL.API.Models.Constants
+﻿namespace ESL.Web.Models.Constants
 {
     public class NewLineConstant
     {

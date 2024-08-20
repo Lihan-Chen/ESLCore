@@ -1,7 +1,7 @@
-﻿using ESL.API.Models.BusinessEntities;
+﻿using ESL.Web.Models.BusinessEntities;
 using System.Linq.Expressions;
 
-namespace ESL.API.Repositories
+namespace ESL.Web.Repositories
 {
     public interface IEventRepository<E> where E : class, IEntity
     {

@@ -1,6 +1,6 @@
 ﻿namespace ESL.Core.IRepositories
 {
-    public class ISOCRepository
-    {
-    }
+    public interface ISOCRepository;
 }
+
+

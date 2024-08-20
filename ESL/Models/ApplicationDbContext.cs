@@ -1,7 +1,7 @@
-﻿using ESL.API.Models.BusinessEntities;
+﻿using ESL.Web.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ESL.API.Models
+namespace ESL.Web.Models
 {
     public class ApplicationDbContext: DbContext
     { 

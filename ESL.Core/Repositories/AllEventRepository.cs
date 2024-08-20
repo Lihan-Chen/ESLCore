@@ -17,7 +17,7 @@ namespace ESL.Core.Repositories
         protected readonly ILogger _logger;
 
         public AllEventRepository(
-            ApplicationDbContext context, ILogger logger)
+            ApplicationDbContext context, ILogger<AllEventRepository> logger)
         {
             this._context = context;
             this.dbSet = context.AllEvents;
@@ -43,11 +43,10 @@ namespace ESL.Core.Repositories
             if (allEvent == null) return null;
 
             return allEvent;
-
         }
 
         // refer to the Reference region below
-        public async Task<IEnumerable<AllEvent>> FindEvents(Expression<Func<AllEvent, bool>> predicate) => await dbSet.AsQueryable().AsNoTracking().ToListAsync();
+        public async Task<IEnumerable<AllEvent>> FindEvents(Expression<Func<AllEvent, bool>> predicate) => await dbSet.Where(predicate).AsQueryable().AsNoTracking().ToListAsync();
 
         //public async AllEvent? GetAllEvent(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
         //{
@@ -106,6 +105,8 @@ namespace ESL.Core.Repositories
         //    }
         //}
 
+        
+        // Ref: ?
         //public async Task<IList<OrderOverviewDto>> GetFilteredAsync(OrderQueryFilter filter)
         //{
         //    var orders = ordersRepository.GetQueryable()

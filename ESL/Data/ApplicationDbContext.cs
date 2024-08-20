@@ -1,9 +1,9 @@
-﻿using ESL.API.Models.BusinessEntities;
+﻿using ESL.Web.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Graph;
 using System.Reflection.Metadata;
 
-namespace ESL.API.Data
+namespace ESL.Web.Data
 {
     public class ApplicationDbContext : DbContext
     {
