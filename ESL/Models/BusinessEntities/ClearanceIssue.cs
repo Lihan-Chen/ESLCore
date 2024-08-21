@@ -49,7 +49,7 @@ namespace ESL.Core.Models
         /// Gets or sets the eventTime of the ClearanceIssues .
         /// </summary>
         [DataObjectField(false, false, false, 5)]
-        [Display(Name = "Issued Time", Prompt = "hh:mm")]
+        [DisplayName("Issued Time", Prompt = "hh:mm")]
         [RegularExpression("([01]?[0-9]|2[0-3]):[0-5][0-9]", ErrorMessage = "Time must be a valid 24 hour time in HH:MM format")]
         [Column(nameof(IssuedTime))]
         public string IssuedTime { get; set; } = null!;

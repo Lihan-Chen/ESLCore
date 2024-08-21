@@ -5,7 +5,7 @@ using ESL.Core.Models.Validation;
 
 namespace ESL.Core.Models
 {
-    public class Search_RelatedToDTO
+    public record Search_RelatedToDTO
     {
         [DisplayName("Facility No.")]
         public int FacilNo { get; set; }

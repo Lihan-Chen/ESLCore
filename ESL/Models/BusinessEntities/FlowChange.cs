@@ -23,14 +23,14 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the requestedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
-        // [Display(Name = "Requested By (optional)")]
+        // [DisplayName("Requested By (optional)")]
         public int? RequestedById { get; set; }
 
         /// <summary>
         /// Gets or sets the requestedBy Name of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 80)]
-        [Display(Name = "Requested By (optional)")]
+        [DisplayName("Requested By (optional)")]
         public string RequestedBy_Name => RequestedBy == null ? string.Empty : RequestedBy.ToString();
         //{
         //    get
@@ -43,7 +43,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the requestedTo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 7)]
-        // [Display(Name = "Requested To")]
+        // [DisplayName("Requested To")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         public int RequestedTo { get; set; }
 
@@ -51,7 +51,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the requestedTo Name of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 80)]
-        [Display(Name = "Requested To")]
+        [DisplayName("Requested To")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         public string RequestedTo_Name => RequestedTo.ToString();
         //{
@@ -65,7 +65,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the requestedDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
-        [Display(Name = "Request Date")]
+        [DisplayName("Request Date")]
         [Required(ErrorMessage = "Request Date is Required.")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -75,7 +75,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the requestedTime of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 5)]
-        [Display(Name = "Request Time", Prompt = "hh:mm")]
+        [DisplayName("Request Time", Prompt = "hh:mm")]
         [Required(ErrorMessage = "Request Time in hh:mm format is Required.")]
         [RegularExpression("([01]?[0-9]|2[0-3]):[0-5][0-9]")]
         public string RequestedTime { get; set; }
@@ -84,7 +84,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the eventDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
-        [Display(Name = "Effective Date")]
+        [DisplayName("Effective Date")]
         [Required(ErrorMessage = "Event Date is Required.")]
         //[UIHint("Date")]
         [DataType(DataType.Date)]
@@ -95,7 +95,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the eventTime of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 5)]
-        [Display(Name = "Effective Time", Prompt = "hh:mm")]
+        [DisplayName("Effective Time", Prompt = "hh:mm")]
         [RegularExpression("([01]?[0-9]|2[0-3]):[0-5][0-9]", ErrorMessage = "Time must be a valid 24 hour time in HH:MM format")]
         //[RegularExpression("^2[0-3]|[01][0-9]:[0-5][0-9]$")]  // "([01]?[0-9]|2[0-3]):[0-5][0-9]"
         //[RegularExpression("^([0-1]?\d|2[0-3]):([0-5]\d)$")]
@@ -105,13 +105,13 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the offTime of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 5)]
-        [Display(Name = "Time Off", Prompt = "hh:mm")]
+        [DisplayName("Time Off", Prompt = "hh:mm")]
         [RegularExpression("([01]?[0-9]|2[0-3]):[0-5][0-9]", ErrorMessage = "Time must be a valid 24 hour time in HH:MM format")]
         public string OffTime { get; set; }
 
         //[DataType(DataType.Time)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm tt}")]  "([01]?[0-9]|2[0-3]):[0-5][0-9]" "^2[0-3]|[01][0-9]:[0-5][0-9]$"
-        //[Display(Name = "Time Off")]
+        //[DisplayName("Time Off")]
         //public DateTime? OffTime { get; set; }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, false, 30)]
         [Required(ErrorMessage = "Meter ID is missing.  Please select fromt the pull-down.")]
-        [Display(Name = "Meter ID")]
+        [DisplayName("Meter ID")]
         public string MeterID { get; set; }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 10)]
         [Required(ErrorMessage = "Change Value is missing.  When reducing flow, enter a negative sign before the numuber without space.")]
-        [Display(Name = "Change +/-", Prompt = "numbers only, no space")]
+        [DisplayName("Change +/-", Prompt = "numbers only, no space")]
         [RegularExpression("[-+]?([0-9]*.[0-9]+|[0-9]+)", ErrorMessage = "Change value must be a valid number in digital format.")]  // ^\d+(\.\d{1,2})?$ // ^-*[0-9,\.]+$
         public string ChangeBy { get; set; }
 
@@ -136,7 +136,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 10)]
         //[Required(ErrorMessage = "New Value must be equal to the sum of Old and Change Values.")]  // ^[+]?([.]\d+|\d+([.]\d+)?)$
-        [Display(Name = "New Flow")]
+        [DisplayName("New Flow")]
         [RegularExpression(@"[0-9]*\.?[0-9]+", ErrorMessage = "New value must be a valid positive number in digital format.")]  // "@^(?:[1-9][0-9]*|0)$@"
         [Range(typeof(Decimal), "0", "9999", ErrorMessage = "Price must be a decimal/number between {1} and {2}.")]
         public decimal? NewValue { get; set; }
@@ -146,14 +146,14 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 10)]
         //[Required(ErrorMessage = "All unit must be consistent.")]
-        [Display(Name = "New Unit")]
+        [DisplayName("New Unit")]
         public string Unit { get; set; }
 
         /// <summary>
         /// Gets or sets the oldValue of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 10)]
-        [Display(Name = "Old Value")]
+        [DisplayName("Old Value")]
         [RegularExpression(@"[0-9]*\.?[0-9]+", ErrorMessage = "Old value must be a valid positive number in digital format.")] // "@^(?:[1-9][0-9]*|0)$@"  // @"[0-9]*\.?[0-9]+"
         [Range(typeof(Decimal), "0", "9999", ErrorMessage = "Price must be a decimal/number between {1} and {2}.")]
         public decimal? OldValue { get; set; }
@@ -163,7 +163,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 10)]
         [Required(ErrorMessage = "All unit must be consistent.")]
-        [Display(Name = "Old Unit")]
+        [DisplayName("Old Unit")]
         public string OldUnit { get; set; }
 
         /// <summary>
@@ -171,14 +171,14 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 10)]
         [Required(ErrorMessage = "All unit must be consistent.")]
-        [Display(Name = "ChangeBy Unit")]
+        [DisplayName("ChangeBy Unit")]
         public string? ChangeByUnit { get; set; }
 
         /// <summary>
         /// Gets or sets the accepted of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 10)]
-        [Display(Name = "Acceptance Status")]
+        [DisplayName("Acceptance Status")]
         public string? Accepted { get; set; }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        [Display(Name = "Event ID / Revision")]
+        [DisplayName("Event ID / Revision")]
         public string EventIdentifier
         {
             get
@@ -201,7 +201,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")
-        [Display(Name = "Event Hightlight")]
+        [DisplayName("Event Hightlight")]
         public string EventHighlight
         {
             get
@@ -280,7 +280,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the eventTrail of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
-        [Display(Name = "Action History")]
+        [DisplayName("Action History")]
         public string EventTrail
         {
             get

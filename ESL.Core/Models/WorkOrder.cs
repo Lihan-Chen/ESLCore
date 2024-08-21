@@ -16,31 +16,45 @@ namespace ESL.Core.Models
     {
         /// <summary>
         /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
-        /// [DataObjectFieldAttribute(key, identity, isNullable]
+        /// [DataObjectField(key, identity, isNullable]
         /// </summary>
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false)]
         [DisplayName("Facility No.")]
         [Column(nameof(FacilNo))]
         public int FacilNo { get; set; }
 
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false)]
         [Column(nameof(LogTypeNo))]
         public int LogTypeNo { get; set; }
 
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false)]
         [Column(nameof(EventID))]
         public string EventID { get; set; } = null!;
     
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false)]
         [DisplayName("Work Order No.")]
         [Column(nameof(WO_No))]
         public string WO_No { get; set; } = null!;
 
-        [DataObjectFieldAttribute(false, false, true)]
+        [DataObjectField(false, false, true)]
         [DisplayName("Notes")]
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        //public Update Update { get; set; } = new Update();
+
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
     }
 }

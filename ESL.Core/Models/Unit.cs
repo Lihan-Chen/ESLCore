@@ -1,6 +1,7 @@
 ﻿using ESL.Core.Models.ComplexTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Core.Models
@@ -12,26 +13,38 @@ namespace ESL.Core.Models
     {
         /// <summary>
         /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
-        /// [DataObjectFieldAttribute(key, identity, isNullable]
+        /// [DataObjectField(key, identity, isNullable]
         /// </summary>
-        [DataObjectFieldAttribute(true, true, false, 2)]
+        [DataObjectField(true, true, false, 2)]
         [DisplayName("Unit No.")]
         [Column(nameof(UnitNo))]
         public int UnitNo { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true, 20)]
+        [DataObjectField(false, false, true, 20)]
         [Column(nameof(UnitName))]
         public string? UnitName { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true, 200)]
+        [DataObjectField(false, false, true, 200)]
         [Column(nameof(UnitDesc))]
         public string? UnitDesc { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true, 200)]
+        [DataObjectField(false, false, true, 200)]
         [DisplayName("Notes")]
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, true, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, true)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace ESL.Core.Repositories
                 throw new Exception();  // new StreetwoodException(ErrorCode.GenericNotExist(typeof(T)));
             }
 
-            return employee?.User.FullName; 
+            return employee?.FullName; 
         }
 
         public override async Task<IEnumerable<Employee>> GetAll()

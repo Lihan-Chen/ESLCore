@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ESL.Web.Views.ViewModels
@@ -7,26 +8,26 @@ namespace ESL.Web.Views.ViewModels
     {
 
         [Required]
-        [Display(Name = "Facility")]
+        [DisplayName("Facility")]
         public int? FacilNo { get; set; }
 
-        [Display(Name = "Log Type")]
+        [DisplayName("Log Type")]
         public int? LogTypeNo { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        [Display(Name = "Start Date")]
+        [DisplayName("Start Date")]
         public DateTime? StartDate { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        [Display(Name = "End Date")]
+        [DisplayName("End Date")]
         public DateTime? EndDate { get; set; }
 
-        [Display(Name = "Primary Operator?")]
+        [DisplayName("Primary Operator?")]
         public Boolean OperatorType { get; set; }
 
-        [Display(Name = "Keyword")]
+        [DisplayName("Keyword")]
         [RegularExpression("([a-zA-Z0-9_]+)", ErrorMessage = "Enter only alphabets and numbers of Keywords")]  //[a-zA-Z0-9_] or "\w"
         public string CurrentFilter { get; set; }
 

@@ -2,6 +2,7 @@
 using ESL.Core.Models.Validation;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
@@ -14,9 +15,10 @@ namespace ESL.Core.Models;
 /// </summary>
 [DebuggerDisplay("AllEvent: {FacilName, nq} {LogTypeName, nq} {EventID, nq} - {EventID_RevNo, nq})")] // ({Type, nq})
 
-[PrimaryKey(nameof(EventIdentity.FacilNo), nameof(EventIdentity.LogTypeNo), nameof(EventIdentity.EventID), nameof(EventIdentity.EventID_RevNo))]
+//[PrimaryKey(nameof(EventIdentity.FacilNo), nameof(EventIdentity.LogTypeNo), nameof(EventIdentity.EventID), nameof(EventIdentity.EventID_RevNo))]
+[PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
 [Table($"ESL_{nameof(AllEvent)}s")]
-public partial record AllEvent : EventIdentity 
+public partial record AllEvent //: EventIdentity 
 {
 
     #region Private Variables
@@ -28,8 +30,33 @@ public partial record AllEvent : EventIdentity
 
     #region Public Properties
 
-    public EventIdentity EventIdentity { get; set; } = new EventIdentity();
+    //public EventIdentity EventIdentity { get; set; } = new EventIdentity();
 
+    /// <summary>
+    /// Gets or sets the facilNo of the Facility.
+    /// </summary>
+    [DataObjectField(true, true, false, 2)]
+    [DisplayName("Facil. No.")]
+    public int FacilNo { get; set; }
+    /// <summary>
+    /// Gets or sets the logTypeNo of the Log Type.
+    /// </summary>
+    [DataObjectField(true, true, false, 2)]
+    [DisplayName("Log Type No.")]
+    public int LogTypeNo { get; set; }
+
+    /// <summary>
+    /// Gets or sets the eventID of the Event.
+    /// </summary>
+    [DataObjectField(true, true, false, 20)]
+    [DisplayName("Event ID")]
+    public string EventID { get; set; } = null!;
+    /// <summary>
+    /// Gets or sets the eventID_RevNo of the Event.
+    /// </summary>
+    [DataObjectField(true, true, false, 2)]
+    [DisplayName("Revision No.")]
+    public int EventID_RevNo { get; set; }
 
     /// <summary>
     /// Gets or sets the facilName of the AllEvents.
@@ -106,9 +133,21 @@ public partial record AllEvent : EventIdentity
     //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
     [Column(nameof(OperatorType))]
     public string? OperatorType { get; set; }
+    //public Update Update { get; set; } = new Update();
 
-    public Update Update { get; set; }  = new Update();
+    /// <summary>
+    /// Gets or sets the UID of the record.
+    /// </summary>
+    [DataObjectField(false, false, false, 60)]
+    [DisplayName("Updated By")]
+    public string UpdatedBy { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the updateDate of the record.
+    /// </summary>
+    [DataObjectField(false, false, false)]
+    [DisplayName("Updated on")]
+    public DateTimeOffset UpdateDate { get; set; }
 
     /// <summary>
     /// Gets or sets the clearanceID of the AllEvents.
@@ -139,14 +178,14 @@ public partial record AllEvent : EventIdentity
     //[DataObjectField(false, false, false)]
     //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
     [NotMapped]
-    public string EventHighlight => Subject ?? $"{Subject}{_CrLf}" + (Details ?? $"{Details}{_CrLf}") + $"Updated By: {Update.UpdatedBy} on {Update.UpdateDate}";
+    public string EventHighlight => Subject ?? $"{Subject}{_CrLf}" + (Details ?? $"{Details}{_CrLf}") + $"Updated By: {UpdatedBy} on {UpdateDate}";
 
-    //// Navigation to be implemented with EF virtural
-    //public virtual ScanDoc? scandoc { get; set; }
-
-    public virtual Facility Facility { get; set; } = new Facility();
-
-    public virtual LogType LogType { get; set; } = new LogType(); 
+    ////// Navigation to be implemented with EF virtural
+    ////public virtual ScanDoc? scandoc { get; set; }
+    //[NotMapped]
+    //public virtual Facility Facility { get; set; } = new Facility();
+    //[NotMapped]
+    //public virtual LogType LogType { get; set; } = new LogType(); 
 
     #endregion
 }

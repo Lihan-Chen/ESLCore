@@ -3,6 +3,7 @@ using ESL.Core.Models;
 using Microsoft.Extensions.Options;
 using System.Configuration;
 
+
 namespace ESL.Core.Data
 {
     public class ApplicationDbContext : DbContext
@@ -10,7 +11,13 @@ namespace ESL.Core.Data
         // ConnectionString for the class library
 
         //const string connectionString = Configuration.GetConnectionString("DataSource=app.db;Cache=Shared");
+        //const string connectionString = "user id=esl;password=MWDesl01_#;data source=dev7.world;Persist Security Info=false;Min Pool Size=10;Connection Lifetime=120;";
+
+        // ODEV41
+        //const string connectionString = "data source=ODev41.world;user id=esl;password=ESL4oci;Persist Security Info=false;Min Pool Size=10;Connection Lifetime=120;";
+
         const string connectionString = "DataSource=app.db;Cache=Shared";
+        // "Data Source=ODev41.world;Persist Security Info=false;User ID=ESL;Password=ESL4oci;Min Pool Size=10;Connection Lifetime=120;" 
 
         // the dbset property will tell ef core that we have a table that needs to be created if it does not exist.
 

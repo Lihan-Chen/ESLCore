@@ -30,14 +30,14 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the facilNo of the Facility.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
-        [Display(Name = "Facil. No.")]
+        [DisplayName("Facil. No.")]
         [ForeignKey(nameof(Facility))]
         public int FacilNo { get; set; }
         /// <summary>
         /// Gets or sets the logTypeNo of the Log Type.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
-        [Display(Name = "Log Type No.")]
+        [DisplayName("Log Type No.")]
         [ForeignKey(nameof(LogType))]
         public int LogTypeNo { get; set; }
 
@@ -45,13 +45,13 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the eventID of the Event.
         /// </summary>
         [DataObjectField(true, true, false, 20)]
-        [Display(Name = "Event ID")]
+        [DisplayName("Event ID")]
         public string EventID { get; set; } = null!;
         /// <summary>
         /// Gets or sets the eventID_RevNo of the Event.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
-        [Display(Name = "Revision No.")]
+        [DisplayName("Revision No.")]
         public int EventID_RevNo { get; set; }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
-        [Display(Name = "Facility")]
+        [DisplayName("Facility")]
         [NotMapped]
         public string FacilName { get; set; }
 
@@ -68,7 +68,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
-        [Display(Name = "Log Type")]
+        [DisplayName("Log Type")]
         [NotMapped]
         public string LogTypeName { get; set; } = null!;
 
@@ -76,7 +76,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the operatorID of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 7)]
-        [Display(Name = "Operator")]
+        [DisplayName("Operator")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         [ForeignKey(nameof(Operator))]
         [Column(nameof(OperatorID))]
@@ -86,7 +86,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the createdBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
-        //[Display(Name = "Created By")]
+        //[DisplayName("Created By")]
         //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         [ForeignKey(nameof(CreatedBy_Employee))]
         [Column(nameof(CreatedBy))]
@@ -96,7 +96,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the createdDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
-        [Display(Name = "Created Date")]
+        [DisplayName("Created Date")]
         [Column(nameof(CreatedDate))]
         public DateTime? CreatedDate { get; set; }
 
@@ -104,7 +104,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the modifyFlag of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
-        [Display(Name = "Modify Flag")]
+        [DisplayName("Modify Flag")]
         [Column(nameof(ModifyFlag))]
         public string? ModifyFlag { get; set; }
 
@@ -112,7 +112,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the modifiedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
-        [Display(Name = "Modified By")]
+        [DisplayName("Modified By")]
         [ForeignKey(nameof(ModifiedBy_Employee))]
         [Column(nameof(ModifiedBy))]
         public int? ModifiedBy { get; set; }
@@ -121,7 +121,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the modifyDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true)]
-        [Display(Name = "Date Modified")]
+        [DisplayName("Date Modified")]
         [Column(nameof(ModifiedDate))]
         public DateTime? ModifiedDate { get; set; }
 
@@ -129,7 +129,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the notes of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 400)]
-        [Display(Name = "Notes")]
+        [DisplayName("Notes")]
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
@@ -137,7 +137,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the notifiedFacil of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
-        [Display(Name = "Notified Facility")]
+        [DisplayName("Notified Facility")]
         [Column(nameof(NotifiedFacil))]
         public string? NotifiedFacil { get; set; }
 
@@ -145,7 +145,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the notifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
-        // [Display(Name = "Notified Person (optional)")]
+        // [DisplayName("Notified Person (optional)")]
         [ForeignKey(nameof(NotifiedPerson_Employee))]
         [Column(nameof(NotifiedPerson))]
         public int? NotifiedPerson { get; set; }
@@ -154,7 +154,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the notifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 80)]
-        [Display(Name = "Notified Person (optional)")]
+        [DisplayName("Notified Person (optional)")]
         [NotMapped]
         public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
 
@@ -162,7 +162,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the shiftNo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 2)]
-        [Display(Name = "Shift No")]
+        [DisplayName("Shift No")]
         [Column(nameof(ShiftNo))]
         public int? ShiftNo { get; set; }
         /// <summary>
@@ -171,7 +171,7 @@ namespace ESL.Core.Models.ComplexTypes
         [DataObjectField(false, false, false, 2)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
         //[RegularExpression("^d{2}$", ErrorMessage = "Please enter YY format.")]
-        [Display(Name = "Year")]
+        [DisplayName("Year")]
         [Column(nameof(Yr))]
         public string Yr { get; set; } = DateTime.Now.Year.ToString();
 
@@ -179,7 +179,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the seqNo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 6)]
-        [Display(Name = "Sequence No.")]
+        [DisplayName("Sequence No.")]
         [Column(nameof(SeqNo))]
         public int SeqNo { get; set; }
 
@@ -187,7 +187,7 @@ namespace ESL.Core.Models.ComplexTypes
         ///// Gets or sets the updatedBy of the FlowChange.
         ///// </summary>
         //[DataObjectField(false, false, false, 60)]
-        //[Display(Name = "Updated By")]
+        //[DisplayName("Updated By")]
         //[Column(nameof(UpdatedBy))]
         //public string UpdatedBy { get; set; } = null!;
 
@@ -202,7 +202,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the workOrders of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
-        [Display(Name = "Work Orders")]
+        [DisplayName("Work Orders")]
         [Column(nameof(WorkOrders))]
         public string? WorkOrders { get; set; }
 
@@ -210,7 +210,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the relatedTo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
-        [Display(Name = "Rnelated To")]
+        [DisplayName("Rnelated To")]
         [Column(nameof(RelatedTo))]
         public string? RelatedTo { get; set; }
 
@@ -218,7 +218,7 @@ namespace ESL.Core.Models.ComplexTypes
         /// Gets or sets the operatorType of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 15)]
-        [Display(Name = "Operator Type (Optional)")]
+        [DisplayName("Operator Type (Optional)")]
         [Column(nameof(OperatorType))]
         public string? OperatorType { get; set; }
 
@@ -251,7 +251,7 @@ namespace ESL.Core.Models.ComplexTypes
         ///// Gets or sets the eventSubject of the FlowChange.
         ///// </summary>
         //[DataObjectField(false, false, false)]
-        //[Display(Name = "Subject")]
+        //[DisplayName("Subject")]
         //[NotMapped]
         //public string EventSubject { get; set; }
 
@@ -260,7 +260,7 @@ namespace ESL.Core.Models.ComplexTypes
         ///// </summary>
         //[DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        //[Display(Name = "Details")]
+        //[DisplayName("Details")]
         //[NotMapped]
         //public string? EventDetails { get; set; }
 

@@ -15,33 +15,46 @@ namespace ESL.Core.Models
     [NotMapped]
     public partial record Zone
     {
-        [DataObjectFieldAttribute(false, true, false, 3)]
+        [DataObjectField(false, true, false, 3)]
         [DisplayName("Facility No.")]
         public int FacilNo { get; set; }
 
-        [DataObjectFieldAttribute(true, true, false, 5)]
+        [DataObjectField(true, true, false, 5)]
         public string FacilType { get; set; }  = string.Empty;
 
-        [DataObjectFieldAttribute(true, true, false, 3)]
+        [DataObjectField(true, true, false, 3)]
         [DisplayName("Zone No.")]
         public int ZoneNo { get; set; }
 
-        [DataObjectFieldAttribute(false, true, false, 200)]
+        [DataObjectField(false, true, false, 200)]
         public string ZoneDescription { get; set; } = string.Empty;
 
-        [DataObjectFieldAttribute(false, false, true, 400)]
+        [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
         public string? Notes { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true, 2)]
+        [DataObjectField(false, false, true, 2)]
         public int SortNo { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true, 30)]
+        [DataObjectField(false, false, true, 30)]
         [DisplayName("Disable?")]
         public string? Disable { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        //public Update Update { get; set; } = new Update();
 
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
 
     }
 }

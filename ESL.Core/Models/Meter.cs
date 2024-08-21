@@ -37,9 +37,21 @@ namespace ESL.Core.Models
 
         [DataObjectField(false, false, true, 30)]
         [DisplayName("Disable?")]
-        [Column(nameof(Disable))]
+        [Column($"{nameof(Disable)}d?")]
         public string? Disable { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
     }
 }

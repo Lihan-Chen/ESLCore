@@ -10,21 +10,21 @@ namespace ESL.Web.Models.BusinessEntities.ValueObjects
         /// Gets or sets the modifyFlag of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
-        [Display(Name = "Modify Flag")]
+        [DisplayName("Modify Flag")]
         public string? ModifyFlag { get; set; }
 
         /// <summary>
         /// Gets or sets the modifiedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
-        [Display(Name = "Modified By")]
+        [DisplayName("Modified By")]
         public int? ModifiedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the modifyDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true)]
-        [Display(Name = "Date Modified")]
+        [DisplayName("Date Modified")]
         public DateTimeOffset? ModifiedDate { get; set; }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace ESL.Web.Models.BusinessEntities.ValueObjects
         /// Gets or sets the updatedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 60)]
-        [Display(Name = "Updated By")]
+        [DisplayName("Updated By")]
         public string UpdatedBy { get; set; } = null!;
 
         /// <summary>

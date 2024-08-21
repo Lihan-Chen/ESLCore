@@ -9,35 +9,41 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ESL.Core.Models
 {
     [NotMapped]
-    public partial class Location
+    public partial record Location
     {
         // ONLY FOR FACILNO >= 50
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false)]
         [Range(50, 300)]
         [DisplayName("Facility No.")]
         public int FacilNo { get; set; }
 
-        [DataObjectFieldAttribute(false, true, false)]
+        [DataObjectField(false, true, false)]
         [DisplayName("Facility")]
         public string FacilName { get; set; } = null!;
 
-        [DataObjectFieldAttribute(false, true, false)]
+        [DataObjectField(false, true, false)]
         [DisplayName("Abreviation")]
         public string FacilAbbr { get; set; } = null!;
 
-        [DataObjectFieldAttribute(false, false, true)]
+        [DataObjectField(false, false, true)]
         [DisplayName("Notes")]
         public string? Notes { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true)]
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string? UpdatedBy { get; set; }
+        public string UpdatedBy { get; set; } = null!;
 
-        [DataObjectFieldAttribute(false, false, true)]
-        [DisplayName("Update Date")]
-        public DateTime? UpdateDate { get; set; }
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true)]
+        [DataObjectField(false, false, true)]
         [DisplayName("Disable?")]
         public string? Disable { get; set; }
     }

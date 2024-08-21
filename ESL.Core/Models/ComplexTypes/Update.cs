@@ -11,7 +11,7 @@ public record Update
     /// Gets or sets the UID of the record.
     /// </summary>
     [DataObjectField(false, false, false, 60)]
-    [Display(Name = "Updated By")]
+    [DisplayName("Updated By")]
     public string UpdatedBy { get; set; } = null!;
 
     /// <summary>

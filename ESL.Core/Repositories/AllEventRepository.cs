@@ -5,6 +5,7 @@ using ESL.Core.Models;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ESL.Core.Repositories
 {
@@ -26,8 +27,14 @@ namespace ESL.Core.Repositories
 
         public async Task<IEnumerable<AllEvent>> GetAll(int facilNo)
         {
-            return await dbSet.Where(x => x.FacilNo == facilNo).ToListAsync();
+            var allEvents = await dbSet.Where(x => x.FacilNo == facilNo).AsNoTracking().ToListAsync();
 
+            if (allEvents.Any())
+            {
+                return allEvents;
+            }
+
+            return allEvents;
         }
 
         public async Task<IEnumerable<AllEvent>> GetDefaultAllEventsByFacil(int facilNo, DateTime startDate, DateTime endDate)

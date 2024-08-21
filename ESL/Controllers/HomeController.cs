@@ -41,11 +41,16 @@ namespace ESL.Web.Controllers
 
             ViewData["GraphApiResult"] = $"From Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
 
-            var currentEvents = _allEvents.GetAll(4); // .GetDefaultAllEventsByFacil(facilNo, startDate, endDate);
+            try
+            {
+                var currentEvents = _allEvents.GetAll(6); // .GetDefaultAllEventsByFacil(facilNo, startDate, endDate);
 
-            return View(currentEvents);
-
-
+                return View(currentEvents);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public IActionResult Privacy()

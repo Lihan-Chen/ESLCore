@@ -12,42 +12,56 @@ namespace ESL.Core.Models
     {
         ///// <summary>
         ///// Gets or sets the Facility No [NUMBER(3)] of the Facility.
-        ///// [DataObjectFieldAttribute(key, identity, isNullable]
+        ///// [DataObjectField(key, identity, isNullable]
         ///// </summary>
-        //[DataObjectFieldAttribute(true, true, false)]
+        //[DataObjectField(true, true, false)]
         //[DisplayName("Facility No.")]
         //public int FacilNo { get; set; }
 
-        [DataObjectFieldAttribute(false, true, false, 5)]
+        [DataObjectField(false, true, false, 5)]
         [DisplayName("Facility Type")]
         [Column(nameof(FacilType))]
         public string FacilType { get; set; } = null!;
 
-        [DataObjectFieldAttribute(true, true, false, 3)]
+        [DataObjectField(true, true, false, 3)]
         [DisplayName("Work No.")]
         [Column(nameof(WorkNo))]
         public int WorkNo { get; set; }
         
-        [DataObjectFieldAttribute(false, true, false, 200)]
+        [DataObjectField(false, true, false, 200)]
         [Column(nameof(WorkDescription))]
         public string WorkDescription { get; set; } = null!;
        
-        [DataObjectFieldAttribute(false, false, true, 400)]
+        [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true, 2)]
+        [DataObjectField(false, false, true, 2)]
         [DisplayName("Sort No.")]
         [Column(nameof(SortNo))]
         public int? SortNo { get; set; }
 
-        [DataObjectFieldAttribute(false, false, true, 30)]
+        [DataObjectField(false, false, true, 30)]
         [DisplayName(nameof(Disable))]
         [Column(nameof(Disable))]
         public string? Disable { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        //public Update Update { get; set; } = new Update();
+
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
 
     }
 }

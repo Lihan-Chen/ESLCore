@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ESL.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESL.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240821064303_ESL_Tables")]
+    partial class ESL_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -75,6 +78,8 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "EventID_RevNo");
+
+                    b.HasIndex("LogTypeNo");
 
                     b.ToTable("ESL_AllEvents");
                 });
@@ -338,10 +343,14 @@ namespace ESL.Core.Migrations
             modelBuilder.Entity("ESL.Core.Models.Details", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("FacilNo")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("DetailsNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("DetailsNo")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("DetailsName")
                         .IsRequired()
@@ -1545,6 +1554,25 @@ namespace ESL.Core.Migrations
                     b.HasKey("FacilType", "WorkNo");
 
                     b.ToTable("ESL_WorkToBePerformed");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.AllEvent", b =>
+                {
+                    b.HasOne("ESL.Core.Models.Facility", "Facility")
+                        .WithMany()
+                        .HasForeignKey("FacilNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ESL.Core.Models.LogType", "LogType")
+                        .WithMany()
+                        .HasForeignKey("LogTypeNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Facility");
+
+                    b.Navigation("LogType");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.Details", b =>

@@ -25,7 +25,7 @@ namespace ESL.Web.Models.BusinessEntities
         ///// Gets or sets the facilName of the FlowChange.
         ///// </summary>
         //[DataObjectField(true, true, false, 2)]
-        //[Display(Name = "Facil. No.")]
+        //[DisplayName("Facil. No.")]
         //public int FacilNo { get; set; }
 
         /// <summary>
@@ -33,14 +33,14 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
-        [Display(Name = "Facility")]
+        [DisplayName("Facility")]
         public string FacilName => Facility.FacilName;
 
         ///// <summary>
         ///// Gets or sets the logTypeNo of the FlowChange.
         ///// </summary>
         //[DataObjectField(true, true, false, 2)]
-        //[Display(Name = "Log Type No.")]
+        //[DisplayName("Log Type No.")]
         //public int LogTypeNo { get; set; }
 
         /// <summary>
@@ -48,28 +48,28 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
-        [Display(Name = "Log Type")]
+        [DisplayName("Log Type")]
         public string LogTypeName => LogType.LogTypeName;
 
         ///// <summary>
         ///// Gets or sets the eventID of the FlowChange.
         ///// </summary>
         //[DataObjectField(true, true, false, 20)]
-        //[Display(Name = "Event ID")]
+        //[DisplayName("Event ID")]
         //public string EventID { get; set; }
 
         ///// <summary>
         ///// Gets or sets the eventID_RevNo of the FlowChange.
         ///// </summary>
         //[DataObjectField(true, true, false, 2)]
-        //[Display(Name = "Revision No.")]
+        //[DisplayName("Revision No.")]
         //public int EventID_RevNo { get; set; }
 
         /// <summary>
         /// Gets or sets the operatorID of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 7)]
-        [Display(Name = "Operator")]
+        [DisplayName("Operator")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         public int OperatorID => Operator.Id;
 
@@ -77,7 +77,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the createdBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
-        //[Display(Name = "Created By")]
+        //[DisplayName("Created By")]
         //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         public int CreatedBy => Operator.Id;
 
@@ -85,28 +85,28 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the createdDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
-        [Display(Name = "Created Date")]
+        [DisplayName("Created Date")]
         public DateTime CreatedDate { get; set; } = DateTime.Today;
 
         ///// <summary>
         ///// Gets or sets the notes of the FlowChange.
         ///// </summary>
         //[DataObjectField(false, false, true, 400)]
-        //[Display(Name = "Notes")]
+        //[DisplayName("Notes")]
         //public string? Notes { get; set; }
 
         /// <summary>
         /// Gets or sets the notifiedFacil of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
-        [Display(Name = "Notified Facility")]
+        [DisplayName("Notified Facility")]
         public string? NotifiedFacil { get; set; }
 
         /// <summary>
         /// Gets or sets the notifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
-        // [Display(Name = "Notified Person (optional)")]
+        // [DisplayName("Notified Person (optional)")]
         public int? NotifiedPersonId
         { get
             {return NotifiedPerson?.Id;}  
@@ -116,7 +116,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// Gets or sets the notifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 80)]
-        [Display(Name = "Notified Person (optional)")]
+        [DisplayName("Notified Person (optional)")]
         public string? NotifiedPerson_Name
         {
             get
@@ -131,42 +131,42 @@ namespace ESL.Web.Models.BusinessEntities
         [DataObjectField(false, false, false, 2)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
         //[RegularExpression("^d{2}$", ErrorMessage = "Please enter YY format.")]
-        [Display(Name = "Year")]
+        [DisplayName("Year")]
         public string Yr { get; set; } = DateTime.Now.Year.ToString();
 
         /// <summary>
         /// Gets or sets the seqNo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 6)]
-        [Display(Name = "Sequence No.")]
+        [DisplayName("Sequence No.")]
         public int SeqNo { get; set; }
 
         /// <summary>
         /// Gets or sets the workOrders of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
-        [Display(Name = "Work Orders")]
+        [DisplayName("Work Orders")]
         public string? WorkOrders { get; set; }
 
         /// <summary>
         /// Gets or sets the relatedTo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
-        [Display(Name = "Related To")]
+        [DisplayName("Related To")]
         public string? RelatedTo { get; set; }
 
         ///// <summary>
         ///// Gets or sets the operatorType of the FlowChange.
         ///// </summary>
         //[DataObjectField(false, false, true, 15)]
-        //[Display(Name = "Operator Type (Optional)")]
+        //[DisplayName("Operator Type (Optional)")]
         //public string OperatorType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the eventSubject of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
-        [Display(Name = "Subject")]
+        [DisplayName("Subject")]
         public string EventSubject { get; set; } = null!;
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace ESL.Web.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        [Display(Name = "Details")]
+        [DisplayName("Details")]
         public string EventDetails { get; set; } = null!;
 
         /// <summary>

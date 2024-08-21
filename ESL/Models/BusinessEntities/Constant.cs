@@ -23,7 +23,7 @@ namespace ESL.Core.Models
         [DataObjectField(true, true, false)]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        [Display(Name = "Start")]
+        [DisplayName("Start")]
         [Column(nameof(StartDate))]
         public DateTime StartDate { get; set; }
         
@@ -31,7 +31,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true)]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        [Display(Name = "End")]
+        [DisplayName("End")]
         [Column(nameof(EndDate))]
         public DateTime? EndDate { get; set; }
 

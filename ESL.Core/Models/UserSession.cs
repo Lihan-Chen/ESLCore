@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ESL.Core.Models
 {
-    public record UserSession
+    public partial record UserSession
     {
         public UserSession()
         {

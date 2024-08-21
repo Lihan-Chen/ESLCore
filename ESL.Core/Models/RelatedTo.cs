@@ -13,26 +13,38 @@ namespace ESL.Core.Models
     [Table("ESL_RelatedTo")]
         public partial record RelatedTo
     {
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false, 2)]
         [DisplayName("Facility No.")]
         public int FacilNo { get; set; }
 
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false, 2)]
         [DisplayName("Log Type No.")]
         public int LogTypeNo { get; set; }
 
         //CONSTANTNAME  VARCHAR2(20 BYTE)
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false, 20)]
         public string EventID { get; set; } = null!;
 
-        [DataObjectFieldAttribute(true, true, false)]
+        [DataObjectField(true, true, false, 120)]
         public string RelatedTo_Subject { get; set; } = null!;
 
-        [DataObjectFieldAttribute(false, false, true)]
+        [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
         public string? Notes { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
 
 
     }

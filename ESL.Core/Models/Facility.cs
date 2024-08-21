@@ -66,13 +66,27 @@ namespace ESL.Core.Models
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        //public Update Update { get; set; } = new Update();
+
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Disable [VARCHAR2(15)] of the Facility.
         /// </summary>
         [DataObjectField(false, false, true, 15)]
-        [DisplayName("Disable?")]
+        [DisplayName("Disabled?")]
         [Column(nameof(Disable))]
         public string? Disable { get; set; }
 
@@ -95,7 +109,7 @@ namespace ESL.Core.Models
         /// <summary>
         /// Gets or sets a collection of <see cref="Employee" /> instances for the facility.
         /// </summary>
-        public virtual List<Employee> EmployeeList { get; set; } = new List<Employee>();
+        // public virtual List<Employee> EmployeeList { get; set; } = new List<Employee>();
         
         #endregion
 

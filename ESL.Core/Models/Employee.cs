@@ -12,15 +12,38 @@ namespace ESL.Core.Models
     /// Added Email property for querying from the User class
     /// </summary>
     [DebuggerDisplay("Employee: {Employee, nq}")]
-    //[PrimaryKey(nameof(User.UserInfo.EmployeeNo))]
+    [PrimaryKey(nameof(EmployeeNo))]
     [Table("ESL_Employees")]
-    public partial record Employee : User
+    public partial record Employee // : User
     {
         #region Public Properties
 
         public Employee() { }
 
-        public User User { get; set; } = new User();
+        /// <summary>
+        /// Gets or sets the Employee No [NUMBER(8)] of the Facility.
+        /// [DataObjectField(key, identity, isNullable]
+        /// </summary>
+        [DataObjectField(true, true, false, 8)]
+        [DisplayName("MWD Employee ID")]
+        [Column("EmployeeNo")]
+        public int EmployeeNo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Last Name [VARCHAR2(50)] of the Employee.
+        /// </summary>
+        [DataObjectField(false, false, true, 50)]
+        [DisplayName("Last Name")]
+        [Column(nameof(LastName))]
+        public string LastName { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the First Name [VARCHAR2(50)] of the Employee.
+        /// </summary>
+        [DataObjectField(false, false, true, 50)]
+        [DisplayName("First Name")]
+        [Column(nameof(FirstName))]
+        public string FirstName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Company Name [VARCHAR2(100)] of the Employee.
@@ -38,14 +61,14 @@ namespace ESL.Core.Models
         [Column(nameof(GroupName))]
         public string GroupName { get; set; } = null!;
 
-        ///// <summary>
-        ///// Gets or sets the Facility No [NUMBER(3)] of the Facility.
-        ///// [DataObjectField(key, identity, isNullable, length]
-        ///// </summary>
-        //[DataObjectField(false, false, true, 3)]
-        //[DisplayName("Facility No.")]
-        //[Column(nameof(FacilNo))]
-        //public int? FacilNo { get; set; }
+        /// <summary>
+        /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
+        /// [DataObjectField(key, identity, isNullable, length]
+        /// </summary>
+        [DataObjectField(false, false, true, 3)]
+        [DisplayName("Facility No.")]
+        [Column(nameof(FacilNo))]
+        public int? FacilNo { get; set; }
 
         /// <summary>
         /// Gets or sets the Job Title [VARCHAR2(100)] of the Employee.
@@ -64,7 +87,19 @@ namespace ESL.Core.Models
         [Column(nameof(Notes))]
         public string? Notes { get; set; }
 
-        public Update Update { get; set; } = new Update();
+        /// <summary>
+        /// Gets or sets the UID of the record.
+        /// </summary>
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the updateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTimeOffset UpdateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Disable [VARCHAR2(15)] of the Facility.
@@ -74,12 +109,13 @@ namespace ESL.Core.Models
         [Column(nameof(Disable))]
         public string? Disable { get; set; }
 
+        [NotMapped]
         public Facility Facility { get; set; } = new Facility();
 
         [NotMapped]
         public string UID => EmployeeNo.ToString().Length > 4 ? $"U{EmployeeNo.ToString()}" : $"U0{EmployeeNo.ToString()}";
 
-        //public string FullName => User.FullName;
+        public string FullName => $"{this.FirstName} {this.FullName}";
 
         #endregion
     }
