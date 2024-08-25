@@ -30,7 +30,7 @@ namespace ESL.Core.Models
 
         [DataObjectField(false, false, true, 200)]
         [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         /// <summary>
@@ -38,13 +38,13 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, true)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        public DateTimeOffset? UpdateDate { get; set; }
     }
 }

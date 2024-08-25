@@ -15,7 +15,7 @@ public record Update
     public string UpdatedBy { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the updateDate of the record.
+    /// Gets or sets the UpdateDate of the record.
     /// </summary>
     [DataObjectField(false, false, false)]
     public DateTimeOffset UpdateDate { get; set; }

@@ -10,14 +10,14 @@ namespace ESL.Core.Models.ComplexTypes
         // public EventOperator EventOperator { get; set; } = new EventOperator();
         
         /// <summary>
-        /// Gets or sets the modifyFlag of the FlowChange.
+        /// Gets or sets the ModifyFlag of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Modify Flag")]
         public string? ModifyFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets the modifiedBy of the FlowChange.
+        /// Gets or sets the ModifiedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Modified By")]

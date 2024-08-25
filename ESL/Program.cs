@@ -1,18 +1,12 @@
-using Microsoft.AspNetCore.Authentication;
+using ESL.Core.Data;
+using ESL.Core.IRepositories;
+using ESL.Core.Repositories;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using Microsoft.EntityFrameworkCore;
-//using ESL.Web.Repositories;
-//using ESL.Data;
-using Oracle.ManagedDataAccess.Client;
-using Oracle.ManagedDataAccess.Types;
-using ESL.Core.Data;
-using NuGet.Protocol.Core.Types;
-using ESL.Core.Repositories;
-using ESL.Core.IRepositories;
 
 namespace ESL.Web
 {
@@ -27,16 +21,22 @@ namespace ESL.Web
             var initialScopes = builder.Configuration["DownstreamApi:Scopes"]?.Split(' ') ?? builder.Configuration["MicrosoftGraph:Scopes"]?.Split(' ');
 
             // 8/14
-                        
+            builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+
             // For Database Verification, use SQLite
 
             // 8/14
-            builder.Services.AddDbContext<ApplicationDbContext>();
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>   //(sp, options => 
+            //options.UseOracle(builder.Configuration.GetConnectionString("ConnectionESL")));
+            //.AddInterceptors(
+            //.sp.GetRequiredService<UpdateAuditableInterceptor>())); //,
+            // sp.GetRequiredService<InsertOutboxMessagesInterceptor>())
             //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IAllEventRepository, AllEventRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             //Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'ESL.Core.Repositories.AllEventRepository'
 

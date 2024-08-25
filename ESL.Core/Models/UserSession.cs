@@ -18,19 +18,19 @@ namespace ESL.Core.Models
 
         public string userName;
 
-        public int shiftNo;
+        public int ShiftNo;
 
         public string shiftName;
 
-        public string operatorType;
+        public string OperatorType;
 
         public bool isAdmin;
 
         public bool isSuperAdmin;
 
-        public int facilNo;
+        public int FacilNo;
 
-        public string facilName;
+        public string FacilName;
 
         public bool userLoggedIn;
 

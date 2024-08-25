@@ -1,6 +1,6 @@
 ﻿namespace ESL.Core.IConfiguration;
 
-public interface IEventIdentity
+public interface IEventIDentity
 {
     public int FacilNo {  get; set; }
 

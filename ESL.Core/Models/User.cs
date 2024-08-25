@@ -19,8 +19,6 @@ namespace ESL.Core.Models
     {
         #region Public Properties
 
-        public User() { }
-
         public UserInfo UserInfo { get; set; } = new UserInfo();
 
         /// <summary>

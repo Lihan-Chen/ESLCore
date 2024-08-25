@@ -15,7 +15,7 @@ namespace ESL.Core.Repositories
 
         internal DbSet<AllEvent> dbSet;
 
-        protected readonly ILogger _logger;
+        protected readonly ILogger<AllEventRepository> _logger;
 
         public AllEventRepository(
             ApplicationDbContext context, ILogger<AllEventRepository> logger)
@@ -25,9 +25,9 @@ namespace ESL.Core.Repositories
             _logger = logger;
         }
 
-        public async Task<IEnumerable<AllEvent>> GetAll(int facilNo)
+        public async Task<IEnumerable<AllEvent>> GetAll(int FacilNo)
         {
-            var allEvents = await dbSet.Where(x => x.FacilNo == facilNo).AsNoTracking().ToListAsync();
+            var allEvents = await dbSet.Where(x => x.FacilNo == FacilNo).AsNoTracking().ToListAsync();
 
             if (allEvents.Any())
             {
@@ -37,15 +37,15 @@ namespace ESL.Core.Repositories
             return allEvents;
         }
 
-        public async Task<IEnumerable<AllEvent>> GetDefaultAllEventsByFacil(int facilNo, DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<AllEvent>> GetDefaultAllEventsByFacil(int FacilNo, DateTime startDate, DateTime endDate)
         {
-            return await dbSet.Where(x => x.FacilNo == facilNo & x.EventDate >= startDate & x.EventDate <= endDate).AsNoTracking().ToListAsync();
+            return await dbSet.Where(x => x.FacilNo == FacilNo & x.EventDate >= startDate & x.EventDate <= endDate).AsNoTracking().ToListAsync();
 
         }
 
-        public async Task<AllEvent> GetByEvent(int facilNo, int logTypeNo, string eventID, int eventID_RevNo, AllEvent? allEvent)
+        public async Task<AllEvent> GetByEvent(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo, AllEvent? allEvent)
         {
-            allEvent = await dbSet.FirstOrDefaultAsync(x => x.FacilNo == facilNo & x.LogTypeNo == logTypeNo & x.EventID == eventID & x.EventID_RevNo == eventID_RevNo);
+            allEvent = await dbSet.FirstOrDefaultAsync(x => x.FacilNo == FacilNo & x.LogTypeNo == LogTypeNo & x.EventID == EventID & x.EventID_RevNo == EventID_RevNo);
 
             if (allEvent == null) return null;
 
@@ -55,9 +55,9 @@ namespace ESL.Core.Repositories
         // refer to the Reference region below
         public async Task<IEnumerable<AllEvent>> FindEvents(Expression<Func<AllEvent, bool>> predicate) => await dbSet.Where(predicate).AsQueryable().AsNoTracking().ToListAsync();
 
-        //public async AllEvent? GetAllEvent(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        //public async AllEvent? GetAllEvent(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo)
         //{
-        //    return await dbSet.FirstOrDefaultAsync(x => x.FacilNo == facilNo & x.LogTypeNo == logTypeNo & x.EventID == eventID & x.EventID_RevNo == eventID_RevNo);
+        //    return await dbSet.FirstOrDefaultAsync(x => x.FacilNo == FacilNo & x.LogTypeNo == LogTypeNo & x.EventID == EventID & x.EventID_RevNo == EventID_RevNo);
         //}
 
         //public async Task<bool> AddAsync(AllEvent entity)
@@ -93,11 +93,11 @@ namespace ESL.Core.Repositories
 
         #region Reference
 
-        //public async Task<bool> DeleteAync(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        //public async Task<bool> DeleteAync(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo)
         //{
         //    try
         //    {
-        //        var exist = await GetByIdAsync(facilNo, logTypeNo, eventID, eventID_RevNo);
+        //        var exist = await GetByIdAsync(FacilNo, LogTypeNo, EventID, EventID_RevNo);
 
         //        if (exist != null)
         //        {     

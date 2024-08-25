@@ -8,7 +8,7 @@ namespace ESL.Core.Models.ValueObjects
     public partial record BaseOperator: Employee
     {
         ///// <summary>
-        ///// Gets or sets the operatorID of the FlowChange.
+        ///// Gets or sets the OperatorID of the FlowChange.
         ///// </summary>
         //[DataObjectField(false, false, false, 7)]
         //[DisplayName("Operator")]
@@ -16,14 +16,14 @@ namespace ESL.Core.Models.ValueObjects
         //public int OperatorID { get; set; }
 
         /// <summary>
-        /// Gets or sets the operatorType of the FlowChange.
+        /// Gets or sets the OperatorType of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 15)]
         [DisplayName("Operator Type (Optional)")]
         public string OperatorType { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the shiftNo of the FlowChange.
+        /// Gets or sets the ShiftNo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 2)]
         [DisplayName("Shift No")]

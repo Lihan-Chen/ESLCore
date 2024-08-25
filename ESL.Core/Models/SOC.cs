@@ -10,51 +10,47 @@ namespace ESL.Core.Models
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="AllEvent"> AllEvent</see>.
     /// </summary>
     [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
-    [Table("ESL_SOC")]
+    [Table("ESL_SOC", Schema ="ESL")]
     public partial record SOC //: LogEvent
     {
         #region Internal Variables
 
-        internal new string _CrLf = "<br />"; // Environment.NewLine ; // "\\r?\\n"; "<br />"; "\r\n";
+        internal string _CrLf = "<br />"; // Environment.NewLine ; // "\\r?\\n"; "<br />"; "\r\n";
 
         #endregion
 
         #region Public Properties
 
-        //public EventIdentity EventIdentity { get; set; } = new EventIdentity();
-
-        public SOC() { }
-
         /// <summary>
-        /// Gets or sets the facilNo of the Facility.
+        /// Gets or sets the FacilNo of the Facility.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Facil. No.")]
         [ForeignKey(nameof(Facility))]
         public int FacilNo { get; set; }
         /// <summary>
-        /// Gets or sets the logTypeNo of the Log Type.
+        /// Gets or sets the LogTypeNo of the Log Type.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Log Type No.")]
-        [ForeignKey(nameof(LogType))]
+        [ForeignKey("LogTypeNo")]
         public int LogTypeNo { get; set; }
 
         /// <summary>
-        /// Gets or sets the eventID of the Event.
+        /// Gets or sets the EventID of the Event.
         /// </summary>
         [DataObjectField(true, true, false, 20)]
         [DisplayName("Event ID")]
         public string EventID { get; set; } = null!;
         /// <summary>
-        /// Gets or sets the eventID_RevNo of the Event.
+        /// Gets or sets the EventID_RevNo of the Event.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Revision No.")]
         public int EventID_RevNo { get; set; }
 
         /// <summary>
-        /// Gets or sets the facilName of the event.
+        /// Gets or sets the FacilName of the event.
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
@@ -63,7 +59,7 @@ namespace ESL.Core.Models
         public string FacilName { get; set; }
 
         /// <summary>
-        /// Gets or sets the logTypeName of the FlowChange.
+        /// Gets or sets the LogTypeName of the FlowChange.
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
@@ -72,7 +68,7 @@ namespace ESL.Core.Models
         public string LogTypeName { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the operatorID of the FlowChange.
+        /// Gets or sets the OperatorID of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 7)]
         [DisplayName("Operator")]
@@ -82,7 +78,7 @@ namespace ESL.Core.Models
         public int OperatorID { get; set; }
 
         /// <summary>
-        /// Gets or sets the createdBy of the FlowChange.
+        /// Gets or sets the CreatedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         //[DisplayName("Created By")]
@@ -92,15 +88,91 @@ namespace ESL.Core.Models
         public int? CreatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the createdDate of the FlowChange.
+        /// Gets or sets the CreatedDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Created Date")]
         [Column(nameof(CreatedDate))]
         public DateTime? CreatedDate { get; set; }
 
+        //
+        [DataObjectField(false, false, true, 7)]
+        [Column(nameof(ReportedBy))]
+        public int? ReportedBy { get; set; }
+
+        [DataObjectField(false, false, true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [Column(nameof(ReportedDate))]
+        public DateTime? ReportedDate { get; set; }
+
+        [DataObjectField(false, false, true, 5)]
+        [Column(nameof(ReportedTime))]
+        public string? ReportedTime { get; set; }
+
+        [DataObjectField(false, false, false, 7)]
+        [Column(nameof(ReportedTo))]
+        public int? ReportedTo { get; set; }
+
+        [DataObjectField(false, false, true, 7)]
+        public int? ReleasedBy { get; set; }
+
+        [DataObjectField(false, false, true, 7)]
+        [Column(nameof(ReleasedTo))]
+        public int? ReleasedTo { get; set; }
+
+        [DataObjectField(false, false, true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [Column(nameof(ReleasedDate))]
+        public DateTime? ReleasedDate { get; set; }
+
+        [DataObjectField(false, false, true, 5)]
+        [Column(nameof(ReleasedTime))]
+        public string? ReleasedTime { get; set; }
+
         /// <summary>
-        /// Gets or sets the modifyFlag of the FlowChange.
+        /// Gets or sets the yr of the FlowChange.
+        /// </summary>
+        [DataObjectField(false, false, false, 2)]
+        //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
+        //[RegularExpression("^d{2}$", ErrorMessage = "Please enter YY format.")]
+        [DisplayName("Year")]
+        [Column(nameof(Yr))]
+        public string Yr { get; set; } = DateTime.Now.Year.ToString();
+
+        [DataObjectField(false, false, false, 5)]
+        [Column(nameof(FacilAbbr))]
+        public string FacilAbbr { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the SeqNo of the FlowChange.
+        /// </summary>
+        [DataObjectField(false, false, false, 6)]
+        [DisplayName("Sequence No.")]
+        [Column(nameof(SeqNo))]
+        public int SeqNo { get; set; }
+
+        [DataObjectField(false, false, false, 200)]
+        [Column(nameof(Location))]
+        public string Location { get; set; } = string.Empty;
+
+        //[DataObjectField(false, false, false, 300)]
+        //public string ClearanceZone { get; set; }
+
+        [DataObjectField(false, false, false, 600)]
+        [Column(nameof(Limitations))]
+        public string Limitations { get; set; } = string.Empty;
+
+        //[DataObjectField(false, false, true, 600)]
+        //public string WorkToBePerformed { get; set; }
+
+        [DataObjectField(false, false, true, 200)]
+        [Column(nameof(EquipmentInvolved))]
+        public string? EquipmentInvolved { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ModifyFlag of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Modify Flag")]
@@ -108,7 +180,7 @@ namespace ESL.Core.Models
         public string? ModifyFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets the modifiedBy of the FlowChange.
+        /// Gets or sets the ModifiedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Modified By")]
@@ -129,11 +201,11 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         /// <summary>
-        /// Gets or sets the notifiedFacil of the FlowChange.
+        /// Gets or sets the NotifiedFacil of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
         [DisplayName("Notified Facility")]
@@ -141,7 +213,7 @@ namespace ESL.Core.Models
         public string? NotifiedFacil { get; set; }
 
         /// <summary>
-        /// Gets or sets the notifiedPerson of the FlowChange.
+        /// Gets or sets the NotifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         // [DisplayName("Notified Person (optional)")]
@@ -150,7 +222,7 @@ namespace ESL.Core.Models
         public int? NotifiedPerson { get; set; }
 
         /// <summary>
-        /// Gets or sets the notifiedPerson of the FlowChange.
+        /// Gets or sets the NotifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Notified Person (optional)")]
@@ -158,32 +230,32 @@ namespace ESL.Core.Models
         public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
 
         /// <summary>
-        /// Gets or sets the shiftNo of the FlowChange.
+        /// Gets or sets the ShiftNo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 2)]
         [DisplayName("Shift No")]
         [Column(nameof(ShiftNo))]
         public int? ShiftNo { get; set; }
-        /// <summary>
-        /// Gets or sets the yr of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, false, 2)]
-        //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        //[RegularExpression("^d{2}$", ErrorMessage = "Please enter YY format.")]
-        [DisplayName("Year")]
-        [Column(nameof(Yr))]
-        public string Yr { get; set; } = DateTime.Now.Year.ToString();
 
         /// <summary>
-        /// Gets or sets the seqNo of the FlowChange.
+        /// Gets or sets the UID of the record.
         /// </summary>
-        [DataObjectField(false, false, false, 6)]
-        [DisplayName("Sequence No.")]
-        [Column(nameof(SeqNo))]
-        public int SeqNo { get; set; }
+        [DataObjectField(false, false, false, 60)]
+        [DisplayName("Updated By")]
+        public string UpdatedBy { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the workOrders of the FlowChange.
+        /// Gets or sets the UpdateDate of the record.
+        /// </summary>
+        [DataObjectField(false, false, false)]
+        [DisplayName("Updated on")]
+        public DateTime UpdateDate { get; set; }
+
+        //[DataObjectField(false, false, true)]
+        //public string TagsInstalled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the WorkOrders of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Work Orders")]
@@ -191,15 +263,24 @@ namespace ESL.Core.Models
         public string? WorkOrders { get; set; }
 
         /// <summary>
-        /// Gets or sets the relatedTo of the FlowChange.
+        /// Gets or sets the RelatedTo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
         [DisplayName("Rnelated To")]
         [Column(nameof(RelatedTo))]
         public string? RelatedTo { get; set; }
 
+
+        [DataObjectField(false, false, true, 100)]
+        [Column(nameof(TagsRemoved))]
+        public string? TagsRemoved { get; set; }
+
+        [DataObjectField(false, false, true, 100)]
+        [Column(nameof(ReleaseType))]
+        public string? ReleaseType { get; set; }
+
         /// <summary>
-        /// Gets or sets the operatorType of the FlowChange.
+        /// Gets or sets the OperatorType of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 15)]
         [DisplayName("Operator Type (Optional)")]
@@ -213,89 +294,6 @@ namespace ESL.Core.Models
         [NotMapped]
         public int ScanDocsNo { get; set; }
 
-        [DataObjectField(false, false, true, 7)]       
-        [Column(nameof(ReportedBy))]
-        public int? ReportedBy { get; set; }
-
-        [DataObjectField(false, false, false, 7)]
-        [Column(nameof(ReportedTo))]
-        public int? ReportedTo { get; set; }
-
-        [DataObjectField(false, false, true)]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        [Column(nameof(ReportedDate))]
-        public DateTime? ReportedDate { get; set; }
-
-        [DataObjectField(false, false, true, 5)]
-        [Column(nameof(ReportedTime))]
-        public string ReportedTime { get; set; } = null!;
-
-        [DataObjectField(false, false, true, 7)]
-        public int? ReleasedBy { get; set; }
-
-        [DataObjectField(false, false, true, 7)]
-        [Column(nameof(ReleasedTo))]
-        public int? ReleasedTo { get; set; }
-        
-        [DataObjectField(false, false, true)]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        [Column(nameof(ReleasedDate))]
-        public DateTime?  ReleasedDate { get; set; }
-
-        [DataObjectField(false, false, true, 5)]
-        [Column(nameof(ReleasedTime))]
-        public string? ReleasedTime { get; set; }
-
-        [DataObjectField(false, false, true, 100)]
-        [Column(nameof(ReleaseType))]
-        public string? ReleaseType { get; set; }
-
-        [DataObjectField(false, false, false, 5)]
-        [Column(nameof(FacilAbbr))]
-        public string FacilAbbr { get; set; } = string.Empty;
-
-        [DataObjectField(false, false, false, 200)]
-        [Column(nameof(Location))]
-        public string Location { get; set; } = string.Empty;
-
-        //[DataObjectField(false, false, false, 300)]
-        //public string ClearanceZone { get; set; }
-
-        [DataObjectField(false, false, false, 600)]
-        [Column(nameof(Limitations))]
-        public string Limitations { get; set; } = string.Empty;
-
-        //[DataObjectField(false, false, true, 600)]
-        //public string WorkToBePerformed { get; set; }
-
-        [DataObjectField(false, false, true, 200)]
-        [Column(nameof(EquipmentInvolved))]
-        public string? EquipmentInvolved { get; set; }
-
-        //[DataObjectField(false, false, true)]
-        //public string TagsInstalled { get; set; }
-
-        [DataObjectField(false, false, true, 100)]
-        [Column(nameof(TagsInstalled))]
-        public string? TagsInstalled { get; set; }
-
-        //public Update Update { get; set; } = new Update();
-
-        /// <summary>
-        /// Gets or sets the UID of the record.
-        /// </summary>
-        [DataObjectField(false, false, false, 60)]
-        [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
-
-        /// <summary>
-        /// Gets or sets the updateDate of the record.
-        /// </summary>
-        [DataObjectField(false, false, false)]
-        [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
 
         public Facility Facility { get; init; } = new Facility();
 
@@ -322,11 +320,11 @@ namespace ESL.Core.Models
         public Employee ReleasedTo_Employee { get; set; } = new Employee();
 
         /// <summary>
-        /// Gets or sets the eventIdentifier of the FlowChange.
+        /// Gets or sets the EventIDentifier of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        public string EventIdentifier => $"{EventID} / {Convert.ToString(EventID_RevNo)}";
+        public string EventIDentifier => $"{EventID} / {Convert.ToString(EventID_RevNo)}";
 
         /// <summary>
         /// Gets or sets the eventHighlight of the FlowChange.
@@ -368,7 +366,7 @@ namespace ESL.Core.Models
 
                 if (!String.IsNullOrEmpty(ReleaseType))
                 {
-                    _EventHighlight += $"Tags removed: {TagsInstalled}{_CrLf}";
+                    _EventHighlight += $"Tags removed: {TagsRemoved}{_CrLf}";
                 }
 
                 _EventHighlight += $"Scanned docs stored: {ScanDocsNo}";
@@ -421,8 +419,8 @@ namespace ESL.Core.Models
                             _EventTrail += $"Transfer Dt/Tm: {ReleasedDate.Value.ToString("MM/dd/yyyy")} {ReleasedTime}{_CrLf}";
                             //_EventTrail += "Released Dt/Tm: " + (ReleasedDate.HasValue ? ReleasedDate.Value.ToString("MM/dd/yyyy") : "n/a") + " " + ReleasedTime + _CrLf;
 
-                            //_EventTrail = "Transferred to: " + IssuedTo.ToString() + _CrLf + "Relased by: " + IssuedTo.ToString() + _CrLf;
-                            //_EventTrail += "Transferred Dt/Tm: " + IssuedDate.ToString("MM/dd/yyyy") + " " + IssuedTime + _CrLf;
+                            //_EventTrail = "Transferred to: " + IssedTo.ToString() + _CrLf + "Relased by: " + IssedTo.ToString() + _CrLf;
+                            //_EventTrail += "Transferred Dt/Tm: " + IssedDate.ToString("MM/dd/yyyy") + " " + IssedTime + _CrLf;
                             break;
                     }
                 }

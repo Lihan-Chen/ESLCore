@@ -13,7 +13,7 @@ namespace ESL.Core.IRepositories
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<TEntity> GetByIdAsync(int facilNo, int logTypeNo, string eventID, int eventID_RevNo);
+        Task<TEntity> GetByIdAsync(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo);
 
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
@@ -23,7 +23,7 @@ namespace ESL.Core.IRepositories
 
         Task<bool> AddAsync(TEntity entity);
 
-        Task<bool> DeleteAsync(int facilNo, int logTypeNo, string eventID, int eventID_RevNo);
+        Task<bool> DeleteAsync(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo);
 
         Task<bool> UpsertAsync(TEntity entity);
         

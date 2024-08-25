@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESL.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240821064303_ESL_Tables")]
-    partial class ESL_Tables
+    [Migration("20240821165224_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,8 +79,6 @@ namespace ESL.Core.Migrations
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "EventID_RevNo");
 
-                    b.HasIndex("LogTypeNo");
-
                     b.ToTable("ESL_AllEvents");
                 });
 
@@ -130,22 +128,22 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("FacilAbbr");
 
-                    b.Property<int>("IssuedBy")
+                    b.Property<int>("IssedBy")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("IssuedBy");
+                        .HasColumnName("IssedBy");
 
-                    b.Property<DateTime>("IssuedDate")
+                    b.Property<DateTime>("IssedDate")
                         .HasColumnType("TEXT")
-                        .HasColumnName("IssuedDate");
+                        .HasColumnName("IssedDate");
 
-                    b.Property<string>("IssuedTime")
+                    b.Property<string>("IssedTime")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("IssuedTime");
+                        .HasColumnName("IssedTime");
 
-                    b.Property<int>("IssuedTo")
+                    b.Property<int>("IssedTo")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("IssuedTo");
+                        .HasColumnName("IssedTo");
 
                     b.Property<string>("Location")
                         .HasColumnType("TEXT")
@@ -344,13 +342,11 @@ namespace ESL.Core.Migrations
                 {
                     b.Property<int>("FacilNo")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("FacilNo")
-                        .HasColumnOrder(0);
+                        .HasColumnName("FacilNo");
 
                     b.Property<int>("DetailsNo")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("DetailsNo")
-                        .HasColumnOrder(1);
+                        .HasColumnName("DetailsNo");
 
                     b.Property<string>("DetailsName")
                         .IsRequired()
@@ -374,25 +370,13 @@ namespace ESL.Core.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("SortNo");
 
-                    b.Property<int>("SubjectFacilNo")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SubjectNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SubjNo");
-
-                    b.Property<int>("SubjectNo1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTimeOffset?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
 
                     b.HasKey("FacilNo", "DetailsNo");
-
-                    b.HasIndex("SubjectFacilNo", "SubjectNo1");
 
                     b.ToTable("ESL_Details");
                 });
@@ -577,11 +561,10 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("Notes");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTimeOffset?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("EmployeeNo");
@@ -744,7 +727,7 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("ModifyFlag");
 
-                    b.Property<decimal?>("NewValue")
+                    b.Property<int?>("NewValue")
                         .HasColumnType("TEXT")
                         .HasColumnName("NewValue");
 
@@ -769,7 +752,7 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("OldUnit");
 
-                    b.Property<decimal?>("OldValue")
+                    b.Property<int?>("OldValue")
                         .HasColumnType("TEXT")
                         .HasColumnName("OldValue");
 
@@ -1405,11 +1388,10 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("UnitName");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTimeOffset?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("UnitNo");
@@ -1554,36 +1536,6 @@ namespace ESL.Core.Migrations
                     b.HasKey("FacilType", "WorkNo");
 
                     b.ToTable("ESL_WorkToBePerformed");
-                });
-
-            modelBuilder.Entity("ESL.Core.Models.AllEvent", b =>
-                {
-                    b.HasOne("ESL.Core.Models.Facility", "Facility")
-                        .WithMany()
-                        .HasForeignKey("FacilNo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ESL.Core.Models.LogType", "LogType")
-                        .WithMany()
-                        .HasForeignKey("LogTypeNo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Facility");
-
-                    b.Navigation("LogType");
-                });
-
-            modelBuilder.Entity("ESL.Core.Models.Details", b =>
-                {
-                    b.HasOne("ESL.Core.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectFacilNo", "SubjectNo1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.SOC", b =>

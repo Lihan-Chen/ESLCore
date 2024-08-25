@@ -21,504 +21,538 @@ namespace ESL.Core.Migrations
             modelBuilder.Entity("ESL.Core.Models.AllEvent", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
 
                     b.Property<string>("EventID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
 
                     b.Property<int>("EventID_RevNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("EVENTID_REVNO");
 
                     b.Property<string>("ClearanceID")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ClearanceID");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CLEARANCEID");
 
                     b.Property<string>("Details")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Details");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DETAILS");
 
                     b.Property<DateTime?>("EventDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EventDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("EVENTDATE");
 
                     b.Property<string>("EventTime")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EventTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTTIME");
 
                     b.Property<string>("ModifyFlag")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ModifyFlag");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("MODIFYFLAG");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("OperatorType")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OperatorType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("OPERATORYTYPE");
 
                     b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Subject");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("SUBJECT");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "EventID_RevNo");
 
-                    b.ToTable("ESL_AllEvents");
+                    b.HasIndex(new[] { "UpdateDate" }, "UpdateDate");
+
+                    b.ToTable("ESL_ALLEVENTS", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.ClearanceIssue", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
 
                     b.Property<string>("EventID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
 
                     b.Property<int>("EventID_RevNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("EVENTID_REVNO");
 
                     b.Property<string>("ClearanceID")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ClearanceID");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CLEARANCEID");
 
                     b.Property<string>("ClearanceType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ClearanceType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CLEARANCETYPE");
 
                     b.Property<string>("ClearanceZone")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ClearanceZone");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CLEARANCEZONE");
 
                     b.Property<int?>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("CreatedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("CREATEDBY");
 
                     b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("CREATEDDATE");
 
                     b.Property<string>("EquipmentInvolved")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EquipmentInvolved");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EQUIPMENTINVOLVED");
 
                     b.Property<string>("FacilAbbr")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FacilAbbr");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILABBR");
 
                     b.Property<int>("IssuedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("IssuedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("ISSUEDBY");
 
                     b.Property<DateTime>("IssuedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("IssuedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("ISSUEDDATE");
 
                     b.Property<string>("IssuedTime")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("IssuedTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("ISSUEDTIME");
 
                     b.Property<int>("IssuedTo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("IssuedTo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("ISSUEDTO");
 
                     b.Property<string>("Location")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Location");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("LOCATION");
 
                     b.Property<int?>("ModifiedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ModifiedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("MODIFIEDBY");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ModifiedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("MODIFIEDDATE");
 
                     b.Property<string>("ModifyFlag")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ModifyFlag");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("MODIFYFLAG");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("NotifiedFacil")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("NotifiedFacil");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTIFIEDFACIL");
 
                     b.Property<int?>("NotifiedPerson")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("NotifiedPerson");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("NOTIFIEDPERSON");
 
                     b.Property<int>("OperatorID")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("OperatorID");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("OPERATORID");
 
                     b.Property<string>("OperatorType")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OperatorType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("OPERATORTYPE");
 
                     b.Property<string>("RelatedTo")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("RelatedTo");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RELATEDTO");
 
                     b.Property<string>("ReleaseType")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReleaseType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RELEASETYPE");
 
                     b.Property<int?>("ReleasedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ReleasedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("RELEASEDBY");
 
                     b.Property<DateTime?>("ReleasedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReleasedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("RELEASEDDATE");
 
                     b.Property<string>("ReleasedTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReleasedTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RELEASEDTIME");
 
                     b.Property<int?>("ReleasedTo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ReleasedTo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("RELEASEDTO");
 
                     b.Property<int>("SeqNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SeqNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SEQNO");
 
                     b.Property<int?>("ShiftNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ShiftNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SHIFTNO");
 
                     b.Property<string>("TagsRemoved")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("TagsRemoved");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("TAGSREMOVED");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.Property<string>("WorkOrders")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("WorkOrders");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("WORKORDERS");
 
                     b.Property<string>("WorkToBePerformed")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("WorkToBePerformed");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("WORKTOBEPERFORMED");
 
                     b.Property<string>("Yr")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Yr");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("YR");
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "EventID_RevNo");
 
-                    b.ToTable("ESL_ClearanceIssues");
+                    b.ToTable("ESL_CLEARANCEISSUES", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.ClearanceType", b =>
                 {
                     b.Property<int>("ClearanceTypeNo")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("CLEARANCETYPENO");
 
                     b.Property<string>("ClearanceTypeAbbr")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CLEARANCETYPEABBR");
 
                     b.Property<string>("ClearanceTypeName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CLEARANCETYPENAME");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<int>("SortNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SORTNO");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("ClearanceTypeNo");
 
-                    b.ToTable("ESL_ClearanceTypes");
+                    b.ToTable("ESL_CLEARANCETYPES", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.ClearanceZone", b =>
                 {
                     b.Property<string>("FacilType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILTYPE");
 
                     b.Property<int>("ZoneNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("ZONENO");
 
                     b.Property<string>("Disable")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DISABLE");
+
+                    b.Property<int?>("FacilNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<int?>("SortNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SORTNO");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.Property<string>("ZoneDescription")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("ZONEDESCRIPTION");
 
                     b.HasKey("FacilType", "ZoneNo");
 
-                    b.ToTable("ESL_ClearanceZones");
+                    b.ToTable("ESL_CLEARANCEZONES", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.Constant", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<string>("ConstantName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CONSTANTNAME");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("DATE")
+                        .HasColumnName("STARTDATE");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("DATE")
+                        .HasColumnName("ENDDATE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.Property<int?>("Value")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("VALUE");
 
                     b.HasKey("FacilNo", "ConstantName", "StartDate");
 
-                    b.ToTable("ESL_Constants");
+                    b.ToTable("ESL_CONSTANTS", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.Details", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("DetailsNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("DETAILSNO");
 
                     b.Property<string>("DetailsName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("DetailsName");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DETAILSNAME");
 
                     b.Property<string>("Disable")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Disabled?");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DISABLE");
 
                     b.Property<string>("FacilType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FacilType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILTYPE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<int?>("SortNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SortNo");
-
-                    b.Property<int>("SubjectFacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SORTNO");
 
                     b.Property<int?>("SubjectNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SubjNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SUBJNO");
 
-                    b.Property<int>("SubjectNo1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("FacilNo", "DetailsNo");
 
-                    b.HasIndex("SubjectFacilNo", "SubjectNo1");
-
-                    b.ToTable("ESL_Details");
+                    b.ToTable("ESL_DETAILS");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.EOS", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
 
                     b.Property<string>("EventID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
 
                     b.Property<int>("EventID_RevNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("EVENTID_REVNO");
 
                     b.Property<int?>("CreatedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("CreatedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("CREATEDBY");
 
                     b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("CREATEDDATE");
 
                     b.Property<string>("EquipmentInvolved")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EquipmentInvolved");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EQUIPMENTINVOLVED");
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Location");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("LOCATION");
 
                     b.Property<int?>("ModifiedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ModifiedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("MODIFIEDBY");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ModifiedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("MODIFIEDDATE");
 
                     b.Property<string>("ModifyFlag")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ModifyFlag");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("MODIFYFLAG");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("NotifiedFacil")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("NotifiedFacil");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTIFIEDFACIL");
 
                     b.Property<int?>("NotifiedPerson")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("NotifiedPerson");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("NOTIFIEDPERSON");
 
                     b.Property<int>("OperatorID")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("OperatorID");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("OPERATORID");
 
                     b.Property<string>("OperatorType")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OperatorType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("OPERATORTYPE");
 
                     b.Property<string>("RelatedTo")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("RelatedTo");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RELATEDTO");
 
                     b.Property<string>("ReleaseType")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReleaseType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RELEASETYPE");
 
                     b.Property<int?>("ReleasedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ReleasedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("RELEASEDBY");
 
                     b.Property<DateTime?>("ReleasedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReleasedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("RELEASEDDATE");
 
                     b.Property<string>("ReleasedTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReleasedTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RELEASEDTIME");
 
                     b.Property<int?>("ReportedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ReportedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("REPORTEDBY");
 
                     b.Property<DateTime?>("ReportedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReportedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("REPORTEDDATE");
 
                     b.Property<string>("ReportedTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReportedTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("REPORTEDTIME");
 
                     b.Property<int?>("ReportedTo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ReportedTo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("REPORTEDTO");
 
                     b.Property<int>("SeqNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SeqNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SEQNO");
 
                     b.Property<int?>("ShiftNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ShiftNo");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("SHIFTNO");
 
                     b.Property<string>("TagsInstalled")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("TagsInstalled");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("TAGSINSTALLED");
 
                     b.Property<string>("TagsRemoved")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("TagsRemoved");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("TAGSREMOVED");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.Property<string>("WorkOrders")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("WorkOrders");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("WORKORDERS");
 
                     b.Property<string>("Yr")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Yr");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("YR");
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "EventID_RevNo");
 
@@ -529,301 +563,306 @@ namespace ESL.Core.Migrations
                 {
                     b.Property<int>("EmployeeNo")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("EmployeeNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("EMPLOYEENO");
 
                     b.Property<string>("Company")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Company");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("COMPANY");
 
                     b.Property<string>("Disable")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Disable");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DISABLE");
 
                     b.Property<int?>("FacilNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("FacilNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FirstName");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FIRSTNAME");
 
                     b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("GroupName");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("GROUPNAME");
 
                     b.Property<string>("JobTitle")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("JobTitle");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("JOBTITLE");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("LastName");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("LASTNAME");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("EmployeeNo");
 
-                    b.ToTable("ESL_Employees");
+                    b.ToTable("ESL_EMPLOYEES", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.EquipmentInvolved", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("FacilNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("EquipNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("EquipNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("EQUIPNO");
 
                     b.Property<string>("Disable")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Disable");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DISABLE");
 
                     b.Property<string>("EquipName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EquipName");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EQUIPNAME");
 
                     b.Property<string>("FacilType")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILTYPE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("FacilNo", "EquipNo");
 
-                    b.ToTable("ESL_EquipmentInvolved");
+                    b.ToTable("ESL_EQUIPMENTINVOLVED");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.Facility", b =>
                 {
                     b.Property<int>("FacilNo")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("FacilNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<string>("Disable")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Disable");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DISABLE");
 
                     b.Property<string>("FacilAbbr")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FacilAbbr");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILABBR");
 
                     b.Property<string>("FacilFullName")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FacilFullName");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILFULLNAME");
 
                     b.Property<string>("FacilName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FacilName");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILNAME");
 
                     b.Property<string>("FacilType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FacilType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILTYPE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<int?>("SortNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SortNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SORTNO");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.Property<string>("VisibleTo")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("VisibleTo");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("VISABLETO");
 
                     b.HasKey("FacilNo");
 
-                    b.ToTable("ESL_Facilities");
+                    b.ToTable("ESL_FACILITIES", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.FlowChange", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
 
                     b.Property<string>("EventID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
 
                     b.Property<int>("EventID_RevNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("EVENTID_REVNO");
 
                     b.Property<string>("Accepted")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Accepted");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("ACCEPTED");
 
                     b.Property<string>("ChangeBy")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ChangeBy");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CHANGEBY");
 
                     b.Property<string>("ChangeByUnit")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ChangeByUnit");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CHANGEBYUNIT");
 
                     b.Property<int?>("CreatedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("CreatedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("CREATEDBY");
 
                     b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("CREATEDDATE");
 
                     b.Property<DateTime>("EventDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EventDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("EVENTDATE");
 
                     b.Property<string>("EventTime")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EventTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTTIME");
 
                     b.Property<string>("MeterID")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("MeterID");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("METERID");
 
                     b.Property<int?>("ModifiedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ModifiedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("MODIFIEDBY");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ModifiedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("MODIFIEDDATE");
 
                     b.Property<string>("ModifyFlag")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ModifyFlag");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("MODIFYFLAG");
 
-                    b.Property<decimal?>("NewValue")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("NewValue");
+                    b.Property<int?>("NewValue")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("NEWVALUE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("NotifiedFacil")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("NotifiedFacil");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTIFIEDFACIL");
 
                     b.Property<int?>("NotifiedPerson")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("NotifiedPerson");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("NOTIFIEDPERSON");
 
                     b.Property<string>("OffTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OffTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("OFFTIME");
 
                     b.Property<string>("OldUnit")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OldUnit");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("OLDUNIT");
 
-                    b.Property<decimal?>("OldValue")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OldValue");
+                    b.Property<int?>("OldValue")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("OLDVALUE");
 
                     b.Property<int>("OperatorID")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("OperatorID");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("OPERATORID");
 
                     b.Property<string>("OperatorType")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OperatorType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("OPERATORTYPE");
 
                     b.Property<string>("RelatedTo")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("RelatedTo");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RELATEDTO");
 
                     b.Property<int?>("RequestedBy")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("RequestedBy");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("REQUESTEDBY");
 
                     b.Property<DateTime>("RequestedDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("RequestedDate");
+                        .HasColumnType("DATE")
+                        .HasColumnName("REQUESTEDDATE");
 
                     b.Property<string>("RequestedTime")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("RequestedTime");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("REQUESTEDTIME");
 
                     b.Property<int>("RequestedTo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("RequestedTo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("REQUESTEDTO");
 
                     b.Property<int>("SeqNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SeqNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SEQNO");
 
                     b.Property<int?>("ShiftNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("ShiftNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SHIFTNO");
 
                     b.Property<string>("Unit")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Unit");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NEWUNIT");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.Property<string>("WorkOrders")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("WorkOrders");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("WORKORDERS");
 
                     b.Property<string>("Yr")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Yr");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("YR");
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "EventID_RevNo");
 
-                    b.ToTable("ESL_FlowChanges");
+                    b.ToTable("ESL_FLOWCHANGES");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.GeneralLog", b =>
@@ -877,8 +916,8 @@ namespace ESL.Core.Migrations
                         .HasColumnName("ModifyFlag");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("NotifiedFacil")
                         .HasColumnType("TEXT")
@@ -917,7 +956,7 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("Subject");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTime>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -942,26 +981,32 @@ namespace ESL.Core.Migrations
                 {
                     b.Property<int>("LogTypeNo")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
 
                     b.Property<string>("LogTypeName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("LogTypeName");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("LogTypeNo");
 
-                    b.ToTable("ESL_LogTypes");
+                    b.HasIndex("LogTypeNo", "LogTypeName")
+                        .IsUnique();
+
+                    b.ToTable("ESL_LOGTYPES", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.Meter", b =>
@@ -979,23 +1024,21 @@ namespace ESL.Core.Migrations
                         .HasColumnName("Disabled?");
 
                     b.Property<string>("MeterType")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("MeterType");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<int?>("SortNo")
                         .HasColumnType("INTEGER")
                         .HasColumnName("SortNo");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("FacilNo", "MeterID");
@@ -1025,54 +1068,59 @@ namespace ESL.Core.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("FacilNo", "ShiftNo");
 
-                    b.ToTable("ESL_PlantShifts");
+                    b.ToTable("ESL_PLANTSHITS");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.RelatedTo", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
 
                     b.Property<string>("EventID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
 
                     b.Property<string>("RelatedTo_Subject")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("RelatedTo_SUBJECT");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "RelatedTo_Subject");
 
-                    b.ToTable("ESL_RelatedTo");
+                    b.ToTable("ESL_RelatedTo", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.SOC", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<string>("EventID")
                         .HasColumnType("TEXT");
@@ -1081,7 +1129,7 @@ namespace ESL.Core.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("CreatedBy")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("NUMBER")
                         .HasColumnName("CreatedBy");
 
                     b.Property<DateTime?>("CreatedDate")
@@ -1108,7 +1156,7 @@ namespace ESL.Core.Migrations
                         .HasColumnName("Location");
 
                     b.Property<int?>("ModifiedBy")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("NUMBER")
                         .HasColumnName("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -1120,22 +1168,22 @@ namespace ESL.Core.Migrations
                         .HasColumnName("ModifyFlag");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("NotifiedFacil")
                         .HasColumnType("TEXT")
                         .HasColumnName("NotifiedFacil");
 
                     b.Property<int>("NotifiedFacilityFacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<int?>("NotifiedPerson")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("NUMBER")
                         .HasColumnName("NotifiedPerson");
 
                     b.Property<int>("OperatorID")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("NUMBER")
                         .HasColumnName("OperatorID");
 
                     b.Property<string>("OperatorType")
@@ -1154,7 +1202,7 @@ namespace ESL.Core.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ReleasedBy_EmployeeEmployeeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<DateTime?>("ReleasedDate")
                         .HasColumnType("TEXT")
@@ -1169,21 +1217,20 @@ namespace ESL.Core.Migrations
                         .HasColumnName("ReleasedTo");
 
                     b.Property<int>("ReleasedTo_EmployeeEmployeeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<int?>("ReportedBy")
                         .HasColumnType("INTEGER")
                         .HasColumnName("ReportedBy");
 
                     b.Property<int>("ReportedBy_EmployeeEmployeeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<DateTime?>("ReportedDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("ReportedDate");
 
                     b.Property<string>("ReportedTime")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ReportedTime");
 
@@ -1192,7 +1239,7 @@ namespace ESL.Core.Migrations
                         .HasColumnName("ReportedTo");
 
                     b.Property<int>("ReportedTo_EmployeeEmployeeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<int>("SeqNo")
                         .HasColumnType("INTEGER")
@@ -1202,11 +1249,11 @@ namespace ESL.Core.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("ShiftNo");
 
-                    b.Property<string>("TagsInstalled")
+                    b.Property<string>("TagsRemoved")
                         .HasColumnType("TEXT")
-                        .HasColumnName("TagsInstalled");
+                        .HasColumnName("TagsRemoved");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTime>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -1214,7 +1261,7 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UpdatedBy_EmployeeEmployeeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER");
 
                     b.Property<string>("WorkOrders")
                         .HasColumnType("TEXT")
@@ -1249,40 +1296,47 @@ namespace ESL.Core.Migrations
 
                     b.HasIndex("UpdatedBy_EmployeeEmployeeNo");
 
-                    b.ToTable("ESL_SOC");
+                    b.ToTable("ESL_SOC", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.ScanDoc", b =>
                 {
                     b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
 
                     b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
 
                     b.Property<string>("EventID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
 
-                    b.Property<int?>("ScanNo")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("ScanNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SCANNO");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("ScanFileName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("SCANFILENAME");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "ScanNo");
 
-                    b.ToTable("ESL_ScanDocs");
+                    b.ToTable("ESL_SCANDOCS", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.ScanLob", b =>
@@ -1291,11 +1345,6 @@ namespace ESL.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("ScanSeqNo");
-
-                    b.Property<byte[]>("Blob")
-                        .IsRequired()
-                        .HasColumnType("BLOB")
-                        .HasColumnName("ScanLob");
 
                     b.Property<string>("EventID")
                         .IsRequired()
@@ -1311,18 +1360,20 @@ namespace ESL.Core.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT");
 
+                    b.Property<byte[]>("ScanBlob")
+                        .HasColumnType("BLOB")
+                        .HasColumnName("ScanLob");
+
                     b.Property<string>("ScanLobType")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ScanNo")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ScanSeqNo");
@@ -1353,8 +1404,8 @@ namespace ESL.Core.Migrations
                         .HasColumnName("FacilType");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<int?>("SortNo")
                         .HasColumnType("INTEGER")
@@ -1365,11 +1416,10 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("SubjName");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("FacilNo", "SubjectNo");
@@ -1385,8 +1435,8 @@ namespace ESL.Core.Migrations
                         .HasColumnName("UnitNo");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<string>("UnitDesc")
                         .HasColumnType("TEXT")
@@ -1396,11 +1446,10 @@ namespace ESL.Core.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("UnitName");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<DateTimeOffset?>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("UnitNo");
@@ -1474,88 +1523,1806 @@ namespace ESL.Core.Migrations
                     b.ToTable("ESL_Users");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.WorkOrder", b =>
+            modelBuilder.Entity("ESL.Core.Models.ViewAClearanceAll", b =>
                 {
-                    b.Property<int>("FacilNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("FacilNo");
+                    b.ToTable((string)null);
 
-                    b.Property<int>("LogTypeNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("LogTypeNo");
+                    b.ToView("VIEW_CLEARANCE_ALL", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsCurrent", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_ALLEVENTS_CURRENT", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsFacilNo", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_ALLEVENTS_FacilNoS", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsLogType", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_ALLEVENTS_LOGTYPE", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsRelatedTo", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_ALLEVENTS_RelatedTo", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsSearch", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_ALLEVENTS_SEARCH", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAlleventsCurrent", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("CLEARANCEID");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DETAILS");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("EVENTDATE");
 
                     b.Property<string>("EventID")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EventID");
+                        .IsRequired()
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
 
-                    b.Property<string>("WO_No")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("WO_No");
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("EVENTID_REVNO");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTTIME");
+
+                    b.Property<string>("FacilAbbr")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILABBR");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILNAME");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("LOGTYPENAME");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
+
+                    b.Property<string>("ModifyFlag")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("MODIFYFLAG");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("OPERATORTYPE");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SCANDOCSNO");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("SUBJECT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDATE");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEBY");
+
+                    b.ToTable("ViewCurrentAllEvents");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAlleventsFacilNo", b =>
+                {
+                    b.Property<string>("FacilAbbr")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FacilAbbr");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FacilName");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
+
+                    b.ToTable("ViewAllEventsByFacility");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAlleventsLogType", b =>
+                {
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.ToTable("ViewAllEventsByLogType");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAlleventsRelatedTo", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilAbbr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewRelatedAllevents");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewAlleventsSearch", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.ToTable("ViewAlleventsSearches");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewClearanceAll", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewClearanceAll");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewClearanceIssuesCurrent", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClearanceType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClearanceZone")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EquipmentInvolved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FacilAbbr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IssedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("IssedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IssedTime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IssedTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifyFlag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotifiedFacil")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NotifiedPerson")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OperatorID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelatedTo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleaseType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReleasedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ReleasedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleasedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReleasedTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SeqNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ShiftNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TagsRemoved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkOrders")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkToBePerformed")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Yr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewCurrentClearanceIssues");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewClearanceOutstanding", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewOutstandingClearances");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewClearanceType", b =>
+                {
+                    b.Property<string>("ClearanceType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClearanceTypename")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ClearanceTypeno")
+                        .HasColumnType("INTEGER");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_CLEARANCE_TYPES", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewClearanceissue", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClearanceType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClearanceZone")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EquipmentInvolved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FacilAbbr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IssedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("IssedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IssedTime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IssedTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifyFlag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotifiedFacil")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NotifiedPerson")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Operator")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OperatorID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelatedTo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleaseType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReleasedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ReleasedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleasedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReleasedTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SeqNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ShiftNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TagsRemoved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkOrders")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkToBePerformed")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Yr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_CLEARANCEISSUES", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewClearanceissuesCurrent", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_CLEARANCEISSUES_CURRENT", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewClearanceissuesOutstanding", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_CLEARANCEISSUES_OUTSTANDING", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewEOSAll", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewEOSAll");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewEOSCurrent", b =>
+                {
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EquipmentInvolved")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifyFlag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotifiedFacil")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NotifiedPerson")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OperatorID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelatedTo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleaseType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReleasedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ReleasedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleasedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ReportedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReportedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReportedTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Reportedby")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SeqNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ShiftNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TagsInstalled")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TagsRemoved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkOrders")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Yr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewCurrentEOS");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewEOSOutstanding", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewOutstandingEOS");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewEosAlL", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_EOS_ALL", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewEosCurrent", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_EOS_CURRENT", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewEosOutstanding", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_EOS_OUTSTANDING", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewFlowchangeAlL", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_FLOWCHANGE_ALL", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewFlowchangeAll", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewAllFlowChanges");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewFlowchangePresched", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_FLOWCHANGE_PRESCHED", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewFlowchangesCurrent", b =>
+                {
+                    b.Property<string>("Accepted")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ChangeBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ChangeByUnit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MeterID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifyFlag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NewValue")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotifiedFacil")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NotifiedPerson")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Offtime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OldUnit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("OldValue")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OperatorID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelatedTo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RequestedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RequestedTime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Requestedby")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Requestedto")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SeqNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ShiftNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkOrders")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Yr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_FLOWCHANGES_CURRENT", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewGeneralAlL", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_GENERAL_ALL", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewGeneralAll", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewGeneralAll");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewGeneralCurrent", b =>
+                {
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifyFlag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotifiedFacil")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NotifiedPerson")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OperatorID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelatedTo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Reportedby")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SeqNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ShiftNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkOrders")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Yr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_GENERAL_CURRENT", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewGeneralOutstanding", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_GENERAL_OUTSTANDING", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewRealtime", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_REALTIME", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewSOCAll", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewAllSOC");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewSOCCurrent", b =>
+                {
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EquipmentInvolved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FacilAbbr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Limitations")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModifyFlag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotifiedFacil")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NotifiedPerson")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OperatorID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelatedTo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleaseType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReleasedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ReleasedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReleasedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReleasedTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ReportedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReportedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReportedTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Reportedby")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SeqNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ShiftNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TagsRemoved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkOrders")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Yr")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewCurrentSOC");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewSOCOutstanding", b =>
+                {
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FacilName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ScanDocsNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewOutstandingSOC");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewSearchAllevent", b =>
+                {
+                    b.Property<string>("ClearanceID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EventID_RevNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OperatorType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_SEARCH_ALLEVENTS", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewSocAll", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_SOC_ALL", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewSocCurrent", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_SOC_CURREMT", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewSocOutstanding", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_SOC_OUTSTANDING", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewWorkOrder", b =>
+                {
+                    b.Property<string>("EventID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Wo_No")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ViewWorkOrders");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.ViewWorkorder", b =>
+                {
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_WorkOrders", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.WorkOrder", b =>
+                {
+                    b.Property<int>("FacilNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("FACILNO");
+
+                    b.Property<int>("LogTypeNo")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("LOGTYPENO");
+
+                    b.Property<string>("EventID")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("EVENTID");
+
+                    b.Property<string>("WO_No")
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("WO_NO");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
+
                     b.HasKey("FacilNo", "LogTypeNo", "EventID", "WO_No");
 
-                    b.ToTable("ESL_WorkOrders");
+                    b.ToTable("ESL_WorkOrders", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.WorkToBePerformed", b =>
                 {
                     b.Property<string>("FacilType")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("FacilType");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("FACILTYPE");
 
                     b.Property<int>("WorkNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("WorkNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("WORKNO");
 
                     b.Property<string>("Disable")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Disable");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("DISABLE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Notes");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("NOTES");
 
                     b.Property<int?>("SortNo")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("SortNo");
+                        .HasColumnType("NUMBER")
+                        .HasColumnName("SORTNO");
 
-                    b.Property<DateTimeOffset>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("DATE")
+                        .HasColumnName("UPDATEDATE");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("UPDATEDBY");
 
                     b.Property<string>("WorkDescription")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("WorkDescription");
+                        .HasColumnType("VARCHAR2")
+                        .HasColumnName("WORKDESCRIPTION");
 
                     b.HasKey("FacilType", "WorkNo");
 
-                    b.ToTable("ESL_WorkToBePerformed");
-                });
+                    b.HasIndex(new[] { "FacilType", "WorkNo" }, "WORKTOBEPERMED_PX")
+                        .IsUnique();
 
-            modelBuilder.Entity("ESL.Core.Models.Details", b =>
-                {
-                    b.HasOne("ESL.Core.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectFacilNo", "SubjectNo1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Subject");
+                    b.ToTable("ESL_WorkToBePerformed", "ESL");
                 });
 
             modelBuilder.Entity("ESL.Core.Models.SOC", b =>

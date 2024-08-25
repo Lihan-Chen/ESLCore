@@ -22,27 +22,27 @@ namespace ESL.Core.Repositories
         {
         }
 
-        public virtual async Task<string> GetFacilName(int facilNo)
+        public virtual async Task<string> GetFacilName(int FacilNo)
         {
-            string _facilName = null!;
+            string _FacilName = null!;
 
-            if (facilNo != 0)
+            if (FacilNo != 0)
             {
-                _facilName = await dbSet.Where(f => f.FacilNo == facilNo).Select(s => s.FacilName).FirstOrDefaultAsync();
-                _facilName = _facilName?.Split(' ').ElementAt(0);
+                _FacilName = await dbSet.Where(f => f.FacilNo == FacilNo).Select(s => s.FacilName).FirstOrDefaultAsync();
+                _FacilName = _FacilName?.Split(' ').ElementAt(0);
             }
 
-            return _facilName;
+            return _FacilName;
         }
 
-        public virtual async Task<int> GetFacilNo(string facilName)
+        public virtual async Task<int> GetFacilNo(string FacilName)
         {
-            int _facilNo = 0;
-            if (!String.IsNullOrEmpty(facilName))
+            int _FacilNo = 0;
+            if (!String.IsNullOrEmpty(FacilName))
             {
-                _facilNo = await dbSet.Where(f => f.FacilName.Contains(facilName)).Select(x => x.FacilNo).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
+                _FacilNo = await dbSet.Where(f => f.FacilName.Contains(FacilName)).Select(x => x.FacilNo).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
             }
-            return _facilNo;
+            return _FacilNo;
         }
 
         public virtual List<SelectListItem> GetFacilAbbrList()
@@ -62,13 +62,13 @@ namespace ESL.Core.Repositories
             return _selectFacilTypes;
         }
 
-        public virtual async Task<Facility> GetFacility(string facilName)
+        public virtual async Task<Facility> GetFacility(string FacilName)
         {
             Facility _facility = null;
 
-            if (!String.IsNullOrEmpty(facilName))
+            if (!String.IsNullOrEmpty(FacilName))
             {
-                _facility = await dbSet.Where(f => f.FacilName.Contains(facilName)).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
+                _facility = await dbSet.Where(f => f.FacilName.Contains(FacilName)).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
             }
             return _facility;
         }

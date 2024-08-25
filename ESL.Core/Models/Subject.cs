@@ -37,7 +37,7 @@ namespace ESL.Core.Models
 
         [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         [DataObjectField(false, false, true, 30)]
@@ -45,21 +45,19 @@ namespace ESL.Core.Models
         [Column(nameof(Disable))]
         public string? Disable { get; set; }
 
-        //public Update Update { get; set; } = new Update();
-
         /// <summary>
         /// Gets or sets the UID of the record.
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        public string? UpdatedBy { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
         [NotMapped]
         //[ForeignKey(nameof(FacilNo), nameof(Details.SubjectNo))]

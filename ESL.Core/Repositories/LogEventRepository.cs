@@ -32,9 +32,9 @@ namespace ESL.Core.Repositories
             return await dbSet.ToListAsync();
         }
 
-        public virtual async Task<TEntity> GetByIdAsync(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        public virtual async Task<TEntity> GetByIdAsync(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo)
         {
-            var result = await dbSet.SingleOrDefaultAsync(e => e.FacilNo==facilNo&e.LogTypeNo==logTypeNo&e.EventID==eventID&e.EventID_RevNo==eventID_RevNo);
+            var result = await dbSet.SingleOrDefaultAsync(e => e.FacilNo==FacilNo&e.LogTypeNo==LogTypeNo&e.EventID==EventID&e.EventID_RevNo==EventID_RevNo);
 
             if (result == null)
             {
@@ -56,7 +56,7 @@ namespace ESL.Core.Repositories
             return true;
         }
 
-        public virtual Task<bool> DeleteAsync(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        public virtual Task<bool> DeleteAsync(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo)
         {
             throw new NotImplementedException();
         }

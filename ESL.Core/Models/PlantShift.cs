@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ESL.Core.Models
 {
     [PrimaryKey(nameof(FacilNo),nameof(ShiftNo))]
-    [Table($"ESL_{nameof(PlantShift)}s")]
+    [Table($"ESL_PLANTSHITS")]
     public partial record PlantShift
     {
         [DataObjectField(true, true, false, 2)]
@@ -35,13 +35,13 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

@@ -7,7 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ESL.Core.Models
 {
     [PrimaryKey(nameof(FacilType),nameof(WorkNo))]
-    [Table("ESL_WorkToBePerformed")]
+    [Index(nameof(FacilType), nameof(WorkNo), IsDescending = [false,false], IsUnique=true, Name = "WORKTOBEPERMED_PX")]
+    [Table("ESL_WorkToBePerformed", Schema ="ESL")]
     public partial record WorkToBePerformed
     {
         ///// <summary>
@@ -20,48 +21,51 @@ namespace ESL.Core.Models
 
         [DataObjectField(false, true, false, 5)]
         [DisplayName("Facility Type")]
-        [Column(nameof(FacilType))]
+        [Column("FACILTYPE", TypeName = "VARCHAR2")]
         public string FacilType { get; set; } = null!;
 
         [DataObjectField(true, true, false, 3)]
         [DisplayName("Work No.")]
-        [Column(nameof(WorkNo))]
+        [Column("WORKNO", TypeName ="NUMBER")]
         public int WorkNo { get; set; }
         
         [DataObjectField(false, true, false, 200)]
-        [Column(nameof(WorkDescription))]
+        [Column("WORKDESCRIPTION", TypeName = "VARCHAR2")]
         public string WorkDescription { get; set; } = null!;
-       
+
+        /// <summary>
+        /// Gets or sets the notes of the FlowChange.
+        /// </summary>
         [DataObjectField(false, false, true, 400)]
-        [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         [DataObjectField(false, false, true, 2)]
         [DisplayName("Sort No.")]
-        [Column(nameof(SortNo))]
+        [Column("SORTNO", TypeName ="NUMBER")]
         public int? SortNo { get; set; }
 
         [DataObjectField(false, false, true, 30)]
         [DisplayName(nameof(Disable))]
-        [Column(nameof(Disable))]
+        [Column("DISABLE", TypeName ="VARCHAR2")]
         public string? Disable { get; set; }
-
-        //public Update Update { get; set; } = new Update();
 
         /// <summary>
         /// Gets or sets the UID of the record.
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        [Column("UPDATEDBY", TypeName = "VARCHAR2")]
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        [Column("UPDATEDATE", TypeName = "DATE")]
+        public DateTime? UpdateDate { get; set; }
+
 
     }
 }

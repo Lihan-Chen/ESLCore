@@ -5,11 +5,11 @@ namespace ESL.Core.IRepositories
 {
     public interface IFacilityRepository : IGenericRepository<Facility>
     {
-        public Task<string> GetFacilName(int facilNo);
+        public Task<string> GetFacilName(int FacilNo);
 
-        public Task<Facility> GetFacility(string facilName);
+        public Task<Facility> GetFacility(string FacilName);
 
-        public Task<int> GetFacilNo(string facilName);
+        public Task<int> GetFacilNo(string FacilName);
 
         public List<SelectListItem> GetFacilAbbrList();
 

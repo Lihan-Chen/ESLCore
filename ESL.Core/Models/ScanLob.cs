@@ -39,34 +39,29 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, false)]
         [DisplayName("File")]
         [Column("ScanLob")]
-        public byte[] Blob { get; set; } = Array.Empty<byte>();
+        public byte[]? ScanBlob { get; set; } // = Array.Empty<byte>();
 
         [DataObjectField(false, false, false, 100)]
         [DisplayName("Scan Lob Type")]
-        public string ScanLobType { get; set; } = string.Empty;
+        public string? ScanLobType { get; set; }
 
-        //[DataObjectField(false, false, false)]
-        //[DisplayName("File")]
-        //public Byte[] Blob { get; set; } = new Byte[0];
 
         [DataObjectField(false, false, true)]
         [DisplayName("Notes")]
         public string? Notes { get; set; }
-
-        //public Update Update { get; set; } = new Update();
 
         /// <summary>
         /// Gets or sets the UID of the record.
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

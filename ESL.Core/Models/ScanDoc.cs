@@ -12,33 +12,48 @@ namespace ESL.Core.Models
 { 
     [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(ScanNo))]
 
-    [Table($"ESL_{nameof(ScanDoc)}s")]
+    [Table($"ESL_SCANDOCS", Schema ="ESL")]
     public partial record ScanDoc
     {
         /// <summary>
-        /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
-        /// [DataObjectField(key, identity, isNullable]
+        /// Gets or sets the FacilNo of the Facility.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
-        [DisplayName("Facility No.")]
+        [DisplayName("Facil. No.")]
+        [Column("FACILNO", TypeName = "NUMBER")]
         public int FacilNo { get; set; }
 
+        /// <summary>
+        /// Gets or sets the LogTypeNo of the Log Type.
+        /// </summary>
         [DataObjectField(true, true, false, 2)]
+        [DisplayName("Log Type No.")]
+        [Column("LOGTYPENO", TypeName = "NUMBER")]
         public int LogTypeNo { get; set; }
 
+        /// <summary>
+        /// Gets or sets the EventID of the Event.
+        /// </summary>
         [DataObjectField(true, true, false, 20)]
-        public string EventID { get; set; } = string.Empty;
+        [DisplayName("Event ID")]
+        [Column("EVENTID", TypeName = "VARCHAR2")]
+        public string EventID { get; set; } = null!;
 
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Scanned Document No.")]
-        public int? ScanNo { get; set; }
-
+        [Column("SCANNO", TypeName = "NUMBER")]
+        public int ScanNo { get; set; }
+        
         [DataObjectField(false, false, false, 100)]
         [DisplayName("Scan File Name")]
-        public string ScanFileName { get; set; } = string.Empty;
-        
+        [Column("SCANFILENAME", TypeName = "VARCHAR2")]
+        public string ScanFileName { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the notes of the FlowChange.
+        /// </summary>
         [DataObjectField(false, false, true, 400)]
-        [DisplayName("Notes")]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         /// <summary>
@@ -46,14 +61,16 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        [Column("UPDATEDBY", TypeName = "VARCHAR2")]
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        [Column("UPDATEDATE", TypeName = "DATE")]
+        public DateTime? UpdateDate { get; set; }
 
         // not supported
         //public ICollection<AllEvent> AllEvents { get; set; } = new List<AllEvent>();

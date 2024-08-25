@@ -11,7 +11,7 @@ namespace ESL.Core.Models
     [NotMapped]
     public partial record Location
     {
-        // ONLY FOR FACILNO >= 50
+        // ONLY FOR FacilNo >= 50
         [DataObjectField(true, true, false)]
         [Range(50, 300)]
         [DisplayName("Facility No.")]
@@ -37,7 +37,7 @@ namespace ESL.Core.Models
         public string UpdatedBy { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]

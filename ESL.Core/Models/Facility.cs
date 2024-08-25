@@ -11,7 +11,7 @@ namespace ESL.Core.Models
     /// </summary>
     [DebuggerDisplay("Facility: {Facility, nq}")]
     [PrimaryKey(nameof(FacilNo))]
-    [Table("ESL_Facilities")]
+    [Table("ESL_FACILITIES", Schema = "ESL")]
     public partial record Facility //: IEnumerable
     {
         #region Public Properties
@@ -23,7 +23,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(true, true, false, 3)]
         [DisplayName("Facility No.")]
-        [Column(nameof(FacilNo))]
+        [Column("FACILNO", TypeName = "NUMBER")]
         public int FacilNo { get; set; }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, true, false, 40)]
         [DisplayName("Facility")]
-        [Column(nameof(FacilName))]
+        [Column("FACILNAME", TypeName = "VARCHAR2")]
         public string FacilName { get; set; } = null!;
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, true, false, 6)]
         [DisplayName("Abreviation")]
-        [Column(nameof(FacilAbbr))]
+        [Column("FACILABBR", TypeName = "VARCHAR2")]
         public string FacilAbbr { get; set; } = null!;
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, false, 30)]
         [DisplayName("Facility Type")]
-        [Column(nameof(FacilType))]
+        [Column("FACILTYPE", TypeName = "VARCHAR2")]
         public string FacilType { get; set; } = null!;
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, false, 2)]
         [DisplayName("Sort Order")]
-        [Column(nameof(SortNo))]
+        [Column("SORTNO", TypeName = "NUMBER")]
         public int? SortNo { get; set; }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         //public Update Update { get; set; } = new Update();
@@ -73,21 +73,23 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        [Column("UPDATEDBY", TypeName = "VARCHAR2")]
+        public string? UpdatedBy { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        [Column("UPDATEDATE", TypeName = "DATE")]
+        public DateTime? UpdateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Disable [VARCHAR2(15)] of the Facility.
         /// </summary>
         [DataObjectField(false, false, true, 15)]
         [DisplayName("Disabled?")]
-        [Column(nameof(Disable))]
+        [Column("DISABLE", TypeName = "VARCHAR2")]
         public string? Disable { get; set; }
 
         /// <summary>
@@ -95,7 +97,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Visible To")]
-        [Column(nameof(VisibleTo))]
+        [Column("VISABLETO", TypeName = "VARCHAR2")]
         public string? VisibleTo { get; set; }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Full Name")]
-        [Column(nameof(FacilFullName))]
+        [Column("FACILFULLNAME", TypeName = "VARCHAR2")]
         public string? FacilFullName { get; set; }
 
         /// <summary>

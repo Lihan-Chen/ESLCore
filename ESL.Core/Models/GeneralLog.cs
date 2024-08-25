@@ -10,7 +10,7 @@ namespace ESL.Core.Models
     /// <summary>
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="AllEvent"> AllEvent</see>.
     /// </summary
-    [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))] 
+    [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
     [Table("ESL_General")]
     public partial record GeneralLog //: LogEvent
     {
@@ -23,35 +23,35 @@ namespace ESL.Core.Models
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the facilNo of the Facility.
+        /// Gets or sets the FacilNo of the Facility.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Facil. No.")]
         [ForeignKey(nameof(Facility))]
         public int FacilNo { get; set; }
         /// <summary>
-        /// Gets or sets the logTypeNo of the Log Type.
+        /// Gets or sets the LogTypeNo of the Log Type.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Log Type No.")]
-        [ForeignKey(nameof(LogType))]
+        [ForeignKey("LogTypeNo")]
         public int LogTypeNo { get; set; }
 
         /// <summary>
-        /// Gets or sets the eventID of the Event.
+        /// Gets or sets the EventID of the Event.
         /// </summary>
         [DataObjectField(true, true, false, 20)]
         [DisplayName("Event ID")]
         public string EventID { get; set; } = null!;
         /// <summary>
-        /// Gets or sets the eventID_RevNo of the Event.
+        /// Gets or sets the EventID_RevNo of the Event.
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Revision No.")]
         public int EventID_RevNo { get; set; }
 
         /// <summary>
-        /// Gets or sets the facilName of the event.
+        /// Gets or sets the FacilName of the event.
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
@@ -60,7 +60,7 @@ namespace ESL.Core.Models
         public string FacilName { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the logTypeName of the FlowChange.
+        /// Gets or sets the LogTypeName of the FlowChange.
         /// </summary>
         /// 
         [DataObjectField(false, false, false)]
@@ -69,7 +69,7 @@ namespace ESL.Core.Models
         public string LogTypeName { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the operatorID of the FlowChange.
+        /// Gets or sets the OperatorID of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 7)]
         [DisplayName("Operator")]
@@ -79,7 +79,7 @@ namespace ESL.Core.Models
         public int OperatorID { get; set; }
 
         /// <summary>
-        /// Gets or sets the createdBy of the FlowChange.
+        /// Gets or sets the CreatedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         //[DisplayName("Created By")]
@@ -89,7 +89,7 @@ namespace ESL.Core.Models
         public int? CreatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the createdDate of the FlowChange.
+        /// Gets or sets the CreatedDate of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Created Date")]
@@ -122,7 +122,7 @@ namespace ESL.Core.Models
         public string? Location { get; set; }
 
         /// <summary>
-        /// Gets or sets the modifyFlag of the FlowChange.
+        /// Gets or sets the ModifyFlag of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Modify Flag")]
@@ -130,7 +130,7 @@ namespace ESL.Core.Models
         public string? ModifyFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets the modifiedBy of the FlowChange.
+        /// Gets or sets the ModifiedBy of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Modified By")]
@@ -157,7 +157,7 @@ namespace ESL.Core.Models
         public string Yr { get; set; } = DateTime.Now.Year.ToString();
 
         /// <summary>
-        /// Gets or sets the seqNo of the FlowChange.
+        /// Gets or sets the SeqNo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false, 6)]
         [DisplayName("Sequence No.")]
@@ -169,11 +169,11 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         /// <summary>
-        /// Gets or sets the notifiedFacil of the FlowChange.
+        /// Gets or sets the NotifiedFacil of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
         [DisplayName("Notified Facility")]
@@ -181,7 +181,7 @@ namespace ESL.Core.Models
         public string? NotifiedFacil { get; set; }
 
         /// <summary>
-        /// Gets or sets the notifiedPerson of the FlowChange.
+        /// Gets or sets the NotifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         // [DisplayName("Notified Person (optional)")]
@@ -190,7 +190,7 @@ namespace ESL.Core.Models
         public int? NotifiedPerson { get; set; }
 
         /// <summary>
-        /// Gets or sets the notifiedPerson of the FlowChange.
+        /// Gets or sets the NotifiedPerson of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Notified Person (optional)")]
@@ -198,7 +198,7 @@ namespace ESL.Core.Models
         public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
 
         /// <summary>
-        /// Gets or sets the shiftNo of the FlowChange.
+        /// Gets or sets the ShiftNo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 2)]
         [DisplayName("Shift No")]
@@ -215,14 +215,14 @@ namespace ESL.Core.Models
         public string UpdatedBy { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the workOrders of the FlowChange.
+        /// Gets or sets the WorkOrders of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Work Orders")]
@@ -230,7 +230,7 @@ namespace ESL.Core.Models
         public string? WorkOrders { get; set; }
 
         /// <summary>
-        /// Gets or sets the relatedTo of the FlowChange.
+        /// Gets or sets the RelatedTo of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 200)]
         [DisplayName("Rnelated To")]
@@ -238,7 +238,7 @@ namespace ESL.Core.Models
         public string? RelatedTo { get; set; }
 
         /// <summary>
-        /// Gets or sets the operatorType of the FlowChange.
+        /// Gets or sets the OperatorType of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 15)]
         [DisplayName("Operator Type (Optional)")]
@@ -275,18 +275,14 @@ namespace ESL.Core.Models
 
         [NotMapped] 
         public Facility NotifiedFacility { get; init; } = new Facility();
-        
-
-
-
-
+  
         /// <summary>
-        /// Gets or sets the eventIdentifier of the FlowChange.
+        /// Gets or sets the EventIDentifier of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, false)]
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
         [NotMapped]
-        public string EventIdentifier => $"{EventID} / {Convert.ToString(EventID_RevNo)}";
+        public string EventIDentifier => $"{EventID} / {Convert.ToString(EventID_RevNo)}";
 
         /// <summary>
         /// Gets or sets the eventHighlight of the FlowChange.

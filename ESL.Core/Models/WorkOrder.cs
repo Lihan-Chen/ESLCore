@@ -11,50 +11,60 @@ using Microsoft.EntityFrameworkCore;
 namespace ESL.Core.Models
 {
     [PrimaryKey(nameof(FacilNo),nameof(LogTypeNo),nameof(EventID),nameof(WO_No))]
-    [Table("ESL_WorkOrders")]
+    [Table("ESL_WorkOrders", Schema ="ESL")]
     public partial record WorkOrder
     {
         /// <summary>
-        /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
-        /// [DataObjectField(key, identity, isNullable]
+        /// Gets or sets the FacilNo of the Facility.
         /// </summary>
-        [DataObjectField(true, true, false)]
-        [DisplayName("Facility No.")]
-        [Column(nameof(FacilNo))]
+        [DataObjectField(true, true, false, 2)]
+        [DisplayName("Facil. No.")]
+        [Column("FACILNO", TypeName = "NUMBER")]
         public int FacilNo { get; set; }
 
-        [DataObjectField(true, true, false)]
-        [Column(nameof(LogTypeNo))]
+        /// <summary>
+        /// Gets or sets the LogTypeNo of the Log Type.
+        /// </summary>
+        [DataObjectField(true, true, false, 2)]
+        [DisplayName("Log Type No.")]
+        [Column("LOGTYPENO", TypeName = "NUMBER")]
         public int LogTypeNo { get; set; }
 
-        [DataObjectField(true, true, false)]
-        [Column(nameof(EventID))]
+        /// <summary>
+        /// Gets or sets the EventID of the Event.
+        /// </summary>
+        [DataObjectField(true, true, false, 20)]
+        [DisplayName("Event ID")]
+        [Column("EVENTID", TypeName = "VARCHAR2")]
         public string EventID { get; set; } = null!;
-    
+
+
         [DataObjectField(true, true, false)]
         [DisplayName("Work Order No.")]
-        [Column(nameof(WO_No))]
+        [Column("WO_NO", TypeName = "NUMBER")]
         public string WO_No { get; set; } = null!;
 
-        [DataObjectField(false, false, true)]
-        [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        /// <summary>
+        /// Gets or sets the notes of the FlowChange.
+        /// </summary>
+        [DataObjectField(false, false, true, 400)]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
-
-        //public Update Update { get; set; } = new Update();
 
         /// <summary>
         /// Gets or sets the UID of the record.
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        [Column("UPDATEDBY", TypeName = "VARCHAR2")]
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        [Column("UPDATEDATE", TypeName = "DATE")]
+        public DateTime? UpdateDate { get; set; }
     }
 }

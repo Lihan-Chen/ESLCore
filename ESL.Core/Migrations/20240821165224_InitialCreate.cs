@@ -12,49 +12,27 @@ namespace ESL.Core.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ESL_(FlowChanges",
+                name: "ESL_AllEvents",
                 columns: table => new
                 {
                     FacilNo = table.Column<int>(type: "INTEGER", nullable: false),
                     LogTypeNo = table.Column<int>(type: "INTEGER", nullable: false),
                     EventID = table.Column<string>(type: "TEXT", nullable: false),
                     EventID_RevNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    OperatorID = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedBy = table.Column<int>(type: "INTEGER", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    RequestedBy = table.Column<int>(type: "INTEGER", nullable: true),
-                    RequestedTo = table.Column<int>(type: "INTEGER", nullable: false),
-                    RequestedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    RequestedTime = table.Column<string>(type: "TEXT", nullable: false),
-                    EventDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EventDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     EventTime = table.Column<string>(type: "TEXT", nullable: false),
-                    OffTime = table.Column<string>(type: "TEXT", nullable: true),
-                    MeterID = table.Column<string>(type: "TEXT", nullable: false),
-                    ChangeBy = table.Column<string>(type: "TEXT", nullable: false),
-                    NewValue = table.Column<decimal>(type: "TEXT", nullable: true),
-                    Unit = table.Column<string>(type: "TEXT", nullable: true),
-                    OldValue = table.Column<decimal>(type: "TEXT", nullable: true),
-                    OldUnit = table.Column<string>(type: "TEXT", nullable: false),
-                    ChangeByUnit = table.Column<string>(type: "TEXT", nullable: false),
-                    Accepted = table.Column<string>(type: "TEXT", nullable: true),
+                    Subject = table.Column<string>(type: "TEXT", nullable: false),
+                    Details = table.Column<string>(type: "TEXT", nullable: false),
                     ModifyFlag = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "INTEGER", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    NotifiedFacil = table.Column<string>(type: "TEXT", nullable: true),
-                    NotifiedPerson = table.Column<int>(type: "INTEGER", nullable: true),
-                    ShiftNo = table.Column<int>(type: "INTEGER", nullable: true),
-                    Yr = table.Column<string>(type: "TEXT", nullable: false),
-                    SeqNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    OperatorType = table.Column<string>(type: "TEXT", nullable: true),
                     UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    WorkOrders = table.Column<string>(type: "TEXT", nullable: true),
-                    RelatedTo = table.Column<string>(type: "TEXT", nullable: true),
-                    OperatorType = table.Column<string>(type: "TEXT", nullable: true)
+                    ClearanceID = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ESL_(FlowChanges", x => new { x.FacilNo, x.LogTypeNo, x.EventID, x.EventID_RevNo });
+                    table.PrimaryKey("PK_ESL_AllEvents", x => new { x.FacilNo, x.LogTypeNo, x.EventID, x.EventID_RevNo });
                 });
 
             migrationBuilder.CreateTable(
@@ -68,10 +46,10 @@ namespace ESL.Core.Migrations
                     OperatorID = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    IssuedTo = table.Column<int>(type: "INTEGER", nullable: false),
-                    IssuedBy = table.Column<int>(type: "INTEGER", nullable: false),
-                    IssuedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IssuedTime = table.Column<string>(type: "TEXT", nullable: false),
+                    IssedTo = table.Column<int>(type: "INTEGER", nullable: false),
+                    IssedBy = table.Column<int>(type: "INTEGER", nullable: false),
+                    IssedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IssedTime = table.Column<string>(type: "TEXT", nullable: false),
                     ModifyFlag = table.Column<string>(type: "TEXT", nullable: true),
                     ModifiedBy = table.Column<int>(type: "INTEGER", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -160,6 +138,25 @@ namespace ESL.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ESL_Details",
+                columns: table => new
+                {
+                    FacilNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    DetailsNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    DetailsName = table.Column<string>(type: "TEXT", nullable: false),
+                    FacilType = table.Column<string>(type: "TEXT", nullable: false),
+                    SortNo = table.Column<int>(type: "INTEGER", nullable: true),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
+                    Disabled = table.Column<string>(name: "Disabled?", type: "TEXT", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ESL_Details", x => new { x.FacilNo, x.DetailsNo });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ESL_Employees",
                 columns: table => new
                 {
@@ -172,8 +169,8 @@ namespace ESL.Core.Migrations
                     FacilNo = table.Column<int>(type: "INTEGER", nullable: true),
                     JobTitle = table.Column<string>(type: "TEXT", nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
                     Disable = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -265,6 +262,52 @@ namespace ESL.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ESL_FlowChanges",
+                columns: table => new
+                {
+                    FacilNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    LogTypeNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    EventID = table.Column<string>(type: "TEXT", nullable: false),
+                    EventID_RevNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    OperatorID = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<int>(type: "INTEGER", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    RequestedBy = table.Column<int>(type: "INTEGER", nullable: true),
+                    RequestedTo = table.Column<int>(type: "INTEGER", nullable: false),
+                    RequestedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RequestedTime = table.Column<string>(type: "TEXT", nullable: false),
+                    EventDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EventTime = table.Column<string>(type: "TEXT", nullable: false),
+                    OffTime = table.Column<string>(type: "TEXT", nullable: true),
+                    MeterID = table.Column<string>(type: "TEXT", nullable: false),
+                    ChangeBy = table.Column<string>(type: "TEXT", nullable: false),
+                    NewValue = table.Column<decimal>(type: "TEXT", nullable: true),
+                    Unit = table.Column<string>(type: "TEXT", nullable: true),
+                    OldValue = table.Column<decimal>(type: "TEXT", nullable: true),
+                    OldUnit = table.Column<string>(type: "TEXT", nullable: false),
+                    ChangeByUnit = table.Column<string>(type: "TEXT", nullable: false),
+                    Accepted = table.Column<string>(type: "TEXT", nullable: true),
+                    ModifyFlag = table.Column<string>(type: "TEXT", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "INTEGER", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
+                    NotifiedFacil = table.Column<string>(type: "TEXT", nullable: true),
+                    NotifiedPerson = table.Column<int>(type: "INTEGER", nullable: true),
+                    ShiftNo = table.Column<int>(type: "INTEGER", nullable: true),
+                    Yr = table.Column<string>(type: "TEXT", nullable: false),
+                    SeqNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    WorkOrders = table.Column<string>(type: "TEXT", nullable: true),
+                    RelatedTo = table.Column<string>(type: "TEXT", nullable: true),
+                    OperatorType = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ESL_FlowChanges", x => new { x.FacilNo, x.LogTypeNo, x.EventID, x.EventID_RevNo });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ESL_General",
                 columns: table => new
                 {
@@ -302,6 +345,22 @@ namespace ESL.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ESL_LogTypes",
+                columns: table => new
+                {
+                    LogTypeNo = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    LogTypeName = table.Column<string>(type: "TEXT", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ESL_LogTypes", x => x.LogTypeNo);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ESL_Meters",
                 columns: table => new
                 {
@@ -317,6 +376,24 @@ namespace ESL.Core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ESL_Meters", x => new { x.FacilNo, x.MeterID });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ESL_PlantShifts",
+                columns: table => new
+                {
+                    FacilNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    ShiftNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    ShiftName = table.Column<string>(type: "TEXT", nullable: true),
+                    ShiftStart = table.Column<string>(type: "TEXT", nullable: false),
+                    ShiftEnd = table.Column<string>(type: "TEXT", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ESL_PlantShifts", x => new { x.FacilNo, x.ShiftNo });
                 });
 
             migrationBuilder.CreateTable(
@@ -403,8 +480,8 @@ namespace ESL.Core.Migrations
                     UnitName = table.Column<string>(type: "TEXT", nullable: true),
                     UnitDesc = table.Column<string>(type: "TEXT", nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -461,104 +538,6 @@ namespace ESL.Core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ESL_WorkToBePerformed", x => new { x.FacilType, x.WorkNo });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LogTypes",
-                columns: table => new
-                {
-                    LogTypeNo = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    LogTypeName = table.Column<string>(type: "TEXT", nullable: false),
-                    Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LogTypes", x => x.LogTypeNo);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlantShift",
-                columns: table => new
-                {
-                    FacilNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    ShiftNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    ShiftName = table.Column<string>(type: "TEXT", nullable: true),
-                    ShiftStart = table.Column<string>(type: "TEXT", nullable: false),
-                    ShiftEnd = table.Column<string>(type: "TEXT", nullable: false),
-                    Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlantShift", x => new { x.FacilNo, x.ShiftNo });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ESL_Details",
-                columns: table => new
-                {
-                    FacilNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    DetailsNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    DetailsName = table.Column<string>(type: "TEXT", nullable: false),
-                    FacilType = table.Column<string>(type: "TEXT", nullable: false),
-                    SortNo = table.Column<int>(type: "INTEGER", nullable: true),
-                    Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    SubjNo = table.Column<int>(type: "INTEGER", nullable: true),
-                    Disabled = table.Column<string>(name: "Disabled?", type: "TEXT", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    SubjectFacilNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    SubjectNo1 = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ESL_Details", x => new { x.FacilNo, x.DetailsNo });
-                    table.ForeignKey(
-                        name: "FK_ESL_Details_ESL_Subjects_SubjectFacilNo_SubjectNo1",
-                        columns: x => new { x.SubjectFacilNo, x.SubjectNo1 },
-                        principalTable: "ESL_Subjects",
-                        principalColumns: new[] { "FacilNo", "SubjNo" },
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ESL_AllEvents",
-                columns: table => new
-                {
-                    FacilNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    LogTypeNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    EventID = table.Column<string>(type: "TEXT", nullable: false),
-                    EventID_RevNo = table.Column<int>(type: "INTEGER", nullable: false),
-                    EventDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    EventTime = table.Column<string>(type: "TEXT", nullable: false),
-                    Subject = table.Column<string>(type: "TEXT", nullable: false),
-                    Details = table.Column<string>(type: "TEXT", nullable: false),
-                    ModifyFlag = table.Column<string>(type: "TEXT", nullable: true),
-                    Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    OperatorType = table.Column<string>(type: "TEXT", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    UpdateDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    ClearanceID = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ESL_AllEvents", x => new { x.FacilNo, x.LogTypeNo, x.EventID, x.EventID_RevNo });
-                    table.ForeignKey(
-                        name: "FK_ESL_AllEvents_ESL_Facilities_FacilNo",
-                        column: x => x.FacilNo,
-                        principalTable: "ESL_Facilities",
-                        principalColumn: "FacilNo",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ESL_AllEvents_LogTypes_LogTypeNo",
-                        column: x => x.LogTypeNo,
-                        principalTable: "LogTypes",
-                        principalColumn: "LogTypeNo",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -674,22 +653,12 @@ namespace ESL.Core.Migrations
                         principalColumn: "FacilNo",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ESL_SOC_LogTypes_LogTypeNo",
+                        name: "FK_ESL_SOC_ESL_LogTypes_LogTypeNo",
                         column: x => x.LogTypeNo,
-                        principalTable: "LogTypes",
+                        principalTable: "ESL_LogTypes",
                         principalColumn: "LogTypeNo",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ESL_AllEvents_LogTypeNo",
-                table: "ESL_AllEvents",
-                column: "LogTypeNo");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ESL_Details_SubjectFacilNo_SubjectNo1",
-                table: "ESL_Details",
-                columns: new[] { "SubjectFacilNo", "SubjectNo1" });
 
             migrationBuilder.CreateIndex(
                 name: "SCANLOB_DOC_IDX",
@@ -757,9 +726,6 @@ namespace ESL.Core.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ESL_(FlowChanges");
-
-            migrationBuilder.DropTable(
                 name: "ESL_AllEvents");
 
             migrationBuilder.DropTable(
@@ -784,10 +750,16 @@ namespace ESL.Core.Migrations
                 name: "ESL_EquipmentInvolved");
 
             migrationBuilder.DropTable(
+                name: "ESL_FlowChanges");
+
+            migrationBuilder.DropTable(
                 name: "ESL_General");
 
             migrationBuilder.DropTable(
                 name: "ESL_Meters");
+
+            migrationBuilder.DropTable(
+                name: "ESL_PlantShifts");
 
             migrationBuilder.DropTable(
                 name: "ESL_RelatedTo");
@@ -802,6 +774,9 @@ namespace ESL.Core.Migrations
                 name: "ESL_SOC");
 
             migrationBuilder.DropTable(
+                name: "ESL_Subjects");
+
+            migrationBuilder.DropTable(
                 name: "ESL_Units");
 
             migrationBuilder.DropTable(
@@ -814,19 +789,13 @@ namespace ESL.Core.Migrations
                 name: "ESL_WorkToBePerformed");
 
             migrationBuilder.DropTable(
-                name: "PlantShift");
-
-            migrationBuilder.DropTable(
-                name: "ESL_Subjects");
-
-            migrationBuilder.DropTable(
                 name: "ESL_Employees");
 
             migrationBuilder.DropTable(
                 name: "ESL_Facilities");
 
             migrationBuilder.DropTable(
-                name: "LogTypes");
+                name: "ESL_LogTypes");
         }
     }
 }

@@ -1,81 +1,78 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using ESL.Core.Models.Validation;
-using ESL.Core.Models.ComplexTypes;
 
 namespace ESL.Core.Models
 {
 
     [PrimaryKey(nameof(FacilNo), nameof(DetailsNo))]
-    [Table($"ESL_{nameof(Details)}")]
+    [Table($"ESL_DETAILS")]
     public partial class Details
     {
         [DataObjectField(true, true, false, 3)]
         [DisplayName("Facility No.")]
-        //[ForeignKey(nameof(FacilNo)), Column(nameof(FacilNo),Order = 0)]
-        //[Column(nameof(FacilNo))]
+        //[ForeignKey(nameof(FacilNo)), Column(nameof(FacilNo), Order = 0)]
+        [Column("FACILNO", TypeName = "NUMBER")]
         public int FacilNo { get; set; }
 
         [DataObjectField(true, true, false, 3)]
         [DisplayName("Details No.")]
-        //[ForeignKey(nameof(SubjectNo)), Column(nameof(DetailsNo),Order = 1)]
-        //[Column(nameof(DetailsNo))]
+        //[ForeignKey(nameof(SubjectNo)), Column(nameof(DetailsNo), Order = 1)]
+        [Column("DETAILSNO", TypeName = "NUMBER")]
         public int DetailsNo { get; set; }
 
         [DataObjectField(false, true, false, 100)]
         [DisplayName("Detail Name")]
-        [Column(nameof(DetailsName))]
+        [Column("DETAILSNAME", TypeName = "VARCHAR2")]
         public string DetailsName { get; set; } = null!;
 
         [DataObjectField(false, false, false, 5)]
         [DisplayName("Faclity Type")]
-        [Column(nameof(FacilType))]
+        [Column("FACILTYPE", TypeName = "VARCHAR2")]
         public string FacilType { get; set; } = null!;
 
         [DataObjectField(false, false, true, 2)]
-        [Column(nameof(SortNo))]
+        [Column("SORTNO", TypeName = "NUMBER")] 
         public int? SortNo { get; set; }
 
         [DataObjectField(false, false, true, 400)]
         [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
-        [DataObjectField(false, false, true, 2)]
-        [DisplayName("Subject No.")]
-        [Column("SubjNo")]
-        public int? SubjectNo { get; set; }
-
-        [DataObjectField(false, false, true)]
-        [DisplayName("Subject")]
-        [NotMapped]
-        public string SubjectName { get; set; } = null!;
-
         [DataObjectField(false, false, true, 30)]
-        [Column($"{nameof(Disable)}d?")]
-        public string? Disable { get; set; }
+        [Column("DISABLE", TypeName = "VARCHAR2")]
+        public string? Disable { get; set; }       
 
         /// <summary>
         /// Gets or sets the UID of the record.
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Updated By")]
-        public string? UpdatedBy { get; set; } 
+        [Column("UPDATEDBY", TypeName = "VARCHAR2")]
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, true)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        [Column("UPDATEDATE", TypeName = "DATE")]
+        public DateTime? UpdateDate { get; set; }
+
+        [DataObjectField(false, false, true, 2)]
+        [DisplayName("Subject No.")]
+        [Column("SUBJNO", TypeName = "NUMBER")]
+        public int? SubjectNo { get; set; }
+
+        //[DataObjectField(false, false, true)]
+        //[DisplayName("Subject")]
+        //[NotMapped]
+        //public string SubjectName { get; set; } = null!;
 
         //[ForeignKey(nameof(FacilNo)), Column(Order = 0))]
         //[ForeignKey(nameof(SubjectNo)), Column(Order = 1))]
         //[NotMapped]
-        public virtual Subject Subject { get; set; } = new Subject();
+        //public virtual Subject Subject { get; set; } = new Subject();
     }
 }

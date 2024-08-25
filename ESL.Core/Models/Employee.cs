@@ -1,5 +1,6 @@
 ﻿using ESL.Core.Models.ComplexTypes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,12 +14,10 @@ namespace ESL.Core.Models
     /// </summary>
     [DebuggerDisplay("Employee: {Employee, nq}")]
     [PrimaryKey(nameof(EmployeeNo))]
-    [Table("ESL_Employees")]
+    [Table("ESL_EMPLOYEES",Schema ="ESL")]
     public partial record Employee // : User
     {
         #region Public Properties
-
-        public Employee() { }
 
         /// <summary>
         /// Gets or sets the Employee No [NUMBER(8)] of the Facility.
@@ -26,7 +25,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(true, true, false, 8)]
         [DisplayName("MWD Employee ID")]
-        [Column("EmployeeNo")]
+        [Column("EMPLOYEENO", TypeName="NUMBER")]
         public int EmployeeNo { get; set; }
 
         /// <summary>
@@ -34,32 +33,32 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 50)]
         [DisplayName("Last Name")]
-        [Column(nameof(LastName))]
-        public string LastName { get; set; } = null!;
+        [Column("LASTNAME", TypeName = "VARCHAR2")]
+        public string? LastName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the First Name [VARCHAR2(50)] of the Employee.
         /// </summary>
         [DataObjectField(false, false, true, 50)]
         [DisplayName("First Name")]
-        [Column(nameof(FirstName))]
-        public string FirstName { get; set; } = null!;
+        [Column("FIRSTNAME", TypeName = "VARCHAR2")]
+        public string? FirstName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Company Name [VARCHAR2(100)] of the Employee.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Company")]
-        [Column(nameof(Company))]
-        public string Company { get; set; } = null!;
+        [Column("COMPANY", TypeName = "VARCHAR2")]
+        public string? Company { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Group Name [VARCHAR2(100)] of the Employee.
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Group Name")]
-        [Column(nameof(GroupName))]
-        public string GroupName { get; set; } = null!;
+        [Column("GROUPNAME", TypeName = "VARCHAR2")]
+        public string? GroupName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
@@ -67,7 +66,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 3)]
         [DisplayName("Facility No.")]
-        [Column(nameof(FacilNo))]
+        [Column("FACILNO", TypeName = "NUMBER")]
         public int? FacilNo { get; set; }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Job Title")]
-        [Column(nameof(JobTitle))]
+        [Column("JOBTITLE", TypeName = "VARCHAR2")]
         public string? JobTitle { get; set; }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 400)]
         [DataType(DataType.MultilineText)]
         [DisplayName("Notes")]
-        [Column(nameof(Notes))]
+        [Column("NOTES", TypeName = "VARCHAR2")]
         public string? Notes { get; set; }
 
         /// <summary>
@@ -92,21 +91,23 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, false, 60)]
         [DisplayName("Updated By")]
-        public string UpdatedBy { get; set; } = null!;
+        [Column("UPDATEDBY", TypeName = "VARCHAR2")]
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the updateDate of the record.
+        /// Gets or sets the UpdateDate of the record.
         /// </summary>
         [DataObjectField(false, false, false)]
         [DisplayName("Updated on")]
-        public DateTimeOffset UpdateDate { get; set; }
+        [Column("UPDATEDATE", TypeName = "DATE")]
+        public DateTime? UpdateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Disable [VARCHAR2(15)] of the Facility.
         /// </summary>
         [DataObjectField(false, false, true, 30)]
         [DisplayName("Disabled?")]
-        [Column(nameof(Disable))]
+        [Column("DISABLE", TypeName = "VARCHAR2")]
         public string? Disable { get; set; }
 
         [NotMapped]
