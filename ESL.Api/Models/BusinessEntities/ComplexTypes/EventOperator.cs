@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ESL.Api.Models.BusinessEntities;
 
-namespace ESL.Core.Models.ComplexTypes
+namespace ESL.Api.Models.ComplexTypes
 {
     [Owned]
-
-    public partial record EventOperator : Employee
+    public partial record EventOperator //: Employee
     {
         ///// <summary>
         ///// Gets or sets the OperatorID of the FlowChange.

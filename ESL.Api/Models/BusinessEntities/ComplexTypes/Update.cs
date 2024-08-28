@@ -3,15 +3,16 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESL.Core.Models.ComplexTypes;
-
-[Owned]
-public record Update
+namespace ESL.Api.Models.ComplexTypes
 {
+
+    [Owned]
+    public partial record Update
+    { 
     /// <summary>
     /// Gets or sets the UID of the record.
     /// </summary>
-    [DataObjectField(false, false, false, 60)]
+    [DataObjectField(false, false, true, 60)]
     [DisplayName("Updated By")]
     [Column("UPDATEDBY", TypeName = "VARCHAR2")]
     public string? UpdatedBy { get; set; }
@@ -19,8 +20,10 @@ public record Update
     /// <summary>
     /// Gets or sets the UpdateDate of the record.
     /// </summary>
-    [DataObjectField(false, false, false)]
+    [DataObjectField(false, false, true)]
     [DisplayName("Updated on")]
     [Column("UPDATEDATE", TypeName = "DATE")]
     public DateTime? UpdateDate { get; set; }
- }
+
+    }
+}

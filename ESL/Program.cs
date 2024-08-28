@@ -20,8 +20,14 @@ namespace ESL.Web
             // Retrieve required permissions from appsettings
             var initialScopes = builder.Configuration["DownstreamApi:Scopes"]?.Split(' ') ?? builder.Configuration["MicrosoftGraph:Scopes"]?.Split(' ');
 
-            // 8/14
+            // Add services to the container. per program.cs from testWebApi project
+            // builder.Services.AddDbContext<ApplicationDbContext>();
+
             builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+            //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            // 8/14
+            // builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
 
             // For Database Verification, use SQLite
 
@@ -37,6 +43,7 @@ namespace ESL.Web
 
             builder.Services.AddScoped<IAllEventRepository, AllEventRepository>();
             //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
 
             //Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'ESL.Core.Repositories.AllEventRepository'
 

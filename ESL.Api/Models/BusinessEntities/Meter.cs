@@ -1,24 +1,22 @@
-﻿using ESL.Core.Models.ComplexTypes;
-using Microsoft.EntityFrameworkCore;
-//using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESL.Core.Models
+namespace ESL.Api.Models.BusinessEntities
 {
     [PrimaryKey(nameof(FacilNo), nameof(MeterID))]
-    [Table($"ESL_METERS", Schema ="ESL")]
+    [Table($"ESL_METERS", Schema = "ESL")]
     public partial record Meter
     {
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Facility No.")]
-        [Column(nameof(FacilNo))]
-        public int FacilNo { get; set; } 
-        
+        [Column("FACILNO")]
+        public int FacilNo { get; set; }
+
         [DataObjectField(true, true, false, 20)]
         [DisplayName("Meter ID.")]
-        [Column(nameof(MeterID))]
-        public string MeterID { get; set; } = null!;    
+        [Column("METERID")]
+        public string MeterID { get; set; } = null!;
 
         [DataObjectField(false, false, true, 20)]
         [DisplayName("Meter Type")]
@@ -55,3 +53,4 @@ namespace ESL.Core.Models
         public DateTime? UpdateDate { get; set; }
     }
 }
+

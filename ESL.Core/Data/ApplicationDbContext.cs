@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace ESL.Core.Data
 {
     public partial class ApplicationDbContext : DbContext
-    {       
+    {
         public ApplicationDbContext()
         {
         }
@@ -125,22 +125,26 @@ namespace ESL.Core.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // To Do: Adding views into the class
+
+            if (optionsBuilder.IsConfigured)
+            { 
+                optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
 
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. 
-            // You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148.
-            // For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-            // Alternatively, using Microsoft.Extensions.Configuration to read appsettings.json into configurationBuilder, see the helper file
-            => optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
+                // You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148.
+                // For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+                // Alternatively, using Microsoft.Extensions.Configuration to read appsettings.json into configurationBuilder, see the helper file
+                //=> optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
+                // options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.");
 
-            // Enabling EF Core Logging https://dotnettutorials.net/lesson/crud-operations-in-entity-framework-core/
-            // To Display the Generated Database Script https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging
-            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);  // To Debug Window: message => Debug.WriteLine(message) // To File see example ref link above
+                // Enabling EF Core Logging https://dotnettutorials.net/lesson/crud-operations-in-entity-framework-core/
+                // To Display the Generated Database Script https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging
+                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);  // To Debug Window: message => Debug.WriteLine(message) // To File see example ref link above
 
             // optionsBuilder.UseOracle("Data Source=ODev41.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;");
 
             //optionsBuilder.UseSqlite(ApplicationDbContextHelpers.sqlite_connectionString);
-
+            }
             base.OnConfiguring(optionsBuilder);
         }
         
@@ -160,7 +164,12 @@ namespace ESL.Core.Data
             // ref: m-jovanovic/rally-simulator/RallySimulatorDbCotext.cs
             // modelBuilder.ApplyUtcDateTimeConverter();
 
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
+
+            //Oracle Schema
+            modelBuilder
+            .HasDefaultSchema("ESL")
+            .UseCollation("USING_NLS_COMP");
 
             #region Views
             // Mapping to view instead of table with schema as the second parameter
@@ -173,7 +182,6 @@ namespace ESL.Core.Data
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_CURRENT", "ESL");
                 });
-
 
             modelBuilder.Entity("ESL.Core.Models.ViewAllEventsFacilNo",
                 b =>
@@ -226,7 +234,6 @@ namespace ESL.Core.Data
                     b.HasNoKey();
                     b.ToView("VIEW_CLEARANCEISSUES_CURRENT", "ESL");
                 });
-
 
             modelBuilder.Entity("ESL.Core.Models.ViewClearanceissuesOutstanding",
                             b =>
@@ -357,165 +364,171 @@ namespace ESL.Core.Data
 
             #endregion
 
-            // for Views
-            // https://stackoverflow.com/questions/36012616/working-with-sql-views-in-entity-framework-core
-            // AuthorArticleCounts
-            // SELECT a.AuthorName, Count(r.ArticleId) as ArticleCount
-            // from Authors a
-            //  JOIN Articles r on r.AuthorId = a.AuthorId
-            // GROUP BY a.AuthorName
+            modelBuilder.HasSequence("PLSQL_PROFILER_RUNNUMBER");
 
-            // public class AuthorArticleCount
-            // {
-            //    public string AuthorName { get; private set; }
-            //    public int ArticleCount { get; private set; }
-            // }
-
-            // public DbQuery<AuthorArticleCount> AuthorArticleCounts{get;set;}
-
-            // protected override void OnModelCreating(ModelBuilder modelBuilder)
-            // {
-            //    modelBuilder.Query<AuthorArticleCount>().ToView("AuthorArticleCount");
-            // }
-
-            // var results=_context.AuthorArticleCounts.ToList();
-
-            // models
-
-            //modelBuilder.Entity<AllEvent>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.EventID_RevNo });
-
-            //    entity.Table("ESL_AllEvents");
-
-            //    entity.Property(e => e.EventID).HasColumnName("EventID");
-            //    entity.Property(e => e.EventID_RevNo).HasColumnName("EventID_RevNo");
-            //    entity.Property(e => e.ClearanceID).HasColumnName("ClearanceID");
-            //});
-
-            //modelBuilder.Entity<ClearanceType>(entity =>
-            //{
-            //    entity.HasKey(e => e.ClearanceTypeNo);
-
-            //    entity.Table("ESL_ClearanceTypes");
-            //});
-
-            //modelBuilder.Entity<ClearanceZone>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilType, e.ZoneNo });
-
-            //    entity.Table("ESL_ClearanceZones");
-            //});
-
-            //modelBuilder.Entity<Constant>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.ConstantName, e.StartDate });
-
-            //    entity.Table("ESL_Constants");
-            //});
-
-            //modelBuilder.Entity<Details>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.DetailsNo });
-
-            //    entity.Table("ESL_Details");
-
-            //    entity.HasIndex(e => new { e.SubjectFacilNo, e.SubjectNo }, "IX__Details_SubjectFacilNo_SubjectNo");
-
-            //    entity.HasOne(d => d.Subject).WithMany(p => p.Details).HasForeignKey(d => new { d.SubjectFacilNo, d.SubjectNo });
-            //});
-
-            //modelBuilder.Entity<Employee>(entity =>
-            //{
-            //    entity.HasKey(e => e.EmployeeNo);
-
-            //    entity.Table("ESL_Employees");
-
-            //    entity.HasIndex(e => e.FacilityFacilNo, "IX__Employees_FacilityFacilNo");
-
-            //    // entity.HasOne(d => d.FacilityFacilNoNavigation).WithMany(p => p.Employees).HasForeignKey(d => d.FacilityFacilNo);
-            //});
-
-            //modelBuilder.Entity<EquipmentInvolved>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.EquipNo });
-
-            //    entity.Table("ESL_EquipmentInvolved");
-            //});
-
-            //modelBuilder.Entity<Facility>(entity =>
-            //{
-            //    entity.HasKey(e => e.FacilNo);
-
-            //    entity.Table("ESL_Facilities");
-            //});
-
-            //modelBuilder.Entity<LogType>(entity =>
-            //{
-            //    entity.HasKey(e => e.LogTypeNo);
-
-            //    entity.Table("ESL_LogTypes");
-            //});
-
-            //modelBuilder.Entity<Meter>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.MeterID });
-
-            //    entity.Table("ESL_Meters");
-
-            //    entity.Property(e => e.MeterID).HasColumnName("MeterID");
-            //});
-
-            //modelBuilder.Entity<RelatedTo>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.RelatedToSubject });
-
-            //    entity.Table("ESL_RelatedTo");
-
-            //    entity.Property(e => e.EventID).HasColumnName("EventID");
-            //    entity.Property(e => e.RelatedToSubject).HasColumnName("RelatedTo_Subject");
-            //});
-
-            //modelBuilder.Entity<Subject>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.SubjNo });
-
-            //    entity.Table("ESL_Subjects");
-            //});
-
-            //modelBuilder.Entity<Unit>(entity =>
-            //{
-            //    entity.HasKey(e => e.UnitNo);
-
-            //    entity.Table("ESL_Units");
-            //});
-
-            //modelBuilder.Entity<WorkOrder>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.WoNo });
-
-            //    entity.Table("ESL_WorkOrders");
-
-            //    entity.Property(e => e.EventID).HasColumnName("EventID");
-            //    entity.Property(e => e.WoNo).HasColumnName("WO_No");
-            //});
-
-            //modelBuilder.Entity<WorkToBePerformed>(entity =>
-            //{
-            //    entity.HasKey(e => e.WorkNo);
-
-            //    entity.Table("ESL_WorkToBePerformed");
-            //});
-
-            //modelBuilder.Entity<PlantsShiftList>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FacilNo, e.ShiftNo });
-
-            //    entity.Table("ESLPlantsShiftList");
-            //});
-
-            // OnModelCreatingPartial(modelBuilder);
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        // for Views
+        // https://stackoverflow.com/questions/36012616/working-with-sql-views-in-entity-framework-core
+        // AuthorArticleCounts
+        // SELECT a.AuthorName, Count(r.ArticleId) as ArticleCount
+        // from Authors a
+        //  JOIN Articles r on r.AuthorId = a.AuthorId
+        // GROUP BY a.AuthorName
+
+        // public class AuthorArticleCount
+        // {
+        //    public string AuthorName { get; private set; }
+        //    public int ArticleCount { get; private set; }
+        // }
+
+        // public DbQuery<AuthorArticleCount> AuthorArticleCounts{get;set;}
+
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //    modelBuilder.Query<AuthorArticleCount>().ToView("AuthorArticleCount");
+        // }
+
+        // var results=_context.AuthorArticleCounts.ToList();
+
+        // models
+
+        //modelBuilder.Entity<AllEvent>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.EventID_RevNo });
+
+        //    entity.Table("ESL_AllEvents");
+
+        //    entity.Property(e => e.EventID).HasColumnName("EventID");
+        //    entity.Property(e => e.EventID_RevNo).HasColumnName("EventID_RevNo");
+        //    entity.Property(e => e.ClearanceID).HasColumnName("ClearanceID");
+        //});
+
+        //modelBuilder.Entity<ClearanceType>(entity =>
+        //{
+        //    entity.HasKey(e => e.ClearanceTypeNo);
+
+        //    entity.Table("ESL_ClearanceTypes");
+        //});
+
+        //modelBuilder.Entity<ClearanceZone>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilType, e.ZoneNo });
+
+        //    entity.Table("ESL_ClearanceZones");
+        //});
+
+        //modelBuilder.Entity<Constant>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.ConstantName, e.StartDate });
+
+        //    entity.Table("ESL_Constants");
+        //});
+
+        //modelBuilder.Entity<Details>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.DetailsNo });
+
+        //    entity.Table("ESL_Details");
+
+        //    entity.HasIndex(e => new { e.SubjectFacilNo, e.SubjectNo }, "IX__Details_SubjectFacilNo_SubjectNo");
+
+        //    entity.HasOne(d => d.Subject).WithMany(p => p.Details).HasForeignKey(d => new { d.SubjectFacilNo, d.SubjectNo });
+        //});
+
+        //modelBuilder.Entity<Employee>(entity =>
+        //{
+        //    entity.HasKey(e => e.EmployeeNo);
+
+        //    entity.Table("ESL_Employees");
+
+        //    entity.HasIndex(e => e.FacilityFacilNo, "IX__Employees_FacilityFacilNo");
+
+        //    // entity.HasOne(d => d.FacilityFacilNoNavigation).WithMany(p => p.Employees).HasForeignKey(d => d.FacilityFacilNo);
+        //});
+
+        //modelBuilder.Entity<EquipmentInvolved>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.EquipNo });
+
+        //    entity.Table("ESL_EquipmentInvolved");
+        //});
+
+        //modelBuilder.Entity<Facility>(entity =>
+        //{
+        //    entity.HasKey(e => e.FacilNo);
+
+        //    entity.Table("ESL_Facilities");
+        //});
+
+        //modelBuilder.Entity<LogType>(entity =>
+        //{
+        //    entity.HasKey(e => e.LogTypeNo);
+
+        //    entity.Table("ESL_LogTypes");
+        //});
+
+        //modelBuilder.Entity<Meter>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.MeterID });
+
+        //    entity.Table("ESL_Meters");
+
+        //    entity.Property(e => e.MeterID).HasColumnName("MeterID");
+        //});
+
+        //modelBuilder.Entity<RelatedTo>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.RelatedToSubject });
+
+        //    entity.Table("ESL_RelatedTo");
+
+        //    entity.Property(e => e.EventID).HasColumnName("EventID");
+        //    entity.Property(e => e.RelatedToSubject).HasColumnName("RelatedTo_Subject");
+        //});
+
+        //modelBuilder.Entity<Subject>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.SubjNo });
+
+        //    entity.Table("ESL_Subjects");
+        //});
+
+        //modelBuilder.Entity<Unit>(entity =>
+        //{
+        //    entity.HasKey(e => e.UnitNo);
+
+        //    entity.Table("ESL_Units");
+        //});
+
+        //modelBuilder.Entity<WorkOrder>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.WoNo });
+
+        //    entity.Table("ESL_WorkOrders");
+
+        //    entity.Property(e => e.EventID).HasColumnName("EventID");
+        //    entity.Property(e => e.WoNo).HasColumnName("WO_No");
+        //});
+
+        //modelBuilder.Entity<WorkToBePerformed>(entity =>
+        //{
+        //    entity.HasKey(e => e.WorkNo);
+
+        //    entity.Table("ESL_WorkToBePerformed");
+        //});
+
+        //modelBuilder.Entity<PlantsShiftList>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.FacilNo, e.ShiftNo });
+
+        //    entity.Table("ESLPlantsShiftList");
+        //});
+
+        // OnModelCreatingPartial(modelBuilder);
 
         // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

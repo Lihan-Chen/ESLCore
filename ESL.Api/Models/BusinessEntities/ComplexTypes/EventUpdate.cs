@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESL.Core.Models.ComplexTypes
+namespace ESL.Api.Models.ComplexTypes
 {
     [Owned]
-    public record EventUpdate
+    public partial record EventUpdate
     {
         // public EventOperator EventOperator { get; set; } = new EventOperator();
         

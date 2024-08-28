@@ -1,11 +1,10 @@
-﻿using ESL.Core.Models.ComplexTypes;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.Diagnostics;
 
-namespace ESL.Core.Models
+namespace ESL.Api.Models.BusinessEntities
 {
     /// <summary>
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="FlowChange"> FlowChange</see>.
@@ -419,7 +418,7 @@ namespace ESL.Core.Models
         [NotMapped]
         public Facility NotifiedFacility { get; init; } = new Facility();
 
-        
+
         [NotMapped]
         public Employee RequestedBy_Employee { get; set; } = new Employee();
 
@@ -489,9 +488,9 @@ namespace ESL.Core.Models
 
                 _EventHighlight += $"Scanned docs stored: {ScanDocsNo}";
 
-                return _EventHighlight ;
+                return _EventHighlight;
             }
-        }           
+        }
 
         /// <summary>
         /// Gets or sets the eventHeader of the FlowChange.
@@ -514,7 +513,7 @@ namespace ESL.Core.Models
                 }
                 _EventHeader += $"Flow Change on MeterID {MeterID}  on {EventDate.ToString("MM/dd/yyyy")}  at {EventTime}";
 
-                return _EventHeader; 
+                return _EventHeader;
             }
         }
 
@@ -552,7 +551,7 @@ namespace ESL.Core.Models
                 _EventTrail += $"Requested Dt/Tm: {RequestedDate.ToString("MM/dd/yyyy")} {RequestedTime}{_CrLf}";
 
 
-                _EventTrail += $"Logged By: {Operator.FullName}{ _CrLf}";
+                _EventTrail += $"Logged By: {Operator.FullName}{_CrLf}";
                 _EventTrail += $"Logged Dt/Tm: {UpdateDate?.ToString("MM/dd/yyyy hh:mm")}{_CrLf}";
 
                 if (NotifiedPerson.HasValue)

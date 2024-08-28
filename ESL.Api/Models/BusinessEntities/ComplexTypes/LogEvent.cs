@@ -1,11 +1,11 @@
-﻿using ESL.Core.IConfiguration;
+﻿using ESL.Api.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
-namespace ESL.Core.Models.ComplexTypes
+namespace ESL.Api.Models.ComplexTypes
 {
     /// <summary>
     /// The BaseEvent class represents an event for a type of log that belongs to a <see cref="FlowChange"> AllEvent</see>.
@@ -14,7 +14,7 @@ namespace ESL.Core.Models.ComplexTypes
     //[PrimaryKey(nameof(FacilNo), "LogTypeNo", nameof(EventID), nameof(EventID_RevNo))]
     [NotMapped]
     [Owned]
-    public abstract record LogEvent // : ILogEventEntity
+    public partial record LogEvent //: ILogEventEntity
     {
         #region Internal Variables
 
@@ -61,7 +61,7 @@ namespace ESL.Core.Models.ComplexTypes
         [DataObjectField(false, false, false)]
         [DisplayName("Facility")]
         [NotMapped]
-        public string FacilName { get; set; } = null!;
+        public string FacilName { get; set; }
 
         /// <summary>
         /// Gets or sets the LogTypeName of the FlowChange.

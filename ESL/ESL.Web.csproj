@@ -41,10 +41,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Identity.Web" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.23.50" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.5.1" />

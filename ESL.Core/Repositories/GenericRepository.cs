@@ -51,9 +51,14 @@ namespace ESL.Core.Repositories
 
         // SoftDelete
 
+        public virtual async Task Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual async Task Delete(T entity)
         {
-
+            throw new NotImplementedException();
         }
 
         //public virtual Task Delete(int id)
@@ -63,18 +68,23 @@ namespace ESL.Core.Repositories
         //    //if (entity != null) dbSet.Remove(entity);
         //    //return true;
 
+        //    //return Task.Run(() =>
+        //    //{
+        //    //        return "Hello";
+        //    //});
         //    try
         //    {
-        //        var exist = dbSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+        //        var exist = GetById(id); // dbSet.Where(x => x.Id == id).FirstOrDefaultAsync();
 
         //        if (exist == null) return null;
 
-        //            //return exist;
+        //        //return exist;
 
-        //            dbSet.Remove(exist);
+        //        dbSet.Remove(exist).ContinueWith(t => exist);
+        //        _context.SaveChangesAsync();
 
         //        //ToDo                
-        //        return exist;
+        //        // return exist;
         //    }
         //    catch (Exception ex)
         //    {
@@ -107,10 +117,10 @@ namespace ESL.Core.Repositories
 
         //ToDo
         // virtual and to override in downstream repositories with Soft Delete
-        public virtual Task Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public virtual Task Delete(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
         // marcinstelmach/Ecommerce.Api/Repository.cs

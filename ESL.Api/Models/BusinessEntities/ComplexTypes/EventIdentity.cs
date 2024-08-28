@@ -1,14 +1,11 @@
-﻿using ESL.Core.IConfiguration;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace ESL.Core.Models.ComplexTypes
+namespace ESL.Api.Models.ComplexTypes
 {
     [Owned]
-
-    public record EventIDentity : IEventIDentity
+    public partial record EventIDentity //: IEventIDentity
     {
         /// <summary>
         /// Gets or sets the FacilNo of the Facility.
