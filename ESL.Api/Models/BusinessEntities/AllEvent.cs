@@ -1,7 +1,5 @@
-﻿using ESL.Api.Models.ComplexTypes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
@@ -181,7 +179,7 @@ public partial record AllEvent //: EventIDentity
     //[DataObjectField(false, false, false)]
     //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
     [NotMapped]
-    public string EventHighlight => Subject ?? $"{Subject}{_CrLf}" + (Details ?? $"{Details}{_CrLf}") + $"Updated By: {UpdatedBy} on {UpdateDate}";
+    public string EventHighlight => $"{Subject}{_CrLf}{Details}{_CrLf}Updated By: {UpdatedBy} on {UpdateDate}";
 
     ////// Navigation to be implemented with EF virtural
     ////public virtual ScanDoc? scandoc { get; set; }

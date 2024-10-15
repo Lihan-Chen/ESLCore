@@ -96,7 +96,7 @@ namespace ESL.Api.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 60)]
         [DisplayName("Visible To")]
-        [Column("VISABLETO", TypeName = "VARCHAR2")]
+        [Column("VISIBLETO", TypeName = "VARCHAR2")]
         public string? VisibleTo { get; set; }
 
         /// <summary>

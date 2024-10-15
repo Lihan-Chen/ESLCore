@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Core.Models.ValueObjects
 {
-    [ComplexType]
+    [Owned]
     public partial record BaseOperator: Employee
     {
         ///// <summary>

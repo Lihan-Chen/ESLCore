@@ -63,4 +63,9 @@ public partial class ViewAlleventsCurrent
 
     [Column("SCANDOCSNO", TypeName = "NUMBER")]
     public int? ScanDocsNo { get; set; }
+
+    [NotMapped]
+    public string EventIDentifier => $"{EventID}/{EventID_RevNo.ToString()}";
+
+
 }

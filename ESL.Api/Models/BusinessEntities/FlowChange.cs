@@ -11,7 +11,7 @@ namespace ESL.Api.Models.BusinessEntities
     /// </summary>
     [DebuggerDisplay("FlowChange: {FacilName, nq} {LogTypeName, nq} {EventID, nq} - {EventID_RevNo, nq})")] // ({Type, nq})
     [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
-    [Table($"ESL_FLOWCHANGES")]
+    [Table($"ESL_FLOWCHANGES", Schema ="ESL")]
     public partial record FlowChange
     {
         #region Private Variables
@@ -63,7 +63,7 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, false)]
         [DisplayName("Facility")]
         [NotMapped]
-        public string FacilName { get; set; }
+        public string FacilName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the LogTypeName of the FlowChange.
@@ -116,7 +116,7 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Requested By (optional)")]
         [NotMapped]
-        public string RequestedBy_Name => RequestedBy_Employee.FullName;
+        public string RequestedBy_Name => $"{RequestedBy_Employee.FirstName} {RequestedBy_Employee.LastName}";
 
         /// <summary>
         /// Gets or sets the requestedTo of the FlowChange.
@@ -217,7 +217,7 @@ namespace ESL.Api.Models.BusinessEntities
         [RegularExpression(@"[0-9]*\.?[0-9]+", ErrorMessage = "New value must be a valid positive number in digital format.")]  // "@^(?:[1-9][0-9]*|0)$@"
         [Range(typeof(Decimal), "0", "9999", ErrorMessage = "Price must be a decimal/number between {1} and {2}.")]
         [Column("NEWVALUE", TypeName = "NUMBER")]
-        public int? NewValue { get; set; }
+        public decimal? NewValue { get; set; }
 
         /// <summary>
         /// Gets or sets the unit of the FlowChange.
@@ -234,9 +234,9 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, true, 10)]
         [DisplayName("Old Value")]
         [RegularExpression(@"[0-9]*\.?[0-9]+", ErrorMessage = "Old value must be a valid positive number in digital format.")] // "@^(?:[1-9][0-9]*|0)$@"  // @"[0-9]*\.?[0-9]+"
-        [Range(typeof(Decimal), "0", "9999", ErrorMessage = "Price must be a decimal/number between {1} and {2}.")]
+        [Range(typeof(Decimal), "0", "9999", ErrorMessage = "Value must be a decimal/number between {1} and {2}.")]
         [Column("OLDVALUE", TypeName = "NUMBER")]
-        public int? OldValue { get; set; }
+        public decimal? OldValue { get; set; }
 
         /// <summary>
         /// Gets or sets the OldUnit of the FlowChange.
@@ -314,13 +314,13 @@ namespace ESL.Api.Models.BusinessEntities
         [Column("NOTIFIEDPERSON", TypeName = "NUMBER")]
         public int? NotifiedPerson { get; set; }
 
-        /// <summary>
-        /// Gets or sets the NotifiedPerson of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 80)]
-        [DisplayName("Notified Person (optional)")]
-        [NotMapped]
-        public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
+        ///// <summary>
+        ///// Gets or sets the NotifiedPerson of the FlowChange.
+        ///// </summary>
+        //[DataObjectField(false, false, true, 80)]
+        //[DisplayName("Notified Person (optional)")]
+        //[NotMapped]
+        //public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
 
         /// <summary>
         /// Gets or sets the ShiftNo of the FlowChange.
@@ -432,7 +432,7 @@ namespace ESL.Api.Models.BusinessEntities
         //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
         [DisplayName("Event ID / Revision")]
         [NotMapped]
-        public string EventIDentifier => EventID + " / " + Convert.ToString(EventID_RevNo);
+        public string EventIDentifier => $"{EventID} / {EventID_RevNo}";
 
         /// <summary>
         /// Gets or sets the eventHighlight of the FlowChange.
@@ -461,10 +461,10 @@ namespace ESL.Api.Models.BusinessEntities
 
                 if (!String.IsNullOrEmpty(Convert.ToString(NewValue)))
                 {
-                    _EventHighlight += $"New Value: {Convert.ToString(NewValue)} {Unit}{_CrLf}";
+                    _EventHighlight += $"New Value: {NewValue} {Unit}{_CrLf}";
                 }
 
-                _EventHighlight += $"Effective Dt/Tm: {EventDate.ToString("MM/dd/yyyy")} {EventTime}{_CrLf}";
+                _EventHighlight += $"Effective Dt/Tm: {EventDate:MM/dd/yyyy} {EventTime}{_CrLf}";
 
                 if (!String.IsNullOrEmpty(OffTime))
                 {
@@ -511,7 +511,7 @@ namespace ESL.Api.Models.BusinessEntities
                 {
                     _EventHeader += "Pre-Scheduled ";
                 }
-                _EventHeader += $"Flow Change on MeterID {MeterID}  on {EventDate.ToString("MM/dd/yyyy")}  at {EventTime}";
+                _EventHeader += $"Flow Change on MeterID {MeterID} on {EventDate:MM/dd/yyyy} at {EventTime}";
 
                 return _EventHeader;
             }
@@ -531,7 +531,7 @@ namespace ESL.Api.Models.BusinessEntities
 
                 if (RequestedBy != 0 && RequestedBy.HasValue)
                 {
-                    _EventTrail = $"Requested By: {RequestedBy_Employee.FullName}{_CrLf}";
+                    _EventTrail = $"Requested By: {RequestedBy_Employee.FirstName} {RequestedBy_Employee.LastName}{_CrLf}";
                 }
                 else
                 {
@@ -540,7 +540,7 @@ namespace ESL.Api.Models.BusinessEntities
 
                 if (RequestedTo != 0)
                 {
-                    _EventTrail += $"Requested To: {RequestedTo_Employee.FullName}{_CrLf}";
+                    _EventTrail += $"Requested To: {RequestedBy_Employee.FirstName} {RequestedBy_Employee.LastName}{_CrLf}";
                 }
                 else
                 {
@@ -548,15 +548,15 @@ namespace ESL.Api.Models.BusinessEntities
                 }
 
 
-                _EventTrail += $"Requested Dt/Tm: {RequestedDate.ToString("MM/dd/yyyy")} {RequestedTime}{_CrLf}";
+                _EventTrail += $"Requested Dt/Tm: {RequestedDate:MM/dd/yyyy} {RequestedTime}{_CrLf}";
 
 
-                _EventTrail += $"Logged By: {Operator.FullName}{_CrLf}";
-                _EventTrail += $"Logged Dt/Tm: {UpdateDate?.ToString("MM/dd/yyyy hh:mm")}{_CrLf}";
+                _EventTrail += $"Logged By: {Operator.FirstName} {Operator.LastName}{_CrLf}";
+                _EventTrail += $"Logged Dt/Tm: {UpdateDate:MM/dd/yyyy hh:mm}{_CrLf}";
 
                 if (NotifiedPerson.HasValue)
                 {
-                    _EventTrail += $"Notified Person: {NotifiedPerson_Employee.FullName}{_CrLf}";
+                    _EventTrail += $"Notified Person: {NotifiedPerson_Employee.FirstName} {NotifiedPerson_Employee.LastName}{_CrLf}";
                 }
                 else
                 {

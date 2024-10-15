@@ -24,17 +24,27 @@ namespace ESL.Api.Controllers
         //private int _facilNo = sessionFacilNo; //Should be from ESLControllerBase.Session["FacilNo"]
 
         // GET: api/Meters
-        [HttpGet("{facilNo}")]// 
+        [HttpGet("Meters")]// 
+        public async Task<ActionResult<IEnumerable<Meter>>> GetMetersList() //
+        {
+            return await _context.Meters.Where(m => m.Disable == null).Distinct().OrderByDescending(o => o.MeterID).AsNoTracking().ToListAsync(); //.Take(10).Skip(1)
+        }
+
+
+        // GET: api/Meters
+        [HttpGet("GetMetersByFacility/{facilNo}")]// 
         public async Task<ActionResult<IEnumerable<Meter>>> GetMetersByFacilNo(int facilNo) //
         {
             return await _context.Meters.Where(m => m.FacilNo == facilNo && m.Disable == null).OrderByDescending(o => o.UpdateDate).AsNoTracking().ToListAsync(); //.Take(10).Skip(1)
         }
 
         // GET: api/Meters/5
-        [HttpGet("{facilNo}/{meterID}")]
+        [HttpGet("MeterInfo/{facilNo}/{meterID}")]
         public async Task<ActionResult<Meter>> GetMeter(int facilNo, string meterID)
         {
-            var meter = await _context.Meters.Where(m => m.FacilNo == facilNo && m.MeterID == meterID).FirstOrDefaultAsync();
+            //string _sql = $"SELECT * FROM ESL.ESL_METERS WHERE FACILNO = {facilNo} AND METERID = {meterID}";
+
+            var meter = await _context.Meters.Where(m => m.FacilNo == facilNo && m.MeterID.ToUpper() == meterID.ToUpper()).FirstOrDefaultAsync();
 
             if (meter == null)
             {
@@ -46,15 +56,25 @@ namespace ESL.Api.Controllers
 
         // PUT: api/Meters/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{facilNo}/{meterID}")]
-        public async Task<IActionResult> PutMeter(int facilNo, string meterID, Meter meter)
+        // ESL.ESL_UPDATE_METERS_PROC
+        [HttpPut("UpdateMeter")]
+        public async Task<IActionResult> Update([FromBody]Meter meter, string ForceUpdate)
         {
-            if (facilNo != meter.FacilNo && meterID != meter.MeterID)
+            if (!MeterExists(meter.FacilNo, meter.MeterID))
             {
-                return BadRequest();
+                await PostMeter(meter);
+                // return BadRequest();
             }
 
-            _context.Entry(meter).State = EntityState.Modified;
+            if (ForceUpdate == "Y")
+            {
+                _context.Entry(meter).State = EntityState.Modified;
+            }
+            else if(ForceUpdate == "D")
+            {
+                _context.Entry(meter).State = EntityState.Deleted;
+                // or call DeleterMeter(meter.FacilNo, meter.MeterID);
+            }            
 
             try
             {
@@ -62,9 +82,10 @@ namespace ESL.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MeterExists(facilNo, meterID))
+                if (!MeterExists(meter.FacilNo, meter.MeterID))
                 {
-                    return NotFound();
+                    await PostMeter(meter);
+                    // return NotFound();
                 }
                 else
                 {
@@ -77,10 +98,11 @@ namespace ESL.Api.Controllers
 
         // POST: api/Meters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Meter>> PostMeter(Meter meter)
+        [HttpPost("AddMeter")]
+        public async Task<ActionResult<Meter>> PostMeter([FromBody]Meter meter)
         {
             _context.Meters.Add(meter);
+            
             try
             {
                 await _context.SaveChangesAsync();
@@ -101,10 +123,11 @@ namespace ESL.Api.Controllers
         }
 
         // DELETE: api/Meters/{facilNo}/{meterID}
-        [HttpDelete("{facilNo}/{meterID}")]
+        [HttpDelete("Delete/{facilNo}/{meterID}")]
         public async Task<IActionResult> DeleteMeter(int facilNo, string meterID)
         {
-            var meter = await _context.Meters.FindAsync(facilNo, meterID);
+            var meter = await _context.Meters.FindAsync(facilNo, meterID.ToUpper());
+
             if (meter == null)
             {
                 return NotFound();
@@ -118,7 +141,12 @@ namespace ESL.Api.Controllers
 
         private bool MeterExists(int facilNo, string meterID)
         {
-            return _context.Meters.Any(e => e.FacilNo == facilNo && e.MeterID == meterID);
+            return _context.Meters.Any(e => e.FacilNo == facilNo && e.MeterID.ToUpper() == meterID.ToUpper());
+        }
+
+        private bool MeterExists(Meter meter)
+        {
+            return _context.Meters.Any(e => e.FacilNo == meter.FacilNo && e.MeterID.ToUpper() == meter.MeterID.ToUpper());
         }
     }
 }

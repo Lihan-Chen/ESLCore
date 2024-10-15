@@ -9,7 +9,12 @@ namespace ESL.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+            //builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL")); 
             builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
 
             // Add services to the container.
 
@@ -30,7 +35,6 @@ namespace ESL.Api
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

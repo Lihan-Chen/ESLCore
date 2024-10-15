@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Api.Models.BusinessEntities;
 
-//[PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
-//[Index("UpdateDate", IsUnique = false)]
+
 [Keyless]
 public partial class ViewAlleventsCurrent
 {
@@ -52,7 +51,7 @@ public partial class ViewAlleventsCurrent
     [Column("OPERATORTYPE", TypeName = "VARCHAR2")] 
     public string? OperatorType { get; set; }
 
-    [Column("UPDATEBY", TypeName = "VARCHAR2")]
+    [Column("UPDATEDBY", TypeName = "VARCHAR2")]
     public string? UpdatedBy { get; set; }
 
     [Column("UPDATEDATE", TypeName = "VARCHAR2")]
@@ -63,4 +62,7 @@ public partial class ViewAlleventsCurrent
 
     [Column("SCANDOCSNO", TypeName = "NUMBER")]
     public int? ScanDocsNo { get; set; }
+
+    [NotMapped]
+    public string EventIdentifier => $"{EventID}/{EventID_RevNo}";
 }

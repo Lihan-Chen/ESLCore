@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ESL.Core.Repositories
 {
-    public class LogEventRepository<TEntity> : ILogEventRepository<TEntity> where TEntity : LogEvent
+    public class LogEventRepository<TEntity> // : ILogEventRepository<TEntity> where TEntity : LogEvent
     {
         protected ApplicationDbContext _context;
 

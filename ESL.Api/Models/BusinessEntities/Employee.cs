@@ -18,7 +18,7 @@ namespace ESL.Api.Models.BusinessEntities
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the Employee No [NUMBER(8)] of the Facility.
+        /// Gets or sets the Employee No [NUMBER(8)] of the Employee.
         /// [DataObjectField(key, identity, isNullable]
         /// </summary>
         [DataObjectField(true, true, false, 8)]
@@ -32,7 +32,7 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, true, 50)]
         [DisplayName("Last Name")]
         [Column("LASTNAME", TypeName = "VARCHAR2")]
-        public string? LastName { get; set; } = null!;
+        public string? LastName { get; set; }
 
         /// <summary>
         /// Gets or sets the First Name [VARCHAR2(50)] of the Employee.
@@ -40,7 +40,7 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, true, 50)]
         [DisplayName("First Name")]
         [Column("FIRSTNAME", TypeName = "VARCHAR2")]
-        public string? FirstName { get; set; } = null!;
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// Gets or sets the Company Name [VARCHAR2(100)] of the Employee.
@@ -48,7 +48,7 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Company")]
         [Column("COMPANY", TypeName = "VARCHAR2")]
-        public string? Company { get; set; } = null!;
+        public string? Company { get; set; }
 
         /// <summary>
         /// Gets or sets the Group Name [VARCHAR2(100)] of the Employee.
@@ -56,7 +56,7 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, true, 100)]
         [DisplayName("Group Name")]
         [Column("GROUPNAME", TypeName = "VARCHAR2")]
-        public string? GroupName { get; set; } = null!;
+        public string? GroupName { get; set; }
 
         /// <summary>
         /// Gets or sets the Facility No [NUMBER(3)] of the Facility.
@@ -108,13 +108,14 @@ namespace ESL.Api.Models.BusinessEntities
         [Column("DISABLE", TypeName = "VARCHAR2")]
         public string? Disable { get; set; }
 
-        [NotMapped]
-        public Facility Facility { get; set; } = new Facility();
+        //[NotMapped]
+        //public Facility Facility { get; set; } = new Facility();
 
         [NotMapped]
-        public string UID => EmployeeNo.ToString().Length > 4 ? $"U{EmployeeNo.ToString()}" : $"U0{EmployeeNo.ToString()}";
+        public string UID => this.EmployeeNo.ToString().Length > 4 ? $"U{this.EmployeeNo}" : $"U0{this.EmployeeNo}";
 
-        public string FullName => $"{this.FirstName} {this.FullName}";
+        [NotMapped]
+        public string FullName => $"{this.FirstName} {this.LastName}";
 
         #endregion
     }

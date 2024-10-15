@@ -156,7 +156,7 @@ namespace ESL.Api.Models.ComplexTypes
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Notified Person (optional)")]
         [NotMapped]
-        public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
+        public string? NotifiedPerson_Name => $"{NotifiedPerson_Employee.FirstName } {NotifiedPerson_Employee.LastName}";
 
         /// <summary>
         /// Gets or sets the ShiftNo of the FlowChange.

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Buffers.Text;
 using System.Configuration;
 
-internal static class ApplicationDbContextHelpers
+public static class ApplicationDbContextHelpers  //internal
 {
     // ConnectionString for the class library
     //public const string esl_connectionString = "user id=esl;password=MWDesl01_#;data source=dev7.world;Persist Security Info=false;Min Pool Size=10;Connection Lifetime=120;";

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
-using System.Xml.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace ESL.Api.Models.BusinessEntities
 {
     [Keyless]

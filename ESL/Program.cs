@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
@@ -21,9 +23,20 @@ namespace ESL.Web
             var initialScopes = builder.Configuration["DownstreamApi:Scopes"]?.Split(' ') ?? builder.Configuration["MicrosoftGraph:Scopes"]?.Split(' ');
 
             // Add services to the container. per program.cs from testWebApi project
-            // builder.Services.AddDbContext<ApplicationDbContext>();
+            // builder.Services.AddOracle<ApplicationDbContext>(new ApplicationDbContext(null,null, null));
 
-            builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+            // Just point to the ApplicationDBContext in the ESL.Core and use the connection string defined there.  Otherwise, use the one defined below
+            builder.Services.AddDbContext<ApplicationDbContext>();
+            
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //options.UseOracle(ApplicationDbContextHelpers.esl_connectionString));
+
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            // string userID = builder.Configuration.GetSection(USERNAME);
+            //var userID = GetValue<OptionsBuilderConfigurationExtensions>(USERNAME);
+
+            //builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
             //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // 8/14

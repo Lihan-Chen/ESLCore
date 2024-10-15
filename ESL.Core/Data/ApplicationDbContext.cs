@@ -82,9 +82,9 @@ namespace ESL.Core.Data
 
         public virtual DbSet<ViewClearanceAll> ViewClearanceAll { get; set; }
 
-        public virtual DbSet<ViewClearanceissue> ViewClearanceIssues {  get; set; }
+        public virtual DbSet<ViewClearanceissue> ViewClearanceIssues { get; set; }
         
-        public virtual DbSet<ViewClearanceIssuesCurrent> ViewCurrentClearanceIssues {  get; set; }
+        public virtual DbSet<ViewClearanceIssuesCurrent> ViewCurrentClearanceIssues { get; set; }
 
         public virtual DbSet<ViewClearanceOutstanding> ViewOutstandingClearances { get; set; }
 

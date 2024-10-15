@@ -1,5 +1,13 @@
-﻿namespace ESL.Api.Models.BusinessEntities
+﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
+using System.Xml.Linq;
+
+namespace ESL.Api.Models.BusinessEntities
 {
+    //[PrimaryKey(nameof(SessionID))]
+    //[Index("UserID", AllDescending = false, IsUnique = false, Name = "UserID")]
+    
+    [Keyless]
     public partial record UserSession
     {
         public Guid SessionID { get; set; }

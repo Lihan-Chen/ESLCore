@@ -1,0 +1,221 @@
+﻿@model IEnumerable<ESL.Api.Models.BusinessEntities.FlowChange>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OperatorID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OffTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeterID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChangeBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OldValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OldUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChangeByUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Accepted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifyFlag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NotifiedFacil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NotifiedPerson)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShiftNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Yr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeqNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkOrders)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelatedTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperatorType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatorID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedTo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OffTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeterID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangeBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OldValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OldUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChangeByUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Accepted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyFlag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NotifiedFacil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NotifiedPerson)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShiftNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeqNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkOrders)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelatedTo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatorType)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
