@@ -77,16 +77,16 @@ namespace ESL.Api.Controllers
             // _opType = _operatorType.HasValue ? true : logFilterPartial.OperatorType;
 
             // To Do: conditional Where's are needed to accurately filter all events
-            var viewCurrentAllevents = _context.ViewAlleventsCurrents.Where(a => a.FacilNo == facilNo  && a.EventDate >= startDate && a.EventDate <= endDate && a.OperatorType == _operatorType).AsQueryable(); //.AsNoTracking().ToListAsync();
+            var viewCurrentAllevents = _context.ViewAlleventsCurrents.Where(a => a.FacilNo == facilNo  && a.EventDate >= _stDt && a.EventDate <= _enDt && a.OperatorType == _operatorType).AsQueryable(); //.AsNoTracking().ToListAsync();
 
             if (logTypeNo != null)
 
-                viewCurrentAllevents = viewCurrentAllevents.AsQueryable().Where(e => e.LogTypeNo == logTypeNo).AsQueryable();
+                viewCurrentAllevents = viewCurrentAllevents.Where(e => e.LogTypeNo == logTypeNo).AsQueryable();
 
             if (searchString != null)
-                viewCurrentAllevents = viewCurrentAllevents.Where(e => e.EventID.ToUpper().Contains(searchString.ToUpper())
-                                      || e.Subject.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
-                                      || e.Details.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).AsQueryable();
+                viewCurrentAllevents = viewCurrentAllevents.Where(e => EF.Functions.Like(e.EventID.ToUpper(), searchString.ToUpper())
+                                      || EF.Functions.Like(e.Subject.ToUpper(), searchString.ToUpper())
+                                      || EF.Functions.Like(e.Details.ToUpper(), searchString.ToUpper()));
 
             var CurrentAllevents = await viewCurrentAllevents.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).ToListAsync();
 
@@ -102,7 +102,7 @@ namespace ESL.Api.Controllers
         [HttpGet("GetEvent/{facilNo}/{logTypeNo}/{eventID}/{eventID_RevNo}")] 
         public async Task<ViewAlleventsCurrent> GetItem(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
         {
-            return await _context.ViewAlleventsCurrents.FindAsync(facilNo, logTypeNo, eventID, eventID_RevNo);
+            return await _context.ViewAlleventsCurrents.FirstOrDefaultAsync(a => a.FacilNo == facilNo && a.LogTypeNo == logTypeNo && a.EventID == eventID && a.EventID_RevNo == eventID_RevNo);
         }
 
         // PUT: api/ViewAlleventsCurrents/5

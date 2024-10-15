@@ -100,14 +100,16 @@ namespace ESL.Api.Controllers
             var outstandingFlowChanges =  _context?.FlowChanges?.FromSql($"sql, { _facilNo}, { _logTypeNo}, { _stDt}, { _enDt}").AsQueryable();
 
             if (operatorType == true)
-                outstandingFlowChanges = outstandingFlowChanges.Where(o => o.OperatorType == _operatorType);
+                outstandingFlowChanges = outstandingFlowChanges?.Where(o => o.OperatorType == _operatorType);
 
-            List<FlowChange> outstandingFlowchanges = await outstandingFlowChanges.ToListAsync<FlowChange>();
+            List<FlowChange> outstandingFlowchanges = await outstandingFlowChanges?.ToListAsync<FlowChange>();
 
             //if (searchString != null)
-            //    currentFlowChanges = currentFlowChanges.Where(e => e.EventID.ToUpper().Contains(searchString.ToUpper()).AsQueryable();
-            //|| e.Subject.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
-            //|| e.Details.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
+            //    outstandingFlowchanges = outstandingFlowchanges.Where(e => EF.Functions.Like(e.EventIDentifier.ToUpper(), searchString.ToUpper())
+            //                          || EF.Functions.Like(e.EventHighlight.ToUpper(), searchString.ToUpper())
+            //                          || EF.Functions.Like(e.EventHeader.ToUpper(), searchString.ToUpper()))
+            //                          || EF.Functions.Like(e.EventDetails.ToUpper(), searchString.ToUpper())
+            //                          || EF.Functions.Like(e.EventTrail.ToUpper(), searchString.ToUpper());
 
             // var CurrentAllevents = await currentFlowChanges.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).ToListAsync();
 

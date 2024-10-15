@@ -27,6 +27,35 @@ namespace ESL.Api.Models.DAL
             
         }
 
+        public virtual DbSet<ViewAlleventsCurrent> ViewAlleventsCurrents { get; set; }
+
+        public DbSet<ViewAlleventsLogType> AlleventLogTypes { get; set; }
+
+        public DbSet<Details> DetailsList { get; set; }
+
+        // public virtual DbSet<AllEvent> AllEvents {  get; set; }  
+
+        // public virtual DbSet<AllScadaUsersRole> AllScadaUsersRoles { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+
+        public virtual DbSet<Facility> Facilities { get; set; }
+
+        public virtual DbSet<FlowChange> FlowChanges { get; set; }
+
+        // public virtual DbSet<LogType> LogTypes { get; set; }
+
+        public virtual DbSet<BusinessEntities.Meter> Meters { get; set; }
+
+        public virtual DbSet<MeterReading> MetersReadings { get; set; }
+
+        public DbSet<MeterReadingSP> MeterReadingSPs { get; set; }
+
+        public DbSet<Subject> Subjects { get; set; }
+
+        // public virtual DbSet<UserSession> UsersSessions { get; set; }
+
+        public virtual DbSet<WO> WO { get; set; }
+
         //OnConfiguring() method is used to select and configure the data source
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //=> optionsBuilder.UseOracle("Data Source=ODev41.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;"); //?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.");
@@ -45,9 +74,9 @@ namespace ESL.Api.Models.DAL
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder
-            .HasDefaultSchema("ESL")
-            .UseCollation("USING_NLS_COMP");
+            //modelBuilder
+            //.HasDefaultSchema("ESL")
+            //.UseCollation("USING_NLS_COMP");
 
             #region Views
             // Mapping to view instead of table with schema as the second parameter
@@ -58,7 +87,7 @@ namespace ESL.Api.Models.DAL
                 b =>
                 {
                     b.HasNoKey();
-                    b.ToView("ESL.VIEW_ALLEVENTS_CURRENT", "ESL");
+                    b.ToView("VIEW_ALLEVENTS_CURRENT", schema: "ESL");
                 });
 
             modelBuilder
@@ -129,34 +158,7 @@ namespace ESL.Api.Models.DAL
             });
         }
 
-        public virtual DbSet<ViewAlleventsCurrent> ViewAlleventsCurrents { get; set; }
-
-        public DbSet<ViewAlleventsLogType> AlleventLogTypes { get; set; }
-
-        public DbSet<Details> DetailsList { get; set; }
-
-        // public virtual DbSet<AllEvent> AllEvents {  get; set; }  
-
-        // public virtual DbSet<AllScadaUsersRole> AllScadaUsersRoles { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
-
-        public virtual DbSet<Facility> Facilities { get; set; }
-
-        public virtual DbSet<FlowChange> FlowChanges { get; set; }
-
-        // public virtual DbSet<LogType> LogTypes { get; set; }
-
-        public virtual DbSet<BusinessEntities.Meter> Meters { get; set; }
-
-        public virtual DbSet<MeterReading> MetersReadings { get; set; }
-
-        public DbSet<MeterReadingSP> MeterReadingSPs { get; set; }
-
-        public DbSet<Subject> Subjects { get; set; }
-
-        // public virtual DbSet<UserSession> UsersSessions { get; set; }
-
-        public virtual DbSet<WO> WO { get; set; }
+        
 
         #endregion
     }
