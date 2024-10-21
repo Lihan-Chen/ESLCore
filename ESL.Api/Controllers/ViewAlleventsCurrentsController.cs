@@ -70,25 +70,25 @@ namespace ESL.Api.Controllers
 
             DateTime _enDt = endDate ?? DateTime.Now.Date.AddDays(1);
 
-            DateTime _stDt = startDate ?? _enDt.AddDays(_daysOffset);
+            DateTime _stDt = startDate ?? _enDt.AddDays(_daysOffset).AddTicks(-1);
 
             // searchString = !String.IsNullOrEmpty(logFilterPartial.CurrentFilter) ? logFilterPartial.CurrentFilter : searchString;
 
             // _opType = _operatorType.HasValue ? true : logFilterPartial.OperatorType;
 
             // To Do: conditional Where's are needed to accurately filter all events
-            var viewCurrentAllevents = _context.ViewAlleventsCurrents.Where(a => a.FacilNo == facilNo  && a.EventDate >= _stDt && a.EventDate <= _enDt && a.OperatorType == _operatorType).AsQueryable(); //.AsNoTracking().ToListAsync();
+            var query = _context.ViewAlleventsCurrents.Where(a => a.FacilNo == facilNo && a.EventDate >= _stDt && a.EventDate <= _enDt && a.OperatorType == _operatorType);
 
             if (logTypeNo != null)
 
-                viewCurrentAllevents = viewCurrentAllevents.Where(e => e.LogTypeNo == logTypeNo).AsQueryable();
+                query = query.Where(e => e.LogTypeNo == logTypeNo);
 
             if (searchString != null)
-                viewCurrentAllevents = viewCurrentAllevents.Where(e => EF.Functions.Like(e.EventID.ToUpper(), searchString.ToUpper())
+                query = query.Where(e => EF.Functions.Like(e.EventID.ToUpper(), searchString.ToUpper())
                                       || EF.Functions.Like(e.Subject.ToUpper(), searchString.ToUpper())
                                       || EF.Functions.Like(e.Details.ToUpper(), searchString.ToUpper()));
 
-            var CurrentAllevents = await viewCurrentAllevents.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).ToListAsync();
+            var CurrentAllevents = await query.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).AsNoTracking().ToListAsync();
 
 
             if (CurrentAllevents == null)

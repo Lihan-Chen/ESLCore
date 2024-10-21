@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using ESL.Api.Models.BusinessEntities;
 using ESL.Api.Models.DAL;
 using Mono.TextTemplating;
+using System.Globalization;
 
 namespace ESL.Api.Controllers
 {
+    //[Route("api/[controller]")]
     public class FlowChangesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,7 +48,7 @@ namespace ESL.Api.Controllers
 
         // GET: FlowChanges
         [HttpGet("FlowChange/")]
-        public async Task<IActionResult> Index(int facilNo, DateTime? startDate, DateTime? endDate, string searchString, string alert, int? page, bool operatorType = false) // , string active, string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<ActionResult<List<FlowChange>>> Index(int facilNo, DateTime? startDate, DateTime? endDate, string searchString, string alert, int? page, bool operatorType = false) // , string active, string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!String.IsNullOrEmpty(alert))
             {
@@ -72,66 +74,81 @@ namespace ESL.Api.Controllers
 
             DateTime _enDt = endDate ?? DateTime.Now.Date.AddDays(1);
 
-            DateTime _stDt = startDate ?? _enDt.AddDays(_daysOffset);
+            DateTime _stDt = startDate ?? _enDt.AddDays(_daysOffset).AddTicks(-1);
+
+            string _enDtStr = _enDt.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            string _stDtStr = _stDt.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
 
             // searchString = !String.IsNullOrEmpty(logFilterPartial.CurrentFilter) ? logFilterPartial.CurrentFilter : searchString;
 
             // _opType = _operatorType.HasValue ? true : logFilterPartial.OperatorType;
 
-            string sql = $"SELECT A.FACILNO, B.FACILNAME, A.LOGTYPENO, B.LOGTYPENAME, A.EVENTID, A.EVENTID_REVNO, \r\n " +
-                                    $" A.OPERATORID, A.CREATEDBY, A.CREATEDDATE, A.REQUESTEDBY, A.REQUESTEDTO, A.REQUESTEDDATE, A.REQUESTEDTIME, \r\n " +
-                                    $" A.EVENTDATE, A.EVENTTIME, A.OFFTIME, A.METERID, A.CHANGEBY, A.NEWVALUE, A.UNIT, A.OLDVALUE, A.OLDUNIT, A.CHANGEBYUNIT, A.ACCEPTED,\r\n " +
-                                    $" A.MODIFYFLAG, A.MODIFIEDBY, A.MODIFIEDDATE, A.NOTES, A.NOTIFIEDFACIL, A.NOTIFIEDPERSON, A.SHIFTNO, A.YR, A.SEQNO,\r\n " +
-                                    $" A.UPDATEDBY, A.UPDATEDATE, A.WORKORDERS, A.RELATEDTO, A.OPERATORTYPE, B.SUBJECT EVENTSUBJECT, B.DETAILS EVENTDETAILS, B.SCANDOCSNO\r\n " +
-                                    $" FROM ESL.ESL_FLOWCHANGES A,\r\n " +
-                                    $" ESL.VIEW_FLOWCHANGE_PRESCHED B \r\n " +
-                                    $" WHERE A.FACILNO =  :facilNo AND\r\n " +
-                                    $" A.LOGTYPENO = :logTypeNo AND\r\n" +
-                                    $" A.EVENTDATE BETWEEN :startDate AND :endDate AND \r\n " +
-                                    $" A.EVENTDATE <= :endDate AND --_strEndDate To_Date('07312013', 'MMDDRRRR')\r\n " +
-                                    $" A.EVENTID = B.EVENTID AND A.EVENTID_REVNO = B.EVENTID_REVNO AND \r\n  " +
-                                    $" A.FACILNO = B.FACILNO AND A.LOGTYPENO = B.LOGTYPENO\r\n " +
-                                    $" ORDER BY FACILNO, LOGTYPENO ASC,\r\n  " +
+            string sql = $"SELECT A.FACILNO, B.FACILNAME, A.LOGTYPENO, B.LOGTYPENAME, A.EVENTID, A.EVENTID_REVNO, " +
+                                    $" A.OPERATORID, A.CREATEDBY, A.CREATEDDATE, A.REQUESTEDBY, A.REQUESTEDTO, A.REQUESTEDDATE, A.REQUESTEDTIME, " +
+                                    $" A.EVENTDATE, A.EVENTTIME, A.OFFTIME, A.METERID, A.CHANGEBY, A.NEWVALUE, A.UNIT, A.OLDVALUE, A.OLDUNIT, A.CHANGEBYUNIT, A.ACCEPTED, " +
+                                    $" A.MODIFYFLAG, A.MODIFIEDBY, A.MODIFIEDDATE, A.NOTES, A.NOTIFIEDFACIL, A.NOTIFIEDPERSON, A.SHIFTNO, A.YR, A.SEQNO, " +
+                                    $" A.UPDATEDBY, A.UPDATEDATE, A.WORKORDERS, A.RELATEDTO, A.OPERATORTYPE, B.SUBJECT EVENTSUBJECT, B.DETAILS EVENTDETAILS, B.SCANDOCSNO " +
+                                    $" FROM ESL.ESL_FLOWCHANGES A, " +
+                                    $" ESL.VIEW_FLOWCHANGE_PRESCHED B " +
+                                    $" WHERE A.FACILNO =  {facilNo} AND " +
+                                    $" A.LOGTYPENO = {_logTypeNo} AND " +
+                                    //$" A.EVENTDATE BETWEEN {_stDt} AND {_enDt} AND \r\n " +
+                                    //$" A.EVENTDATE <= :enDt AND --_strEndDate To_Date('07312013', 'MMDDRRRR')\r\n " +
+                                    $" A.EVENTDATE BETWEEN To_Date('{_stDtStr}', 'MM/dd/rrrr') AND To_Date('{_enDtStr}', 'MM/dd/rrrr') AND " +
+                                    $" A.OPERATORTYPE = '{_operatorType}' AND " +
+                                    $" A.EVENTID = B.EVENTID AND A.EVENTID_REVNO = B.EVENTID_REVNO AND " +
+                                    $" A.FACILNO = B.FACILNO AND A.LOGTYPENO = B.LOGTYPENO " +
+                                    $" ORDER BY FACILNO, LOGTYPENO ASC, " +
                                     $" TO_CHAR(B.EVENTDATE, 'rrrrmmdd')||B.EVENTTIME DESC, A.UPDATEDATE DESC;";
 
             //Execute stored procedure ESL.ESL_FLOWCHANGES_OUTSTANDING with parameters and RefCur (BECAUSE VIEW is the pain point!)
             //var outstandingFlowChanges = _context.Database.ExecuteSqlAsync(sql, {_facilNo}, {_logTypeNo}, {_stDate}, {_enDt}).AsQueryable();            //var currentFlowChanges = _context.FlowChanges.Where(a => a.FacilNo == facilNo && a.LogTypeNo == _logTypeNo && a.EventDate >= startDate && a.EventDate <= endDate && a.OperatorType == _operatorType).AsQueryable();
 
-            var outstandingFlowChanges =  _context?.FlowChanges?.FromSql($"sql, { _facilNo}, { _logTypeNo}, { _stDt}, { _enDt}").AsQueryable();
+            //var outstandingFlowChanges =  _context?.FlowChanges.FromSql($"sql, { _facilNo}, { _logTypeNo}, { _stDt}, { _enDt}");
+            
+            var query = _context?.FlowChanges.FromSqlRaw(sql);
 
-            if (operatorType == true)
-                outstandingFlowChanges = outstandingFlowChanges?.Where(o => o.OperatorType == _operatorType);
 
-            List<FlowChange> outstandingFlowchanges = await outstandingFlowChanges?.ToListAsync<FlowChange>();
+            // this following linq query causes a missing right parenthsis in Oracle.  Possibly a bug.
+            //if (operatorType == true)
+            //    query = query?.Where(o => o.OperatorType.Equals($"'_operatorType')"));
 
-            //if (searchString != null)
-            //    outstandingFlowchanges = outstandingFlowchanges.Where(e => EF.Functions.Like(e.EventIDentifier.ToUpper(), searchString.ToUpper())
-            //                          || EF.Functions.Like(e.EventHighlight.ToUpper(), searchString.ToUpper())
-            //                          || EF.Functions.Like(e.EventHeader.ToUpper(), searchString.ToUpper()))
-            //                          || EF.Functions.Like(e.EventDetails.ToUpper(), searchString.ToUpper())
-            //                          || EF.Functions.Like(e.EventTrail.ToUpper(), searchString.ToUpper());
+            if (searchString != null)
+                query = query?.Where(e => EF.Functions.Like(e.EventIDentifier.ToUpper(), searchString.ToUpper())
+                                      || EF.Functions.Like(e.EventHighlight.ToUpper(), searchString.ToUpper())
+                                      || EF.Functions.Like(e.EventHeader.ToUpper(), searchString.ToUpper()));
+            //|| EF.Functions.Like(e.EventDetails.ToUpper(), searchString.ToUpper())
+            //|| EF.Functions.Like(e.EventTrail.ToUpper(), searchString.ToUpper());
 
-            // var CurrentAllevents = await currentFlowChanges.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).ToListAsync();
+            var outstandingFlowchanges = await query?.AsNoTracking().ToListAsync();
 
-            return View(outstandingFlowchanges);
+
+            //outstandingFlowChanges = await outstandingFlowChanges.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).ToListAsync();
+
+            return outstandingFlowchanges;
         }
 
         // GET: FlowChanges/Details/5
-        public async Task<IActionResult> Details(int? facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        [HttpGet("FlowChange_Details/{facilNo}/{eventID}/{eventID_RevNo}")]
+        public async Task<ActionResult<FlowChange>> Details(int? facilNo, string eventID, int? eventID_RevNo)
         {
-            if (facilNo == null || logTypeNo == null || eventID == null || eventID_RevNo == null)
+            int logTypeNo = _logTypeNo;
+            
+            if (facilNo == null ||  eventID == null || eventID_RevNo == null) // logTypeNo == null ||
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var flowChange = await _context.FlowChanges
-                .FirstOrDefaultAsync(m => m.FacilNo == _facilNo && m.LogTypeNo == _logTypeNo && m.EventID == eventID && m.EventID_RevNo == eventID_RevNo);
+                .FirstOrDefaultAsync(m => m.FacilNo == facilNo && m.LogTypeNo == logTypeNo && m.EventID == eventID && m.EventID_RevNo == eventID_RevNo);
+
             if (flowChange == null)
             {
                 return NotFound();
             }
 
-            return View(flowChange);
+            return flowChange;
         }
 
         //// GET: FlowChanges/Create

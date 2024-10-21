@@ -225,7 +225,7 @@ namespace ESL.Api.Models.BusinessEntities
         [DataObjectField(false, false, true, 10)]
         //[Required(ErrorMessage = "All unit must be consistent.")]
         [DisplayName("New Unit")]
-        [Column("NEWUNIT", TypeName = "VARCHAR2")]
+        [Column("UNIT", TypeName = "VARCHAR2")]
         public string? Unit { get; set; }
 
         /// <summary>
