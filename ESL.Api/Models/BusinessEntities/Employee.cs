@@ -115,7 +115,7 @@ namespace ESL.Api.Models.BusinessEntities
         public string UID => this.EmployeeNo.ToString().Length > 4 ? $"U{this.EmployeeNo}" : $"U0{this.EmployeeNo}";
 
         [NotMapped]
-        public string FullName => this.Company == "MWD" ? $"{this.FirstName!} {this.LastName!}" : $"{this.FirstName!} {this.LastName!} - {this.Company}";
+        public string FullName => this.Company == "MWD" ? $"{this.FirstName!} {this.LastName!}" :  $"{this.FirstName!} {this.LastName!} - {this.Company}";
 
         #endregion
     }

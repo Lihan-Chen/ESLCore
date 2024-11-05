@@ -12,7 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESL.Api", "ESL.Api\ESL.Api.csproj", "{674C0FA7-0176-405C-ACFA-7F81F3CB1AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESL.Api", "ESL.Api\ESL.Api.csproj", "{674C0FA7-0176-405C-ACFA-7F81F3CB1AA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testCoreWeb", "testCoreWeb\testCoreWeb.csproj", "{820A2992-C07E-4A16-B5D5-EC74536D6341}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testCoreWebApi", "testCoreWebApi\testCoreWebApi.csproj", "{E00163CA-0990-4F70-BBAA-59468CE10278}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +36,14 @@ Global
 		{674C0FA7-0176-405C-ACFA-7F81F3CB1AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{674C0FA7-0176-405C-ACFA-7F81F3CB1AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{674C0FA7-0176-405C-ACFA-7F81F3CB1AA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{820A2992-C07E-4A16-B5D5-EC74536D6341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{820A2992-C07E-4A16-B5D5-EC74536D6341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{820A2992-C07E-4A16-B5D5-EC74536D6341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{820A2992-C07E-4A16-B5D5-EC74536D6341}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E00163CA-0990-4F70-BBAA-59468CE10278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E00163CA-0990-4F70-BBAA-59468CE10278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E00163CA-0990-4F70-BBAA-59468CE10278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E00163CA-0990-4F70-BBAA-59468CE10278}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

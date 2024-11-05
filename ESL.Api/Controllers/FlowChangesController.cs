@@ -70,6 +70,10 @@ namespace ESL.Api.Controllers
 
             _operatorType = operatorType == true ? "Primary" : "Secondary";
 
+            string _sqlOperatorType = operatorType == true ? $" A.OPERATORTYPE = '{_operatorType}' AND " : string.Empty;
+
+            string _sqlSearch = searchString != null ? $" UPPER(A.METERID || B.SUBJECT || B.DETAILS) LIKE  UPPER('%{searchString}%') AND " : string.Empty;
+
             // _shiftNo = DateTime.Now
 
             DateTime _enDt = endDate ?? DateTime.Now.Date.AddDays(1);
@@ -84,6 +88,7 @@ namespace ESL.Api.Controllers
 
             // _opType = _operatorType.HasValue ? true : logFilterPartial.OperatorType;
 
+            // When sql statement ends with a ";", linq statement may cause an ORA error: missing right parenthesis.
             string sql = $"SELECT A.FACILNO, B.FACILNAME, A.LOGTYPENO, B.LOGTYPENAME, A.EVENTID, A.EVENTID_REVNO, " +
                                     $" A.OPERATORID, A.CREATEDBY, A.CREATEDDATE, A.REQUESTEDBY, A.REQUESTEDTO, A.REQUESTEDDATE, A.REQUESTEDTIME, " +
                                     $" A.EVENTDATE, A.EVENTTIME, A.OFFTIME, A.METERID, A.CHANGEBY, A.NEWVALUE, A.UNIT, A.OLDVALUE, A.OLDUNIT, A.CHANGEBYUNIT, A.ACCEPTED, " +
@@ -96,37 +101,38 @@ namespace ESL.Api.Controllers
                                     //$" A.EVENTDATE BETWEEN {_stDt} AND {_enDt} AND \r\n " +
                                     //$" A.EVENTDATE <= :enDt AND --_strEndDate To_Date('07312013', 'MMDDRRRR')\r\n " +
                                     $" A.EVENTDATE BETWEEN To_Date('{_stDtStr}', 'MM/dd/rrrr') AND To_Date('{_enDtStr}', 'MM/dd/rrrr') AND " +
-                                    $" A.OPERATORTYPE = '{_operatorType}' AND " +
+                                    $" {_sqlOperatorType} " +
+                                    $" {_sqlSearch}" +
                                     $" A.EVENTID = B.EVENTID AND A.EVENTID_REVNO = B.EVENTID_REVNO AND " +
                                     $" A.FACILNO = B.FACILNO AND A.LOGTYPENO = B.LOGTYPENO " +
                                     $" ORDER BY FACILNO, LOGTYPENO ASC, " +
-                                    $" TO_CHAR(B.EVENTDATE, 'rrrrmmdd')||B.EVENTTIME DESC, A.UPDATEDATE DESC;";
+                                    $" TO_CHAR(B.EVENTDATE, 'rrrrmmdd')||B.EVENTTIME DESC, A.UPDATEDATE DESC"; // ; Additional ending ";" causes Oracle error!
 
             //Execute stored procedure ESL.ESL_FLOWCHANGES_OUTSTANDING with parameters and RefCur (BECAUSE VIEW is the pain point!)
             //var outstandingFlowChanges = _context.Database.ExecuteSqlAsync(sql, {_facilNo}, {_logTypeNo}, {_stDate}, {_enDt}).AsQueryable();            //var currentFlowChanges = _context.FlowChanges.Where(a => a.FacilNo == facilNo && a.LogTypeNo == _logTypeNo && a.EventDate >= startDate && a.EventDate <= endDate && a.OperatorType == _operatorType).AsQueryable();
 
             //var outstandingFlowChanges =  _context?.FlowChanges.FromSql($"sql, { _facilNo}, { _logTypeNo}, { _stDt}, { _enDt}");
-            
-            var query = _context?.FlowChanges.FromSqlRaw(sql);
 
+            var queryResult = await _context.FlowChanges.FromSqlRaw(sql).OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).AsNoTracking().Take(_pageSize).Skip(0).ToListAsync();
+
+
+            //var query = _context.FlowChanges.FromSqlRaw(sql); //.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).AsNoTracking().Take(_pageSize).Skip(0).ToListAsync();
 
             // this following linq query causes a missing right parenthsis in Oracle.  Possibly a bug.
             //if (operatorType == true)
-            //    query = query?.Where(o => o.OperatorType.Equals($"'_operatorType')"));
+            //    query = query.Where(o => o.OperatorType.Equals($"{_operatorType})"));
 
-            if (searchString != null)
-                query = query?.Where(e => EF.Functions.Like(e.EventIDentifier.ToUpper(), searchString.ToUpper())
-                                      || EF.Functions.Like(e.EventHighlight.ToUpper(), searchString.ToUpper())
-                                      || EF.Functions.Like(e.EventHeader.ToUpper(), searchString.ToUpper()));
+            //if (searchString != null)
+            //    query = query.Where(e => EF.Functions.Like(e.EventSubject.ToUpperInvariant(), searchString.ToUpper())
+            //                                                        || EF.Functions.Like(e.EventHighlight.ToUpper(), searchString.ToUpper())
+            //                                                        || EF.Functions.Like(e.EventHeader.ToUpper(), searchString.ToUpper())
+            //                                                      );
             //|| EF.Functions.Like(e.EventDetails.ToUpper(), searchString.ToUpper())
             //|| EF.Functions.Like(e.EventTrail.ToUpper(), searchString.ToUpper());
 
-            var outstandingFlowchanges = await query?.AsNoTracking().ToListAsync();
+            //var outstandingFlowchanges = query.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).ToList();
 
-
-            //outstandingFlowChanges = await outstandingFlowChanges.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).Take(_pageSize).Skip(0).ToListAsync();
-
-            return outstandingFlowchanges;
+            return queryResult; // outstandingFlowchanges; 
         }
 
         // GET: FlowChanges/Details/5
