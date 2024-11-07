@@ -113,8 +113,13 @@ namespace ESL.Api.Controllers
 
             //var outstandingFlowChanges =  _context?.FlowChanges.FromSql($"sql, { _facilNo}, { _logTypeNo}, { _stDt}, { _enDt}");
 
-            var queryResult = await _context.FlowChanges.FromSqlRaw(sql).OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).AsNoTracking().Take(_pageSize).Skip(0).ToListAsync();
-
+            var queryResult = await _context.FlowChanges.FromSqlRaw(sql)
+                                    .OrderByDescending(o => o.EventDate)
+                                    .ThenByDescending(o => o.EventTime)
+                                    .AsNoTracking()
+                                    .Take(_pageSize)
+                                    .Skip(0)
+                                    .ToListAsync();
 
             //var query = _context.FlowChanges.FromSqlRaw(sql); //.OrderByDescending(o => o.EventDate).ThenByDescending(o => o.EventTime).AsNoTracking().Take(_pageSize).Skip(0).ToListAsync();
 
