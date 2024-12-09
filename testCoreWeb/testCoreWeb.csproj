@@ -29,7 +29,7 @@ Comment out orgiiginaldefault project config-->
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-ESL-86e04370-2ce8-4a1c-b493-9c936deff567</UserSecretsId>
     <!--<StartupObject>ESL.Web.Program</StartupObject>-->
-	<StartupObject>testWeb.Program</StartupObject>
+	<StartupObject>testCoreWeb.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

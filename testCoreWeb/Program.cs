@@ -38,8 +38,6 @@ namespace testCoreWeb
 
 
 
-
-
             builder.Services.AddControllersWithViews();
             
             #endregion
