@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Core.IConfiguration
 {
-    internal interface IUnitOfWork
+    internal interface IUnitOfWork : IDisposable
     {
         // Add all IRepositories here
         IUserRepository Users { get; }

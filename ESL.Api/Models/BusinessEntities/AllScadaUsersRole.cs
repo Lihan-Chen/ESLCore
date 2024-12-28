@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ESL.Api.Models.BusinessEntities
 {
     [Keyless]
-    [Index(nameof(FacilNo), nameof(UserID), AllDescending = false, IsDescending = [false, false], IsUnique = false, Name = "ESL_ALLSCADAUSERS_USERID_IDX")]
+    [Index("FACILNO", "USERID", AllDescending = false, IsDescending = [false, false], IsUnique = false, Name = "ESL_ALLSCADAUSERS_USERID_IDX")]
     [Table("ESL_ALLSCADAUSERS_ROLE", Schema = "ESL")]
     public partial record AllScadaUsersRole
     {

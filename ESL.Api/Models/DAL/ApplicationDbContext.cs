@@ -42,7 +42,7 @@ namespace ESL.Api.Models.DAL
 
         public virtual DbSet<FlowChange> FlowChanges { get; set; }
 
-        // public virtual DbSet<LogType> LogTypes { get; set; }
+        public virtual DbSet<LogType> LogTypes { get; set; }
 
         public virtual DbSet<BusinessEntities.Meter> Meters { get; set; }
 

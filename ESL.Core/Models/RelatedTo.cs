@@ -10,7 +10,7 @@ namespace ESL.Core.Models
 {
 
     [PrimaryKey(nameof(FacilNo),nameof(LogTypeNo),nameof(EventID),nameof(RelatedTo_Subject))]    
-    [Table("ESL_RelatedTo", Schema ="ESL")]
+    [Table("ESL_RELATEDTO", Schema ="ESL")]
         public partial record RelatedTo
     {
         /// <summary>

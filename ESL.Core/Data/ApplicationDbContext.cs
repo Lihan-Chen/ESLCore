@@ -3,6 +3,7 @@ using ESL.Core.Models;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Microsoft.Extensions.Logging;
+using ESL.Core.Models.BusinessEntities;
 
 
 namespace ESL.Core.Data
@@ -30,7 +31,7 @@ namespace ESL.Core.Data
 
         public virtual DbSet<AllEvent> AllEvents { get; set; }
 
-        public virtual DbSet<ESL.Core.Models.Constant> Constants { get; set; }
+        public virtual DbSet<Constant> Constants { get; set; }
 
         public virtual DbSet<ClearanceIssue> ClearanceIssues { get; set; }
 

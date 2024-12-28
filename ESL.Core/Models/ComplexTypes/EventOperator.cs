@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Core.Models.ComplexTypes
 {

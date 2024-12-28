@@ -26,7 +26,9 @@ namespace ESL.Web.Controllers
         public async Task<IActionResult> Index()
         {
             // From ClaimsPrincipal in base controller
-            string userName = User.Identity!.Name;
+            string userName = User.Identity!.AuthenticationType + User.Identity!.Name;
+
+            bool isUserAuthenticated = User.Identity.IsAuthenticated;
             //
             // user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
             var user = await _graphServiceClient.Me.Request().GetAsync();
@@ -39,7 +41,7 @@ namespace ESL.Web.Controllers
 
             //UserInfo userInfo = new(employee.EmployeeNo, user.Surname, user.GivenName, user.UserPrincipalName);
 
-            ViewData["GraphApiResult"] = $"From Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
+            ViewData["GraphApiResult"] = $"The user {userName} has been authenticated. From Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
 
             try
             {

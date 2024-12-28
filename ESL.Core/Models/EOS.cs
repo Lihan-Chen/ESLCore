@@ -1,4 +1,5 @@
-﻿using ESL.Core.Models.ComplexTypes;
+﻿using ESL.Core.Models.BusinessEntities;
+using ESL.Core.Models.ComplexTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ namespace ESL.Core.Models
     /// The EOS class represents an EOS that belongs to a <see cref="EOS"> EOS</see>.
     /// </summary>
     [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
-    [Table($"ESL_EOS")]
+    [Table($"ESL_EOS", Schema ="ESL")]
     public partial record EOS // : LogEvent
     {
         #region Private Variables
@@ -78,7 +79,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, false, 7)]
         [DisplayName("Operator")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(Operator))]
+        [ForeignKey(nameof(OperatorID))]
         [Column("OPERATORID", TypeName ="NUMBER")]
         public int OperatorID { get; set; }
 
@@ -88,7 +89,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 7)]
         //[DisplayName("Created By")]
         //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(CreatedBy_Employee))]
+        //[ForeignKey(nameof(CreatedBy_Employee))]
         [Column("CREATEDBY", TypeName ="NUMBER")]
         public int? CreatedBy { get; set; }
 
@@ -101,12 +102,12 @@ namespace ESL.Core.Models
         public DateTime? CreatedDate { get; set; }
 
         [DataObjectField(false, false, true, 7)]
-        [ForeignKey(nameof(ReportedBy_Employee))]
+        //[ForeignKey(nameof(ReportedBy_Employee))]
         [Column("REPORTEDBY", TypeName = "NUMBER")]
         public int? ReportedBy { get; set; }
 
         [DataObjectField(false, false, true, 7)]
-        [ForeignKey(nameof(ReportedTo_Employee))]
+        //[ForeignKey(nameof(ReportedTo_Employee))]
         [Column("REPORTEDTO", TypeName = "NUMBER")]
         public int? ReportedTo { get; set; }
 
@@ -129,7 +130,7 @@ namespace ESL.Core.Models
         public string Location { get; set; } = string.Empty;
 
         [DataObjectField(false, false, true, 7)]
-        [ForeignKey(nameof(ReleasedBy_Employee))]
+        //[ForeignKey(nameof(ReleasedBy_Employee))]
         [Column("RELEASEDBY", TypeName = "NUMBER")]
         public int? ReleasedBy { get; set; }
 
@@ -167,7 +168,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Modified By")]
-        [ForeignKey(nameof(ModifiedBy_Employee))]
+        //[ForeignKey(nameof(ModifiedBy_Employee))]
         [Column("MODIFIEDBY", TypeName = "NUMBER")]
         public int? ModifiedBy { get; set; }
 
@@ -199,7 +200,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         // [DisplayName("Notified Person (optional)")]
-        [ForeignKey(nameof(NotifiedPerson_Employee))]
+        //[ForeignKey(nameof(NotifiedPerson_Employee))]
         [Column("NOTIFIEDPERSON", TypeName = "NUMBER")]
         public int? NotifiedPerson { get; set; }
 
@@ -209,7 +210,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Notified Person (optional)")]
         [NotMapped]
-        public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
+        public string? NotifiedPerson_Name { get; set; } = string.Empty; // => NotifiedPerson_Employee.FullName;
 
         /// <summary>
         /// Gets or sets the ShiftNo of the FlowChange.
@@ -283,41 +284,41 @@ namespace ESL.Core.Models
         [NotMapped]
         public int ScanDocsNo { get; set; }
 
-        [NotMapped]
-        public Facility Facility { get; init; } = new Facility();
+        //[NotMapped]
+        //public Facility Facility { get; init; } = new Facility();
 
-        [NotMapped]
-        public LogType LogType { get; init; } = new LogType();
+        //[NotMapped]
+        //public LogType LogType { get; init; } = new LogType();
 
-        [NotMapped]
-        public Employee Operator { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee Operator { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee CreatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee CreatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee ModifiedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee ModifiedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee NotifiedPerson_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee NotifiedPerson_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee UpdatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee UpdatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Facility NotifiedFacility { get; init; } = new Facility();
+        //[NotMapped] 
+        //public Facility NotifiedFacility { get; init; } = new Facility();
 
-        [NotMapped]
-        public Employee ReportedBy_Employee { get; set; } = new Employee();
+        //[NotMapped]
+        //public Employee ReportedBy_Employee { get; set; } = new Employee();
 
-        [NotMapped] 
-        public Employee ReportedTo_Employee { get; set; } = new Employee();
+        //[NotMapped] 
+        //public Employee ReportedTo_Employee { get; set; } = new Employee();
 
-        [NotMapped] 
-        public Employee ReleasedBy_Employee { get; set; } = new Employee();
+        //[NotMapped] 
+        //public Employee ReleasedBy_Employee { get; set; } = new Employee();
 
-        [NotMapped] 
-        public Employee Notified_Employee { get; set; } = new Employee();
+        //[NotMapped] 
+        //public Employee Notified_Employee { get; set; } = new Employee();
 
         /// <summary>
         /// Gets or sets the EventIDentifier of the FlowChange.
@@ -384,11 +385,11 @@ namespace ESL.Core.Models
             {
                 string _EventTrail = String.Empty;
 
-                _EventTrail = "Reported By: " + ReportedBy != null ? ReleasedBy_Employee.FullName : "n/a" + _CrLf;
+                _EventTrail = $"Reported By: {(ReportedBy != null ? "ReleasedBy_Name" : "n/a") }{_CrLf}";
 
                 if (ReportedTo != null)
                 {
-                    _EventTrail += "Reported To: " + ReportedTo_Employee.FullName + _CrLf;
+                    _EventTrail += $"Reported To: ReportedTo_Name{ _CrLf}";
                 }
 
                 if (ReportedDate != null)
@@ -401,17 +402,17 @@ namespace ESL.Core.Models
                     switch (ReleaseType)
                     {
                         case "Full Release":
-                            _EventTrail += "Full Released by: " + ReleasedBy != null ? ReleasedBy_Employee.FullName : "n/a" + _CrLf; // +"Full Released to: " + ReleasedTo + _CrLf;
+                            _EventTrail += "Full Released by: " + ReleasedBy != null ? "ReleasedBy_Employee.FullName" : "n/a" + _CrLf; // +"Full Released to: " + ReleasedTo + _CrLf;
 #pragma warning disable CS8629 // Nullable value type may be null.
                             _EventTrail += "Full Released Dt/Tm: " + ReleasedDate.Value.ToString("MM/dd/yyyy") + " " + ReleasedTime + _CrLf;
 #pragma warning restore CS8629 // Nullable value type may be null.
                             break;
-                        case "Test Release": _EventTrail += "Test Released by: " + ReleasedBy != null ? ReleasedBy_Employee.FullName : "n/a" + _CrLf; // +"Test Released to: " + ReleasedTo + _CrLf;
+                        case "Test Release": _EventTrail += "Test Released by: " + ReleasedBy != null ? "ReleasedBy_Employee.FullName" : "n/a" + _CrLf; // +"Test Released to: " + ReleasedTo + _CrLf;
                             _EventTrail += $"Test Released Dt/Tm: {ReleasedDate.Value.ToString("MM/dd/yyyy")} {ReleasedTime}{_CrLf}";
 #pragma warning restore CS8629 // Nullable value type may be null.
                             break;
-                        case "Transfer": _EventTrail += "Transferred by: " + ReleasedBy != null ? ReleasedBy_Employee.FullName : "n/a" + _CrLf; // +"Released to: " + ReleasedTo + _CrLf;
-                            _EventTrail += "Transferred by: " + ReleasedBy != null ? ReleasedBy_Employee.FullName : "n/a" + _CrLf;
+                        case "Transfer": _EventTrail += "Transferred by: " + ReleasedBy != null ? "ReleasedBy_Employee.FullName" : "n/a" + _CrLf; // +"Released to: " + ReleasedTo + _CrLf;
+                            _EventTrail += "Transferred by: " + ReleasedBy != null ? "ReleasedBy_Employee.FullName" : "n/a" + _CrLf;
                             //_EventTrail += "Released Dt/Tm: " + ReleasedDate.ToString("MM/dd/yyyy") + " " + ReleasedTime + _CrLf;
 
                             //ToDo: Verify IssedTo, IssedDate, IssedTime  (There are no such fields in EOS table)
@@ -423,13 +424,13 @@ namespace ESL.Core.Models
 
                 if (!String.IsNullOrEmpty(OperatorID.ToString()))
                 {
-                    _EventTrail += "Logged By: " + Operator.FullName + _CrLf;
+                    _EventTrail += $"Logged By: Operator.FullName{_CrLf}";
                     _EventTrail += "Logged Dt/Tm: " + UpdateDate?.ToString("yyyy-MM-dd HH:mm") + _CrLf;
                 }
 
                 if (NotifiedPerson != null)
                 {
-                    _EventTrail += "Notified Person: " + Notified_Employee.FullName + _CrLf;
+                    _EventTrail += "Notified Person: " + NotifiedPerson_Name + _CrLf;
                 }
 
                 return _EventTrail;

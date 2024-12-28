@@ -1,4 +1,4 @@
-﻿using ESL.Core.Models;
+﻿using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Core.IRepositories
 {

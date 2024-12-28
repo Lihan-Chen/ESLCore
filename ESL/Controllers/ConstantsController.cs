@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESL.Core.Data;
-using ESL.Core.Models;
+using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Web.Controllers
 {

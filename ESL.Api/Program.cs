@@ -33,11 +33,12 @@ namespace ESL.Api
 
 
             // Forcing SwaggerUI on esl2-dev site only for testing
-            //app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
-            //{
-            //    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-            //    options.RoutePrefix = string.Empty;
-            //});
+            //app.UseSwagger()
+            //    .UseSwaggerUI(c =>
+            //    {
+            //        c.RoutePrefix = "";
+            //        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ESL API Swagger v1");
+            //    });
 
             app.UseHttpsRedirection();
 

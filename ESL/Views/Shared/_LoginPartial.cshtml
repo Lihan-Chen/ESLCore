@@ -4,8 +4,14 @@
 @if (User.Identity?.IsAuthenticated == true)
 {
         <span class="navbar-text text-dark">Hello @User.Identity?.Name!</span>
+        @if (Session["UserName"] != null)
+        {
+            @String.Concat("Hello, ", @Session["UserName"].ToString(), "(", @User.Identity.Name.ToString(), ")! | ")
+            ;
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a>
+
         </li>
 }
 else

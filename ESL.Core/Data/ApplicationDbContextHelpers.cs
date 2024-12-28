@@ -13,7 +13,7 @@ public static class ApplicationDbContextHelpers  //internal
     public const string sqlite_connectionString = "DataSource=app.db;Cache=Shared";
       
     // ODEV41 "data source=ODev41.world;user id=esl;password=MWDesl01_#;Persist Security Info=false;Min Pool Size=10;Connection Lifetime=120;"
-    public const string esl_connectionString = "Data Source=dev7.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;";
+    public const string esl_connectionString = "Data Source=dev41.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;";
 
     // alternatively, https://dotnettutorials.net/lesson/database-connection-string-in-entity-framework-core/
     // 1. use Microsoft.Extensions.Configuration 

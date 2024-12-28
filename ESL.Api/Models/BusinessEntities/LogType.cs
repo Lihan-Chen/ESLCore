@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace ESL.Api.Models.BusinessEntities
 {
     [PrimaryKey(nameof(LogTypeNo))]
-    [Index(nameof(LogTypeNo), nameof(LogTypeName), IsUnique = true, IsDescending = [false, false])]
+    //[Index("LOGTYPENO", "LOGTYPENAME", IsUnique = true, IsDescending = [false, false])]
     [Table("ESL_LOGTYPES", Schema = "ESL")]
     public partial record LogType
     {
@@ -14,13 +14,13 @@ namespace ESL.Api.Models.BusinessEntities
         /// </summary>
         [DataObjectField(true, true, false, 2)]
         [DisplayName("Log Type No.")]
-        [ForeignKey("LogTypeNo")]
+        [ForeignKey("LOGTYPENO")]
         [Column("LOGTYPENO", TypeName = "NUMBER")]
         public int LogTypeNo { get; set; }
 
         [DataObjectField(false, true, false, 100)]
         [DisplayName("Log Type")]
-        [Column("LogTypeName", TypeName = "VARCHAR2")]
+        [Column("LOGTYPENAME", TypeName = "VARCHAR2")]
         public string LogTypeName { get; set; } = null!;
 
         [DataObjectField(false, false, true, 400)]

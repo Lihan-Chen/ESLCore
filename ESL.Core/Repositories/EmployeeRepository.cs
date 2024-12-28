@@ -1,6 +1,6 @@
 ﻿using ESL.Core.Data;
 using ESL.Core.IRepositories;
-using ESL.Core.Models;
+using ESL.Core.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

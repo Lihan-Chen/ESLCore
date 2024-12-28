@@ -1,4 +1,5 @@
 ﻿using ESL.Core.Models;
+using ESL.Core.Models.BusinessEntities;
 using X.PagedList;
 namespace ESL.Web.Views.ViewModels
 {

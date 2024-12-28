@@ -1,4 +1,5 @@
 ﻿using ESL.Core.IConfiguration;
+using ESL.Core.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

@@ -1,4 +1,5 @@
-﻿using ESL.Core.Models.ComplexTypes;
+﻿using ESL.Core.Models.BusinessEntities;
+using ESL.Core.Models.ComplexTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ namespace ESL.Core.Models
     /// The FlowChange class represents an FlowChange that belongs to a <see cref="AllEvent"> AllEvent</see>.
     /// </summary
     [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
-    [Table("ESL_General")]
+    [Table("ESL_GENERAL", Schema ="ESL")]
     public partial record GeneralLog //: LogEvent
     {
         #region Internal Variables
@@ -74,7 +75,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, false, 7)]
         [DisplayName("Operator")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(Operator))]
+        [ForeignKey(nameof(OperatorID))]
         [Column(nameof(OperatorID))]
         public int OperatorID { get; set; }
 
@@ -84,7 +85,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 7)]
         //[DisplayName("Created By")]
         //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(CreatedBy_Employee))]
+        //[ForeignKey(nameof(CreatedBy_Employee))]
         [Column(nameof(CreatedBy))]
         public int? CreatedBy { get; set; }
 
@@ -134,7 +135,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Modified By")]
-        [ForeignKey(nameof(ModifiedBy_Employee))]
+        //[ForeignKey(nameof(ModifiedBy_Employee))]
         [Column(nameof(ModifiedBy))]
         public int? ModifiedBy { get; set; }
 
@@ -185,7 +186,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         // [DisplayName("Notified Person (optional)")]
-        [ForeignKey(nameof(NotifiedPerson_Employee))]
+        //[ForeignKey(nameof(NotifiedPerson_Employee))]
         [Column(nameof(NotifiedPerson))]
         public int? NotifiedPerson { get; set; }
 
@@ -195,7 +196,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Notified Person (optional)")]
         [NotMapped]
-        public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
+        public string? NotifiedPerson_Name => NotifiedPerson_Name;
 
         /// <summary>
         /// Gets or sets the ShiftNo of the FlowChange.
@@ -252,29 +253,29 @@ namespace ESL.Core.Models
         [NotMapped]
         public int ScanDocsNo { get; set; }
 
-        [NotMapped] 
-        public Facility Facility { get; init; } = new Facility();
+        //[NotMapped] 
+        //public Facility Facility { get; init; } = new Facility();
 
-        [NotMapped] 
-        public LogType LogType { get; init; } = new LogType();
+        //[NotMapped] 
+        //public LogType LogType { get; init; } = new LogType();
 
-        [NotMapped] 
-        public Employee Operator { get; init; } = new Employee();
+        //[NotMapped] 
+        //public Employee Operator { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Employee CreatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped] 
+        //public Employee CreatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Employee ModifiedBy_Employee { get; init; } = new Employee();
+        //[NotMapped] 
+        //public Employee ModifiedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Employee NotifiedPerson_Employee { get; init; } = new Employee();
+        //[NotMapped] 
+        //public Employee NotifiedPerson_Employee { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Employee UpdatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped] 
+        //public Employee UpdatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Facility NotifiedFacility { get; init; } = new Facility();
+        //[NotMapped] 
+        //public Facility NotifiedFacility { get; init; } = new Facility();
   
         /// <summary>
         /// Gets or sets the EventIDentifier of the FlowChange.
@@ -350,7 +351,7 @@ namespace ESL.Core.Models
 
                 if (!String.IsNullOrEmpty(OperatorID.ToString()))
                 {
-                    _EventTrail += $"Logged By: {Operator.FullName}{_CrLf}";
+                    _EventTrail += $"Logged By: Operator.FullName{_CrLf}";
                     _EventTrail += $"Logged Dt/Tm: {UpdateDate.ToString("MM/dd/yyyy hh:mm")}{_CrLf}";
                 }
 
@@ -361,7 +362,7 @@ namespace ESL.Core.Models
 
                 if (NotifiedPerson != null)
                 {
-                    _EventTrail += $"Notified Person: {NotifiedPerson_Employee.FullName} of {NotifiedFacility.FacilName}{_CrLf}";
+                    _EventTrail += $"Notified Person: {NotifiedPerson_Name} of {NotifiedFacil}{_CrLf}";
                 }
 
                 return _EventTrail;

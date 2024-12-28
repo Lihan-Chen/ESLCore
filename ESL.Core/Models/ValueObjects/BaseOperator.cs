@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Core.Models.ValueObjects
 {

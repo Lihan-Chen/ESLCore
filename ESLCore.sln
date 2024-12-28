@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testCoreWeb", "testCoreWeb\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testCoreWebApi", "testCoreWebApi\testCoreWebApi.csproj", "{E00163CA-0990-4F70-BBAA-59468CE10278}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESL.Mvc", "ESL.Mvc\ESL.Mvc.csproj", "{4C47920E-5E06-4C88-AC2F-4C88C4132D4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{E00163CA-0990-4F70-BBAA-59468CE10278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E00163CA-0990-4F70-BBAA-59468CE10278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E00163CA-0990-4F70-BBAA-59468CE10278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C47920E-5E06-4C88-AC2F-4C88C4132D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C47920E-5E06-4C88-AC2F-4C88C4132D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C47920E-5E06-4C88-AC2F-4C88C4132D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C47920E-5E06-4C88-AC2F-4C88C4132D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

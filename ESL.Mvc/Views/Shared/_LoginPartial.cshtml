@@ -1,0 +1,38 @@
+﻿@* @using System.Security.Principal *@
+@using Microsoft.Identity.Web
+
+<ul class="navbar-nav navbar-right">
+@if (User.Identity?.IsAuthenticated == true)
+{
+        <li class="navbar-text text-dark">Hello @User.Identity?.Name!</li>
+        @* <span class="navbar-text text-dark">
+            @if (HttpContext.Session.GetString(SessionKeyUserName) != null) 
+            { 
+                @String.Concat("Hello, ", HttpContext.Session.GetString(SessionKeyUserName), "(", @User.Identity.Name.ToString(), ")! | ");          
+            }  
+        </span>*@
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a>
+        </li>
+}
+else
+{
+        <li class="nav navbar-nav">
+            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign in</a>
+        </li>
+}
+</ul>
+
+@* @if (User.Identity.IsAuthenticated == true)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-text">Hello @User.GetDisplayName()!</li>
+        <li><a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign in</a></li>
+    </ul>
+} *@

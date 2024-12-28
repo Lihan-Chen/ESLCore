@@ -1,4 +1,5 @@
-﻿using ESL.Core.Models.ComplexTypes;
+﻿using ESL.Core.Models.BusinessEntities;
+using ESL.Core.Models.ComplexTypes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +13,7 @@ namespace ESL.Core.Models
     /// </summary>
     [DebuggerDisplay("FlowChange: {FacilName, nq} {LogTypeName, nq} {EventID, nq} - {EventID_RevNo, nq})")] // ({Type, nq})
     [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
-    [Table($"ESL_FLOWCHANGES")]
+    [Table($"ESL_FLOWCHANGES", Schema ="ESL")]
     public partial record FlowChange
     {
         #region Private Variables
@@ -81,7 +82,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, false, 7)]
         [DisplayName("Operator")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(Operator))]
+        //[ForeignKey(nameof(Operator))]
         [Column("OPERATORID", TypeName = "NUMBER")]
         public int OperatorID { get; set; }
 
@@ -91,7 +92,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 7)]
         //[DisplayName("Created By")]
         //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(CreatedBy_Employee))]
+        //[ForeignKey(nameof(CreatedBy_Employee))]
         [Column("CREATEDBY", TypeName = "NUMBER")]
         public int? CreatedBy { get; set; }
 
@@ -117,7 +118,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Requested By (optional)")]
         [NotMapped]
-        public string RequestedBy_Name => RequestedBy_Employee.FullName;
+        public string RequestedBy_Name { get; set; } = string.Empty; // => RequestedBy_Employee.FullName;
 
         /// <summary>
         /// Gets or sets the requestedTo of the FlowChange.
@@ -135,7 +136,7 @@ namespace ESL.Core.Models
         [DisplayName("Requested To")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
         [NotMapped]
-        public string RequestedTo_Name => RequestedTo_Employee.FullName;
+        public string RequestedTo_Name { get; set; } = string.Empty; //=> RequestedTo_Employee.FullName;
 
         /// <summary>
         /// Gets or sets the RequestedDate of the FlowChange.
@@ -278,7 +279,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Modified By")]
-        [ForeignKey(nameof(ModifiedBy_Employee))]
+        //[ForeignKey(nameof(ModifiedBy_Employee))]
         [Column("MODIFIEDBY", TypeName = "NUMBER")]
         public int? ModifiedBy { get; set; }
 
@@ -311,7 +312,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         // [DisplayName("Notified Person (optional)")]
-        [ForeignKey(nameof(NotifiedPerson_Employee))]
+        //[ForeignKey(nameof(NotifiedPerson_Employee))]
         [Column("NOTIFIEDPERSON", TypeName = "NUMBER")]
         public int? NotifiedPerson { get; set; }
 
@@ -321,7 +322,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Notified Person (optional)")]
         [NotMapped]
-        public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
+        public string? NotifiedPerson_Name { get; set; } = string.Empty; // => NotifiedPerson_Employee.FullName;
 
         /// <summary>
         /// Gets or sets the ShiftNo of the FlowChange.
@@ -395,36 +396,36 @@ namespace ESL.Core.Models
         [NotMapped]
         public int ScanDocsNo { get; set; }
 
-        [NotMapped]
-        public Facility Facility { get; init; } = new Facility();
+        //[NotMapped]
+        //public Facility Facility { get; init; } = new Facility();
 
-        [NotMapped]
-        public LogType LogType { get; init; } = new LogType();
+        //[NotMapped]
+        //public LogType LogType { get; init; } = new LogType();
 
-        [NotMapped]
-        public Employee Operator { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee Operator { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee CreatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee CreatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee ModifiedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee ModifiedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee NotifiedPerson_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee NotifiedPerson_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee UpdatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee UpdatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Facility NotifiedFacility { get; init; } = new Facility();
+        //[NotMapped]
+        //public Facility NotifiedFacility { get; init; } = new Facility();
 
         
-        [NotMapped]
-        public Employee RequestedBy_Employee { get; set; } = new Employee();
+        //[NotMapped]
+        //public Employee RequestedBy_Employee { get; set; } = new Employee();
 
-        [NotMapped]
-        public Employee RequestedTo_Employee { get; set; } = new Employee();
+        //[NotMapped]
+        //public Employee RequestedTo_Employee { get; set; } = new Employee();
 
         /// <summary>
         /// Gets or sets the EventIDentifier of the FlowChange.
@@ -532,7 +533,7 @@ namespace ESL.Core.Models
 
                 if (RequestedBy != 0 && RequestedBy.HasValue)
                 {
-                    _EventTrail = $"Requested By: {RequestedBy_Employee.FullName}{_CrLf}";
+                    _EventTrail = $"Requested By: {RequestedBy_Name}{_CrLf}";
                 }
                 else
                 {
@@ -541,7 +542,7 @@ namespace ESL.Core.Models
 
                 if (RequestedTo != 0)
                 {
-                    _EventTrail += $"Requested To: {RequestedTo_Employee.FullName}{_CrLf}";
+                    _EventTrail += $"Requested To: {RequestedTo_Name}{_CrLf}";
                 }
                 else
                 {
@@ -552,12 +553,12 @@ namespace ESL.Core.Models
                 _EventTrail += $"Requested Dt/Tm: {RequestedDate.ToString("MM/dd/yyyy")} {RequestedTime}{_CrLf}";
 
 
-                _EventTrail += $"Logged By: {Operator.FullName}{ _CrLf}";
+                _EventTrail += $"Logged By: Operator_Name{ _CrLf}";
                 _EventTrail += $"Logged Dt/Tm: {UpdateDate?.ToString("MM/dd/yyyy hh:mm")}{_CrLf}";
 
                 if (NotifiedPerson.HasValue)
                 {
-                    _EventTrail += $"Notified Person: {NotifiedPerson_Employee.FullName}{_CrLf}";
+                    _EventTrail += $"Notified Person: {NotifiedPerson_Name}{_CrLf}";
                 }
                 else
                 {

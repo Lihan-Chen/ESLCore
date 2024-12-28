@@ -1,6 +1,7 @@
 ﻿using ESL.Core.IConfiguration;
 using ESL.Core.IRepositories;
 using ESL.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ESL.Core.Data
@@ -85,11 +86,22 @@ namespace ESL.Core.Data
         public void Dispose()
         {
             _context.Dispose();
+
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context.Dispose();
+            }
         }
 
         //public async Task Dispose()
         //{
-        //    await _context.DisposeAsync(); 
+        //    await _context.DisposeAsync();
         //}
 
 

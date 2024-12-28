@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ESL.Core.IRepositories;
 using ESL.Core.Data;
-using ESL.Core.Models;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Http.HttpResults;
+using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Core.Repositories
 {

@@ -30,10 +30,16 @@ namespace ESL.Api.Controllers
             return await _context.Employees.Where(e => e.Disable != "Y").Distinct().OrderBy(e => e.LastName).ThenBy(e => e.FirstName).Take(40).AsNoTracking().ToListAsync();
         }
 
-        [HttpGet("FacilityList")]
-        public async Task<ActionResult<IEnumerable<Facility>>> GetFacilities()
+        [HttpGet("LogTypeList")]
+        public async Task<ActionResult<IEnumerable<LogType>>> GetLogTypes()
         {
-            return await _context.Facilities.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).AsNoTracking().ToListAsync();
+            return await _context.LogTypes.AsNoTracking().ToListAsync();
+        }
+
+        [HttpGet("Plants")]
+        public async Task<ActionResult<IEnumerable<Facil>>> GetPlants()
+        {
+            return await _context.Facilities.Where(f => f.FacilNo <= 13).Select(x => new Facil() { FacilNo = x.FacilNo, FacilName = x.FacilName, FacilAbbr = x.FacilAbbr}).OrderBy(o => o.FacilNo).AsNoTracking().ToListAsync();
         }
 
         //[HttpGet("{facilNo}")]

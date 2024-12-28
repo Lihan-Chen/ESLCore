@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ESL.Core.IRepositories;
 using ESL.Core.Data;
-using ESL.Core.Models;
 using ESL.Core.Repositories;
+using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Core.Repositories
 {

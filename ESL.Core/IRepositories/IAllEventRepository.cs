@@ -1,5 +1,4 @@
-﻿using ESL.Core.Models;
-
+﻿using ESL.Core.Models.BusinessEntities;
 using System.Linq.Expressions;
 
 namespace ESL.Core.IRepositories

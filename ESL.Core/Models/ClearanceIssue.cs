@@ -1,4 +1,5 @@
-﻿using ESL.Core.Models.ComplexTypes;
+﻿using ESL.Core.Models.BusinessEntities;
+using ESL.Core.Models.ComplexTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
@@ -81,7 +82,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, false, 7)]
         [DisplayName("Operator")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(Operator))]
+        [ForeignKey(nameof(OperatorID))]
         [Column("OPERATORID", TypeName ="NUMBER")]
         public int OperatorID { get; set; }
 
@@ -91,7 +92,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Created By")]
         [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(CreatedBy_Employee))]
+        //[ForeignKey(nameof(CreatedBy_Employee))]
         [Column("CREATEDBY",TypeName = "NUMBER")]
         public int? CreatedBy { get; set; }
 
@@ -141,7 +142,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         [DisplayName("Modified By")]
-        [ForeignKey(nameof(ModifiedBy_Employee))]
+        //[ForeignKey(nameof(ModifiedBy_Employee))]
         [Column("MODIFIEDBY", TypeName = "NUMBER")]
         public int? ModifiedBy { get; set; }
 
@@ -233,7 +234,7 @@ namespace ESL.Core.Models
         /// </summary>
         [DataObjectField(false, false, true, 7)]
         // [DisplayName("Notified Person (optional)")]
-        [ForeignKey(nameof(NotifiedPerson_Employee))]
+        //[ForeignKey(nameof(NotifiedPerson_Employee))]
         [Column("NOTIFIEDPERSON", TypeName = "NUMBER")]
         public int? NotifiedPerson { get; set; }
 
@@ -243,7 +244,7 @@ namespace ESL.Core.Models
         [DataObjectField(false, false, true, 80)]
         [DisplayName("Notified Person (optional)")]
         [NotMapped]
-        public string? NotifiedPerson_Name => NotifiedPerson_Employee.FullName;
+        public string? NotifiedPerson_Name { get; set; } = string.Empty; // => NotifiedPerson_Employee.FullName;
 
         /// <summary>
         /// Gets or sets the ShiftNo of the FlowChange.
@@ -313,40 +314,40 @@ namespace ESL.Core.Models
         [Column("CLEARANCEID", TypeName = "VARCHAR2")]
         public string? ClearanceID { get; set; }
 
-        [NotMapped]
-        public Facility Facility { get; init; } = new Facility();
+        //[NotMapped]
+        //public Facility Facility { get; init; } = new Facility();
 
-        [NotMapped]
-        public LogType LogType { get; init; } = new LogType();
+        //[NotMapped]
+        //public LogType LogType { get; init; } = new LogType();
 
-        [NotMapped]        
-        public Employee Operator { get; init; } = new Employee();
+        //[NotMapped]        
+        //public Employee Operator { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee CreatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee CreatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Employee ModifiedBy_Employee { get; init; } = new Employee();
+        //[NotMapped] 
+        //public Employee ModifiedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped] 
-        public Employee NotifiedPerson_Employee { get; init; } = new Employee();
+        //[NotMapped] 
+        //public Employee NotifiedPerson_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Employee UpdatedBy_Employee { get; init; } = new Employee();
+        //[NotMapped]
+        //public Employee UpdatedBy_Employee { get; init; } = new Employee();
 
-        [NotMapped]
-        public Facility NotifiedFacility { get; init; } = new Facility();
+        //[NotMapped]
+        //public Facility NotifiedFacility { get; init; } = new Facility();
         
-        [NotMapped]
-        public Employee IssedBy_Employee { get; set; } = new Employee();
+        //[NotMapped]
+        //public Employee IssedBy_Employee { get; set; } = new Employee();
 
-        [NotMapped]
-        public Employee IssedTo_Employee { get; set; } = new Employee();
+        //[NotMapped]
+        //public Employee IssedTo_Employee { get; set; } = new Employee();
 
-        [NotMapped]public Employee ReleasedBy_Employee { get; set;} = new Employee();
+        //[NotMapped]public Employee ReleasedBy_Employee { get; set;} = new Employee();
 
-        [NotMapped]
-        public Employee ReleasedTo_Employee { get;set; } = new Employee();
+        //[NotMapped]
+        //public Employee ReleasedTo_Employee { get;set; } = new Employee();
         
         /// <summary>
         /// Gets or sets the EventIDentifier of the FlowChange.
@@ -425,25 +426,25 @@ namespace ESL.Core.Models
                 string _EventTrail = null!;
                 string _ReleasedBy = null!;
                 string _ReleasedTo = null!;
-                string _IssedTo = null!;
+                string _IssuedTo = null!;
 
-                _EventTrail = $"Issued to: {IssedBy_Employee.FullName}{_CrLf}";
+                _EventTrail = $"Issued to: IssedBy_Name{_CrLf}"; // {IssedBy_Name}
 
-                _EventTrail += $"Issued by: {IssedBy_Employee.FullName}{_CrLf}";
+                _EventTrail += $"Issued by: IssedBy_Name{_CrLf}"; // {IssedBy_Name}
 
                  if (IssuedDate != DateTime.MinValue)
                 {
                     _EventTrail += $"Requested Dt/Tm: {IssuedDate.ToString("MM/dd/yyyy")} {IssuedTime}{_CrLf}";
                 }
 
-                _ReleasedBy = ReleasedBy.HasValue ? ReleasedBy_Employee.FullName : "n/a";
+                _ReleasedBy = ReleasedBy.HasValue ? $"ReleasedBy_Name" : "n/a";
 
-                _ReleasedTo = ReleasedTo.HasValue ? ReleasedTo_Employee.FullName : "n/a";
+                _ReleasedTo = ReleasedTo.HasValue ? $"ReleasedTo_Name" : "n/a";
 
-                _IssedTo = IssedTo_Employee.FullName;
+                _IssuedTo = $"IssuedTo_Name";
 
 
-                switch (ReleaseType)
+                    switch (ReleaseType)
                 {
                     case "Full Release": 
                         _EventTrail += $"Full Released by: { _ReleasedBy}{_CrLf}Full Released to: {_ReleasedTo}{_CrLf}";                  
@@ -457,7 +458,7 @@ namespace ESL.Core.Models
                         break;
 
                     case "Transfer":
-                        _EventTrail += $"Released by: {_ReleasedBy}{_CrLf} + Issud to: {_IssedTo}{_CrLf}";
+                        _EventTrail += $"Released by: {_ReleasedBy}{_CrLf} + Issud to: {_IssuedTo}{_CrLf}";
                         _EventTrail += $"Transfer Dt/Tm: {IssuedDate.ToString("MM/dd/yyyy")} {IssuedTime}{_CrLf}";
                         //_EventTrail += "Released Dt/Tm: " + (ReleasedDate.HasValue ? ReleasedDate.Value.ToString("MM/dd/yyyy") : "n/a") + " " + ReleasedTime + _CrLf;
  
@@ -468,14 +469,14 @@ namespace ESL.Core.Models
 
                 if (!String.IsNullOrEmpty(OperatorID.ToString()))
                 {
-                    _EventTrail += $"Logged By: {Operator.FullName}{_CrLf}";
+                    _EventTrail += $"Logged By: Operator.FullName{_CrLf}";
                     _EventTrail += $"Logged Dt/Tm: {UpdateDate?.ToString("MM/dd/yyyy hh:mm")}{_CrLf}";
                 }
 
                 //if (!String.IsNullOrEmpty(NotifiedPerson))
                 if (!String.IsNullOrEmpty(NotifiedPerson.ToString()))
                 {
-                    _EventTrail += $"Notified Person: {NotifiedPerson_Employee.FullName}{_CrLf}";
+                    _EventTrail += $"Notified Person: {NotifiedPerson_Name}{_CrLf}";
                 }
 
                 return _EventTrail;

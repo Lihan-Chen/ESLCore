@@ -67,10 +67,8 @@ namespace ESL.Web
                 .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
                 // Add ability to call Microsoft Graph APIs with specific permissions
                 .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
-
                 // Enable dependency injection for GraphServiceClient
                 .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph")) //DownstreamApi
-
                 // Add in-memory token cache
                 .AddInMemoryTokenCaches();
 
