@@ -127,8 +127,8 @@ namespace ESL.Core.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            if (optionsBuilder.IsConfigured)
-            { 
+            if (!optionsBuilder.IsConfigured)
+            {
                 optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
 
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. 
@@ -136,19 +136,20 @@ namespace ESL.Core.Data
                 // For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
                 // Alternatively, using Microsoft.Extensions.Configuration to read appsettings.json into configurationBuilder, see the helper file
                 //=> optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
-                // options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.");
+                //options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.");
 
                 // Enabling EF Core Logging https://dotnettutorials.net/lesson/crud-operations-in-entity-framework-core/
                 // To Display the Generated Database Script https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging
                 optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);  // To Debug Window: message => Debug.WriteLine(message) // To File see example ref link above
 
-            // optionsBuilder.UseOracle("Data Source=ODev41.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;");
+                // optionsBuilder.UseOracle("Data Source=ODev41.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;");
 
-            //optionsBuilder.UseSqlite(ApplicationDbContextHelpers.sqlite_connectionString);
+                //optionsBuilder.UseSqlite(ApplicationDbContextHelpers.sqlite_connectionString);
+                //}
+                base.OnConfiguring(optionsBuilder);
             }
-            base.OnConfiguring(optionsBuilder);
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // ref:desenvolvedor-io/dev-store/CatalogContext.cs

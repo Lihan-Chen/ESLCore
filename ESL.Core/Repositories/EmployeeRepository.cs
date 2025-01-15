@@ -6,17 +6,22 @@ using Microsoft.Extensions.Logging;
 
 namespace ESL.Core.Repositories
 {
-    public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository 
     {
 
         public EmployeeRepository(
-            ApplicationDbContext context,
-            ILogger logger
+            EslDbContext context,
+            ILogger<EmployeeRepository> logger
             ) : base(context, logger)
         {
 
         }
-        public async Task<string> GetFullName(int employeeNo)
+
+        //public EmployeeRepository(EslDbContext context, ILogger logger) : base(context, logger)
+        //{
+        //}
+
+        public async Task<Employee?> GetEmployee(int employeeNo)
         {
             var employee = await dbSet.FindAsync(employeeNo);
 
@@ -25,7 +30,7 @@ namespace ESL.Core.Repositories
                 throw new Exception();  // new StreetwoodException(ErrorCode.GenericNotExist(typeof(T)));
             }
 
-            return employee?.FullName; 
+            return employee; 
         }
 
         public override async Task<IEnumerable<Employee>> GetAll()
@@ -84,11 +89,11 @@ namespace ESL.Core.Repositories
             }
         }
 
-        public async Task<Employee> GetEmployee(string firstName, string lastName)
+        public async Task<Employee?> GetEmployee(string firstName, string lastName)
         {
-            //Employee? employee = await dbSet.Where(e => e.FirstName == firstName && e.LastName == lastName).FirstOrDefaultAsync();
+            Employee? employee = await dbSet.Where(e => e.FirstName.ToUpper() == firstName.ToUpper() && e.LastName.ToUpper() == lastName.ToUpper()).FirstOrDefaultAsync();
 
-            Employee? employee = await dbSet.FirstOrDefaultAsync(e => e.FirstName == firstName && e.LastName == lastName);
+            //Employee? employee = await dbSet.FirstOrDefaultAsync(e => e.FirstName == firstName && e.LastName == lastName);
 
             if (employee == null)
             {

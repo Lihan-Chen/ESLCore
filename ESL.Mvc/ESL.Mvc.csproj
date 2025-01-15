@@ -8,9 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Area\Admin\Controllers\ConstantController.cs" />
+    <Compile Remove="Controllers\BaseController - Copy.cs" />
+    <Compile Remove="Services\IConstantService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0" />
@@ -25,7 +32,7 @@
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.5.0" />
     <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.5.0" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.60" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.2.0" />
@@ -36,6 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Area\Admin\Models\" />
+    <Folder Include="Area\Admin\Views\" />
+    <Folder Include="Area\Admin\ViewModels\" />
     <Folder Include="Models\Enums\" />
   </ItemGroup>
 

@@ -1,5 +1,4 @@
 ﻿using ESL.Core.Models;
-using ESL.Core.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Session;
 using Microsoft.Identity.Web;
@@ -22,53 +21,40 @@ namespace ESL.Mvc.Controllers
 
         public BaseController(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor;
+            this._httpContextAccessor = httpContextAccessor;
         }
 
         // Variables using Cap are globally accessible
 
         // User Authenticated by WIP (Windows Identity Protection)
         // https://learn.microsoft.com/en-us/answers/questions/804629/how-to-access-user-identity-in-basecontroller       
-        public  bool IsAuthenticated => User.Identity!.IsAuthenticated;
-
-        public static string UserSessionID;  // => HttpContext.Session.Id;
+        public bool IsAuthenticated => User.Identity!.IsAuthenticated;
         
         // Find username (LastName,FirstName) to get the User object from Oracle DbContext
-        public string? UserName => User.Identity!.IsAuthenticated ? User.FindFirst(c => c.Type == "name")?.Value : string.Empty;      
+        public string? Username => User.Identity!.IsAuthenticated ? User.FindFirst(c => c.Type == "name")?.Value : string.Empty;      
         
         // SessionUser is the authenticated user that should have been recorded in the ESL_Employee table from Oracle ESL schema
-        public static Employee? SessionUser { get; set; } // set by HomeController, to be saved to session after "login"
-        public static int? UserEmployeeNo => SessionUser?.EmployeeNo;
-        public static string? UserID => SessionUser?.UID;
+        public Employee? SessionUser { get; set; } // set by HomeController, to be saved to session after "login"
+        public int? UserEmployeeNo => SessionUser?.EmployeeNo;
+        public string? UserID => SessionUser?.UID;
 
         // Shift Info
-        public static string Shift = null!;  // Day or Night
-        public static int ShiftNo; // 1 or 2
-        public static string OperatorType = null!; // Primary or Secondary
-        private static int _sessionTimeOut = 30; // extends additional time for session
+        public string Shift = null!;  // Day or Night
+        public int ShiftNo; // 1 or 2
+        public string OperatorType = null!; // Primary or Secondary
+        private int _sessionTimeOut = 30; // extends additional time for session
 
         // From SelectPlant
-        public static string? FacilName;  // OCC
-        public static int FacilNo = 0; // 0 stands for when a plant has been selected
+        public string? FacilName;  // OCC
+        public int FacilNo = 0; // 0 stands for when a plant has been selected
 
-        //public bool SessionStates;
-        public static SessionState UserSessionState;
-
-        // SessionStates:
-        //public bool SessionNew; // Referer = LoginUrl;
-        //public bool SessionInProgress; // Set after Plant has been selected, and commited in basecontroller's OnActionExecuted
         //public bool SessionValid;
-        //public bool SessionExpired;  // Timed out
-        //public bool SessionLocked;
-        
-
-        // public bool UserStates       
+        public bool IsSessionValid;
         public bool UserLoggedIn => IsAuthenticated;
-        public static bool IsOperator = false;
-        public static bool IsAdmin = false;
-        public static bool IsSuperAdmin = false;
-
-        public static bool IsCheckingFacility;
+        public bool IsAdmin = false;
+        public bool IsSuperAdmin = false;
+        public bool IsOperator = false;
+        public bool IsCheckingFacility;
 
         // Corresponds to Identity IsInRole(role) method
         //public bool IsInRole(string role);
@@ -100,26 +86,20 @@ namespace ESL.Mvc.Controllers
 
         public bool IsNewSession = true;
 
-        // To be called from SetFacil in Home/SetFacil post
-        //public UserSession? userSession = new UserSession()
+        public UserSession? userSession; // = new UserSession()
         //{
-        //    SessionID = UserSessionID,
-        //    UserName = UserName,
-        //    UserID = UserID,
+        //    SessionID = new Guid(),
+        //    UserName = SessionUser.FullName,
+        //    UserID = SessionUser?.UID,
         //    IsAuthenticated = true,
-        //    // UserRole function not implemented yet
         //    UserRole = GetUserRole(UserID),
-        //    ShiftNo = ShiftNo,
-        //    OperatorType = OperatorType,
+        //    ShiftNo = getShiftNo(),
+        //    OperatorType = GetOperatoryType(),
+
+
         //};
 
-        private static string[] GetUserRole(string? userID)
-        {
-            throw new NotImplementedException();
-        }
-
-        // public const string SessionKeyUserSessioID = "_SessionID"; not needed because Session.Id always comes with Session
-        public const string SessionKeyUserSessionState = "_SessionState";
+        public const string SessionKeyNew = "_SessionNew";
         public const string SessionKeyUserName = "_UserName";
         public const string SessionKeyUserID = "_UserID";
         public const string SessionKeyUserEmployeeNo = "_UserEmployeeNo";
@@ -164,164 +144,128 @@ namespace ESL.Mvc.Controllers
             {
                 // https://stackoverflow.com/questions/32488523/what-does-it-mean-if-my-asp-net-session-has-isnewsession-true-and-should-i-c?rq=3
 
-                // sample code for check session value, set value, and then redirect
-                // https://learn.microsoft.com/en-us/answers/questions/665540/net-6-using-session-in-a-custom-class
-                UserSessionID = HttpContext.Session.Id;
-
-                // Default to not check Facility unless set false
-                IsCheckingFacility = false;
-
-                try
+                // There should not be any keys for a new session (IsNewSession)
+                if (ctx.Session.Keys.Count() == 0) 
                 {
-                    // There should not be any keys for a new session (IsNewSession) on the server
-                    if (!ctx.Session.Keys.Any()) 
+                    // ?????? flag the session new to continue to set up user session
+                    //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyNew)))
+                    //{
+                    //    ctx.Session.SetString(SessionKeyNew, "true");
+
+                    //    // need to clean up cookies 
+                    //    //foreach (var cookie in Request.Cookies.Keys)
+                    //    //{
+                    //    //    Response.Cookies.Delete(cookie);
+                    //    //}
+
+                    //    if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUserSelectedPlant)))
+                    //    {
+                    //        // to set up plant and user info for userSession
+                    //        RedirectToAction("Index", "Home");
+                    //    }
+                    //    else
+                    //    {
+                    //        // AllEvents
+                    //        RedirectToAction("Index", "AllEvents");
+                    //    }
+                    //}
+
+
+                    // Get Cookie string
+                    string sessionCookie = ctx.Request.Headers["Cookie"];
+
+                    // if Referer value is Microsoft login page, the it is definitely a new session (not used yet)
+                    string returnUrl = ctx.Request.Headers["Referer"];
+
+                    // If it is a new session, but an existing cookie exists, then it must have timed out
+                    if ((null != sessionCookie) && (sessionCookie.IndexOf("ASP.NET_SessionId") >= 0))
                     {
-                        // Flag SessionState as New
-                        UserSessionState = SessionState.New;
+                        // If persistent cookie for _UserPlant exists, then capture it into FacilNo global variable;                       
+                        string _facilNoStr;
+                        ctx.Request.Cookies.TryGetValue(SessionKeyUserSelectedPlant, out _facilNoStr);
+                        FacilNo = string.IsNullOrEmpty(_facilNoStr) ? Convert.ToInt32(_facilNoStr) : 0;
 
-                        // Check for cookie on the request from the browser
-                        string sessionCookie = ctx.Request.Headers["Cookie"];
+                        // And, set a session key for FacilNo
+                        HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, FacilNo);
 
-                        // if Request's Referer value is Microsoft login page, the it is definitely a new session (not used yet)
-                        string returnUrl = ctx.Request.Headers["Referer"];
+                        // Reset Shift and OperatorType Reset other cookies
+                        // Ignore cookies for ShiftNo and OperatorType because new session must redirect to home/index to set up user session 
+                        ShiftNo = 0;
+                        OperatorType = String.Empty;
+                        
+                        IsCheckingFacility = true;
 
-                        // ?????? flag the session new to continue to set up user session
-                        //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyNew)))
+                        RedirectToAction("Index", "Home");   
+                        
+                        //if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUserSelectedPlant)))
                         //{
-                        //    ctx.Session.SetString(SessionKeyNew, "true");
-
-                        //    // need to clean up cookies 
-                        //    //foreach (var cookie in Request.Cookies.Keys)
-                        //    //{
-                        //    //    Response.Cookies.Delete(cookie);
-                        //    //}
-
-                        //    if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUserSelectedPlant)))
-                        //    {
-                        //        // to set up plant and user info for userSession
-                        //        RedirectToAction("Index", "Home");
-                        //    }
-                        //    else
-                        //    {
-                        //        // AllEvents
-                        //        RedirectToAction("Index", "AllEvents");
-                        //    }
+                        //    // FacilNo = Convert.ToInt32(ctx.Request.Cookies[SessionKeyUserSelectedPlant]);
                         //}
 
-                        // If it is a new session, but an existing cookie exists, then it must have timed-out stale cookie
-                        if ((null != sessionCookie) && (sessionCookie.IndexOf("ASP.NET_SessionId") >= 0))
-                        {
-                            // If persistent cookie for _UserPlant exists, then capture it into FacilNo global variable;                       
-                            ctx.Request.Cookies.TryGetValue(SessionKeyUserSelectedPlant, out string? _facilNoStr);
-                            FacilNo = string.IsNullOrEmpty(_facilNoStr) ? Convert.ToInt32(_facilNoStr) : 0;
-
-                            // And, set a session key for FacilNo
-                            HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, FacilNo);
-
-                            // Reset Shift and OperatorType Reset other cookies 
-                            foreach (var cookie in Request.Cookies.Keys)
-                            {
-                                Response.Cookies.Delete(cookie);
-                            }
-
-                            // Reset ShiftNo and OperatorType before redirect to home/index to set up user session 
-                            ShiftNo = 0;
-                            OperatorType = String.Empty;
-
-                            // Append SessionID to the new cookie (Option - user ASP.NET_SessionId?)
-                            Response.Cookies.Append("SessionID", UserSessionID);
-
-                            // Flag IsCheckingFacility to true and redirect to set facilNo, shiftNo, operatorType with a form adopted from login and plantmenu in Home/Index
-                            // User is captured through authentication
-                            IsCheckingFacility = true;
-                        } // end of stale cookies that only facil is kept as persistent cookie for the new session
+                        // User is captured through authentication
+                        // code for setting cookie individually in ActionExecuted.
                         
-                            RedirectToAction("Index", "Home");
+                       // flag IsCheckFacility true and redirect to set facilNo, shiftNo, operatorType with a form adopted from login and plantmenu in Home/Index
+                        
+                        //string redirectOnSuccess = ctx.Request.GetEncodedPathAndQuery();
+                        //string redirectUrl = string.Format("?ReturnUrl={0}", redirectOnSuccess);
+                        //string loginUrl = $"https://login.microsoftonline.com/" + redirectUrl; // corresponds to FormsAuthentication.LoginUrlMicrosoftIdentity/Account/SignOut
 
-                            // Additional reference codes -
-                            //string redirectOnSuccess = ctx.Request.GetEncodedPathAndQuery();
-                            //string redirectUrl = string.Format("?ReturnUrl={0}", redirectOnSuccess);
-                            //string loginUrl = $"https://login.microsoftonline.com/" + redirectUrl; // corresponds to FormsAuthentication.LoginUrlMicrosoftIdentity/Account/SignOut
+                        //Response.Redirect("/MicrosoftIdentity/Account/Signout");
 
-                            //Response.Redirect("/MicrosoftIdentity/Account/Signout");
+                        // sample code for check session value, set value, and then redirect
+                        // https://learn.microsoft.com/en-us/answers/questions/665540/net-6-using-session-in-a-custom-class
 
-                            // sample code for check session value, set value, and then redirect
-                            // https://learn.microsoft.com/en-us/answers/questions/665540/net-6-using-session-in-a-custom-class
-                            //string SessionKeyName = "logged";
-                            //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyName)))
-                            //{
-                            //    HttpContext.Session.SetString(SessionKeyName, "notlogged");
-                            //    //ViewData["mt"] = "notlogged";
-                            //    Response.Redirect("./login");
-                            //}
+                        //string SessionKeyName = "logged";
+                        //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyName)))
+                        //{
+                        //    HttpContext.Session.SetString(SessionKeyName, "notlogged");
+                        //    //ViewData["mt"] = "notlogged";
+                        //    Response.Redirect("./login");
+                        //}
 
-                            // HttpContext.SignOutAsync();                    
-                    }
-                    else // not new session, so read session keys into corresponding variables
-                    {
-                        //HttpContext.Session.SetString(SessionKeyUserName, UserName);
-                        //HttpContext.Session.SetString(SessionKeyUserID, UserID);
-                        //HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo);
-                        if (IsSessionValid())
-                        {
-                            UserSessionState = SessionState.Valid;
+                        // HttpContext.SignOutAsync();
 
-                            // All the following must have been set for valid ESL user session
-                            FacilNo = Convert.ToInt32(HttpContext.Session.GetInt32(SessionKeyUserSelectedPlant));
-                            ShiftNo = Convert.ToInt32(HttpContext.Session.GetInt32(SessionKeyUserShiftNo));
-                            OperatorType = HttpContext.Session.GetString(SessionKeyUserOpType);
-                            //HttpContext.Session.SetString(SessionKeyUserName, UserName);
-                            //HttpContext.Session.SetString(SessionKeyUserID, UserID);
-                            //HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo);
-                            //HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, FacilNo);
-                            //HttpContext.Session.SetInt32(SessionKeyUserShiftNo, ShiftNo);
-                            //HttpContext.Session.SetString(SessionKeyUserOpType, OperatorType);
-                        }                   
-                    }
-                }              
-                catch (Exception ex)
-                {
-                    // throw ex; //  new Exception
-                    throw new ArgumentNullException();
+                    } // end of stale cookies given new session
                 }
-                finally
+                else // not new session, so set session key
                 {
-                }    
+
+                }
             }
-            else // if user is not authenticated
+            else
             {
-                HttpContext.SignOutAsync();
+
             }
 
             base.OnActionExecuting(context);
 
-            //try
-            //{
-            //    //if (ctx.Session.Keys.Count() > 6)
-            //    //{
+            try
+            {
+                if (ctx.Session.Keys.Count() > 6)
+                {
 
-            //    //    SessionValid = IsSessionValid();
-            //    //}
-            //        // get data from session;
+                    IsSessionValid = IsSessionValid(ctx.Session);
+                }
+                    // get data from session;
 
-            //    //}
-            //    //else // redirect to login if the used is logged in
-            //    //{
-            //    //    IsSessionValid = false;
-            //    //    //TimeSpan _timeSpan = now - Convert.ToDateTime(ctx.Session.Keys["sessionStart"]);
-            //    //    //ViewBag.Message = "Current session lasts for " + _timeSpan.ToString();
-            //    //    //RedirectToAction("Login", "Account", new { returnUrl = this.Url });
-            //    //}
-            //}
-            //catch (Exception ex)
-            //{
-            //    // throw ex; //  new Exception
-            //    throw new ArgumentNullException();
-            //}
-            //finally
-            //{
-            //}
-        
+                //}
+                //else // redirect to login if the used is logged in
+                //{
+                //    IsSessionValid = false;
+                //    //TimeSpan _timeSpan = now - Convert.ToDateTime(ctx.Session.Keys["sessionStart"]);
+                //    //ViewBag.Message = "Current session lasts for " + _timeSpan.ToString();
+                //    //RedirectToAction("Login", "Account", new { returnUrl = this.Url });
+                //}
+            }
+            catch (Exception ex)
+            {
+                // throw ex; //  new Exception
+                throw new ArgumentNullException();
+            }
+            finally
+            {
+            }
         }
 
         //int _facilNo;
@@ -704,35 +648,49 @@ namespace ESL.Mvc.Controllers
             return HttpContext.Session;
         }
 
-        public virtual bool IsSessionValid()
+        public virtual bool IsSessionValid(ISession session)
         {
             bool _IsSessionValid = false;
 
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUserSelectedPlant)))
+                //string? _sessionUserID = session.TryGetValue(SessionKeyUserID, [NotNullWhen(true)] out string? Value);
+                //string? _sessionUserID = string.IsNullOrEmpty(session.GetString(SessionKeyUserID)) ? session.GetString(SessionKeyUserID).ToString() : string.Empty;
+            string? _sessionUserID = session.GetString(SessionKeyUserID);
+            int? _sessionSelectedPlant = Convert.ToInt32(session.GetString(SessionKeyUserSelectedPlant));
+            int? _sessionShiftNo = Convert.ToInt32(session.GetInt32(SessionKeyUserShiftNo));
+            int? _sessionOpType = Convert.ToInt32(session.GetInt32(SessionKeyUserOpType));
+
+            if (IsAuthenticated && _sessionUserID is not null && _sessionSelectedPlant is not null && _sessionShiftNo is not null && _sessionOpType is not null)
             {
-                int? _sessionSelectedPlant = Convert.ToInt32(HttpContext.Session.GetString(SessionKeyUserSelectedPlant));
-
-                //HttpContext.Session.TryGetValue(SessionKeyUserName, out byte[]? _sessionUserName); // known
-                HttpContext.Session.TryGetValue(SessionKeyUserID, out byte[]? _sessionUserID);
-                //HttpContext.Session.TryGetValue(SessionKeyUserEmployeeNo, out byte[]? _sessionUserEmployeeNo); // not needed (duplicate)
-                HttpContext.Session.TryGetValue(SessionKeyUserShiftNo, out byte[]? _sessionUserShiftNo);
-                HttpContext.Session.TryGetValue(SessionKeyUserOpType, out byte[]? _sessionUserOpType);
-                
-                //string? _sessionUserName = HttpContext.Session.GetString(SessionKeyUserName);
-                //string? _sessionUserID = HttpContext.Session.GetString(SessionKeyUserID);
-                //int? _sessionUserEmployeeNo = HttpContext.Session.GetInt32(SessionKeyUserEmployeeNo);
-                //int? _sessionSelectedPlant = Convert.ToInt32(HttpContext.Session.GetString(SessionKeyUserSelectedPlant));
-                //int? _sessionShiftNo = Convert.ToInt32(HttpContext.Session.GetInt32(SessionKeyUserShiftNo));
-                //int? _sessionOpType = Convert.ToInt32(HttpContext.Session.GetInt32(SessionKeyUserOpType));
-
-                if (!IsAuthenticated && _sessionUserID is not null && _sessionSelectedPlant is not null && _sessionUserShiftNo is not null && _sessionUserOpType is not null)
-                {
-                    _IsSessionValid = true;
-                }
+                _IsSessionValid = true;
             }
             
             return _IsSessionValid;
         }
+
+        //public virtual void CheckSelectedFacility()
+        //{
+
+        //    if (["FacilName"] != null)
+        //    {
+        //        FacilName = Session["FacilName"].ToString();
+        //        FacilNo = Convert.ToInt32(Session["FacilNo"]); // Similarly, GetFacilNo(FacilName) or FacilityManager.GetList().Where(f => f.FacilName.Split(' ').ElementAt(0) == FacilName).Select(f => f.FacilNo).FirstOrDefault();
+        //        IsSuperAdmin = isSuperAdminfromOracle(UserID);
+        //        IsAdmin = isAdminfromOracle(UserID);
+        //        IsOperator = isOperatorfromOracle(UserID);
+        //        // set flag so it does not have run again
+        //        IsCheckingFacility = true;
+        //    }
+        //    else
+        //    {
+        //        FacilName = String.Empty;
+        //        FacilNo = 0;
+        //        IsCheckingFacility = false;
+
+        //        RedirectToAction("Index", "Home", new { returnUrl = this.Url });
+        //    }
+        //}
+
 
     }
 }

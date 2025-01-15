@@ -33,6 +33,7 @@ namespace ESL.Api
 
 
             // Forcing SwaggerUI on esl2-dev site only for testing
+
             //app.UseSwagger()
             //    .UseSwaggerUI(c =>
             //    {

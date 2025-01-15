@@ -10,7 +10,7 @@ namespace ESL.Core.Repositories
     {
 
         public MeterRepository(
-            ApplicationDbContext context,
+            EslDbContext context,
             ILogger logger
             ) : base(context, logger)
         {

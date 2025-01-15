@@ -15,7 +15,7 @@ namespace ESL.Mvc.Services
         private readonly GraphServiceClient _graphServiceClient;
         private readonly MicrosoftIdentityConsentAndConditionalAccessHandler _consentHandler;
         private string[] _graphScopes;
-        private readonly int _grapCollectionMaxRows = 50;
+        private readonly int _graphCollectionMaxRows = 50;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GraphHelper"/> class.
@@ -107,7 +107,7 @@ namespace ESL.Mvc.Services
                         return await _graphServiceClient.Users.Request().GetAsync();
                     })
 
-                , _grapCollectionMaxRows
+                , _graphCollectionMaxRows
             );
         }
 

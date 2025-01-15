@@ -1,0 +1,17 @@
+﻿using ESL.Core.Models.BusinessEntities;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ESL.Core.IConfiguration
+{
+    public interface IEslDbContext
+    {
+        DbSet<Employee> Employees  { get; set; }
+
+        DbSet<Facility> Facilities { get; set; }
+    }
+}

@@ -12,7 +12,7 @@ namespace ESL.Core.Repositories
     {
 
         public UserRepository(
-            ApplicationDbContext context,
+            EslDbContext context,
             ILogger logger
             ) : base(context, logger)
         {

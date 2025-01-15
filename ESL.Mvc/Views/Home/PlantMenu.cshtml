@@ -1,0 +1,37 @@
+﻿@model List<ESL.Core.Models.BusinessEntities.Facil>
+
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+<ol id="selectable">
+    @foreach (var plant in Model)
+    {
+        <li>
+            @Html.ActionLink(@plant.FacilName.Split(' ').ElementAt(0), "SetFacil", new { facilNo = plant.FacilNo, returnUrl = ViewBag.ReturnUrl })
+        </li>
+    }
+</ol>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#selectable").selectable(
+            {
+                selected: ClickOnLink
+            })
+            .bind("selected", ClickOnLink);
+
+            $("#select").on('click', function (event, ui) {
+                $("#selectable li").addClass("ui-selected");
+                $("#selectable").trigger("selected");
+            });
+
+            function ClickOnLink() {
+                $(this).on('click', function (e) {
+                    $(".ui-selected").click();
+                })
+            }
+        });
+    </script>
+}

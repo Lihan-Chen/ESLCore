@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,62 +10,121 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Core.IConfiguration
 {
-    internal interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         // Add all IRepositories here
-        IUserRepository Users { get; }
+        //IUserRepository Users { get; }
 
         IEmployeeRepository Employees { get; }
 
-        IMeterRepository Meters { get; }
+        //IMeterRepository Meters { get; }
 
-        IAllEventRepository AllEvents { get; }
+        //IAllEventRepository AllEvents { get; }
 
         IFacilityRepository Facilities { get; }
 
-        ILogTypeRepository LogTypes { get; }
+        //ILogTypeRepository LogTypes { get; }
 
-        IConstantRepository Constants { get; }
+        //IConstantRepository Constants { get; }
 
-        IClearanceIssueRepository ClearanceIssues { get; }
+        //IClearanceIssueRepository ClearanceIssues { get; }
 
-        IClearanceTypeRepository ClearanceTypes { get; }
+        //IClearanceTypeRepository ClearanceTypes { get; }
 
-        IClearanceZoneRepository ClearanceZones { get; }
+        //IClearanceZoneRepository ClearanceZones { get; }
 
-        IDetailsUserRepository DetailsList { get; }
+        //IDetailsUserRepository DetailsList { get; }
 
-        IEOSRepository EOSLog { get; }
+        //IEOSRepository EOSLog { get; }
 
-        IEquipmentInvolvedRepository EquipmentInvolvedList { get; }
+        //IEquipmentInvolvedRepository EquipmentInvolvedList { get; }
 
-        IFlowchangeRepository FlowChanges { get; }
+        //IFlowchangeRepository FlowChanges { get; }
 
-        IGeneralRepository GeneralLog { get; }
+        //IGeneralRepository GeneralLog { get; }
 
-        ILocationRepository Locations { get; }
+        //ILocationRepository Locations { get; }
 
-        IPlantShiftRepository PlantsShiftList { get; }
+        //IPlantShiftRepository PlantsShiftList { get; }
 
-        IRelatedToRepository RelatedToList { get; }
+        //IRelatedToRepository RelatedToList { get; }
 
-        IScanDocRepository ScanDocs { get; }
+        //IScanDocRepository ScanDocs { get; }
 
-        IScanLobRepository ScanLobs { get; }
+        //IScanLobRepository ScanLobs { get; }
 
-        ISOCRepository SOClog { get; }
+        //ISOCRepository SOClog { get; }
 
-        ISubjectRepository Subjects { get; }
+        //ISubjectRepository Subjects { get; }
 
-        IUnitRepository Units { get; }
+        //IUnitRepository Units { get; }
 
-        IWorkOrderRepository WorkOrders { get; }
+        //IWorkOrderRepository WorkOrders { get; }
 
-        IWorkToBePerformedRepository WorkToBePerformedList { get; }
+        //IWorkToBePerformedRepository WorkToBePerformedList { get; }
 
         // CompleteAsync can include additional business rules such as IAuditable Implementation
         Task CompleteAsync();
-    }
 
+        //// Testing AppDbContext https://stackoverflow.com/questions/59753218/how-to-use-dbcontext-in-separate-class-library-net-core
+        //IRepository<T> Repository<T>() where T : class;
+        //Task SaveChangesAsync();
+    }
 }
+
+    //internal class UnitOfWork : IUnitOfWork
+    //{
+    //    private readonly DbContext _dbContext;
+    //    private Hashtable _repositories;
+    //    public UnitOfWork(DbContext dbContext)
+    //    {
+    //        _dbContext = dbContext;
+    //    }
+
+    //    public IRepository<T> Repository<T>() where T : class
+    //    {
+    //        if (_repositories == null)
+    //            _repositories = new Hashtable();
+
+    //        var type = typeof(T).Name;
+
+    //        if (!_repositories.ContainsKey(type))
+    //        {
+    //            var repositoryType = typeof(Repository<>);
+
+    //            var repositoryInstance =
+    //                Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _dbContext);
+
+    //            _repositories.Add(type, repositoryInstance);
+    //        }
+
+    //        return (IRepository<T>)_repositories[type];
+    //    }
+
+    //    public async Task SaveChangesAsync()
+    //    {
+    //        await _dbContext.SaveChangesAsync();
+    //    }
+    //}
+
+    //public interface IRepository<TEntity> where TEntity : class
+    //{
+    //    Task InsertEntityAsync(TEntity entity);
+    //}
+
+    //internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    //{
+    //    private readonly DbContext _dbContext;
+    //    public Repository(DbContext dbContext)
+    //    {
+    //        _dbContext = dbContext;
+    //    }
+
+    //    public async Task InsertEntityAsync(TEntity entity)
+    //    {
+    //        await _dbContext.Set<TEntity>().AddAsync(entity);
+    //    }
+    //}
+
+    // end of testing AppDbContext
 

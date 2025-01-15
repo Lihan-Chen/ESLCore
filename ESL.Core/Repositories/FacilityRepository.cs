@@ -12,65 +12,68 @@ using System.Threading.Tasks;
 
 namespace ESL.Core.Repositories
 {
-    internal class FacilityRepository : GenericRepository<Facility>, IFacilityRepository
+    public class FacilityRepository : GenericRepository<Facility>, IFacilityRepository
     {
 
         public FacilityRepository(
-            ApplicationDbContext context,
-            ILogger logger
+            EslDbContext context,
+            ILogger<FacilityRepository> logger
             ) : base(context, logger)
         {
         }
 
-        public virtual async Task<string> GetFacilName(int FacilNo)
+        public virtual async Task<string> GetFacilName(int facilNo)
         {
             string _FacilName = null!;
 
-            if (FacilNo != 0)
+            if (facilNo != 0)
             {
-                _FacilName = await dbSet.Where(f => f.FacilNo == FacilNo).Select(s => s.FacilName).FirstOrDefaultAsync();
+                _FacilName = await dbSet.Where(f => f.FacilNo == facilNo).Select(s => s.FacilName).FirstOrDefaultAsync();
                 _FacilName = _FacilName?.Split(' ').ElementAt(0);
             }
 
             return _FacilName;
         }
 
-        public virtual async Task<int> GetFacilNo(string FacilName)
+        public virtual async Task<Facility> GetFacility(int facilNo) => await dbSet.FirstOrDefaultAsync(f => f.FacilNo == facilNo);
+
+
+        public virtual async Task<Facility> GetFacility(string facilName)
         {
-            int _FacilNo = 0;
-            if (!String.IsNullOrEmpty(FacilName))
+            Facility _facility = null;
+
+            if (!String.IsNullOrEmpty(facilName))
             {
-                _FacilNo = await dbSet.Where(f => f.FacilName.Contains(FacilName)).Select(x => x.FacilNo).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
+                _facility = await dbSet.Where(f => f.FacilName.ToUpper().Contains(facilName.ToUpper())).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
             }
-            return _FacilNo;
+            return _facility;
+        }
+
+        public virtual async Task<int> GetFacilNo(string facilName)
+        {
+            int _facilNo = 0;
+            if (!String.IsNullOrEmpty(facilName))
+            {
+                _facilNo = await dbSet.Where(f => f.FacilName.ToUpper().Contains(facilName.ToUpper())).Select(x => x.FacilNo).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
+            }
+            return _facilNo;
         }
 
         public virtual List<SelectListItem> GetFacilAbbrList()
         {
-            var _selectItems = dbSet.Where(f => f.FacilNo <= 13).Select(f => new SelectListItem { Value = f.FacilNo.ToString(), Text = f.FacilAbbr }).ToList();
+            var _selectItems = dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).Select(f => new SelectListItem { Value = f.FacilNo.ToString(), Text = f.FacilAbbr }).ToList();
             
             return _selectItems;
         }
 
         public virtual List<SelectListItem> GetFacilTypes() // SelectListItem
         {
-            var _facilTypes = dbSet.Where(item => item != null).Select(f => f.FacilType).Distinct().AsEnumerable();
+            var _facilTypes = dbSet.Where(item => item != null).Select(f => f.FacilType).Distinct();
             var _selectFacilTypes = _facilTypes.Select(x => new SelectListItem { Value = x.ToString(), Text = x.ToString() }).ToList();
             SelectListItem _emptyString = new SelectListItem() { Value = String.Empty, Text = String.Empty };
             _selectFacilTypes.Insert(0, _emptyString);
 
             return _selectFacilTypes;
-        }
-
-        public virtual async Task<Facility> GetFacility(string FacilName)
-        {
-            Facility _facility = null;
-
-            if (!String.IsNullOrEmpty(FacilName))
-            {
-                _facility = await dbSet.Where(f => f.FacilName.Contains(FacilName)).FirstOrDefaultAsync(); //.Split(' ').ElementAt(0);
-            }
-            return _facility;
-        }
+        }        
     }
 }

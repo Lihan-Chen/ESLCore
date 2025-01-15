@@ -74,7 +74,7 @@ Comment out orgiiginaldefault project config-->
     <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.5.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.60" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     <PackageReference Include="X.PagedList" Version="10.5.7" />
   </ItemGroup>

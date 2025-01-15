@@ -64,6 +64,26 @@ namespace ESL.Api.Controllers
             return employee;
         }
 
+        // GET: LastName,FirstName
+        [HttpGet("{employeeName}")]
+        public async Task<ActionResult<Employee>> GetEmployee(string? employeeName)
+        {
+            //var employee = null;
+            
+            // LastName,FirstName format
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                string firstName = employeeName.Split(',')[1];
+                string lastName = employeeName.Split(',')[0];
+
+                // Maps to string _sql = $"SELECT * FROM ESL.ESL_EMPLOYEES WHERE EMPLOYEENO = {employeeNo}";
+
+                return await _context.Employees.Where(e => e.FirstName.ToUpper() == firstName.ToUpper() && e.LastName.ToUpper() == lastName.ToUpper()).FirstOrDefaultAsync();
+            }
+
+            return NotFound();
+        }
+
         // PUT: api/Employees/5
         // PUT in this method does NOT maintain previos records.
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

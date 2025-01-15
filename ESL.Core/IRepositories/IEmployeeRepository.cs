@@ -5,8 +5,8 @@ namespace ESL.Core.IRepositories
 
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {
-        Task<string> GetFullName(int employeeNo);
+        Task<Employee?> GetEmployee(int employeeNo);
 
-        Task<Employee> GetEmployee(string firstName, string lastName);
+        Task<Employee?> GetEmployee(string firstName, string lastName);
     }
 }

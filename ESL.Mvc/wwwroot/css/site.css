@@ -20,3 +20,42 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#selectable {
+    background-color: #7ac0da;
+    background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+    list-style-type: none;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 10px;
+}
+
+    #selectable li {
+        border: thin outset #FFFF99;
+        font-size: 1.2em;
+        text-align: center;
+        background-color: #C0C0C0;
+        width: 120px;
+        height: 50px;
+        display: inline-block;
+        vertical-align: middle;
+        float: left;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 10px;
+        padding-top: 20px;
+        font-weight: 600;
+    }
+
+    #selectable .ui-selecting {
+        background: #FECA40;
+        color: #00FFFF;
+        list-style-type: square;
+    }
+
+    #selectable .ui-selected {
+        background: #FFCC00;
+        color: #FFFFFF;
+        font-size: 1.3em;
+        list-style-type: square;
+    }

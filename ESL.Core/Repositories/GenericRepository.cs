@@ -11,13 +11,13 @@ namespace ESL.Core.Repositories
     {
         //DbContext
 
-        protected ApplicationDbContext _context;
+        protected EslDbContext _context;
 
         internal DbSet<T> dbSet;
-
+        
         protected readonly ILogger _logger;
 
-        public GenericRepository(ApplicationDbContext context, ILogger logger)
+        public GenericRepository(EslDbContext context, ILogger logger)
         {
             this._context = context;
             this.dbSet = context.Set<T>();
@@ -34,7 +34,6 @@ namespace ESL.Core.Repositories
             return await dbSet.FindAsync(id);
         }
 
-
         public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
         {
             var result = await dbSet.Where(predicate).AsNoTracking().ToListAsync();
@@ -50,7 +49,6 @@ namespace ESL.Core.Repositories
         }
 
         // SoftDelete
-
         public virtual async Task Delete(int id)
         {
             throw new NotImplementedException();

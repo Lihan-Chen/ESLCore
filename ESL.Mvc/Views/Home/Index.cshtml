@@ -1,4 +1,42 @@
+@model ESL.Core.Models.ViewModels.AllEventsViewModel
+
 @{
+    ViewBag.Title = "MWD ESL Home Page";
+    // ViewBag.ShowAlert = true;
+}
+
+@* <div class="float-left">
+    @{
+        await Html.RenderPartialAsync("_PlantMenu", List<ESL.Core.Models.BusinessEntities.Facil>);
+    }
+</div> *@
+
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/ESLScripts.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datepickerrange.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var x = document.getElementById("dialog-message");
+            if (x) {
+                alert(x.innerHTML);
+                x.innerHTML.val("");
+            }
+
+            var refreshIntervalId = setInterval(KeepSessionAlive, 10000);
+
+            function KeepSessionAlive() {
+                url = '@Url.Action("KeepSessionAlive", "AllEvents")';
+                $.get(url, { cache: false }, function () {
+                });
+            }
+        });
+
+    </script>
+}
+
+@* @{
     ViewData["Title"] = "Home Page";
 }
 
@@ -8,13 +46,15 @@
     <div>@ViewData["ApiResult"]</div>
 
     <div>Graph API result</div>
-</div>
+</div> *@
+
+
 
 <div class="jumbotron">
 
 <div class="row">
     <div class="col-md-2">
-        <div class="cardtext-center bg-warning" style="width: 18rem;">
+            <div class="cardtext-center col-lg-4 mb-3 d-flex align-items-stretch" style="width: 18rem;">
             @* <img src="..." class="card-img-top" alt="..."> *@
             <div class="card-body"> 
                 <a href="#" class="btn btn-primary">
@@ -24,7 +64,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <div class="cardtext-center bg-warning" style="width: 18rem;">
+            <div class="cardtext-center col-lg-4 mb-3 d-flex align-items-stretch" style="width: 18rem;">
             @* <img src="..." class="card-img-top" alt="..."> *@
             <div class="card-body">
                 <a href="#" class="btn btn-primary">
@@ -34,7 +74,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <div class="cardtext-center bg-warning" style="width: 18rem;">
+            <div class="cardtext-center col-lg-4 mb-3 d-flex align-items-stretch" style="width: 18rem;">
             @* <img src="..." class="card-img-top" alt="..."> *@
             <div class="card-body">
                 <a href="#" class="btn btn-primary"<h5 class="card-title">Jensen</h5>
@@ -43,7 +83,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <div class="cardtext-center bg-warning" style="width: 18rem;">
+            <div class="cardtext-center col-lg-4 mb-3 d-flex align-items-stretch" style="width: 18rem;">
             @* <img src="..." class="card-img-top" alt="..."> *@
             <div class="card-body">
                 <a href="#" class="btn btn-primary">
@@ -53,7 +93,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <div class="cardtext-center bg-warning" style="width: 18rem;">
+            <div class="cardtext-center col-lg-4 mb-3 d-flex align-items-stretch" style="width: 18rem;">
             @* <img src="..." class="card-img-top" alt="..."> *@
             <div class="card-body">
                 <a href="#" class="btn btn-primary">
@@ -63,7 +103,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <div class="cardtext-center bg-warning" style="width: 18rem;">
+            <div class="cardtext-center col-lg-4 mb-3 d-flex align-items-stretch" style="width: 18rem;">
             @* <img src="..." class="card-img-top" alt="..."> *@
             <div class="card-body">
                 <a href="#" class="btn btn-primary">
@@ -150,4 +190,4 @@
         </div>
     </div>
 }
-</div>
+</div> 

@@ -4,20 +4,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MWD ESL.NET Web</title>
-    
+
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/5.3.3./css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+        asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/ESL.Mvc.styles.css" asp-append-version="true" />
     </environment>
-    
+
 </head>
+
+@* To create a cookie from _Layout for all pages; *@
+@* @inject IHttpContextAccessor HttpContextAccessor;
+@{
+    CookieOptions options = new CookieOptions();
+    options.Expires = DateTime.Now.AddMonths(1);
+    options.IsEssential = true;
+    options.Path = "/";
+
+    HttpContext.Response.Cookies.Append("ESL.Cookie", "20241231mwdh2o.OpsSupportTeam", options);
+}
+ *@
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-inverse navbar-toggleable-sm bg-info navbar-dark border-bottom box-shadow mb-3">
@@ -35,10 +48,6 @@
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link text-dark" asp-area="" asp-controller="AllEvents" asp-action="Index">AllEvents</a>
-                        </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Logs</a>
-                        </li> *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="logsDropdownMenu" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Logs

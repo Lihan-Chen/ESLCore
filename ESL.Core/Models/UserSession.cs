@@ -1,4 +1,5 @@
 ﻿using ESL.Core.Models.BusinessEntities;
+using ESL.Core.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,14 @@ namespace ESL.Core.Models
 
         public string? UserID { get; set; }
 
+        // used to redirect to log in if not authenticated
         public bool IsAuthenticated { get; set; } = false;
 
         public string[] UserRole { get; set; } = null!;
 
         public int? ShiftNo { get; set; } //= System.Web.HttpContext.Current.Session["ShiftNo"].ToString();
+
+        public string ShiftName => ShiftNo == 1 ? "Day" : ShiftNo == 2 ? "Night" : string.Empty;
 
         public string? OperatorType { get; set; }
 
@@ -29,7 +33,11 @@ namespace ESL.Core.Models
 
         public string FacilName => PlantsDictionary.Plants[FacilNo].PlantName; //.GetPlant(FacilNo).PlantName;
 
+        // User is logged in when the authenticated has selected a plant, shift and operatory type
+        // updated on the httppost action of HomeController's Login Method
         public bool UserLoggedIn;
+
+        public SessionState UserSessionState;
 
         public DateTimeOffset SessionStart { get; set; } = DateTimeOffset.Now;
 

@@ -2,15 +2,16 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ESL.Core.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ESL.Core.Data.Repositories
 {
     public class GenericRepository<TEntity> where TEntity : class
     {
-        internal ApplicationDbContext context;
+        internal EslDbContext context;
         internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(ApplicationDbContext context)
+        public GenericRepository(EslDbContext context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();
@@ -74,5 +75,16 @@ namespace ESL.Core.Data.Repositories
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+
+        //public static IEnumerable<SelectListItem> ToSelectListItem<T>(this IEnumerable<T> items, int selectedValue)
+        //{
+        //    return from item in items
+        //           select new SelectListItem
+        //           {
+        //               Text = item.GetPropertyValue("Name"),
+        //               Value = item.GetPropertyValue("Id"),
+        //               Selected = item.GetPropertyValue("Id").Equals(selectedValue.ToString())
+        //           };
+        //}
     }
 }

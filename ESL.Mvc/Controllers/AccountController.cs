@@ -1,5 +1,7 @@
 ﻿using ESL.Mvc.Infrastructure;
 using ESL.Mvc.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
@@ -38,6 +40,14 @@ namespace ESL.Mvc.Controllers
             ViewData["Groups"] = await _graphHelper.GetMemberOfAsync();
 
             return View();
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

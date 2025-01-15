@@ -16,29 +16,30 @@ using System.Threading.Tasks;
 using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Client;
 using Microsoft.Extensions.Configuration;
+using ESL.Core.IRepositories;
+using System.Runtime.CompilerServices;
+using ESL.Core.Models.Enums;
 
 namespace ESL.Mvc.Controllers
-{
-    
+{   
     // https://github.com/Azure-Samples/active-directory-aspnetcore-webapp-openidconnect-v2/blob/master/5-WebApp-AuthZ/5-1-Roles/Controllers/HomeController.cs
     [Authorize]
     public class HomeController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IDownstreamApi _downstreamApi;
         private readonly GraphHelper _graphHelper;
-
+        private readonly IEmployeeService _employeeService;
         private readonly GraphServiceClient _graphServiceClient;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, GraphServiceClient graphServiceClient, IHttpContextAccessor httpContextAccessor, IConfiguration configuration) //, IDownstreamApi downstreamApi
+        public HomeController(ILogger<HomeController> logger, GraphServiceClient graphServiceClient, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IEmployeeService employeeService) : base(httpContextAccessor) //, IDownstreamApi downstreamApi
         {
             _logger = logger;
 
             _graphServiceClient = graphServiceClient;
-            _httpContextAccessor = httpContextAccessor;
+            this._httpContextAccessor = httpContextAccessor;
+            this._employeeService = employeeService;
             string[] graphScopes = configuration.GetValue<string>("DownstreamApi:Scopes")?.Split(' ');
-            // _downstreamApi = downstreamApi;
 
             if (this._httpContextAccessor.HttpContext != null)
             {
@@ -46,28 +47,115 @@ namespace ESL.Mvc.Controllers
             }
         }
 
+        private int? _facilNo => FacilNo;
+        private string _facilName;
+        private bool showAlert = false;
+
         [AuthorizeForScopes(ScopeKeySection = "MicrosoftGraph:Scopes")]
         // [AuthorizeForScopes(ScopeKeySection = "DownstreamApi:Scopes")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string returnUrl, bool showAlert = false)
         {
-            //using var response = await _downstreamApi.CallApiForUserAsync("DownstreamApi").ConfigureAwait(false);
-            //if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            //            {
-            //                var apiResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            //                ViewData["ApiResult"] = apiResult;
-            //            }
-            //            else
-            //            {
-            //                var error = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            //                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}: {error}");
-            //            };
+            showAlert = showAlert is true ? true : false;
 
-            // From ClaimsPrincipal in base controller
-            string userName = User.Identity!.Name;
+            // Login logic
+            // if UserSession.UserLoggedIn is true, redirect to AllEventsController Index with user, shift, operatype, and role info;
+            // otherwise, redirect for login
 
+            // if user successfully logged in, 
             bool isAuthenticated = User.Identity!.IsAuthenticated;
+                   
+            var userName =  isAuthenticated ? User.FindFirst(c => c.Type == "name")?.Value : UserName;
 
-            ViewData["User"] = _httpContextAccessor.HttpContext.User;
+            // Get employee object using EmployeeService from DbContext and set it to BaseController's SessionUser          
+            SessionUser = await _employeeService.GetEmployeeByEmployeeName(userName!);
+            
+            string? userRole = await _employeeService.GetRole(UserID, (int)_facilNo);
+            
+            IsSuperAdmin = userRole == Role_SuperAdmin;
+
+            IsAdmin = userRole == Role_Admin || userRole == Role_SuperAdmin;
+
+            IsOperator = userRole == Role_Operator || userRole == Role_Admin || userRole == Role_SuperAdmin;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // Reference code for accessing MS Graph
+
+            // Extract values from HttppContext.User.Claims
+            var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
+
+            // user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
+            var user = await _graphServiceClient.Me.Request().GetAsync();
+
+            ViewData["GraphApiResult"] = $"{userName} is authenticated from Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
+
+            // ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
+            HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
+
+            string _loginUserName = HttpContext.Session.GetString("_userName");
+
+            // user may not have the facilNo assigned
+            //int? facilNo = SessionUser?.FacilNo;
+
+
+            if (FacilNo == 0)
+            {
+                if (UserSessionState == SessionState.New)
+                {
+                    HttpContext.Session.SetString(SessionKeyUserSessionState, UserSessionState.ToString());
+                }
+                
+                // redirect to plant selection to set FacilNo
+                if (showAlert)
+                {
+                    ViewBag.ShowAlert = true;
+                    ViewBag.Alert = "You must select a facility first!";
+                }
+
+                ViewBag.ShowPlantMenu = IsCheckingFacility; // true;
+                ViewBag.Message = "Please select one facility from the list - ";
+                ViewBag.ReturnUrl = this.Url;
+
+                return View("Index");
+            }
+            else
+            {
+                IsNewSession = false;
+                HttpContext.Session.SetString(SessionKeyUserSessionState, SessionState.Valid.ToString());
+                HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
+                HttpContext.Session.SetString(SessionKeyUserID, $"{UserID}");
+                HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo);
+                HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, (int)FacilNo);
+                HttpContext.Session.SetInt32(SessionKeyUserShiftNo, ShiftNo);
+                HttpContext.Session.SetString(SessionKeyUserOpType, OperatorType);
+
+                return RedirectToAction("Index", "AllEvents");
+            }
+            
+
+            // Extract values from HttppContext.User.Claims
+            
+            //var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
+
+            //var userName = claim?.Value.ToString();  // _httpContextAccessor.HttpContext.User.Claims.FindFirstValue(c => c.Type == "name");
+
+            // note: HeepContext.User == User
+            //var cleanEmail = User.FindFirst(c => c.Type == "preferred_username")?.Value;
+            
+            
+            //var authenticatedUserName = User.FindFirst(c => c.Type == "name")?.Value;
+            
 
             // For future use
             // https://learn.microsoft.com/en-us/answers/questions/1226274/azure-ad-b2c-net-web-app-calling-web-api-no-accoun
@@ -105,15 +193,17 @@ namespace ESL.Mvc.Controllers
             //    // Use the token
             //}
 
-            // user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
-            var user = await _graphServiceClient.Me.Request().GetAsync();
+            //// user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
+            //var user = await _graphServiceClient.Me.Request().GetAsync();
 
-            // ViewData["GraphApiResult"] = user.DisplayName;
+            //// ViewData["GraphApiResult"] = user.DisplayName;
 
-            ViewData["GraphApiResult"] = $"From Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
+            //ViewData["GraphApiResult"] = $"{userName} is authenticated from Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
 
-            // ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
-            HttpContext.Session.SetString("_userName", $"{user.DisplayName}");
+            //// ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
+            //HttpContext.Session.SetString("_userName", $"{userName}");
+
+            //string _loginUserName = HttpContext.Session.GetString("_userName");
 
             // Session
             //public const string SessionKeyUserName = "_UserName";
@@ -130,8 +220,7 @@ namespace ESL.Mvc.Controllers
             //var userName = HttpContext.Session.GetString(SessionKeyUserName);
             //var facilNo = HttpContext.Session.GetInt32(SessionKeyFacilNo).ToString();
 
-
-            return View();
+            //return View();
         }
 
         [AuthorizeForScopes(ScopeKeySection = "DownstreamApi:Scopes")]
@@ -179,6 +268,19 @@ namespace ESL.Mvc.Controllers
         {
             //return View();
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private void SetPersistentCookie(HttpContext httpContext, string key, string value, int daysToExpire)
+        {
+            CookieOptions options = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(daysToExpire),
+                IsEssential = true,
+                HttpOnly = true,
+                Secure = true
+            };
+
+            httpContext.Response.Cookies.Append(key, value, options);
         }
     }
 }
