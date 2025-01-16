@@ -33,14 +33,14 @@ namespace ESL.Core.Repositories
         {
         }
 
-        public async Task<String?> GetRole(string userID, int facilNo)
+        public async Task<String?> GetRole(string userID, int facilNo = 1)
         {
             if (facilNo == 0)
             {
-                return await _roles.Where(r => r.UserID == userID).OrderBy(o => o.FacilNo).Select(s => s.DefaultRole).FirstOrDefaultAsync(); ;
+                return await _roles.Where(r => r.UserID == userID).OrderBy(o => o.FacilNo).Select(s => s.Role).FirstOrDefaultAsync(); ;
             }
 
-            return await _roles.Where(r => r.UserID == userID && r.FacilNo == facilNo).Select(s => s.DefaultRole).FirstOrDefaultAsync();
+            return await _roles.Where(r => r.UserID == userID && r.FacilNo == facilNo).Select(s => s.Role).FirstOrDefaultAsync();
         }
     }
 }

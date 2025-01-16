@@ -180,6 +180,7 @@ namespace ESL.Mvc
                 {
                     options.ViewLocationFormats.Add("/{0}.cshtml");
                 })
+            // Add the Microsoft Identity UI pages for signin/out
             .AddMicrosoftIdentityUI();
 
 

@@ -96,6 +96,7 @@ namespace ESL.Mvc.Controllers
             var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
 
             // user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
+            // need to check if the token is in the cache. https://github.com/AzureAD/microsoft-identity-web/issues/13
             var user = await _graphServiceClient.Me.Request().GetAsync();
 
             ViewData["GraphApiResult"] = $"{userName} is authenticated from Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
@@ -103,7 +104,7 @@ namespace ESL.Mvc.Controllers
             // ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
             HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
 
-            string _loginUserName = HttpContext.Session.GetString("_userName");
+            string _loginUserName = HttpContext.Session.GetString("_UserName");
 
             // user may not have the facilNo assigned
             //int? facilNo = SessionUser?.FacilNo;
@@ -111,6 +112,7 @@ namespace ESL.Mvc.Controllers
 
             if (FacilNo == 0)
             {
+                showAlert = FacilNo == 0;
                 if (UserSessionState == SessionState.New)
                 {
                     HttpContext.Session.SetString(SessionKeyUserSessionState, UserSessionState.ToString());
@@ -142,20 +144,6 @@ namespace ESL.Mvc.Controllers
 
                 return RedirectToAction("Index", "AllEvents");
             }
-            
-
-            // Extract values from HttppContext.User.Claims
-            
-            //var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
-
-            //var userName = claim?.Value.ToString();  // _httpContextAccessor.HttpContext.User.Claims.FindFirstValue(c => c.Type == "name");
-
-            // note: HeepContext.User == User
-            //var cleanEmail = User.FindFirst(c => c.Type == "preferred_username")?.Value;
-            
-            
-            //var authenticatedUserName = User.FindFirst(c => c.Type == "name")?.Value;
-            
 
             // For future use
             // https://learn.microsoft.com/en-us/answers/questions/1226274/azure-ad-b2c-net-web-app-calling-web-api-no-accoun

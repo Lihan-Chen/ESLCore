@@ -13,6 +13,7 @@ using static System.Net.WebRequestMethods;
 using Microsoft.Graph.CallRecords;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Http;
+using ESL.Mvc.Services;
 
 namespace ESL.Mvc.Controllers
 {
@@ -37,7 +38,7 @@ namespace ESL.Mvc.Controllers
         public string? UserName => User.Identity!.IsAuthenticated ? User.FindFirst(c => c.Type == "name")?.Value : string.Empty;      
         
         // SessionUser is the authenticated user that should have been recorded in the ESL_Employee table from Oracle ESL schema
-        public static Employee? SessionUser { get; set; } // set by HomeController, to be saved to session after "login"
+        public static Employee? SessionUser { get; set; } // set by HomeController
         public static int? UserEmployeeNo => SessionUser?.EmployeeNo;
         public static string? UserID => SessionUser?.UID;
 
@@ -49,7 +50,7 @@ namespace ESL.Mvc.Controllers
 
         // From SelectPlant
         public static string? FacilName;  // OCC
-        public static int FacilNo = 0; // 0 stands for when a plant has been selected
+        public static int FacilNo = 0; // 0 for when a plant has not been selected
 
         //public bool SessionStates;
         public static SessionState UserSessionState;
@@ -209,7 +210,7 @@ namespace ESL.Mvc.Controllers
                         //}
 
                         // If it is a new session, but an existing cookie exists, then it must have timed-out stale cookie
-                        if ((null != sessionCookie) && (sessionCookie.IndexOf("ASP.NET_SessionId") >= 0))
+                        if ((!string.IsNullOrEmpty(sessionCookie) && sessionCookie.IndexOf(".ESL.Session") >= 0))
                         {
                             // If persistent cookie for _UserPlant exists, then capture it into FacilNo global variable;                       
                             ctx.Request.Cookies.TryGetValue(SessionKeyUserSelectedPlant, out string? _facilNoStr);
@@ -229,14 +230,16 @@ namespace ESL.Mvc.Controllers
                             OperatorType = String.Empty;
 
                             // Append SessionID to the new cookie (Option - user ASP.NET_SessionId?)
-                            Response.Cookies.Append("SessionID", UserSessionID);
+                            //Response.Cookies.Append("SessionID", UserSessionID);
 
-                            // Flag IsCheckingFacility to true and redirect to set facilNo, shiftNo, operatorType with a form adopted from login and plantmenu in Home/Index
-                            // User is captured through authentication
-                            IsCheckingFacility = true;
+                            
                         } // end of stale cookies that only facil is kept as persistent cookie for the new session
-                        
-                            RedirectToAction("Index", "Home");
+
+                        // Flag IsCheckingFacility to true and redirect to set facilNo, shiftNo, operatorType with a form adopted from login and plantmenu in Home/Index
+                        // User is captured through authentication
+                        IsCheckingFacility = true;
+
+                        RedirectToAction("Index", "Home");
 
                             // Additional reference codes -
                             //string redirectOnSuccess = ctx.Request.GetEncodedPathAndQuery();
