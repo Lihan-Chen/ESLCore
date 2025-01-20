@@ -160,6 +160,26 @@ namespace ESL.Mvc.Services
             return await _empRoles.GetRole(userID, facilNo);
         }
 
+        public async Task<bool> IsInRole(string userID, string role, int facilNo)
+        {
+            switch(role)
+            {
+                case "ESL_OPERATOR":
+                    return await _empRoles.IsInRole(userID, role, facilNo) ||
+                           await _empRoles.IsInRole(userID, "ESL_ADMIN", facilNo) ||
+                           await _empRoles.IsInRole(userID, "ESL_SUPERADMIN", facilNo);
+            
+                case "ESL_ADMIN":
+                    return await _empRoles.IsInRole(userID, role, facilNo) ||
+                           await _empRoles.IsInRole(userID, "ESL_SUPERADMIN", facilNo);
+
+                case "ESL_SUPERADMIN":
+                    return  await _empRoles.IsInRole(userID, role, facilNo);
+
+                default:
+                    return false;
+            }
+        }
         // Facilities and Plants
 
         public async Task<IEnumerable<Facility>> GetAllPlants() => await _facilities.GetAll();

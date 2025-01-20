@@ -49,7 +49,6 @@ Comment out orgiiginaldefault project config-->
 
   <ItemGroup>
     <Compile Remove="ApplicationDbContext.cs" />
-    <Compile Remove="Controllers\BaseController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,6 +84,14 @@ Comment out orgiiginaldefault project config-->
 
   <ItemGroup>
     <Folder Include="API\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\ViewModels\" />
+    <Folder Include="Areas\ESLAPI\Controllers\" />
+    <Folder Include="Areas\ESLAPI\Data\" />
+    <Folder Include="Areas\ESLAPI\Models\" />
+    <Folder Include="Areas\ESLAPI\ViewModels\" />
+    <Folder Include="Areas\ESLAPI\Views\" />
   </ItemGroup>
 
 </Project>

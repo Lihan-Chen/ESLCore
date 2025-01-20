@@ -62,6 +62,15 @@ namespace testCoreWeb
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            // For ESLAPI in Areas/ESLAPI
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                  name: "areas",
+                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+            });
+
             app.Run();
         }
     }

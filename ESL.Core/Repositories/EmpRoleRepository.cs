@@ -42,5 +42,15 @@ namespace ESL.Core.Repositories
 
             return await _roles.Where(r => r.UserID == userID && r.FacilNo == facilNo).Select(s => s.Role).FirstOrDefaultAsync();
         }
+
+        public async Task<bool> IsInRole(string userID, string role, int facilNo)
+        {
+            if (facilNo == 0)
+            {
+                return _roles.Any(r => r.UserID == userID && r.Role == role);
+            }
+
+                return _roles.Any(r => r.UserID == userID && r.Role == role && r.FacilNo == facilNo);           
+        }
     }
 }

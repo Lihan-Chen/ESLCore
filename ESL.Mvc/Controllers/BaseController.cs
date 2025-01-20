@@ -293,7 +293,8 @@ namespace ESL.Mvc.Controllers
             }
             else // if user is not authenticated
             {
-                HttpContext.SignOutAsync();
+                // HttpContext.SignOutAsync();
+                RedirectToAction(LoginUrl);
             }
 
             base.OnActionExecuting(context);
