@@ -80,20 +80,20 @@ namespace ESL.Mvc.Controllers
 
         //public Shift _shift;
         //public string Shift = System.Web.HttpContext.Current.Session["ShiftNo"].ToString();
-        public const String shiftStartText = "06:00:00";  // for Day shift
-        public const String shiftEndText = "17:59:00";
+        public const String ShiftStartText = "06:00:00";  // for Day shift
+        public const String ShiftEndText = "17:59:00";
         public DateTime Now = DateTime.Now;
         public DateTime Tomorrow = DateTime.Now.AddDays(+1);
 
         public int _pageSize = 40;
 
-        public string yesterdayDate = System.DateTime.Now.AddDays(-1).ToString("MM/dd/yyyy");
-        public string todayDate = System.DateTime.Now.Date.ToString("yyyyMMdd");
-        public string tomorrowDate = System.DateTime.Now.AddDays(+1).ToString("yyyyMMdd");
-        public int _daysOffSet = -2;
+        public string YesterdayDate = System.DateTime.Now.AddDays(-1).ToString("MM/dd/yyyy");
+        public string TodayDate = System.DateTime.Now.Date.ToString("yyyyMMdd");
+        public string TomorrowDate = System.DateTime.Now.AddDays(+1).ToString("yyyyMMdd");
+        public int _DaysOffSet = -2;
         // TimeSpan for two and half hours
-        public System.TimeSpan timeSpan = new System.TimeSpan(2, 30, 0);
-        public bool okToProceed = false;
+        public System.TimeSpan TimeSpan = new System.TimeSpan(2, 30, 0);
+        public bool OkToProceed = false;
 
         // note for coding
         public string LogOutUrl = $"/MicrosoftIdentity/Account/SignedOut";
@@ -169,7 +169,7 @@ namespace ESL.Mvc.Controllers
                 // https://learn.microsoft.com/en-us/answers/questions/665540/net-6-using-session-in-a-custom-class
                 UserSessionID = HttpContext.Session.Id;
 
-                // Default to not check Facility unless set false
+                // Default to not check Facility unless set true
                 IsCheckingFacility = false;
 
                 try
@@ -673,7 +673,7 @@ namespace ESL.Mvc.Controllers
                 _shiftEnd = _shiftStart.AddHours(12).AddMinutes(30);
             }
 
-            if (Now > _shiftStart && Now <= _shiftEnd.Add(timeSpan)) // two hours past the shift end time
+            if (Now > _shiftStart && Now <= _shiftEnd.Add(TimeSpan)) // two hours past the shift end time
             {
                 _shiftCheckPassed = true;
             }

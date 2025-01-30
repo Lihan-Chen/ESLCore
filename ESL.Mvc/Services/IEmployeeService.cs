@@ -35,9 +35,9 @@ namespace ESL.Mvc.Services
         public Task<IEnumerable<Facility>> GetAllPlants();
 
         // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public List<SelectListItem> GetPlantSelectList();
+        public SelectList GetPlantSelectList();
 
-        public List<SelectListItem> GetFacilTypes();
+        public SelectList GetFacilTypes();
     }
 
     public class EmployeeService : IEmployeeService
@@ -185,9 +185,9 @@ namespace ESL.Mvc.Services
         public async Task<IEnumerable<Facility>> GetAllPlants() => await _facilities.GetAll();
 
         // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public List<SelectListItem> GetPlantSelectList() => _facilities.GetFacilAbbrList();
+        public SelectList GetPlantSelectList() => _facilities.GetFacilAbbrList();
 
-        public List<SelectListItem> GetFacilTypes() => _facilities.GetFacilTypes();
+        public SelectList GetFacilTypes() => _facilities.GetFacilTypes();
 
         //public static IEnumerable<SelectListItem> ToSelectListItem<T>(this IEnumerable<T> items, int selectedValue)
         //{

@@ -97,7 +97,7 @@ namespace ESL.Core.Repositories
 
             if (employee == null)
             {
-                throw new Exception();  // new StreetwoodException(ErrorCode.GenericNotExist(typeof(T)));
+                throw new Exception(); 
             }
 
             return employee;

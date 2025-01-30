@@ -59,21 +59,35 @@ namespace ESL.Core.Repositories
             return _facilNo;
         }
 
-        public virtual List<SelectListItem> GetFacilAbbrList()
+        public virtual SelectList GetFacilAbbrList()
         {
-            var _selectItems = dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).Select(f => new SelectListItem { Value = f.FacilNo.ToString(), Text = f.FacilAbbr }).ToList();
-            
-            return _selectItems;
+            //var _selectItems = dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).Select(f => new SelectListItem { Value = f.FacilNo.ToString(), Text = f.FacilAbbr }).ToList();
+
+            //return _selectItems;
+
+            var facilities = dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).ToList();
+
+            return new SelectList(facilities, "FacilNo", "FacilName");
+
         }
 
-        public virtual List<SelectListItem> GetFacilTypes() // SelectListItem
+        public virtual SelectList GetFacilTypes() // List<SelectListItem>
         {
-            var _facilTypes = dbSet.Where(item => item != null).Select(f => f.FacilType).Distinct();
-            var _selectFacilTypes = _facilTypes.Select(x => new SelectListItem { Value = x.ToString(), Text = x.ToString() }).ToList();
+            //var _facilTypes = dbSet.Where(item => item != null).Select(f => f.FacilType).Distinct();
+            //var _selectFacilTypes = _facilTypes.Select(x => new SelectListItem { Value = x.ToString(), Text = x.ToString() }).ToList();
+            //SelectListItem _emptyString = new SelectListItem() { Value = String.Empty, Text = String.Empty };
+            //_selectFacilTypes.Insert(0, _emptyString);
+
+            //return _selectFacilTypes;
+            
+            var _facilTypes = dbSet.Where(item => item != null).Distinct();
+
+            var _selectFacilTypes = new SelectList(_facilTypes, "FacilType", "FacilType");
+
             SelectListItem _emptyString = new SelectListItem() { Value = String.Empty, Text = String.Empty };
-            _selectFacilTypes.Insert(0, _emptyString);
+            _selectFacilTypes.Prepend(_emptyString);
 
             return _selectFacilTypes;
-        }        
+        }
     }
 }

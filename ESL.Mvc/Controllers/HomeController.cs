@@ -19,6 +19,9 @@ using Microsoft.Extensions.Configuration;
 using ESL.Core.IRepositories;
 using System.Runtime.CompilerServices;
 using ESL.Core.Models.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shift = ESL.Core.Models.Enums.Shift;
+using ESL.Core.Models.ViewModels;
 
 namespace ESL.Mvc.Controllers
 {   
@@ -49,13 +52,17 @@ namespace ESL.Mvc.Controllers
 
         private int? _facilNo => FacilNo;
         private string _facilName;
-        private bool showAlert = false;
+        private bool _showAlert = false;
+        private Shift _shift;
 
         [AuthorizeForScopes(ScopeKeySection = "MicrosoftGraph:Scopes")]
         // [AuthorizeForScopes(ScopeKeySection = "DownstreamApi:Scopes")]
         public async Task<IActionResult> Index(string returnUrl, bool showAlert = false)
         {
-            showAlert = showAlert is true ? true : false;
+            _showAlert = _showAlert is true ? true : false;
+
+            DateTime _shiftStartTime = Convert.ToDateTime(ShiftStartText); // Converts only the time
+            DateTime _shiftEndTime = Convert.ToDateTime(ShiftEndText);
 
             // Login logic
             // if UserSession.UserLoggedIn is true, redirect to AllEventsController Index with user, shift, operatype, and role info;
@@ -77,6 +84,38 @@ namespace ESL.Mvc.Controllers
 
             IsOperator = userRole == Role_Operator || userRole == Role_Admin || userRole == Role_SuperAdmin;
 
+            var plants = _employeeService.GetPlantSelectList();
+
+            var myOpTypeList = Enum.GetValues(typeof(OperatorType))
+                .Cast<OperatorType>()
+                .Select(s => new { ID = s, Name = s.ToString() });
+
+            var myShiftList = Enum.GetValues(typeof(Core.Models.Enums.Shift))
+                .Cast<Core.Models.Enums.Shift>()
+                .Select(s => new { ID = s, Name = s.ToString() });
+
+            if (Now >= _shiftStartTime && Now < _shiftEndTime)
+            {
+                _shift = Core.Models.Enums.Shift.Day;
+            }
+            else
+            {
+                _shift = Core.Models.Enums.Shift.Night;
+            }
+
+            ViewBag.Shift = _shift;
+
+            var model = new UserSessionViewModel()
+            {
+                UserID = UserID,
+                Shft = _shift,
+                optionOpType = new SelectList(myOpTypeList, "ID", "Name"),
+                optionShift = new SelectList(myShiftList, "ID", "Name", _shift)
+            };
+
+            ViewBag.ReturnUrl = returnUrl;
+
+            //return View(model);
 
 
 
@@ -85,29 +124,24 @@ namespace ESL.Mvc.Controllers
 
 
 
+            //// Reference code for accessing MS Graph
 
+            //// Extract values from HttppContext.User.Claims
+            //var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
 
+            //// user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
+            //// need to check if the token is in the cache. https://github.com/AzureAD/microsoft-identity-web/issues/13
+            //var user = await _graphServiceClient.Me.Request().GetAsync();
 
+            //ViewData["GraphApiResult"] = $"{userName} is authenticated from Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
 
+            //// ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
+            //HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
 
-            // Reference code for accessing MS Graph
+            //string _loginUserName = HttpContext.Session.GetString("_UserName");
 
-            // Extract values from HttppContext.User.Claims
-            var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
-
-            // user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
-            // need to check if the token is in the cache. https://github.com/AzureAD/microsoft-identity-web/issues/13
-            var user = await _graphServiceClient.Me.Request().GetAsync();
-
-            ViewData["GraphApiResult"] = $"{userName} is authenticated from Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
-
-            // ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
-            HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
-
-            string _loginUserName = HttpContext.Session.GetString("_UserName");
-
-            // user may not have the facilNo assigned
-            //int? facilNo = SessionUser?.FacilNo;
+            //// user may not have the facilNo assigned
+            ////int? facilNo = SessionUser?.FacilNo;
 
 
             if (FacilNo == 0)
@@ -211,39 +245,39 @@ namespace ESL.Mvc.Controllers
             //return View();
         }
 
-        [AuthorizeForScopes(ScopeKeySection = "DownstreamApi:Scopes")]
-        public async Task<IActionResult> Profile()
-        {
-            ViewData["Me"] = await _graphHelper.GetMeAsync();
+        //[AuthorizeForScopes(ScopeKeySection = "DownstreamApi:Scopes")]
+        //public async Task<IActionResult> Profile()
+        //{
+        //    ViewData["Me"] = await _graphHelper.GetMeAsync();
 
-            if (ViewData["Me"] == null)
-            {
-                return new EmptyResult();
-            }
+        //    if (ViewData["Me"] == null)
+        //    {
+        //        return new EmptyResult();
+        //    }
 
-            var photoStream = await this._graphHelper.GetMyPhotoAsync();
-            ViewData["Photo"] = photoStream != null ? Convert.ToBase64String(((MemoryStream)photoStream).ToArray()) : null;
+        //    var photoStream = await this._graphHelper.GetMyPhotoAsync();
+        //    ViewData["Photo"] = photoStream != null ? Convert.ToBase64String(((MemoryStream)photoStream).ToArray()) : null;
 
-            return View();
-        }
+        //    return View();
+        //}
 
         /// <summary>
         /// Fetches and displays all the users in this directory. This method requires the signed-in user to be assigned to the 'UserReaders' approle.
         /// </summary>
         /// <returns></returns>
-        [AuthorizeForScopes(Scopes = new[] { GraphScopes.UserReadBasicAll })]
-        [Authorize(Policy = AuthorizationPolicies.AssignmentToUserReaderRoleRequired)]
-        public async Task<IActionResult> Users()
-        {
-            ViewData["Users"] = await this._graphHelper.GetUsersAsync();
+        //[AuthorizeForScopes(Scopes = new[] { GraphScopes.UserReadBasicAll })]
+        //[Authorize(Policy = AuthorizationPolicies.AssignmentToUserReaderRoleRequired)]
+        //public async Task<IActionResult> Users()
+        //{
+        //    ViewData["Users"] = await this._graphHelper.GetUsersAsync();
 
-            if (ViewData["Users"] == null)
-            {
-                return new EmptyResult();
-            }
+        //    if (ViewData["Users"] == null)
+        //    {
+        //        return new EmptyResult();
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

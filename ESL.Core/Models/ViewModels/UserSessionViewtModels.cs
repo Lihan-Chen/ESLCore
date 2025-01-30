@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,9 +39,9 @@ namespace ESL.Core.Models.ViewModels
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
 
-        public IEnumerable<SelectListItem> optionOpType { get; set; }
+        public IEnumerable<SelectListItem> optionOpType { get; set; } = new List<SelectListItem>();
 
-        public IEnumerable<SelectListItem> optionShift { get; set; }
+        public IEnumerable<SelectListItem> optionShift { get; set; } = new List<SelectListItem>();
 
         // Consider using ViewComponent or PlantService
         // public SelectList Plants { get; set; }
