@@ -17,9 +17,9 @@ namespace ESL.Core.Data
 
         public IEmployeeRepository Employees { get; private set; }
 
-        //public IMeterRepository Meters => throw new NotImplementedException();
+        public IMeterRepository Meters { get; private set; }
 
-        //public IAllEventRepository AllEvents => throw new NotImplementedException();
+        public IAllEventRepository AllEvents { get; private set; }
 
         public IFacilityRepository Facilities { get; private set; }
 
@@ -78,8 +78,9 @@ namespace ESL.Core.Data
 
             Facilities = new FacilityRepository(_context, (ILogger<FacilityRepository>)_logger);
 
-            //AllEvents = new AllEventRepository(_context, _logger);
-            //Meters = new MeterRepository(_context, _logger);
+            AllEvents = new AllEventRepository(_context, (ILogger<AllEventRepository>)_logger);
+
+            Meters = new MeterRepository(_context, (ILogger<MeterRepository>)_logger);
         }
 
         public async Task CompleteAsync()

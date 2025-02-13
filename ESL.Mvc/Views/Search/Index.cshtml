@@ -1,0 +1,75 @@
+﻿@model ESL.Mvc.ViewModels.SearchListViewModel
+
+@using X.PagedList;
+@using X.PagedList.Mvc;
+
+<link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" />
+
+<div class="content-wrapper">
+    @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+    {
+        @Html.ValidationSummary(true)
+
+        <fieldset id="fadein" style="background-color:Orange">
+            <legend>@ViewBag.title</legend>
+            <table class="search">
+                <tr>
+                    @*<th>@Html.LabelFor(model => model.SearchFilterPartial.FacilNo)
+                </th>*@
+                    @Html.HiddenFor(model => model.SearchFilterPartial.FacilNo)
+                    <th>
+                        @Html.LabelFor(model => model.SearchFilterPartial.LogTypeNo, new { @class = "small-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.SearchFilterPartial.StartDate, new { @class = "small-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.SearchFilterPartial.EndDate, new { @class = "small-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.SearchFilterPartial.SearchValues, new { @class = "small-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.SearchFilterPartial.OptionAll, new { @class = "small-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.SearchFilterPartial.OperatorType, new { @class = "small-label" })
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                <tr style="vertical-align:top">
+                    <td style="vertical-align:top; width:15%">
+                        @Html.DropDownListFor(model => model.SearchFilterPartial.LogTypeNo, Model.SearchFilterPartial.LogTypeNos, new { @class = "small-dropdownlist" })
+                        <p>@Html.ValidationMessageFor(model => model.SearchFilterPartial.FacilNo)</p>
+                    </td>
+                    <td style="width:25%">
+                        @Html.EditorFor(model => model.SearchFilterPartial.StartDate, new { @id = "StartDate", @class = "datepicker" })
+                        <p>@Html.ValidationMessageFor(model => model.SearchFilterPartial.StartDate)</p>
+                    </td>
+                    <td style="width:25%">
+                        @Html.EditorFor(model => model.SearchFilterPartial.EndDate, new { @id = "EndDate", @class = "datepicker" })
+                        <p>@Html.ValidationMessageFor(model => model.SearchFilterPartial.EndDate)</p>
+                    </td>
+                    <td style="vertical-align:top">
+                        @Html.EditorFor(model => model.SearchFilterPartial.SearchValues, new { @class = "small-input" })
+                        @Html.ValidationMessageFor(model => model.SearchFilterPartial.SearchValues)
+                    </td>
+                    <td style="vertical-align:top">
+                        @Html.DropDownListFor(model => model.SearchFilterPartial.OptionAll, Model.SearchFilterPartial.OptionAllTypes, new { @class = "small-dropdownlist" })
+                        @Html.ValidationMessageFor(model => model.SearchFilterPartial.OptionAll)
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => model.SearchFilterPartial.OperatorType, new { @class = "small-checkbox" })
+                        <p>@Html.ValidationMessageFor(model => model.SearchFilterPartial.OperatorType)</p>
+                        @*@Html.HiddenFor(model => model.FacilNo)*@
+                    </td>
+                    <td style="vertical-align:top">
+                        <input type="submit" value="Refresh" title="Click to update search result" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    }
+</div>

@@ -1,0 +1,10 @@
+﻿@using testCoreWeb.ViewModels
+@model OperatorTypeEnumViewModel
+
+<form asp-area="" asp-controller="Home" asp-action="OperatorType" method="post">
+    <select asp-for="EnumOperatorType"
+    asp-itmes="Html.GetEnumSelectList<OperatorTypeEnum>()">
+        <br />
+        <button type="submit">Send</button>
+    </select>
+</form>

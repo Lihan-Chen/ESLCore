@@ -10,8 +10,12 @@ namespace ESL.Core.IConfiguration
 {
     public interface IEslDbContext
     {
-        DbSet<Employee> Employees  { get; set; }
-
+        
+        DbSet<AllEvent> AllEvents { get; set; }
+        DbSet<AllScadaUsersRole> Roles { get; set; }
+        DbSet<Employee> Employees { get; set; }
         DbSet<Facility> Facilities { get; set; }
+        DbSet<Constant> Constants { get; set; }
+        DbSet<Meter> Meters { get; set; }
     }
 }

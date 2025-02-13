@@ -14,6 +14,10 @@ namespace ESL.Mvc.Controllers
 
         public AccountController(IHttpContextAccessor httpContextAccessor)
         {
+            if (httpContextAccessor.HttpContext == null)
+            {
+                throw new ArgumentNullException(nameof(httpContextAccessor.HttpContext));
+            }
             this._graphHelper = new GraphHelper(httpContextAccessor.HttpContext, new[] { GraphScopes.DirectoryReadAll });
         }
 

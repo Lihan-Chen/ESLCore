@@ -17,6 +17,8 @@ namespace ESL.Core.Data
 
         }
 
+        public DbSet<AllEvent> AllEvents { get; set; }
+
         public virtual DbSet<AllScadaUsersRole> Roles { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
@@ -24,5 +26,7 @@ namespace ESL.Core.Data
         public DbSet<Facility> Facilities { get; set; }
 
         public DbSet<Constant> Constants { get; set; }
+
+        public DbSet<Meter> Meters { get; set; }
     }
 }

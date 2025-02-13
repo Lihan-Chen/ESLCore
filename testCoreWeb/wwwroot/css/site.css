@@ -20,3 +20,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.dropdown-menu {
+    color: red;
+    width: 200px;
+}
+
+    .dropdown-menu option {
+        background: #000;
+        color: #fff
+    }

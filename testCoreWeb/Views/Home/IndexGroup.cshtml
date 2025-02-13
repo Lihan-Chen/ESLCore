@@ -1,0 +1,12 @@
+﻿@using testCoreWeb.ViewModels
+@model PlantViewModelGroup
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-area="" asp-controller="Home" asp-action="Index" method="post">
+    <select asp-for="FacilNo" asp-items="Model.Plants"></select>
+    <br />
+    <button type="submit">Select</button>
+</form>

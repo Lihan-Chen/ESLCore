@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MWD ESL.NET Web</title>
+    <title>@ViewData["Title"] - MWD ESL.net Core</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -36,31 +36,38 @@
         <nav class="navbar navbar-expand-sm navbar-inverse navbar-toggleable-sm bg-info navbar-dark border-bottom box-shadow mb-3">
             @* navbar-light bg-white *@
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ESL.net Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ESL.net Core</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-center">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</span></a>
-                        </li>
                         <li class="nav-item active">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</span></a>
+                            <ul>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SelectPlant">Select Plant</span></a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="AllEvents" asp-action="Index">AllEvents</a>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="logsDropdownMenu" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Logs
                             </a>
                             <div class="dropdown-menu" aria-labelledby="logsDropdownMenu">
                                 <a class="dropdown-item" asp-area="" asp-controller="AllEvents" asp-action="Index">Clearance</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="SOC" asp-action="Index">SOC</a>
+                                <a class="dropdown-item" asp-area="SOC" asp-controller="SOC" asp-action="Index">SOC</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-area="" asp-controller="FlowChange" asp-action="Index">FlowChange</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="General" asp-action="Index">General</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="ESO" asp-action="Index">EOS</a>
+                                <a class="dropdown-item" asp-area="FlowChange" asp-controller="FlowChange" asp-action="Index">FlowChange</a>
+                                <a class="dropdown-item" asp-area="General" asp-controller="General" asp-action="Index">General</a>
+                                <a class="dropdown-item" asp-area="EOS" asp-controller="EOS" asp-action="Index">EOS</a>
+                                <a class="dropdown-item" asp-area="HotLine" asp-controller="HotLine" asp-action="Index">HotLine</a>
                             </div>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Search
@@ -72,6 +79,7 @@
                                 </form>
                             </div>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="reportsDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Reports
@@ -83,6 +91,7 @@
                                 <a class="dropdown-item" href="#">Monthlyly</a>
                             </div>
                         </li>
+
                         @* @if (Session["isAdmin"] != null && (bool)Session["isAdmin"]) *@
                         @if (true)
                         {
@@ -91,16 +100,16 @@
                                 Admin
                             </a>
                             <div class="dropdown-menu" aria-labelledby="adminDropdownMenu">
-                                <a class="dropdown-item" asp-area="" asp-controller="AllEvents" asp-action="Index">Constant</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="SOC" asp-action="Index">Details</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="FlowChange" asp-action="Index">Employee</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="General" asp-action="Index">Equipment</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="AllEvents" asp-action="Index">Location</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="SOC" asp-action="Index">Meter</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Constant" asp-action="Index">Constant</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Details" asp-action="Index">Details</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Employee" asp-action="List">Employee</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Equipment" asp-action="Index">Equipment</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Location" asp-action="List">Location</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Meter" asp-action="Index">Meter ID</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-area="" asp-controller="FlowChange" asp-action="">Subject</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="General" asp-action="Index">Work Be Performed</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="ESO" asp-action="Index">Zone</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Subject" asp-action="Index">Subject</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Work" asp-action="Index">Work Be Performed</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Zone" asp-action="Index">Zone</a>
                             </div>
                         </li>
                         }       
@@ -132,7 +141,7 @@
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.7.1.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
         </script>

@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<ESL.Mvc.Views.ViewModels.PlantViewModel>
+
+@{
+    ViewBag.Title = "SelectFacilPartial";
+}
+
+<h2>SelectFacilPartial</h2>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FacilNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FacilName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FacilAbbr)
+        </th>
+        <th></th>
+    </tr>
+
+    @if (Model.plants != null)
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FacilNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FacilName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FacilAbbr)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }

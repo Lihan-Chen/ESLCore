@@ -1,83 +1,143 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ESL.Core.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace testCoreWeb.Controllers
 {
     public class AllEventsController : BaseController
     {
+        // Identifier
+        int _facilNo;
+        int _logTypeNo;
+        string _eventID; // = string.Empty;
+        int _eventID_RevNo;
+
+        // Lookup
+        string _facilName;
+        string _logTypeName;
+
+        // Search
+        string _startDate;
+        string _endDate;
+        DateTime? initialStartDate;
+        string _operatorType = String.Empty;
+        bool _opType = true;
+
+        // Access HttpContext
+        HttpRequest request;
+        HttpResponse response;
+
+        public AllEventsController()
+        {
+            request = HttpContext.Request;
+            response = HttpContext.Response;
+        }
+
         // GET: AllEventsController
-        public ActionResult Index()
+        [HttpGet("AllEvents")]
+        public ActionResult Index(_LogFilterPartialViewModel logFilterPartial, int? facilNo, DateTime? startDate, DateTime? endDate, string searchString, int? page, bool? operatorType) // , string active, string sortOrder, string currentFilter, string searchString, int? page)
         {
             return View();
         }
 
         // GET: AllEventsController/Details/5
-        public ActionResult Details(int id)
+        //[HttpGet("Details")]
+        //private static AllEventDetails GetLogDetails(int _facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        //{
+        //    return View();
+        //}
+
+        //public ActionResult LogSearch(int facilNo, DateTime StartDate, DateTime EndDate, bool operatorType)
+        //{
+        //    return View();
+        //}
+
+        //public ActionResult Rev(int facilNo, int logTypeNo, string eventID, int eventID_RevNo, string act)
+        //{
+        //    return View();
+        //}
+
+        //public ActionResult Del(int facilNo, int logTypeNo, string eventID, int eventID_RevNo)
+        //{
+        //    string _act = "Deleted";
+        //    return RedirectToAction("Rev", "AllEvents", new { facilNo = facilNo, logTypeNo = logTypeNo, eventID = eventID, eventID_RevNo = eventID_RevNo, act = _act });
+        //}
+
+        public ActionResult Report(int facilNo, DateTime? startDate, DateTime? endDate, string rptOption, string searchString)
         {
             return View();
         }
 
-        // GET: AllEventsController/Create
-        public ActionResult Create()
+        #region Helpers
+
+        public ActionResult ESLUserAutoCompleteList(string term)
         {
-            return View();
+            throw new NotImplementedException();
         }
 
-        // POST: AllEventsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult ESLUserSelectList(string q)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            throw new NotImplementedException();
         }
 
-        // GET: AllEventsController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult DetailsSelectList(int subjNo)
         {
-            return View();
+            throw new NotImplementedException();
         }
 
-        // POST: AllEventsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [OutputCache(PolicyName = "Cache12Hours")] //, Location = OutputCacheLocation.Client // , VaryByParam = "none"
+        public ActionResult LocationSelectList()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            throw new NotImplementedException();
         }
 
-        // GET: AllEventsController/Delete/5
-        public ActionResult Delete(int id)
+        [OutputCache(PolicyName = "Cache12Hours")] //, VaryByParam = "none"
+        public ActionResult ClearanceZoneSelectList()
         {
-            return View();
+            throw new NotImplementedException();
         }
 
-        // POST: AllEventsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [OutputCache(PolicyName = "Cache12Hours")]
+        public ActionResult SubjectSelectList()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            throw new NotImplementedException();
         }
+
+        [OutputCache(PolicyName = "Cache12Hours")]
+        public ActionResult WorkToBePerformedSelectList()
+        {
+            throw new NotImplementedException();
+        }
+
+        [OutputCache(PolicyName = "Cache12Hours")] //, Location = OutputCacheLocation.Client
+        //[ResponseCache(CacheProfileName = "Default30")]
+        public ActionResult EquipmentInvolvedSelectList()
+        {
+            throw new NotImplementedException();
+        }
+
+        //[ChildActionOnly]
+        [Route("RelatedTo")]
+        [OutputCache(NoStore = true)] // NoCache
+        public JsonResult SearchRelatedToList(int facilNo, int logTypeNo, string startDate, string endDate, string keyWords, string andOr)  //JsonResult
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult SearchRealTimeList(int facilNo, string startDate, string endDate)  //JsonResult
+        {
+            throw new NotImplementedException();
+        }
+
+        //[ChildActionOnly]
+        [Route("AddName")]
+        [OutputCache(NoStore = true)] // NoCache
+        public JsonResult AddName(string firstname, string lastname, string company)  //JsonResult
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

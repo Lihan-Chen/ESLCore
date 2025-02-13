@@ -221,6 +221,14 @@ namespace ESL.Mvc
             // AddDatabaseDeveloperPageExceptionFilter should only be used in the development environment
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+            // Add OutputCache Service
+            builder.Services.AddOutputCache(options =>
+            {
+                options.AddPolicy("Cache12Hours", builder => builder.Expire(TimeSpan.FromHours(12)).Tag("Cache12Hours"));  //people https://www.youtube.com/watch?v=DN2g-T48VjM
+                // need to follow through in controller dependency injection of IOutputCache, and in the controller method evicting the cache as needed (shown in the reference video)
+            }
+                );
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -307,9 +315,19 @@ namespace ESL.Mvc
             app.UseSession();
             // </ms_docref_enable_session>
 
+            app.UseOutputCache();
+
             //app.UseEndpoints(endpoints => {
             //    endpoints.MapControllers();
             //});
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                  name: "areas",
+                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+            });
 
             app.UseMvc().UseMvcWithDefaultRoute();
 

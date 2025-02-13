@@ -17,9 +17,9 @@ namespace ESL.Core.IConfiguration
 
         IEmployeeRepository Employees { get; }
 
-        //IMeterRepository Meters { get; }
+        IMeterRepository Meters { get; }
 
-        //IAllEventRepository AllEvents { get; }
+        IAllEventRepository AllEvents { get; }
 
         IFacilityRepository Facilities { get; }
 

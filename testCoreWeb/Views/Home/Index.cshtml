@@ -1,8 +1,302 @@
-﻿@{
+﻿@using testCoreWeb.ViewModels
+@model PlantViewModel
+<style>
+    fieldset, legend {
+        all: revert;
+    }
+
+    .reset {
+        all: revert;
+    }
+</style>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="container col-8">
+    <form asp-area ="" asp-controller="" asp-action="index">
+        <fieldset class="reset bg-warning card">
+            <legend class="reset"><strong>Good morning, Lihan (u06337)</strong></legend>
+            <div class="row">           
+                <div class="col-4 justify-content-center">
+                    <div class="form-group align-content-end mb-2">
+                        <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
+                        <select class="form-control col-2" id="operatortype" placeholder="Select your role as -" name="operatortype" aria-describedby="opTypeHelp">
+                            <option active>Primary</option>
+                            <option>Secondary</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4 justify-content-center">
+                    <div class="form-group mb-2">
+                        <label class="control-label col-sm-4" for="selectShift">Shift</label>
+                        <select class="form-control col-6" id="shift" placeholder="Shift" name="shift" aria-describedby="shiftHelp">
+                            <option>Day</option>
+                            <option>Night</option>
+                        </select>
+                    </div>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                        <div class="container mt-1">
+                            <h5>Please select the facility of your shift:</h5>
+                            @* <p class="display-6">Please select the facility of your shift:</p> *@
+                            <div class="btn-group btn-group-justified text-center mb-2 g-2">
+                                <button type="button" class="btn btn-primary m-1">OCC</button>
+                                <button type="button" class="btn btn-primary m-1">Diemer</button>
+                                <button type="button" class="btn btn-primary m-1">Jensen</button>
+                                <button type="button" class="btn btn-primary m-1">Mills</button>
+                                <button type="button" class="btn btn-primary m-1">Weymouth</button>
+                                <button type="button" class="btn btn-primary m-1">Skinner</button>
+                            </div>
+                            <div class="btn-group btn-group-justified text-center mb-2 g-2">
+                                <button type="button" class="btn btn-info m-1">DOCC</button>
+                                <button type="button" class="btn btn-info m-1">Intake</button>
+                                <button type="button" class="btn btn-info m-1">Gene</button>
+                                <button type="button" class="btn btn-info m-1">Iron</button>
+                                <button type="button" class="btn btn-info m-1">Eagle</button>
+                                <button type="button" class="btn btn-info m-1">Hinds</button>
+                                <button type="button" class="btn btn-info m-1">DVL</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">d</div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@* <form asp-area="" asp-controller="Home" asp-action="Index" method="post">
+    <select asp-for="FacilNo" asp-items="Model.Plants"></select>
+    <br />
+    <button type="submit">Select</button>
+    </form> *@
+
+<div>
+    <div class="container col-6 justify-content-center">
+        <form class="form-inline border-success rounded-3" asp-area="" asp-controller="" asp-action="index">
+        <fieldset class="reset bg-warning card">
+                <legend class="reset"><strong>Good morning, Lihan (u06337)</strong></legend>
+                <div class="container">
+    	@* <div class="row">
+    		<div class="col-2">
+    			<div class="form-group">
+      				<label class="display-4" for="user">Hi! <mark>Lihan</></label>
+      				<input class="form-control hidden" id="user" placeholder="User Name" name="user" value="Lihan Chen" hidden>
+    			</div>
+    		</div>*@
+
+                <div class="col-6 justify-content-center">
+                        <div class="form-group.aligh-content-center mb-4">
+                            @* <label class="align-content-center text-black" for="SelectFacility">Facility</label> *@
+                            <input type="text" class="form-control" placeholder="Lihan Chen" readonly>
+                        </div>
+    			
+                        <div class="form-group align-content-end mb-4">
+                    <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
+                        <select class="form-control col-2" id="operatortype" placeholder="Select your role as -" name="operatortype" aria-describedby="opTypeHelp">
+                        <option active>Primary</option>
+                        <option>Secondary</option>
+                    </select>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label class="control-label col-sm-4" for="selectShift">Shift</label>
+                        <select class="form-control col-6" id="shift" placeholder="Shift" name="shift" aria-describedby="shiftHelp">
+                        <option>Day</option>
+                        <option>Night</option>
+                    </select>
+                </div>
+
+                <div class="checkbox g-3">
+                    <label><input type="checkbox" name="remember"> Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </div>
+        </div>
+            </fieldset>
+    </form>
+        @* <div class="dropdown mx-3">
+            <button class="btn btn-default dropdown-toggle" type="button" id="plantDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Genre
+            </button>
+            <div class="dropdown-menu" aria-labelledby="plantDropdownMenu">
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">OCC</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Diemer</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Jensen</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Mills</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Weymouth</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Skinner</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Desert</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Intake</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Gene</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Iron</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Eagle</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">Hinds</button>
+                <button class="dropdown-item" type="button" onclick="showGenre(this)">DVL</button>
+            </div>
+        </div> *@
+    @* <form asp-area="" asp-controller="" asp-action="" class="row bg-info g-3 align-self-center m-4 bg-gradient">
+        <div class="col">
+                <div class="form-group align-content-end mb-4">
+                    <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
+                    <select id="SelectOperatorType" class="form-control col-2" aria-describedby="opTypeHelp">
+                        <option active>Primary</option>
+                        <option>Secondary</option>
+                    </select>*@
+                    @* <small id="opTypeHelp" class="form-text text-muted">Please select the operatory type you are working on.</small> *@
+                @* </div>
+        </div>
+
+        <div class="col">
+                <div class="form-group mb-4">
+                    <label class="control-label col-sm-4" for="selectShift">Shift</label>
+                    <select id="shift" class="form-control col-6" aria-describedby="shiftHelp">
+                        <option>Day</option>
+                        <option>Night</option>
+                    </select> *@
+                    @* <small id="shiftHelp" class="fo<rm-text text-muted">Please select the shift you are working on.</small> *@
+                @* </div>
+        </div>
+
+        <div class="row-col-12">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="shiftFflexRadio" id="shiftFflexRadio1">
+                        <label class="form-check-label" for="shiftFflexRadio1">
+                            Day Shift
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="shiftFflexRadio" id="shiftFflexRadio2" checked>
+                        <label class="form-check-label" for="shiftFflexRadio2">
+                            Night Shift
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="shiftFlexSwitchCheckDefault">
+                        <label class="form-check-label" for="shiftFlexSwitchCheckDefault">Day Shift (default)</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="opTypeFlexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="opTypeFlexSwitchCheckChecked">Operator Type: Primary (checked)</label>
+                    </div>
+                </div>
+        </div>
+
+        <div class="row">
+                <div class="form-group mb-4">
+                    <label class="control-label col-sm-4" for="selectShift">Date</label>
+                    <select type="Date" id="date" class="form-control col-6" aria-describedby="shiftHelp">
+                        <option>Day</option>
+                        <option>Night</option>
+                    </select> *@
+                    @* <small id="shiftHelp" class="fo<rm-text text-muted">Please select the shift you are working on.</small> *@
+                @* </div>
+        </div>
+        <div class="form-group mb-4">
+            @* <label class="control-label col-sm-6" for="selectFacil">Please select one facility from the list</label> *@
+            @*<select id="facil" class="form-select col-sm-5" aria-describedby="facilHelp">
+                    <option selected>Please select one facility from the list</option>
+                <option class="plantListOption" value="1">OCC</option>
+                    <option class="plantListOption" value="2">Diemer</option>
+                    <option class="plantListOption" value="3">Jensen</option>
+                <option value="4">Mills</option>
+                <option value="5">Weymouth</option>
+                <option value="6">Skinner</option>
+                <option value="7">Desert</option>
+                <option value="8">Intake</option>
+                <option value="9">Gene</option>
+                <option value="10">Iron</option>
+                <option value="11">Eagle</option>
+                <option value="12">Hinds</option>
+                <option value="13">DVL</option>
+            </select> *@
+            @* <small id="facilHelp" class="form-text text-muted">Please select the facility you are working on.</small> *@
+        @* </div>
+
+            <div class="form-group col-sm-offset-2 col-sm-10 ">
+                
+            </div>
+
+            <ol class="nav nav-pills nav-justified">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Much longer nav link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Much longer nav link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </li>
+            </ol> *@
+
+            @* <ol id="selectable">
+                @foreach (var plant in Model)
+                {
+                    <li>
+                        @Html.ActionLink(@plant.FacilName.Split(' ').ElementAt(0), "SetFacil", new { facilNo = plant.FacilNo, returnUrl = ViewBag.ReturnUrl })
+                    </li>
+                }
+            </ol> *@
+        
+        @* <div class="form-group form-check col-sm-offset-2 col-sm-10 ">
+            <input type="checkbox" class="form-check-input" id="rememberMe">
+            <label class="form-check-label" for="rememberMe">Remember Me</label>
+        </div>
+        <button type="submit" class="btn col-4 offset-4 mb-3 align-content-center btn-primary">Submit</button>
+
+    </form> *@ 
+    </div>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@section Scripts {
+<script type="text/javascript">
+    $(function () {
+        $("#selectable").selectable(
+        {
+            selected: ClickOnLink
+        })
+        .bind("selected", ClickOnLink);
+        
+        $("#select").on('click', function (event, ui) {
+            $("#selectable li").addClass("ui-selected");
+            $("#selectable").trigger("selected");
+        });
+
+        function ClickOnLink() {
+            $(this).on('click', function (e) {
+                $(".ui-selected").click();
+            })
+        }
+    });
+
+        function showGenre(item) {
+              document.getElementById("plantDropdownMenu").innerHTML = item.innerHTML;
+        }
+
+</script>
+}

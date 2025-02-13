@@ -87,11 +87,31 @@ Comment out orgiiginaldefault project config-->
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\ViewModels\" />
-    <Folder Include="Areas\ESLAPI\Controllers\" />
+    <Folder Include="Areas\Clearance\Controllers\" />
+    <Folder Include="Areas\Clearance\Data\" />
+    <Folder Include="Areas\Clearance\Models\" />
+    <Folder Include="Areas\EOS\Controllers\" />
+    <Folder Include="Areas\EOS\Data\" />
+    <Folder Include="Areas\EOS\Models\" />
+    <Folder Include="Areas\EOS\Views\" />
     <Folder Include="Areas\ESLAPI\Data\" />
     <Folder Include="Areas\ESLAPI\Models\" />
     <Folder Include="Areas\ESLAPI\ViewModels\" />
     <Folder Include="Areas\ESLAPI\Views\" />
+    <Folder Include="Areas\FlowChange\Data\" />
+    <Folder Include="Areas\FlowChange\Models\" />
+    <Folder Include="Areas\General\Controllers\" />
+    <Folder Include="Areas\General\Data\" />
+    <Folder Include="Areas\General\Models\" />
+    <Folder Include="Areas\General\Views\" />
+    <Folder Include="Areas\HotLineOrder\Controllers\" />
+    <Folder Include="Areas\HotLineOrder\Data\" />
+    <Folder Include="Areas\HotLineOrder\Models\" />
+    <Folder Include="Areas\HotLineOrder\Views\" />
+    <Folder Include="Areas\SOC\Controllers\" />
+    <Folder Include="Areas\SOC\Data\" />
+    <Folder Include="Areas\SOC\Models\" />
+    <Folder Include="Areas\SOC\Views\" />
   </ItemGroup>
 
 </Project>

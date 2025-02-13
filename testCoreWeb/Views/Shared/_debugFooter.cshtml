@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="debug-footer">
+    Controller: @ViewContext.RouteData.Values["controller"]<br />
+    Action: @ViewContext.RouteData.Values["action"]<br />
+    Area: @ViewContext.RouteData.DataTokens["area"]<br />
+    <p></p>
+
+    UserID: @if (System.Web.HttpContext.Current.Session["UserName"] != null)
+    {
+        @System.Web.HttpContext.Current.Session["UserName"].ToString()
+        ;
+    }<br />
+    Facility: @if (System.Web.HttpContext.Current.Session["FacilName"] != null)
+    {
+        @System.Web.HttpContext.Current.Session["FacilName"].ToString()
+        ;
+    }<br />
+    Shift: @if (System.Web.HttpContext.Current.Session["Shift"] != null)
+    {
+        @System.Web.HttpContext.Current.Session["Shift"].ToString()
+        ;
+    }<br />
+    Operator Type: @if (System.Web.HttpContext.Current.Session["OperatorType"] != null)
+    {
+        @System.Web.HttpContext.Current.Session["OperatorType"].ToString()
+        ;
+    }<br />
+    Session Start: @if (System.Web.HttpContext.Current.Session["sessionStart"] != null)
+    {
+        @System.Web.HttpContext.Current.Session["sessionStart"].ToString()
+        ;
+    }<br />
+    Session Alive for (hh:mm:ss) <div id="timeElapsed"></div><br />
+</div>
+
+<script type="text/javascript">
+    var user_date = Date.parse('@Request.RequestContext.HttpContext.Session["sessionStart"]');
+
+    var refreshIntervalId = setInterval(SessionAliveClock, 1000);
+
+    function SessionAliveClock() {
+        var today_date = new Date();
+        var diff_date = today_date - user_date;
+
+        // var num_years = diff_date / 31536000000;
+        // var num_months = (diff_date % 31536000000) / 2628000000;
+        var num_days = ((diff_date % 31536000000) % 2628000000) / 86400000;
+        var num_hours = (((diff_date % 31536000000) % 2628000000) % 86400000) / 3600000;
+        var num_mins = ((((diff_date % 31536000000) % 2628000000) % 86400000) % 3600000) / 60000;
+        var num_secs = (((((diff_date % 31536000000) % 2628000000) % 86400000) % 3600000) % 60000) / 1000;
+
+        $("#timeElapsed").text(pad(Math.floor(num_hours), 2) + ":" + pad(Math.floor(num_mins), 2) + ":" + pad(Math.floor(num_secs), 2));
+    }
+
+    function pad(str, max) {
+        str = str.toString();
+        return str.length < max ? pad("0" + str, max) : str;
+    }
+
+</script>

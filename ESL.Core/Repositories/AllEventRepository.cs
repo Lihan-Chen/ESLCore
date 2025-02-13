@@ -11,14 +11,14 @@ namespace ESL.Core.Repositories
 {
     public class AllEventRepository : IAllEventRepository
     {
-        protected ApplicationDbContext _context;
+        protected EslDbContext _context;
 
         internal DbSet<AllEvent> dbSet;
 
         protected readonly ILogger<AllEventRepository> _logger;
 
         public AllEventRepository(
-            ApplicationDbContext context, ILogger<AllEventRepository> logger)
+            EslDbContext context, ILogger<AllEventRepository> logger)
         {
             this._context = context;
             this.dbSet = context.AllEvents;

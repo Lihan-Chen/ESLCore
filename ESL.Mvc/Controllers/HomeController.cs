@@ -163,7 +163,7 @@ namespace ESL.Mvc.Controllers
                 ViewBag.Message = "Please select one facility from the list - ";
                 ViewBag.ReturnUrl = this.Url;
 
-                return View("Index");
+                return View();
             }
             else
             {

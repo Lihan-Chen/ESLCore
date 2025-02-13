@@ -32,7 +32,7 @@ namespace ESL.Mvc.Controllers
         // https://learn.microsoft.com/en-us/answers/questions/804629/how-to-access-user-identity-in-basecontroller       
         public  bool IsAuthenticated => User.Identity!.IsAuthenticated;
 
-        public static string UserSessionID;  // => HttpContext.Session.Id;
+        public static string UserSessionID; // => _httpContextAccessor.HttpContext.Session.Id;
         
         // Find username (LastName,FirstName) to get the User object from Oracle DbContext
         public string? UserName => User.Identity!.IsAuthenticated ? User.FindFirst(c => c.Type == "name")?.Value : string.Empty;      
@@ -46,7 +46,7 @@ namespace ESL.Mvc.Controllers
         public static string Shift = null!;  // Day or Night
         public static int ShiftNo; // 1 or 2
         public static string OperatorType = null!; // Primary or Secondary
-        private static int _sessionTimeOut = 30; // extends additional time for session
+        private static int SessionTimeOut = 30; // extends additional time for session
 
         // From SelectPlant
         public static string? FacilName;  // OCC
@@ -69,6 +69,7 @@ namespace ESL.Mvc.Controllers
         public static bool IsAdmin = false;
         public static bool IsSuperAdmin = false;
 
+        // a flag for redirect
         public static bool IsCheckingFacility;
 
         // Corresponds to Identity IsInRole(role) method
@@ -133,7 +134,6 @@ namespace ESL.Mvc.Controllers
         {
             public string EmpID;
             public string Name;
-            //public string EmailAddress;
         }
 
         public class EmpList : List<Emp>
@@ -161,7 +161,12 @@ namespace ESL.Mvc.Controllers
             // Current http request
             HttpContext ctx = context.HttpContext;
 
-            if (IsAuthenticated)
+            if (!IsAuthenticated)
+            {
+                // HttpContext.SignOutAsync();
+                RedirectToAction(LoginUrl);
+            }
+            else // IsAuthenticated
             {
                 // https://stackoverflow.com/questions/32488523/what-does-it-mean-if-my-asp-net-session-has-isnewsession-true-and-should-i-c?rq=3
 
@@ -218,16 +223,16 @@ namespace ESL.Mvc.Controllers
 
                             // And, set a session key for FacilNo
                             HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, FacilNo);
-
-                            // Reset Shift and OperatorType Reset other cookies 
-                            foreach (var cookie in Request.Cookies.Keys)
-                            {
-                                Response.Cookies.Delete(cookie);
-                            }
-
+                            
                             // Reset ShiftNo and OperatorType before redirect to home/index to set up user session 
                             ShiftNo = 0;
                             OperatorType = String.Empty;
+
+                            // Reset Shift and OperatorType Reset other cookies 
+                            //foreach (var cookie in Request.Cookies.Keys)
+                            //{
+                            //    Response.Cookies.Delete(cookie);
+                            //}
 
                             // Append SessionID to the new cookie (Option - user ASP.NET_SessionId?)
                             //Response.Cookies.Append("SessionID", UserSessionID);
@@ -237,7 +242,7 @@ namespace ESL.Mvc.Controllers
 
                         // Flag IsCheckingFacility to true and redirect to set facilNo, shiftNo, operatorType with a form adopted from login and plantmenu in Home/Index
                         // User is captured through authentication
-                        IsCheckingFacility = true;
+                        IsCheckingFacility = FacilNo == 0;
 
                         RedirectToAction("Index", "Home");
 
@@ -290,11 +295,6 @@ namespace ESL.Mvc.Controllers
                 finally
                 {
                 }    
-            }
-            else // if user is not authenticated
-            {
-                // HttpContext.SignOutAsync();
-                RedirectToAction(LoginUrl);
             }
 
             base.OnActionExecuting(context);

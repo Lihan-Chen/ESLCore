@@ -4,3 +4,75 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li>
+        </ul>
+        <button class="btn btn-danger navbar-btn">Button</button>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h3>Right Aligned Navbar</h3>
+    <p>The .navbar-right class is used to right-align navigation bar buttons.</p>
+</div>
+
+
+@* <div class="dropdown mx-3">
+    <button class="btn btn-default dropdown-toggle" type="button" id="plantDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Genre
+    </button>
+    <div class="dropdown-menu" aria-labelledby="plantDropdownMenu">
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">OCC</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Diemer</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Jensen</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Mills</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Weymouth</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Skinner</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Desert</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Intake</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Gene</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Iron</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Eagle</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">Hinds</button>
+        <button class="dropdown-item" type="button" onclick="showGenre(this)">DVL</button>
+    </div>
+</div> *@
+
+<script type="text/javascript">
+    $(function () {
+        $("#selectable").selectable(
+        {
+            selected: ClickOnLink
+        })
+        .bind("selected", ClickOnLink);
+
+        $("#select").on('click', function (event, ui) {
+            $("#selectable li").addClass("ui-selected");
+            $("#selectable").trigger("selected");
+        });
+
+        function ClickOnLink() {
+            $(this).on('click', function (e) {
+                $(".ui-selected").click();
+            })
+        }
+    });
+
+        function showGenre(item) {
+              document.getElementById("plantDropdownMenu").innerHTML = item.innerHTML;
+        }
+
+</script>
