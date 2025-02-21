@@ -1,4 +1,5 @@
-﻿using Microsoft.Graph.SecurityNamespace;
+﻿using ESL.Core.Models;
+using Microsoft.Graph.SecurityNamespace;
 using X.PagedList;
 
 namespace ESL.Mvc.ViewModels
@@ -6,9 +7,9 @@ namespace ESL.Mvc.ViewModels
     public class SearchListViewModel
     {
         public SearchFilterPartialViewModel SearchFilterPartial { get; set; }
-        public IPagedList<Search> SearchPagedList { get; set; }
+        public IPagedList<SearchDTO> SearchPagedList { get; set; } = new PagedList<SearchDTO>(new SearchDTO[] { }, 1, 1);
         public int count { get; set; }
-        public IEnumerable<Search> searchList { get; set; }
+        public IEnumerable<SearchDTO> SearchResultList { get; set; } = Enumerable.Empty<SearchDTO>();
 
         //public AllEventDetails AllEventDetails { get; set; }
 

@@ -178,22 +178,22 @@ namespace ESL.Core.Data
 
             //AllEvent
             // For AllEvents/Index? (To be verified)
-            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsCurrent",
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsCurrent",
                 b =>
                 {
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_CURRENT", "ESL");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsFacilNo",
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsFacilNo",
                 b =>
                 {
                     b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_FacilNoS", "ESL");
+                    b.ToView("VIEW_ALLEVENTS_FacilNOS", "ESL");
                     // b.Property(v => v.BlogName).HasColumnName("Name");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsLogType",
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsLogType",
            b =>
             {
                 b.HasNoKey();

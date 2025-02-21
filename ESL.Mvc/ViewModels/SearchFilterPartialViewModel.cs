@@ -22,17 +22,17 @@ namespace ESL.Mvc.ViewModels
         [Display(Name = "End Date")]
         public DateTime? EndDate { get; set; }
 
-        [Display(Name = "Operator Type")]
-        public string? OperatorType { get; set; }
+        [Display(Name = "Primary Operator?")]
+        public Boolean OperatorType { get; set; }
 
-        [Display(Name = "Option: AND or OR")]
+        [Display(Name = "AND or OR")]
         public string? OptionAll { get; set; }
 
         [Display(Name = "Search Key Word(s)")]
         public string? SearchValues { get; set; }
 
-        public SelectList FacilNos { get; set; }
-        public SelectList LogTypeNos { get; set; }
+        public SelectList FacilNoSelectList { get; set; }
+        public SelectList LogTypeNoSelectList { get; set; }
         //public SelectList optionAllTypes { get; set; }
 
         [Display(Name = "Search Option: OR : AND")]

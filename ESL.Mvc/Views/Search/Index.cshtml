@@ -41,7 +41,7 @@
 
                 <tr style="vertical-align:top">
                     <td style="vertical-align:top; width:15%">
-                        @Html.DropDownListFor(model => model.SearchFilterPartial.LogTypeNo, Model.SearchFilterPartial.LogTypeNos, new { @class = "small-dropdownlist" })
+                        @Html.DropDownListFor(model => model.SearchFilterPartial.LogTypeNo, Model.SearchFilterPartial.LogTypeNoSelectList, new { @class = "small-dropdownlist" })
                         <p>@Html.ValidationMessageFor(model => model.SearchFilterPartial.FacilNo)</p>
                     </td>
                     <td style="width:25%">

@@ -1,0 +1,6 @@
+﻿@model List<Facility>
+@addTagHelper *, ViewComponentsSample
+
+<select asp-for="FacilNo" asp-items="Model" class="form-control">
+    <option value="">Select a Plant</option>
+</select>

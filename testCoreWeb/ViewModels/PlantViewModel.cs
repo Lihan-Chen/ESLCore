@@ -11,7 +11,7 @@ namespace testCoreWeb.ViewModels
         public List<SelectListItem> Plants { get; } = new List<SelectListItem>
         { 
             new SelectListItem { Value = "1", Text = "OCC"},
-            new SelectListItem { Value = "2", Text = "Miemer"},
+            new SelectListItem { Value = "2", Text = "Diemer"},
             new SelectListItem { Value = "3", Text = "Jensen"},
             new SelectListItem { Value = "4", Text = "Mills"},
             new SelectListItem { Value = "5", Text = "WEymouth"},

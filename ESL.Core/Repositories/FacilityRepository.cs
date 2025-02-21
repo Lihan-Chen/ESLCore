@@ -35,8 +35,8 @@ namespace ESL.Core.Repositories
             return _FacilName;
         }
 
+        // GetItem(int facilNo)
         public virtual async Task<Facility> GetFacility(int facilNo) => await dbSet.FirstOrDefaultAsync(f => f.FacilNo == facilNo);
-
 
         public virtual async Task<Facility> GetFacility(string facilName)
         {
@@ -59,19 +59,15 @@ namespace ESL.Core.Repositories
             return _facilNo;
         }
 
-        public virtual SelectList GetFacilAbbrList()
+        public async Task<List<Facility>> GetFacilities() => await dbSet.OrderBy(o => o.FacilNo).ToListAsync();
+       
+        public virtual async Task<SelectList> GetFacilAbbrList()
         {
-            //var _selectItems = dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).Select(f => new SelectListItem { Value = f.FacilNo.ToString(), Text = f.FacilAbbr }).ToList();
-
-            //return _selectItems;
-
-            var facilities = dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).ToList();
-
+            var facilities = await dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).ToListAsync();
             return new SelectList(facilities, "FacilNo", "FacilName");
-
         }
 
-        public virtual SelectList GetFacilTypes() // List<SelectListItem>
+        public virtual async Task<SelectList> GetFacilTypeSelectList() // List<SelectListItem>
         {
             //var _facilTypes = dbSet.Where(item => item != null).Select(f => f.FacilType).Distinct();
             //var _selectFacilTypes = _facilTypes.Select(x => new SelectListItem { Value = x.ToString(), Text = x.ToString() }).ToList();
@@ -80,7 +76,7 @@ namespace ESL.Core.Repositories
 
             //return _selectFacilTypes;
             
-            var _facilTypes = dbSet.Where(item => item != null).Distinct();
+            var _facilTypes =  await dbSet.Where(item => item != null).Distinct().ToListAsync();
 
             var _selectFacilTypes = new SelectList(_facilTypes, "FacilType", "FacilType");
 

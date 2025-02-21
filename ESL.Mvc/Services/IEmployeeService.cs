@@ -34,11 +34,19 @@ namespace ESL.Mvc.Services
         //Facilities
         public Task<IEnumerable<Facility>> GetAllPlants();
 
-        // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public SelectList GetPlantSelectList();
+        public Task<Facility?> GetFacility(int? facilNo);
 
-        public SelectList GetFacilTypes();
+        // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
+        public Task<SelectList> GetPlantSelectList();
+
+        public Task<SelectList> GetFacilTypeSelectList();
+
+        public Task<SelectList> GetLogTypeSelectList();
+
+        public Task<bool> IsInRole(string userID, string role, int facilNo);
     }
+
+    #region EmployeeService
 
     public class EmployeeService : IEmployeeService
     {
@@ -48,11 +56,15 @@ namespace ESL.Mvc.Services
 
         private readonly IEmpRoleRepositry _empRoles;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IFacilityRepository facilityRepository, IEmpRoleRepositry empRoleRepository)
+        private readonly ILogTypeRepository _logTypes;
+
+        public EmployeeService(IEmployeeRepository employeeRepository, IFacilityRepository facilityRepository, IEmpRoleRepositry empRoleRepository, ILogTypeRepository logTypeRepository)
         {
             _employees = employeeRepository;
             _facilities = facilityRepository;
+            // _logTypes = logTypeRepository;
             _empRoles = empRoleRepository;
+            _logTypes = logTypeRepository;
         }
 
         // employeeFullName = lastName,firstName
@@ -154,6 +166,9 @@ namespace ESL.Mvc.Services
             return _facilNo;
         }
 
+        #endregion EmployeeService
+
+        #region RoleService
         // Get Employee's role per Facility
         public async Task<string?> GetRole(string userID, int facilNo)
         {
@@ -180,14 +195,29 @@ namespace ESL.Mvc.Services
                     return false;
             }
         }
+
+        #endregion RoleService
+
+        #region FacilityService
         // Facilities and Plants
 
         public async Task<IEnumerable<Facility>> GetAllPlants() => await _facilities.GetAll();
 
-        // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public SelectList GetPlantSelectList() => _facilities.GetFacilAbbrList();
+        public async Task<Facility?> GetFacility(int? facilNo) => await _facilities.GetFacility((int)facilNo!);
 
-        public SelectList GetFacilTypes() => _facilities.GetFacilTypes();
+        // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
+        public async Task<SelectList> GetPlantSelectList() => await _facilities.GetFacilAbbrList();
+
+        public async Task<SelectList> GetFacilTypeSelectList() => await _facilities.GetFacilTypeSelectList();
+
+        #endregion FacilityService
+
+        #region LogTypeService
+
+        public async Task<SelectList> GetLogTypeSelectList() => await _logTypes.GetLogTypeSelectList();
+
+        #endregion LogTypeService
+
 
         //public static IEnumerable<SelectListItem> ToSelectListItem<T>(this IEnumerable<T> items, int selectedValue)
         //{

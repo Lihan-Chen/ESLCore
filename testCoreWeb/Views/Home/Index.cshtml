@@ -14,57 +14,72 @@
 }
 
 <div class="container col-8">
+    <div class="row">
+        <div class="display-6"><strong>Good morning, Lihan (u06337)</strong><div>
+    </div>
     <form asp-area ="" asp-controller="" asp-action="index">
-        <fieldset class="reset bg-warning card">
-            <legend class="reset"><strong>Good morning, Lihan (u06337)</strong></legend>
-            <div class="row">           
-                <div class="col-4 justify-content-center">
-                    <div class="form-group align-content-end mb-2">
-                        <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
-                        <select class="form-control col-2" id="operatortype" placeholder="Select your role as -" name="operatortype" aria-describedby="opTypeHelp">
-                            <option active>Primary</option>
-                            <option>Secondary</option>
-                        </select>
-                    </div>
+        <div class="row">           
+            <div class="col-4 justify-content-center">
+                <div class="form-group align-content-end mb-2">
+                    <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
+                    <select class="form-control col-2" id="operatortype" placeholder="Select your role as -" name="operatortype" aria-describedby="opTypeHelp">
+                        <option active>Primary</option>
+                        <option>Secondary</option>
+                    </select>
                 </div>
-                <div class="col-4 justify-content-center">
-                    <div class="form-group mb-2">
-                        <label class="control-label col-sm-4" for="selectShift">Shift</label>
-                        <select class="form-control col-6" id="shift" placeholder="Shift" name="shift" aria-describedby="shiftHelp">
-                            <option>Day</option>
-                            <option>Night</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="col-4 justify-content-center">
+                <div class="form-group align-content-end mb-2">
+                    <label class="control-label col-sm-4" for="selectShift">Shift</label>
+                    <select class="form-control col-2" id="shift" placeholder="Shift" name="shift" aria-describedby="shiftHelp">
+                        <option>Day</option>
+                        <option>Night</option>
+                    </select>
                 </div>
         </div>
+        @* <div class="row">
+            <div class="col-4 justify-content-center">
+                <div class="form-group align-content-end mb-2">
+                    <label class="align-content-center text-black" for="FacilNo">FacilNo</label>
+                        <input asp-for="FacilNo" class="form-control readonly">                        
+                    </input>
+                </div>
+            </div>
+        </div> *@
+                    
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                        <div class="container mt-1">
-                            <h5>Please select the facility of your shift:</h5>
-                            @* <p class="display-6">Please select the facility of your shift:</p> *@
-                            <div class="btn-group btn-group-justified text-center mb-2 g-2">
-                                <button type="button" class="btn btn-primary m-1">OCC</button>
-                                <button type="button" class="btn btn-primary m-1">Diemer</button>
-                                <button type="button" class="btn btn-primary m-1">Jensen</button>
-                                <button type="button" class="btn btn-primary m-1">Mills</button>
-                                <button type="button" class="btn btn-primary m-1">Weymouth</button>
-                                <button type="button" class="btn btn-primary m-1">Skinner</button>
-                            </div>
-                            <div class="btn-group btn-group-justified text-center mb-2 g-2">
-                                <button type="button" class="btn btn-info m-1">DOCC</button>
-                                <button type="button" class="btn btn-info m-1">Intake</button>
-                                <button type="button" class="btn btn-info m-1">Gene</button>
-                                <button type="button" class="btn btn-info m-1">Iron</button>
-                                <button type="button" class="btn btn-info m-1">Eagle</button>
-                                <button type="button" class="btn btn-info m-1">Hinds</button>
-                                <button type="button" class="btn btn-info m-1">DVL</button>
-                            </div>
+                    <div class="container mt-1">
+                        <h5>Please select the facility of your shift:</h5>
+                        @* <p class="display-6">Please select the facility of your shift:</p> *@
+                        <div class="btn-group btn-group-justified text-center mb-2 g-2">
+                            <button type="button" class="btn btn-primary m-1">OCC</button>
+                            <button type="button" class="btn btn-primary m-1">Diemer</button>
+                            <button type="button" class="btn btn-primary m-1">Jensen</button>
+                            <button type="button" class="btn btn-primary m-1">Mills</button>
+                            <button type="button" class="btn btn-primary m-1">Weymouth</button>
+                            <button type="button" class="btn btn-primary m-1">Skinner</button>
                         </div>
+                        <div class="btn-group btn-group-justified text-center mb-2 g-2">
+                            <button type="button" class="btn btn-info m-1">DOCC</button>
+                            <button type="button" class="btn btn-info m-1">Intake</button>
+                            <button type="button" class="btn btn-info m-1">Gene</button>
+                            <button type="button" class="btn btn-info m-1">Iron</button>
+                            <button type="button" class="btn btn-info m-1">Eagle</button>
+                            <button type="button" class="btn btn-info m-1">Hinds</button>
+                            <button type="button" class="btn btn-info m-1">DVL</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="form-group">d</div>
+            <div class="col-6">
+                <div class="form-group" id="selectable">
+                    <select asp-for="FacilNo" asp-items="Model.Plants" class="form-control">
+                                    <option value="">Select a Plant</option>
+                                    @* <option value="value">text</option> *@
+                    </select>                   
+                </div>
             </div>
         </div>
     </form>
@@ -78,9 +93,10 @@
 
 <div>
     <div class="container col-6 justify-content-center">
+                <div><strong>Good morning, Lihan (u06337)</strong></div>
         <form class="form-inline border-success rounded-3" asp-area="" asp-controller="" asp-action="index">
         <fieldset class="reset bg-warning card">
-                <legend class="reset"><strong>Good morning, Lihan (u06337)</strong></legend>
+                @* <legend class="reset"><strong>Good morning, Lihan (u06337)</strong></legend> *@
                 <div class="container">
     	@* <div class="row">
     		<div class="col-2">
@@ -91,10 +107,10 @@
     		</div>*@
 
                 <div class="col-6 justify-content-center">
-                        <div class="form-group.aligh-content-center mb-4">
+                    <div class="form-group.aligh-content-center mb-4">
                             @* <label class="align-content-center text-black" for="SelectFacility">Facility</label> *@
-                            <input type="text" class="form-control" placeholder="Lihan Chen" readonly>
-                        </div>
+                        <input type="text" class="form-control" placeholder="Lihan Chen" readonly>
+                    </div>
     			
                         <div class="form-group align-content-end mb-4">
                     <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
@@ -112,34 +128,44 @@
                     </select>
                 </div>
 
-                <div class="checkbox g-3">
-                    <label><input type="checkbox" name="remember"> Remember me</label>
-                </div>
-                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                
             </div>
         </div>
+                        <div class="dropdown mx-3">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="plantDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Genre
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="plantDropdownMenu">
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">OCC</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Diemer</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Jensen</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Mills</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Weymouth</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Skinner</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Desert</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Intake</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Gene</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Iron</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Eagle</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Hinds</button>
+                                <button class="dropdown-item" type="button" onclick="showGenre(this)">DVL</button>
+                            </div>
+                        </div>
+                        <div class="checkbox g-3">
+                            <label><input type="checkbox" name="remember"> Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                @* <ol id="selectable">
+                    @foreach (var plant in Model.Plants)
+                    {
+                        <li>
+                            @Html.ActionLink(@plant.Text.Split(' ').ElementAt(0), "SetFacil", new { facilNo = plant.Value, returnUrl = ViewBag.ReturnUrl })
+                        </li>
+                    }
+                </ol> *@
             </fieldset>
     </form>
-        @* <div class="dropdown mx-3">
-            <button class="btn btn-default dropdown-toggle" type="button" id="plantDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Genre
-            </button>
-            <div class="dropdown-menu" aria-labelledby="plantDropdownMenu">
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">OCC</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Diemer</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Jensen</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Mills</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Weymouth</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Skinner</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Desert</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Intake</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Gene</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Iron</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Eagle</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">Hinds</button>
-                <button class="dropdown-item" type="button" onclick="showGenre(this)">DVL</button>
-            </div>
-        </div> *@
+        
     @* <form asp-area="" asp-controller="" asp-action="" class="row bg-info g-3 align-self-center m-4 bg-gradient">
         <div class="col">
                 <div class="form-group align-content-end mb-4">
@@ -290,6 +316,8 @@
         function ClickOnLink() {
             $(this).on('click', function (e) {
                 $(".ui-selected").click();
+                $("facilno").innerHTML = $(this).text();
+                            alert($(this).text())
             })
         }
     });

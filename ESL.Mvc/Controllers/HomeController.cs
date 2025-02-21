@@ -22,21 +22,26 @@ using ESL.Core.Models.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shift = ESL.Core.Models.Enums.Shift;
 using ESL.Core.Models.ViewModels;
+using ESL.Core.Models.BusinessEntities;
+using ESL.Core.Data;
 
 namespace ESL.Mvc.Controllers
 {   
     // https://github.com/Azure-Samples/active-directory-aspnetcore-webapp-openidconnect-v2/blob/master/5-WebApp-AuthZ/5-1-Roles/Controllers/HomeController.cs
     [Authorize]
-    public class HomeController : BaseController
+    public class HomeController : BaseController<HomeController>
     {
+        private readonly EslDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly GraphHelper _graphHelper;
         private readonly IEmployeeService _employeeService;
         private readonly GraphServiceClient _graphServiceClient;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, GraphServiceClient graphServiceClient, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IEmployeeService employeeService) : base(httpContextAccessor) //, IDownstreamApi downstreamApi
+        public HomeController(EslDbContext context, ILogger<HomeController> logger, GraphServiceClient graphServiceClient, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IEmployeeService employeeService) : base(context, logger, employeeService) //, IDownstreamApi downstreamApi
         {
+            
+            _context = context;
             _logger = logger;
 
             _graphServiceClient = graphServiceClient;
@@ -61,8 +66,8 @@ namespace ESL.Mvc.Controllers
         {
             _showAlert = _showAlert is true ? true : false;
 
-            DateTime _shiftStartTime = Convert.ToDateTime(ShiftStartText); // Converts only the time
-            DateTime _shiftEndTime = Convert.ToDateTime(ShiftEndText);
+            DateTime _shiftStartTime = Convert.ToDateTime(ShiftStartTimeString); // Converts only the time
+            DateTime _shiftEndTime = Convert.ToDateTime(ShiftEndTimeString);
 
             // Login logic
             // if UserSession.UserLoggedIn is true, redirect to AllEventsController Index with user, shift, operatype, and role info;
@@ -74,7 +79,7 @@ namespace ESL.Mvc.Controllers
             var userName =  isAuthenticated ? User.FindFirst(c => c.Type == "name")?.Value : UserName;
 
             // Get employee object using EmployeeService from DbContext and set it to BaseController's SessionUser          
-            SessionUser = await _employeeService.GetEmployeeByEmployeeName(userName!);
+            Employee essionUser = await _employeeService.GetEmployeeByEmployeeName(userName!);
             
             string? userRole = await _employeeService.GetRole(UserID, (int)_facilNo);
             
@@ -115,7 +120,7 @@ namespace ESL.Mvc.Controllers
 
             ViewBag.ReturnUrl = returnUrl;
 
-            //return View(model);
+            return View(model);
 
 
 
@@ -144,40 +149,40 @@ namespace ESL.Mvc.Controllers
             ////int? facilNo = SessionUser?.FacilNo;
 
 
-            if (FacilNo == 0)
-            {
-                showAlert = FacilNo == 0;
-                if (UserSessionState == SessionState.New)
-                {
-                    HttpContext.Session.SetString(SessionKeyUserSessionState, UserSessionState.ToString());
-                }
+            //if (FacilNo == 0)
+            //{
+            //    showAlert = FacilNo == 0;
+            //    if (UserSessionState == SessionState.New)
+            //    {
+            //        HttpContext.Session.SetString(SessionKeyUserSessionState, UserSessionState.ToString());
+            //    }
                 
-                // redirect to plant selection to set FacilNo
-                if (showAlert)
-                {
-                    ViewBag.ShowAlert = true;
-                    ViewBag.Alert = "You must select a facility first!";
-                }
+            //    // redirect to plant selection to set FacilNo
+            //    if (showAlert)
+            //    {
+            //        ViewBag.ShowAlert = true;
+            //        ViewBag.Alert = "You must select a facility first!";
+            //    }
 
-                ViewBag.ShowPlantMenu = IsCheckingFacility; // true;
-                ViewBag.Message = "Please select one facility from the list - ";
-                ViewBag.ReturnUrl = this.Url;
+            //    ViewBag.ShowPlantMenu = IsCheckingFacility; // true;
+            //    ViewBag.Message = "Please select one facility from the list - ";
+            //    ViewBag.ReturnUrl = this.Url;
 
-                return View();
-            }
-            else
-            {
-                IsNewSession = false;
-                HttpContext.Session.SetString(SessionKeyUserSessionState, SessionState.Valid.ToString());
-                HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
-                HttpContext.Session.SetString(SessionKeyUserID, $"{UserID}");
-                HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo);
-                HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, (int)FacilNo);
-                HttpContext.Session.SetInt32(SessionKeyUserShiftNo, ShiftNo);
-                HttpContext.Session.SetString(SessionKeyUserOpType, OperatorType);
+            //    return View();
+            //}
+            //else
+            //{
+            //    IsNewSession = false;
+            //    HttpContext.Session.SetString(SessionKeyUserSessionState, SessionState.Valid.ToString());
+            //    HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
+            //    HttpContext.Session.SetString(SessionKeyUserID, $"{UserID}");
+            //    HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo);
+            //    HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, (int)FacilNo);
+            //    HttpContext.Session.SetInt32(SessionKeyUserShiftNo, ShiftNo);
+            //    HttpContext.Session.SetString(SessionKeyUserOpType, OperatorType);
 
-                return RedirectToAction("Index", "AllEvents");
-            }
+            //    return RedirectToAction("Index", "AllEvents");
+            //}
 
             // For future use
             // https://learn.microsoft.com/en-us/answers/questions/1226274/azure-ad-b2c-net-web-app-calling-web-api-no-accoun

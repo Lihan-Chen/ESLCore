@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ESL.Core.Models;
+namespace ESL.Core.Models.BusinessEntities;
 
 [Keyless]
 public partial class ViewAlleventsRelatedTo

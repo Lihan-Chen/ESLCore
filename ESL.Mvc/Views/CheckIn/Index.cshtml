@@ -1,0 +1,141 @@
+﻿@model ESL.Core.Models.ViewModels
+
+@{
+    ViewBag.Title = "Check in";
+}
+
+<section id="loginForm">
+
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Check In</legend>
+            <table>
+                <tr style="vertical-align: top;">
+                    <td class="login_firstColumn">
+                        @Html.LabelFor(m => m.UserID)
+                    </td>
+                    <td class="login_secondColumn">
+                        @Html.LabelFor(m => m.OpType)
+
+                    </td>
+                </tr>
+                <tr style="vertical-align: middle;">
+                    <td class="login_firstColumn">
+                        @Html.TextBoxFor(m => m.UserID, new { tabindex = 1 })
+                        @Html.ValidationMessageFor(m => m.UserID)
+                    </td>
+                    <td class="login_secondColumn">
+                        @Html.DropDownListFor(m => m.OpType, Model.optionOpType, new { @class = "dropdownlist", tabindex = 3 })
+                        @Html.ValidationMessageFor(m => m.OpType)
+                    </td>
+                </tr>
+                <tr style="vertical-align: top;">
+                    <td class="login_firstColumn">
+                        @Html.LabelFor(m => m.Password)
+                    </td>
+                    <td class="login_secondColumn">
+                        @Html.LabelFor(m => m.Shft)
+                    </td>
+                </tr>
+                <tr style="vertical-align: middle;">
+                    <td class="login_firstColumn">
+                        @Html.PasswordFor(m => m.Password, new { tabindex = 2 })
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </td>
+                    <td class="login_secondColumn">
+                        @Html.DropDownListFor(m => m.Shft, Model.optionShift, new { @class = "dropdownlist", tabindex = 4 })
+                        @Html.ValidationMessageFor(m => m.Shft)
+                    </td>
+                </tr>
+                <tr style="vertical-align: top;">
+                    <td class="login_firstColumn">
+                        @*@Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })*@
+                    </td>
+                    <td class="login_secondColumn">
+                        <input type="submit" value="Log in" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <div>
+            Please log in with your MWD Windows account and password.
+        </div>
+    }
+</section>
+
+@if (!String.IsNullOrEmpty(@ViewBag.Message))
+{
+    <div id="dialog-message" style="color:Red; font-weight:bold; display:none;">@ViewBag.Message</div>
+    <div class="clear"></div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var x = document.getElementById("dialog-message");
+            var url = $("#RedirectUrl").html();
+            if (x) {
+                $('body').blur();
+                alert(x.innerHTML);
+                $("#dialog-message").val("");
+                // $(location).attr('href', url);
+            };
+
+            // Center the form
+            jQuery.fn.center = function () {
+                this.css("position", "absolute");
+                this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+                                                $(window).scrollTop()) + "px");
+                this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+                                                $(window).scrollLeft()) + "px");
+                return this;
+            }
+
+            $("#loginform").center();
+
+            // Capture enter key to
+            $('#UserID').live("keypress", function (e) {
+                /* ENTER PRESSED*/
+                if (e.keyCode == 13) {
+                    /* FOCUS ELEMENT */
+                    $('#Password').focus();
+                    return false;
+                }
+            });
+
+            // http://stackoverflow.com/questions/2335553/jquery-how-to-catch-enter-key-and-change-event-to-tab
+            //            $('input').live("keypress", function (e) {
+            //                /* ENTER PRESSED*/
+            //                if (e.keyCode == 13) {
+            //                    /* FOCUS ELEMENT */
+            //                    var inputs = $(this).parents("form").eq(0).find(":input");
+            //                    var idx = inputs.index(this);
+
+            //                    if (idx == inputs.length - 1) {
+            //                        inputs[0].select()
+            //                    } else {
+            //                        inputs[idx + 1].focus(); //  handles submit buttons
+            //                        inputs[idx + 1].select();
+            //                    }
+            //                    return false;
+            //                }
+            //            });
+
+            //            if (User.Identity.IsAuthenticated === false) {
+            //                $('ul.sf-menu').click(function () {
+            //                    alert("Please log in first.");
+            //                });
+            //            };
+
+            $("loginForm").dialog();
+
+        });
+
+    </script>
+}

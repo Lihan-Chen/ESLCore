@@ -12,20 +12,41 @@ namespace ESL.Core.Data
 
         private readonly ILogger<UnitOfWork> _logger;
 
+        public UnitOfWork(EslDbContext context, ILogger<UnitOfWork> logger, IEmployeeRepository employees, IEmpRoleRepositry empRoles, IConstantRepository constants, IFacilityRepository facilities, ILogTypeRepository logTypes, IMeterRepository meters, IAllEventRepository allEvents)
+        {
+            _context = context;
+            _logger = logger;
+            Employees = employees;
+            EmpRoles = empRoles;
+            Constants = constants;
+            Facilities = facilities;
+            LogTypes = logTypes;
+            Meters = meters;
+            AllEvents = allEvents;
+        }
+
+        public UnitOfWork(EslDbContext context, ILogger<UnitOfWork> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
         // Add all IRepositories here
         //public IUserRepository Users { get; private set; }
 
         public IEmployeeRepository Employees { get; private set; }
 
+        public IEmpRoleRepositry EmpRoles { get; private set; }
+
+        public IConstantRepository Constants { get; private set; }
+
+        public IFacilityRepository Facilities { get; private set; }
+        
+        public ILogTypeRepository LogTypes { get; private set; }
+
         public IMeterRepository Meters { get; private set; }
 
         public IAllEventRepository AllEvents { get; private set; }
-
-        public IFacilityRepository Facilities { get; private set; }
-
-        //public ILogTypeRepository LogTypes => throw new NotImplementedException();
-
-        //public IConstantRepository Constants => throw new NotImplementedException();
 
         //public IClearanceIssueRepository ClearanceIssues => throw new NotImplementedException();
 

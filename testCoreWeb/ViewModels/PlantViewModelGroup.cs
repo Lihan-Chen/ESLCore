@@ -13,7 +13,7 @@ namespace testCoreWeb.ViewModels
             Plants = new List<SelectListItem>
             {
                 new SelectListItem { Value = "1", Text = "OCC", Group = OCC},
-                new SelectListItem { Value = "2", Text = "Miemer", Group = PumpingPlant},
+                new SelectListItem { Value = "2", Text = "Diemer", Group = PumpingPlant},
                 new SelectListItem { Value = "3", Text = "Jensen", Group = PumpingPlant},
                 new SelectListItem { Value = "4", Text = "Mills", Group = PumpingPlant},
                 new SelectListItem { Value = "5", Text = "WEymouth", Group = PumpingPlant},

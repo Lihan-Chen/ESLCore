@@ -10,7 +10,7 @@
     Area: @ViewContext.RouteData.DataTokens["area"]<br />
     <p></p>
 
-    UserID: @if (System.Web.HttpContext.Current.Session["UserName"] != null)
+    @* UserID: @if (HttpContext.Session.GetString("UserName") != null)
     {
         @System.Web.HttpContext.Current.Session["UserName"].ToString()
         ;
@@ -34,12 +34,12 @@
     {
         @System.Web.HttpContext.Current.Session["sessionStart"].ToString()
         ;
-    }<br />
+    }<br /> *@
     Session Alive for (hh:mm:ss) <div id="timeElapsed"></div><br />
 </div>
 
 <script type="text/javascript">
-    var user_date = Date.parse('@Request.RequestContext.HttpContext.Session["sessionStart"]');
+    // var user_date = Date.parse('Request.RequestContext.HttpContext.Session["sessionStart"]');
 
     var refreshIntervalId = setInterval(SessionAliveClock, 1000);
 

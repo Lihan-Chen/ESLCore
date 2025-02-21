@@ -21,20 +21,20 @@ namespace ESL.Core.Models.ViewModels
     {
         [Required]
         [Display(Name = "User ID")]
-        public string UserID { get; set; }
+        public string? UserID { get; set; }
 
         [Required]
         //[DataType(DataType.Password)]
-        [Display(Name = "Plant")]
-        public string Plant { get; set; }
+        [Display(Name = "Facility")]
+        public int? FacilNo { get; set; }
 
         [Required]
         [Display(Name = "Operator Type")]
-        public OperatorType OpType { get; set; }
+        public OperatorType? OpType { get; set; }
 
         [Required]
         [Display(Name = "Shift: Day/Night")]
-        public Shift Shft { get; set; }
+        public Shift? Shft { get; set; }
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
