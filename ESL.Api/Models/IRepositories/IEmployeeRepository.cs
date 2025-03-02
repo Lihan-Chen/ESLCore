@@ -13,7 +13,9 @@ namespace ESL.Api.Models.IRepositories
         /// </summary>
         /// <param>None</param>
         /// <returns>A list with Employee objects when the database contains Employees for the parameters specified, or an empty list otherwise.</returns>
-        public Task<List<Employee>> GetList();
+        //public Task<List<Employee>> GetList();
+
+        public IOrderedQueryable<Employee> GetListQuery(int? facilNo);
 
         /// <summary>
         /// Gets a list of Employees
@@ -22,7 +24,7 @@ namespace ESL.Api.Models.IRepositories
         /// <param name="facilNo">The unique No of the Facility in the database.</param>
         /// <returns>A list with Employee objects when the database contains Employees for the parameters specified, or an empty list otherwise.</returns>
 
-        
+
         public Task<List<Employee>> GetListByFacilNo(int facilNo);
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace ESL.Api.Models.IRepositories
         /// </summary>
         /// <param name="facilNo">The unique No of the Facility in the database.</param>
         /// <returns>A list with Employee objects when the database contains Employees for the parameters specified, or an empty list otherwise.</returns>
-        public Task<List<Employee>> GetListExternal();
+        public IQueryable<Employee> GetListExternalQuery();
 
         /// <summary>
         /// Gets a single Employee from the database by its EmployeeNo.

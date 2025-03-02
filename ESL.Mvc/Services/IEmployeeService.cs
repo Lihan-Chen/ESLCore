@@ -37,11 +37,11 @@ namespace ESL.Mvc.Services
         public Task<Facility?> GetFacility(int? facilNo);
 
         // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public Task<SelectList> GetPlantSelectList();
+        public Task<SelectList> GetPlantSelectList(int? facilNo);
 
         public Task<SelectList> GetFacilTypeSelectList();
 
-        public Task<SelectList> GetLogTypeSelectList();
+        public Task<SelectList> GetLogTypeSelectList(int? logTypeNo);
 
         public Task<bool> IsInRole(string userID, string role, int facilNo);
     }
@@ -206,15 +206,15 @@ namespace ESL.Mvc.Services
         public async Task<Facility?> GetFacility(int? facilNo) => await _facilities.GetFacility((int)facilNo!);
 
         // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public async Task<SelectList> GetPlantSelectList() => await _facilities.GetFacilAbbrList();
+        public async Task<SelectList> GetPlantSelectList(int? facilNo) => new SelectList(await _facilities.GetFacilList(), "Value", "Text", facilNo);
 
-        public async Task<SelectList> GetFacilTypeSelectList() => await _facilities.GetFacilTypeSelectList();
+        public async Task<SelectList> GetFacilTypeSelectList() => new SelectList(await _facilities.GetFacilTypeList(), "Value", "Text");
 
         #endregion FacilityService
 
         #region LogTypeService
 
-        public async Task<SelectList> GetLogTypeSelectList() => await _logTypes.GetLogTypeSelectList();
+        public async Task<SelectList> GetLogTypeSelectList(int? logTypeNo) => new SelectList(await _logTypes.GetLogTypeList(), "Value", "Text", logTypeNo);
 
         #endregion LogTypeService
 

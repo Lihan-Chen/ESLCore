@@ -4,6 +4,7 @@ using ESL.Api.Models.DAL;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ESL.Api.Models.DAL
 {
@@ -25,9 +26,15 @@ namespace ESL.Api.Models.DAL
         }
 
         // SQL = ESL.ESL_EMPLOYEELIST_PROC
-        public async Task<List<Employee>> GetList()
+        public IOrderedQueryable<Employee> GetListQuery(int? facilNo)
         {
-            return await _context.Employees.Where(m => m.Disable == null).OrderBy(o => o.LastName).ThenBy(o => o.FirstName).AsNoTracking().ToListAsync();
+            var query = _context.Employees.AsNoTracking();
+
+            if (facilNo != null)
+            {
+                query = query.Where(e => e.FacilNo == facilNo);
+            }
+            return _context.Employees.AsNoTracking().Where(e=> e.FacilNo == facilNo).Where(d => d.Disable == null || d.Disable != "Y").Distinct().OrderBy(o => o.LastName).ThenBy(o => o.FirstName);
         }
 
 
@@ -40,11 +47,15 @@ namespace ESL.Api.Models.DAL
         }
 
         // SQL = ESL.ESL_EMPLOYEELIST_EXT_PROC WHERE GROUPNAME LIKE '%WATER SYSTEM OPERATIONS GROUP%' AND LENGTH(EMPLOYEENO) <> 4
-        public async Task<List<Employee>> GetListExternal()
+        public IQueryable<Employee> GetListExternalQuery()
         {
+            //var keyWord = "%WATER SYSTEM OPERATIONS GROUP%";
+
             var keyWord = "%WATER SYSTEM OPERATIONS GROUP%";
 
-            return await _context.Employees.Where(e => EF.Functions.Like(e.GroupName, keyWord) && e.EmployeeNo.ToString().Length != 4).OrderBy(o => o.LastName).ThenBy(o => o.FirstName).AsNoTracking().ToListAsync();
+            return _context.Employees.AsNoTracking().Where(e => !(EF.Functions.Like(e.GroupName, keyWord)) && e.EmployeeNo.ToString().Length != 4).OrderBy(o => o.LastName).ThenBy(o => o.FirstName);
+
+            //return await _context.Employees.Where(e => !EF.Functions.Like(e.GroupName, keyWord) && e.EmployeeNo.ToString().Length != 4).OrderBy(o => o.LastName).ThenBy(o => o.FirstName).AsNoTracking().ToListAsync();
         }
 
         // SQL = SELECT * FROM ESL.ESL_EMPLOYEES WHERE EMPLOYEENO = 'employeeNo.ToString()'"
@@ -57,7 +68,7 @@ namespace ESL.Api.Models.DAL
         public async Task<string> GetRole(string userID, int facilNo) => await ESL_ROLEBYFACIL(_context, userID, facilNo);
         
         private async Task<string> ESL_ROLEBYFACIL(ApplicationDbContext context, string userID, int facilNo) => 
-            context.Database.SqlQueryRaw<string>($"SELECT ROLE FROM ESL.ESL_ALLSCADAUSERS_ROLE WHERE UPPER(USERID) = UPPER('{userID}') AND FACILNO = {facilNo}").FirstOrDefault();
+            context.Database.SqlQuery<string>($"SELECT ROLE FROM ESL.ESL_ALLSCADAUSERS_ROLE WHERE UPPER(USERID) = UPPER('{userID}') AND FACILNO = {facilNo}").FirstOrDefault();
 
         
 
@@ -103,20 +114,20 @@ namespace ESL.Api.Models.DAL
         private string ESL_GETROLEBYFACIL(ApplicationDbContext context, string userID, int facilNo) =>
         
             context.Database.SqlQuery<string>($"SELECT ROLE FROM ESL.ESL_ALLSCADAUSERS_ROLE WHERE UPPER(USERID) = UPPER('{userID}') AND FACILNO = {facilNo}").FirstOrDefault();
-        
+
         //{            
-            //var roleParameter = new SqlParameter()
-            //{
-            //    ParameterName = "Role",
-            //    SqlDbType = System.Data.SqlDbType.VarChar,
-            //    Direction = System.Data.ParameterDirection.Output
-            //};
-            //SELECT ROLE FROM ESL.ESL_ALLSCADAUSERS_ROLE WHERE UPPER(USERID) = UPPER('UserID') AND FACILNO = facilNo//new SqlParameter("@inUserID", userID),
-            //string _role = context.Database.FromSql("ESL_GETEMPLOYEEROLEBYFACIL @inUserID, @inFacilNo, @Role OUTPUT", userID, facilNo, roleParameter);
-                //new SqlParameter("@inUserID", userID),
-                //new SqlParameter("@inFacilNo", facilNo),
-                //roleParameter);
-            
+        //var roleParameter = new SqlParameter()
+        //{
+        //    ParameterName = "Role",
+        //    SqlDbType = System.Data.SqlDbType.VarChar,
+        //    Direction = System.Data.ParameterDirection.Output
+        //};
+        //SELECT ROLE FROM ESL.ESL_ALLSCADAUSERS_ROLE WHERE UPPER(USERID) = UPPER('UserID') AND FACILNO = facilNo//new SqlParameter("@inUserID", userID),
+        //string _role = _context.Database.FromSql("ESL_GETEMPLOYEEROLEBYFACIL @inUserID, @inFacilNo, @Role OUTPUT", userID, facilNo, roleParameter);
+        //new SqlParameter("@inUserID", userID),
+        //new SqlParameter("@inFacilNo", facilNo),
+        //roleParameter);
+
         //}
 
         //public async Task<string> Delete(int employeeNo, string meterID)

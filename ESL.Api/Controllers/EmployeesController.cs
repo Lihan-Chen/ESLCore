@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ESL.Api.Models.BusinessEntities;
 using ESL.Api.Models.DAL;
+using ESL.Api.Models.IRepositories;
 
 namespace ESL.Api.Controllers
 {
@@ -15,19 +16,37 @@ namespace ESL.Api.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeesController(ApplicationDbContext context)
+        private const int DefaultPageIndex = 10;
+        private const int DefaultPageSize = 20;
+        private const int DefaultFacilNo = 1;
+
+        public EmployeesController(ApplicationDbContext context, IEmployeeRepository employeeRepository)
         {
             _context = context;
+            _employeeRepository = employeeRepository;
         }
 
         // GET: api/Employees
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees(int? facilNo, int page = DefaultPageIndex, int pageSize = DefaultPageSize, CancellationToken ct = default)
         {
             // Maps to string _sql = "ESL.ESL_EMPLOYEELIST_PROC";
+            var query = _employeeRepository.GetListQuery(facilNo);
 
-            return await _context.Employees.Where(e => e.Disable != "Y").Distinct().OrderBy(e => e.LastName).ThenBy(e => e.FirstName).Take(40).AsNoTracking().ToListAsync();
+            //if (facilNo != DefaultFacilNo)
+            //{
+            //    query = query.Where(e => e.FacilNo == facilNo);
+            //}
+
+            return await query.Skip(page * pageSize)
+                              .Take(pageSize)
+                              .ToListAsync(ct); 
+                
+            //IQueryable<Employee> GetListQuery().ToListAsync();  
+
+            //return await _context.Employees.Where(e => e.Disable != "Y").Distinct().OrderBy(e => e.LastName).ThenBy(e => e.FirstName).Take(40).AsNoTracking().ToListAsync();
         }
 
         [HttpGet("LogTypeList")]

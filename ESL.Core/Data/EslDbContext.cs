@@ -1,5 +1,4 @@
 ﻿using ESL.Core.IConfiguration;
-using ESL.Core.Models;
 using ESL.Core.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,6 +19,8 @@ namespace ESL.Core.Data
         }
 
         public DbSet<AllEvent> AllEvents { get; set; }
+
+        public DbSet<ViewAlleventsCurrent> AlleventsCurrents { get; set; }
 
         public virtual DbSet<AllScadaUsersRole> Roles { get; set; }
 
@@ -80,7 +81,7 @@ namespace ESL.Core.Data
             //    e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
             //    property.SetColumnType("varchar(100)");
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EslDbContext).Assembly);  //ApplicationDbContext
 
             // ref: m-jovanovic/rally-simulator/RallySimulatorDbCotext.cs
             // modelBuilder.ApplyUtcDateTimeConverter();

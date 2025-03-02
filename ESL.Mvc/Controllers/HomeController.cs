@@ -89,7 +89,7 @@ namespace ESL.Mvc.Controllers
 
             IsOperator = userRole == Role_Operator || userRole == Role_Admin || userRole == Role_SuperAdmin;
 
-            var plants = _employeeService.GetPlantSelectList();
+            var plants = _employeeService.GetPlantSelectList(_facilNo);
 
             var myOpTypeList = Enum.GetValues(typeof(OperatorType))
                 .Cast<OperatorType>()
@@ -99,21 +99,16 @@ namespace ESL.Mvc.Controllers
                 .Cast<Core.Models.Enums.Shift>()
                 .Select(s => new { ID = s, Name = s.ToString() });
 
-            if (Now >= _shiftStartTime && Now < _shiftEndTime)
-            {
-                _shift = Core.Models.Enums.Shift.Day;
-            }
-            else
-            {
-                _shift = Core.Models.Enums.Shift.Night;
-            }
+            // Set Shift based on current time
+            Enum _shift = GetDefaultShift();
 
+            
             ViewBag.Shift = _shift;
 
             var model = new UserSessionViewModel()
             {
                 UserID = UserID,
-                Shft = _shift,
+                Shft = (Shift?)_shift,
                 optionOpType = new SelectList(myOpTypeList, "ID", "Name"),
                 optionShift = new SelectList(myShiftList, "ID", "Name", _shift)
             };

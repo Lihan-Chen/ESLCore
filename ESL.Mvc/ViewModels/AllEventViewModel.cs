@@ -5,38 +5,38 @@ using X.PagedList;
 
 namespace ESL.Mvc.ViewModels
 {
-    public class AllEventsViewModel
+    public record AllEventsViewModel
     {
         // includes _LogFilterPartialViewModel
 
         [Display(Name = "Facility")]
-        public int FacilNo { get; set; }
+        public int? FacilNo { get; set; }
 
         [Display(Name = "Log Type")]
-        public int LogTypeNo { get; set; }
+        public int? LogTypeNo { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [Display(Name = "Start Date")]
-        public DateTime StartDate { get; set; }
+        public DateOnly? StartDate { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [Display(Name = "End Date")]
-        public DateTime EndDate { get; set; }
+        public DateOnly? EndDate { get; set; }
 
         [Display(Name = "Primary? Check for Yes.")]
         public Boolean OperatorType { get; set; }
 
-        public SelectList facilNos { get; set; }
-        public SelectList logTypeNos { get; set; }
+        public SelectList FacilNos { get; set; } = new SelectList(new List<SelectListItem>());
+        public SelectList LogTypeNos { get; set; } = new SelectList(new List<SelectListItem>());
 
         public int Count { get; set; }
 
         public List<AllEvent> AllEventList { get; set; }
 
-        public IPagedList<AllEvent> AllEventsPagedList { get; set; }
+        public IPagedList<AllEvent> AllEventsPagedList { get; set; } = new PagedList<AllEvent>(new List<AllEvent>(), 1, 40);
 
-        public AllEventDetails AllEventDetails { get; set; }
+        public AllEventDetails AllEventDetails { get; set; } = new AllEventDetails();
     }
 }

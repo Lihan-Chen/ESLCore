@@ -1,5 +1,4 @@
-﻿using ESL.Core.Models;
-using ESL.Core.Models.BusinessEntities;
+﻿using ESL.Core.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

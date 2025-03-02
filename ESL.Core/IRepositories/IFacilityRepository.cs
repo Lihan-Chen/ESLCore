@@ -15,9 +15,9 @@ namespace ESL.Core.IRepositories
 
         public Task<List<Facility>> GetFacilities();
 
-        public Task<SelectList> GetFacilAbbrList();   
+        public Task<List<Facil>> GetFacilList();   
 
-        public Task<SelectList> GetFacilTypeSelectList();
+        public Task<List<string>> GetFacilTypeList();
     }
 
 }

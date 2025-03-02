@@ -1,4 +1,4 @@
-﻿using ESL.Core.Models;
+﻿using ESL.Core.Models.BusinessEntities;
 using Microsoft.Graph.SecurityNamespace;
 using X.PagedList;
 

@@ -1,5 +1,5 @@
 ﻿using ESL.Core.IRepositories;
-using ESL.Core.Models;
+using ESL.Core.Models.BusinessEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

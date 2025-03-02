@@ -61,29 +61,31 @@ namespace ESL.Core.Repositories
 
         public async Task<List<Facility>> GetFacilities() => await dbSet.OrderBy(o => o.FacilNo).ToListAsync();
        
-        public virtual async Task<SelectList> GetFacilAbbrList()
+        public virtual async Task<List<Facil>> GetFacilList()
         {
-            var facilities = await dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).ToListAsync();
-            return new SelectList(facilities, "FacilNo", "FacilName");
+            return await dbSet.Where(f => f.FacilNo <= 13).Select(x => new Facil { FacilNo = x.FacilNo, FacilName = x.FacilName }).OrderBy(o => o.FacilNo).ToListAsync();
         }
 
-        public virtual async Task<SelectList> GetFacilTypeSelectList() // List<SelectListItem>
-        {
+        public virtual async Task<List<string>> GetFacilTypeList() => await dbSet.Where(item => item != null).OrderBy(o => o.FacilNo)
+                                                                            .Select(f => f.FacilType).Distinct().ToListAsync();
+        //{
+        //    return await dbSet.Where(item => item != null).OrderBy(o => o.FacilNo).Select(f => f.FacilType).Distinct().ToListAsync();
+
             //var _facilTypes = dbSet.Where(item => item != null).Select(f => f.FacilType).Distinct();
             //var _selectFacilTypes = _facilTypes.Select(x => new SelectListItem { Value = x.ToString(), Text = x.ToString() }).ToList();
             //SelectListItem _emptyString = new SelectListItem() { Value = String.Empty, Text = String.Empty };
             //_selectFacilTypes.Insert(0, _emptyString);
 
             //return _selectFacilTypes;
-            
-            var _facilTypes =  await dbSet.Where(item => item != null).Distinct().ToListAsync();
 
-            var _selectFacilTypes = new SelectList(_facilTypes, "FacilType", "FacilType");
+            //var _facilTypes =  await dbSet.Where(item => item != null).Distinct().ToListAsync();
 
-            SelectListItem _emptyString = new SelectListItem() { Value = String.Empty, Text = String.Empty };
-            _selectFacilTypes.Prepend(_emptyString);
+            //var _selectFacilTypes = new SelectList(_facilTypes, "FacilType", "FacilType");
 
-            return _selectFacilTypes;
-        }
+            //SelectListItem _emptyString = new SelectListItem() { Value = String.Empty, Text = String.Empty };
+            //_selectFacilTypes.Prepend(_emptyString);
+
+            //return _selectFacilTypes;
+        //}
     }
 }

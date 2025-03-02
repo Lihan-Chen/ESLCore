@@ -31,11 +31,13 @@ namespace ESL.Core.Repositories
         
         public async Task<int> GetLogTypeNo(string LogTypeName) => await GetLogType(LogTypeName).ContinueWith(t => t.Result.LogTypeNo);
 
-        public async virtual Task<SelectList> GetLogTypeSelectList()
-        {
-            var logTypeList = await GetLogTypes();
-            // return new SelectList(logTypeList, "LogTypeNo", "LogTypeName");
-            return new SelectList(logTypeList, nameof(LogType.LogTypeNo), nameof(LogType.LogTypeName));
-        }
+        public async virtual Task<List<string>> GetLogTypeList() => await dbSet.Select(l => l.LogTypeName).Distinct().ToListAsync();
+        //{
+        //    return await dbSet.Select(l => l.LogTypeName).Distinct().ToListAsync();
+            
+            //var logTypeList = await GetLogTypes();
+            //// return new SelectList(logTypeList, "LogTypeNo", "LogTypeName");
+            //return new SelectList(logTypeList, nameof(LogType.LogTypeNo), nameof(LogType.LogTypeName));
+        //}
     }
 }

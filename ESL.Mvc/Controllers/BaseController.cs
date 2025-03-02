@@ -99,12 +99,13 @@ namespace ESL.Mvc.Controllers
         protected static string OperatorType = null!; // Primary or Secondary
         protected static int SessionTimeOut = 30; // extends additional time for session
 
-        protected DateTime Now = DateTime.Now;
-        protected DateTime Tomorrow = DateTime.Now.AddDays(+1);
-        protected string YesterdayDate = DateTime.Now.AddDays(-1).ToString("MM/dd/yyyy");
-        protected string TodayDate = DateTime.Now.Date.ToString("yyyyMMdd");
-        protected string TomorrowDate = DateTime.Now.AddDays(+1).ToString("yyyyMMdd");
-        protected int _DaysOffSet = -2;
+        protected static DateTime Now = DateTime.Now;
+        protected static DateOnly Today = DateOnly.FromDateTime(Now);
+        protected static DateOnly Tomorrow = Today.AddDays(+1);
+        protected string YesterdayDate = Today.AddDays(-1).ToString("MM/dd/yyyy");
+        protected string TodayDate = Today.ToString("yyyyMMdd");
+        protected string TomorrowDate = Tomorrow.ToString("yyyyMMdd");
+        protected int DaysOffSet = -2;
         // TimeSpan for two and half hours
         protected TimeSpan TimeSpan = new TimeSpan(2, 30, 0);
 
@@ -245,6 +246,11 @@ namespace ESL.Mvc.Controllers
             };
 
             httpContext.Response.Cookies.Append(key, value, options);
+        }
+
+        protected static Enum GetDefaultShift()
+        {
+            return Now.TimeOfDay >= TimeSpan.Parse(ShiftStartTimeString) && Now.TimeOfDay <= TimeSpan.Parse(ShiftEndTimeString) ? Core.Models.Enums.Shift.Day : Core.Models.Enums.Shift.Night;
         }
 
         #endregion Helper

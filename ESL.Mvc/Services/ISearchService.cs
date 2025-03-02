@@ -1,5 +1,5 @@
 ﻿using ESL.Core.IRepositories;
-using ESL.Core.Models;
+using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Mvc.Services
 {

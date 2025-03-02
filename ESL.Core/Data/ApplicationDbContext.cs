@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ESL.Core.Models;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Microsoft.Extensions.Logging;

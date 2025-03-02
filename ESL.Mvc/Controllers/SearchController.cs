@@ -176,7 +176,7 @@ namespace ESL.Mvc.Controllers
                     IPagedList<Search> SearchAsIPagedList = (IPagedList<Search>)_searchList.ToPagedList(pageIndex, pageSize);
 
                     viewmodel.count = _Count;
-                    viewmodel.SearchPagedList = (IPagedList<ESL.Core.Models.SearchDTO>)SearchAsIPagedList;
+                    viewmodel.SearchPagedList = (IPagedList<SearchDTO>)SearchAsIPagedList;
                 }
                 else
                 {

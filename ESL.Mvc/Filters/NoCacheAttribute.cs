@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Net.Http.Headers;
 
 namespace ESL.Mvc.Filters
 {
@@ -7,11 +8,12 @@ namespace ESL.Mvc.Filters
     {
         public override void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            //filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
-            //filterContext.HttpContext.Response.Cache.SetValidUntilExpires(false);
-            //filterContext.HttpContext.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
-            //filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            //filterContext.HttpContext.Response.Cache.SetNoStore();
+            var response = filterContext.HttpContext.Response;
+
+            response.Headers[HeaderNames.Expires] = DateTime.UtcNow.AddDays(-1).ToString("R");
+            response.Headers[HeaderNames.CacheControl] = "no-cache, no-store, must-revalidate";
+            response.Headers[HeaderNames.Pragma] = "no-cache";
+            response.Headers[HeaderNames.Vary] = "*";
 
             base.OnResultExecuting(filterContext);
         }

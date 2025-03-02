@@ -19,6 +19,6 @@ namespace ESL.Core.IRepositories
         public Task<int> GetLogTypeNo(string LogTypeName);
 
         // GetLogTypeList() for selectItem (LogTypeNo, LogTypeName)
-        public Task<SelectList> GetLogTypeSelectList();
+        public Task<List<string>> GetLogTypeList();
     }
 }
