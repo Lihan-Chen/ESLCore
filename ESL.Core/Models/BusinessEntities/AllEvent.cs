@@ -1,8 +1,5 @@
-﻿using ESL.Core.Models.ComplexTypes;
-using ESL.Core.Models.Validation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
@@ -186,10 +183,11 @@ public partial record AllEvent //: EventIDentity
 
     ////// Navigation to be implemented with EF virtural
     ////public virtual ScanDoc? scandoc { get; set; }
-    //[NotMapped]
-    //public virtual Facility Facility { get; set; } = new Facility();
-    //[NotMapped]
-    //public virtual LogType LogType { get; set; } = new LogType(); 
+    ///
+    [NotMapped]
+    public virtual Facility Facility { get; set; } = new Facility();
+    [NotMapped]
+    public virtual LogType LogType { get; set; } = new LogType();
 
     #endregion
 }

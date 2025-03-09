@@ -26,6 +26,24 @@ namespace ESL.Mvc.ViewModels
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
 
+        public IEnumerable<SelectListItem> FacilSelectList { get; set; } = new List<SelectListItem>();
+        //{
+        //    new SelectListItem { Value = "1", Text = "Primary" },
+        //    new SelectListItem { Value = "2", Text = "Secondary" }
+        //};
+
+        //public IEnumerable<SelectListItem> OpTypeSelectList { get; set; } = new List<SelectListItem>
+        //{
+        //    new SelectListItem { Value = "1", Text = "Primary" },
+        //    new SelectListItem { Value = "2", Text = "Secondary" }
+        //};
+
+        //public IEnumerable<SelectListItem> ShiftSelectList { get; set; } = new List<SelectListItem>
+        //{
+        //    new SelectListItem { Value = "1", Text = "Day" },
+        //    new SelectListItem { Value = "2", Text = "Night" }
+        //};
+
         public IEnumerable<SelectListItem> OpTypeSelectList { get; set; } = new List<SelectListItem>();
 
         public IEnumerable<SelectListItem> ShiftSelectList { get; set; } = new List<SelectListItem>();

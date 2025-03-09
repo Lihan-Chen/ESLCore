@@ -1,14 +1,8 @@
 ﻿using ESL.Core.Data;
 using ESL.Core.IRepositories;
 using ESL.Core.Models.BusinessEntities;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESL.Core.Repositories
 {
@@ -63,7 +57,7 @@ namespace ESL.Core.Repositories
        
         public virtual async Task<List<Facil>> GetFacilList()
         {
-            return await dbSet.Where(f => f.FacilNo <= 13).Select(x => new Facil { FacilNo = x.FacilNo, FacilName = x.FacilName }).OrderBy(o => o.FacilNo).ToListAsync();
+            return await dbSet.Where(f => f.FacilNo <= 13).OrderBy(o => o.FacilNo).Select(x => new Facil { FacilNo = x.FacilNo, FacilName = x.FacilName, FacilAbbr = x.FacilAbbr }).ToListAsync();
         }
 
         public virtual async Task<List<string>> GetFacilTypeList() => await dbSet.Where(item => item != null).OrderBy(o => o.FacilNo)

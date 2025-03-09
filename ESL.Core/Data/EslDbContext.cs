@@ -20,8 +20,6 @@ namespace ESL.Core.Data
 
         public DbSet<AllEvent> AllEvents { get; set; }
 
-        public DbSet<ViewAlleventsCurrent> AlleventsCurrents { get; set; }
-
         public virtual DbSet<AllScadaUsersRole> Roles { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
@@ -30,17 +28,43 @@ namespace ESL.Core.Data
 
         public DbSet<Constant> Constants { get; set; }
 
+        public DbSet<Location> Locations { get; set; }
+
         public DbSet<LogType> LogTypes { get; set; }
 
         public DbSet<Meter> Meters { get; set; }
 
+        public DbSet<Subject> Subjects { get; set; }
+
+        public DbSet<Unit> Units { get; set; }
+
+        // this seems not being used.
+        // public DbSet<RealTime> RealTime { get; set; }
+
+        // this is from the VIEW_REALTIME
+        public DbSet<ViewRealTime> ViewRealtimes { get; set; }
+
+        // this seems not being used.
+        // public DbSet<ViewWorkOrder> ViewWorkOrders { get; set; }
+
+        public DbSet<WorkOrder> WorkOrders { get; set; }
+
+        public DbSet<WorkToBePerformed> WorkToBePerformeds { get; set; }
+
         #region Views
 
-        public virtual DbSet<ViewAlleventsCurrent> ViewCurrentAllEvents { get; set; }
+        // this maps to view ESL.VIEW_ALLEVENTS_CURRENT
+        public DbSet<AllEventCurrent> AllEventsCurrent { get; set; }
 
-        public virtual DbSet<ViewAlleventsFacilNo> ViewAllEventsByFacility { get; set; }
+        public DbSet<AllEventFacil> AllEventFacils { get; set; }
 
-        public virtual DbSet<ViewSearchAllevent> ViewSearchAllevents { get; set; }
+        public DbSet<AllEventLogType> AllEventLogTypes { get; set; }
+
+        public DbSet<AllEventRelatedTo> AllEventsRelatedTo { get; set; }
+
+        public DbSet<AllEventSearch> AllEventsSearch { get; set; }
+
+        public DbSet<ViewSearchAllevent> ViewAllEventsSearch { get; set; }
 
         #endregion Views
 
@@ -96,38 +120,65 @@ namespace ESL.Core.Data
             #region Views
             // Mapping to view instead of table with schema as the second parameter
 
-            //AllEvent
-            // For AllEvents/Index? (To be verified)
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsCurrent",
+            // AllEvent-related
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventsCurrent",
                 b =>
                 {
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_CURRENT", "ESL");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsFacilNo",
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventFacil",
                 b =>
                 {
                     b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_FacilNOS", "ESL");
+                    b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventLogType",
+                            b =>
+                            {
+                                b.HasNoKey();
+                                b.ToView("VIEW_ALLEVENTS_LOGTYPES", "ESL");
+                            });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventRelatedTo",
+                b =>
+                {
+                    b.HasNoKey();
+                    b.ToView("VIEW_ALLEVENTS_RELATEDTO", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventSearch",
+                b =>
+                {
+                    b.HasNoKey();
+                    b.ToView("VIEW_ALLEVENTS_SEARCH", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventFacil",
+                b =>
+                {
+                    b.HasNoKey();
+                    b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
                     // b.Property(v => v.BlogName).HasColumnName("Name");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsLogType",
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventLogType",
            b =>
            {
                b.HasNoKey();
                b.ToView("VIEW_ALLEVENTS_LOGTYPE", "ESL");
            });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsRelatedTo",
+            modelBuilder.Entity("ESL.Core.Models.AllEventRelatedTo",
                 b =>
                 {
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_RelatedTo", "ESL");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsSearch",
+            modelBuilder.Entity("ESL.Core.Models.AllEventSearch",
                 b =>
                 {
                     b.HasNoKey();
@@ -217,7 +268,7 @@ namespace ESL.Core.Data
                 });
 
             // General
-            modelBuilder.Entity("ESL.Core.Models.ViewGeneralAlL",
+            modelBuilder.Entity("ESL.Core.Models.ViewGeneralAll",
                 b =>
                 {
                     b.HasNoKey();
@@ -320,6 +371,24 @@ namespace ESL.Core.Data
 
         //modelBuilder.Entity<AllEvent>(entity =>
         //{
+        //    //AllEvent
+        //    // For AllEvents/Index? (To be verified)
+        //    modelBuilder.Entity<ViewAlleventsCurrent>( //"ESL.Core.Models.ViewAllEventsCurrent",
+        //        b =>
+        //        {
+        //            b.HasNoKey();
+        //            b.ToView("VIEW_ALLEVENTS_CURRENT", schema: "ESL");
+        //        });
+
+        //    modelBuilder
+        //        .Entity<ViewAlleventsLogType>(eb =>
+        //        {
+        //            eb.HasNoKey();
+        //            eb.ToView("VIEW_ALLEVENTS_LOGTYPES", schema: "ESL");
+        //        });
+        //}
+        //#endregion
+
         //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.EventID_RevNo });
 
         //    entity.Table("ESL_AllEvents");
@@ -452,6 +521,6 @@ namespace ESL.Core.Data
 
         // OnModelCreatingPartial(modelBuilder);
 
-        // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

@@ -21,11 +21,11 @@ namespace ESL.Core.IConfiguration
 
         #region Views
 
-        DbSet<ViewAlleventsCurrent> ViewCurrentAllEvents { get; set; }
+        DbSet<AllEventCurrent> AllEventsCurrent { get; set; }
 
-        DbSet<ViewAlleventsFacilNo> ViewAllEventsByFacility { get; set; }
+        DbSet<AllEventFacil> AllEventFacils { get; set; }
 
-        DbSet<ViewSearchAllevent> ViewSearchAllevents { get; set; }
+        DbSet<AllEventSearch> AllEventsSearch { get; set; }
 
         #endregion Views
     }

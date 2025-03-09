@@ -24,13 +24,19 @@ namespace ESL.Mvc.ViewModels
         [Display(Name = "Operator Type")]
         public OperatorType? OpType { get; set; }
 
-        public IEnumerable<SelectListItem> optionOpType { get; set; } = new List<SelectListItem>
+        public IEnumerable<SelectListItem> FacilSelectList { get; set; } = new List<SelectListItem>();
+        //{
+        //    new SelectListItem { Value = "1", Text = "Primary" },
+        //    new SelectListItem { Value = "2", Text = "Secondary" }
+        //};
+
+        public IEnumerable<SelectListItem> OpTypeSelectList { get; set; } = new List<SelectListItem>
         {
             new SelectListItem { Value = "1", Text = "Primary" },
             new SelectListItem { Value = "2", Text = "Secondary" }
         };
 
-        public IEnumerable<SelectListItem> optionShift { get; set; } = new List<SelectListItem>
+        public IEnumerable<SelectListItem> ShiftSelectList { get; set; } = new List<SelectListItem>
         {
             new SelectListItem { Value = "1", Text = "Day" },
             new SelectListItem { Value = "2", Text = "Night" }

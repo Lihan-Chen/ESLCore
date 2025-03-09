@@ -51,7 +51,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.60" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
     <PackageReference Include="X.PagedList" Version="10.5.7" />
   </ItemGroup>
 

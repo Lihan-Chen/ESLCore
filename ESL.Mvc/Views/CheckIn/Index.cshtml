@@ -1,4 +1,4 @@
-﻿@model ESL.Core.Models.ViewModels
+﻿@model ESL.Mvc.ViewModels.UserSessionViewModel
 
 @{
     ViewBag.Title = "Check in";
@@ -29,13 +29,13 @@
                         @Html.ValidationMessageFor(m => m.UserID)
                     </td>
                     <td class="login_secondColumn">
-                        @Html.DropDownListFor(m => m.OpType, Model.optionOpType, new { @class = "dropdownlist", tabindex = 3 })
+                        @Html.DropDownListFor(m => m.OpType, Model.OpTypeSelectList, new { @class = "dropdownlist", tabindex = 3 })
                         @Html.ValidationMessageFor(m => m.OpType)
                     </td>
                 </tr>
                 <tr style="vertical-align: top;">
                     <td class="login_firstColumn">
-                        @Html.LabelFor(m => m.Password)
+                        @* @Html.LabelFor(m => m.Password) *@
                     </td>
                     <td class="login_secondColumn">
                         @Html.LabelFor(m => m.Shft)
@@ -43,11 +43,11 @@
                 </tr>
                 <tr style="vertical-align: middle;">
                     <td class="login_firstColumn">
-                        @Html.PasswordFor(m => m.Password, new { tabindex = 2 })
-                        @Html.ValidationMessageFor(m => m.Password)
+                        @* @Html.PasswordFor(m => m.Password, new { tabindex = 2 })
+                        @Html.ValidationMessageFor(m => m.Password) *@
                     </td>
                     <td class="login_secondColumn">
-                        @Html.DropDownListFor(m => m.Shft, Model.optionShift, new { @class = "dropdownlist", tabindex = 4 })
+                        @Html.DropDownListFor(m => m.Shft, Model.ShiftSelectList, new { @class = "dropdownlist", tabindex = 4 })
                         @Html.ValidationMessageFor(m => m.Shft)
                     </td>
                 </tr>
@@ -75,7 +75,7 @@
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @* @Scripts.Render("~/bundles/jqueryval") *@
     <script type="text/javascript">
         $(document).ready(function () {
             var x = document.getElementById("dialog-message");

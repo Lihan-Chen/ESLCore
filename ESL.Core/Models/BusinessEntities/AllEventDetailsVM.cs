@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace ESL.Core.Models.BusinessEntities
 {
+    // ViewModel
     [NotMapped]
-    public partial record AllEventDetails
+    public partial record AllEventDetailsVM
     {
         /// <summary>
         /// Gets or sets the facilName of the AllEvents.

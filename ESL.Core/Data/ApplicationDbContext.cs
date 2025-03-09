@@ -18,110 +18,53 @@ namespace ESL.Core.Data
         {
         }
 
-        // the dbset property will tell ef core that we have a table that needs to be created if it does not exist.
+        public DbSet<AllEvent> AllEvents { get; set; }
 
-        public virtual DbSet<Facility> Facilities { get; set; }
+        public virtual DbSet<AllScadaUsersRole> Roles { get; set; }
 
-        public virtual DbSet<LogType> LogTypes { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
-        public virtual DbSet<User> Users { get; set; }
+        public DbSet<Facility> Facilities { get; set; }
 
-        public virtual DbSet<Employee> Employees { get; set; }
+        public DbSet<Constant> Constants { get; set; }
 
-        public virtual DbSet<AllEvent> AllEvents { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
-        public virtual DbSet<Constant> Constants { get; set; }
+        public DbSet<LogType> LogTypes { get; set; }
 
-        public virtual DbSet<ClearanceIssue> ClearanceIssues { get; set; }
+        public DbSet<Meter> Meters { get; set; }
 
-        public virtual DbSet<ClearanceType> ClearanceTypes { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
 
-        public virtual DbSet<ClearanceZone> ClearanceZones { get; set; }
+        public DbSet<Unit> Units { get; set; }
 
-        public virtual DbSet<Details> DetailsList { get; set; }
+        // this seems not being used.
+        // public DbSet<RealTime> RealTime { get; set; }
 
-        public virtual DbSet<EOS> EOSLog { get; set; }
+        // this is from the VIEW_REALTIME
+        public DbSet<ViewRealTime> ViewRealtimes { get; set; }
 
-        public virtual DbSet<EquipmentInvolved> EquipmentInvolvedList { get; set; }
+        // this seems not being used.
+        // public DbSet<ViewWorkOrder> ViewWorkOrders { get; set; }
 
-        public virtual DbSet<FlowChange> FlowChanges { get; set; }
+        public DbSet<WorkOrder> WorkOrders { get; set; }
 
-        public virtual DbSet<GeneralLog> GeneralLog { get; set; }
+        public DbSet<WorkToBePerformed> WorkToBePerformeds { get; set; }
 
-        public virtual DbSet<Location> Locations { get; set; }
+        #region Views
 
-        public virtual DbSet<PlantShift> PlantsShiftList { get; set; }
+        // this maps to view ESL.VIEW_ALLEVENTS_CURRENT
+        public DbSet<AllEventCurrent> AllEventsCurrent { get; set; }
 
-        public virtual DbSet<RelatedTo> RelatedToList { get; set; }
+        public DbSet<AllEventFacil> AllEventFacils { get; set; }
 
-        public virtual DbSet<Meter> Meters { get; set; }
+        public DbSet<AllEventLogType> AllEventLogTypes { get; set; }
 
-        public virtual DbSet<ScanDoc> ScanDocs { get; set; }
+        public DbSet<AllEventRelatedTo> AllEventsRelatedTo { get; set; }
 
-        public virtual DbSet<ScanLob> ScanLobs { get; set; }
+        public DbSet<AllEventSearch> AllEventsSearch { get; set; }
 
-        public virtual DbSet<SOC> SOClog { get; set; }
-
-        public virtual DbSet<Subject> Subjects { get; set; }
-
-        public virtual DbSet<Unit> Units { get; set; }
-
-        public virtual DbSet<WorkOrder> WorkOrders { get; set; }
-
-        public virtual DbSet<WorkToBePerformed> WorkToBePerformedList { get; set; }
-
-        public virtual DbSet<ViewAlleventsCurrent> ViewCurrentAllEvents { get; set; }
-
-        public virtual DbSet<ViewAlleventsFacilNo> ViewAllEventsByFacility { get; set; }
-
-        public virtual DbSet<ViewAlleventsLogType> ViewAllEventsByLogType { get; set; }
-
-        public virtual DbSet<ViewAlleventsRelatedTo> ViewRelatedAllevents {  get; set; }
-
-        public virtual DbSet<ViewAlleventsSearch> ViewAlleventsSearches { get; set; }
-
-        public virtual DbSet<ViewClearanceAll> ViewClearanceAll { get; set; }
-
-        public virtual DbSet<ViewClearanceissue> ViewClearanceIssues { get; set; }
-        
-        public virtual DbSet<ViewClearanceIssuesCurrent> ViewCurrentClearanceIssues { get; set; }
-
-        public virtual DbSet<ViewClearanceOutstanding> ViewOutstandingClearances { get; set; }
-
-        public virtual DbSet<ViewClearanceType> ViewClearancesTypes { get; set; }
-
-        public virtual DbSet<ViewEOSAll> ViewEOSAll {  get; set; }
-
-        public virtual DbSet<ViewEOSCurrent> ViewCurrentEOS { get; set; }
-
-        public virtual DbSet<ViewEOSOutstanding> ViewOutstandingEOS { get; set; }
-
-        public virtual DbSet<ViewFlowchangeAll> ViewAllFlowChanges { get; set; }
-
-        public virtual DbSet<ViewFlowchangePresched> ViewPreschedFlowChanges { get; set; }
-
-        public virtual DbSet<ViewFlowchangesCurrent> ViewCurrentFlowChanges { get; set; }
-
-        public virtual DbSet<ViewGeneralAll> ViewGeneralAll { get; set; }
-        
-        public virtual DbSet<ViewGeneralCurrent> ViewGeneralCurrent { get; set; }
-
-        public virtual DbSet<ViewGeneralOutstanding> ViewOutstandingGeneral { get; set; }
-
-        public virtual DbSet<ViewRealtime> ViewRealtime { get; set; }
-
-        public virtual DbSet<ViewSearchAllevent> ViewSearchAllevents { get; set; }
-
-        public virtual DbSet<ViewSOCAll> ViewAllSOC {  get; set; }
-
-        public virtual DbSet<ViewSOCCurrent> ViewCurrentSOC { get; set; }
-
-        public virtual DbSet<ViewSOCOutstanding> ViewOutstandingSOC { get; set; }
-
-        public virtual DbSet<ViewWorkOrder> ViewWorkOrders { get; set; }
-
-        //public virtual DbSet<View>
-
+        #endregion Views
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -160,7 +103,7 @@ namespace ESL.Core.Data
             //    e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
             //    property.SetColumnType("varchar(100)");
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EslDbContext).Assembly);  //ApplicationDbContext
 
             // ref: m-jovanovic/rally-simulator/RallySimulatorDbCotext.cs
             // modelBuilder.ApplyUtcDateTimeConverter();
@@ -175,45 +118,72 @@ namespace ESL.Core.Data
             #region Views
             // Mapping to view instead of table with schema as the second parameter
 
-            //AllEvent
-            // For AllEvents/Index? (To be verified)
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsCurrent",
+            // AllEvent-related
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventsCurrent",
                 b =>
                 {
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_CURRENT", "ESL");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsFacilNo",
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventFacil",
                 b =>
                 {
                     b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_FacilNOS", "ESL");
+                    b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventLogType",
+                            b =>
+                            {
+                                b.HasNoKey();
+                                b.ToView("VIEW_ALLEVENTS_LOGTYPES", "ESL");
+                            });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventRelatedTo",
+                b =>
+                {
+                    b.HasNoKey();
+                    b.ToView("VIEW_ALLEVENTS_RELATEDTO", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventSearch",
+                b =>
+                {
+                    b.HasNoKey();
+                    b.ToView("VIEW_ALLEVENTS_SEARCH", "ESL");
+                });
+
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventFacil",
+                b =>
+                {
+                    b.HasNoKey();
+                    b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
                     // b.Property(v => v.BlogName).HasColumnName("Name");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventsLogType",
+            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventLogType",
            b =>
-            {
-                b.HasNoKey();
-                b.ToView("VIEW_ALLEVENTS_LOGTYPE", "ESL");
-            });
+           {
+               b.HasNoKey();
+               b.ToView("VIEW_ALLEVENTS_LOGTYPE", "ESL");
+           });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsRelatedTo",
+            modelBuilder.Entity("ESL.Core.Models.AllEventRelatedTo",
                 b =>
                 {
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_RelatedTo", "ESL");
                 });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewAllEventsSearch",
+            modelBuilder.Entity("ESL.Core.Models.AllEventSearch",
                 b =>
                 {
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_SEARCH", "ESL");
                     // b.Property(v => v.BlogName).HasColumnName("Name");
                 });
-            
+
             // Clearance
             modelBuilder.Entity("ESL.Core.Models.ViewAClearanceAll",
             b =>
@@ -250,7 +220,7 @@ namespace ESL.Core.Data
                     b.ToView("VIEW_CLEARANCE_TYPES", "ESL");
                     // b.Property(v => v.BlogName).HasColumnName("Name");
                 });
-            
+
             // EOS
             modelBuilder.Entity("ESL.Core.Models.ViewEosAlL",
             b =>
@@ -296,7 +266,7 @@ namespace ESL.Core.Data
                 });
 
             // General
-            modelBuilder.Entity("ESL.Core.Models.ViewGeneralAlL",
+            modelBuilder.Entity("ESL.Core.Models.ViewGeneralAll",
                 b =>
                 {
                     b.HasNoKey();
@@ -399,6 +369,24 @@ namespace ESL.Core.Data
 
         //modelBuilder.Entity<AllEvent>(entity =>
         //{
+        //    //AllEvent
+        //    // For AllEvents/Index? (To be verified)
+        //    modelBuilder.Entity<ViewAlleventsCurrent>( //"ESL.Core.Models.ViewAllEventsCurrent",
+        //        b =>
+        //        {
+        //            b.HasNoKey();
+        //            b.ToView("VIEW_ALLEVENTS_CURRENT", schema: "ESL");
+        //        });
+
+        //    modelBuilder
+        //        .Entity<ViewAlleventsLogType>(eb =>
+        //        {
+        //            eb.HasNoKey();
+        //            eb.ToView("VIEW_ALLEVENTS_LOGTYPES", schema: "ESL");
+        //        });
+        //}
+        //#endregion
+
         //    entity.HasKey(e => new { e.FacilNo, e.LogTypeNo, e.EventID, e.EventID_RevNo });
 
         //    entity.Table("ESL_AllEvents");
@@ -531,186 +519,8 @@ namespace ESL.Core.Data
 
         // OnModelCreatingPartial(modelBuilder);
 
-        // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
 
-//// On model creating function will provide us with the ability to manage the tables properties
-//protected override void OnModelCreating(ModelBuilder modelBuilder)
-//{
-//    base.OnModelCreating(modelBuilder);
-
-//    modelBuilder.Entity("ESL.Core.Models.AllEvent", b =>
-//    {
-//        b.Property<int>("FacilNo")
-//            .HasColumnType("INTEGER");
-
-//        b.Property<int>("LogTypeNo")
-//            .HasColumnType("INTEGER");
-
-//        b.Property<string>("EventID")
-//            .HasColumnType("TEXT");
-
-//        b.Property<int>("EventID_RevNo")
-//            .HasColumnType("INTEGER");
-
-//        b.Property<string>("ClearanceID")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("Details")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<DateTime?>("EventDate")
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("EventTime")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("FacilAbbr")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("FacilName")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("LogTypeName")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("ModifyFlag")
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("Notes")
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("OperatorType")
-//            .HasColumnType("TEXT");
-
-//        b.Property<int>("ScanDocsNo")
-//            .HasColumnType("INTEGER");
-
-//        b.Property<string>("Subject")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("UpdateDate")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("UpdatedBy")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.HasKey("FacilNo", "LogTypeNo", "EventID", "EventID_RevNo");
-
-//        b.ToTable("AllEvents");
-//    });
-
-//    modelBuilder.Entity("ESL.Core.Models.Employee", b =>
-//    {
-//        b.Property<int>("Id")
-//            .ValueGeneratedOnAdd()
-//            .HasColumnType("INTEGER")
-//            .HasColumnName("EmployeeNo");
-
-//        b.Property<string>("Company")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("Disable")
-//            .HasColumnType("TEXT");
-
-//        b.Property<int?>("FacilNo")
-//            .HasColumnType("INTEGER");
-
-//        b.Property<string>("FirstName")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("GroupName")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("JobTitle")
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("LastName")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("Notes")
-//            .HasColumnType("TEXT");
-
-//        b.Property<DateTimeOffset>("UpdateDate")
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("UpdatedBy")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.HasKey("Id");
-
-//        b.ToTable("Employees");
-//    });
-
-//    modelBuilder.Entity("ESL.Core.Models.Meter", b =>
-//    {
-//        b.Property<string>("MeterID")
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("Disable")
-//            .HasColumnType("TEXT");
-
-//        b.Property<int>("FacilNo")
-//            .HasColumnType("INTEGER");
-
-//        b.Property<string>("MeterType")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("Notes")
-//            .HasColumnType("TEXT");
-
-//        b.Property<int?>("SortNo")
-//            .HasColumnType("INTEGER");
-
-//        b.Property<DateTime?>("UpdateDate")
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("UpdatedBy")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.HasKey("MeterID");
-
-//        b.ToTable("Meters");
-//    });
-
-//    modelBuilder.Entity("ESL.Core.Models.User", b =>
-//    {
-//        b.Property<int>("Id")
-//            .ValueGeneratedOnAdd()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("Email")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("FirstName")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.Property<string>("LastName")
-//            .IsRequired()
-//            .HasColumnType("TEXT");
-
-//        b.HasKey("Id");
-
-//        b.ToTable("Users");
-//    });
-//}
 

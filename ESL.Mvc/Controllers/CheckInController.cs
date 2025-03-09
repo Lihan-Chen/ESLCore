@@ -1,15 +1,10 @@
 ﻿using ESL.Core.Data;
-using ESL.Core.Models.BusinessEntities;
 using ESL.Core.Models.Enums;
-using ESL.Core.Models.ViewModels;
 using ESL.Mvc.Services;
 using ESL.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
-using Microsoft.Graph;
-using Microsoft.IdentityModel.Tokens;
 using System.Data;
 
 namespace ESL.Mvc.Controllers
@@ -57,7 +52,7 @@ namespace ESL.Mvc.Controllers
                 ViewBag.Message = "Please select one facility from the list - ";
                 ViewBag.ReturnUrl = this.Url;
 
-                var plants = _employeeService.GetPlantSelectList();
+                var plants = _employeeService.GetFacilSelectList(FacilNo);
 
                 var myOpTypeList = Enum.GetValues<OperatorType>()
                     .Cast<OperatorType>()
@@ -83,8 +78,9 @@ namespace ESL.Mvc.Controllers
                     UserID = UserID,
                     Shft = _shift,
                     FacilNo = FacilNo,
-                    optionOpType = new SelectList(myOpTypeList, "ID", "Name"),
-                    optionShift = new SelectList(myShiftList, "ID", "Name", _shift)
+                    FacilSelectList = plants.Result,
+                    OpTypeSelectList = new SelectList(myOpTypeList, "ID", "Name"),
+                    ShiftSelectList = new SelectList(myShiftList, "ID", "Name", _shift)
                 };
 
                 ViewBag.ReturnUrl = returnUrl;

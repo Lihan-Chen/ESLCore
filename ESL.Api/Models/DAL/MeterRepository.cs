@@ -12,6 +12,7 @@ namespace ESL.Api.Models.DAL
         
         public MeterRepository(
             ApplicationDbContext context,
+
             ILogger<MeterRepository> logger
             )  // : base(context, logger)
         {

@@ -29,7 +29,6 @@
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.60" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     <PackageReference Include="X.PagedList.EF" Version="10.5.7" />
   </ItemGroup>
 

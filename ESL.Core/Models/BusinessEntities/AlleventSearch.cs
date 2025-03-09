@@ -6,8 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ESL.Core.Models.BusinessEntities;
 
 [Keyless]
-
-public partial class ViewRealTime
+public partial class AllEventSearch
 {
     [Column("FACILNO", TypeName = "NUMBER")]
     public int FacilNo { get; set; }
@@ -17,9 +16,6 @@ public partial class ViewRealTime
 
     [Column("EVENTID", TypeName = "VARCHAR2")]
     public string EventID { get; set; } = null!;
-
-    [Column("EVENTID_REVNO", TypeName = "NUMBER")]
-    public int EventID_RevNo { get; set; }
 
     [Column("EVENTDATE", TypeName = "DATE")]
     public DateTime? EventDate { get; set; }
@@ -33,11 +29,8 @@ public partial class ViewRealTime
     [Column("DETAILS", TypeName = "VARCHAR2")]
     public string? Details { get; set; }
 
-    [Column("LOGTYPENAME", TypeName = "VARCHAR2")] 
+    [Column("LOGTYPENAME", TypeName = "VARCHAR2")]
     public string LogTypeName { get; set; } = null!;
-
-    [Column("FACILNAME", TypeName = "VARCHAR2")]
-    public string FacilName { get; set; } = null!;
 
     [Column("UPDATEBY", TypeName = "VARCHAR2")]
     public string? UpdatedBy { get; set; }
@@ -45,9 +38,12 @@ public partial class ViewRealTime
     [Column("UPDATEDATE", TypeName = "VARCHAR2")]
     public string? UpdateDate { get; set; }
 
+    [Column("EVENTID_REVNO", TypeName = "NUMBER")]
+    public int EventID_RevNo { get; set; }
+
     [Column("OPERATORTYPE", TypeName = "VARCHAR2")]
     public string? OperatorType { get; set; }
 
-    [Column("SCANDOCSNO", TypeName = "NUMBER")]
-    public int? ScanDocsNo { get; set; }
+    [Column("CLEARANCEID", TypeName = "VARCHAR2")]
+    public string? ClearanceID { get; set; }
 }

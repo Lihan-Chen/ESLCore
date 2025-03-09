@@ -3,9 +3,8 @@ using ESL.Core.IRepositories;
 using ESL.Core.Data;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Http.HttpResults;
 using ESL.Core.Models.BusinessEntities;
+using System.Globalization;
 
 namespace ESL.Core.Repositories
 {
@@ -13,7 +12,9 @@ namespace ESL.Core.Repositories
     {
         protected EslDbContext _context;
 
-        internal DbSet<AllEvent> dbSet;
+        protected DbSet<AllEvent> _dbSet;
+
+        protected DbSet<AllEventCurrent> _dbSetCurrent;
 
         protected readonly ILogger<AllEventRepository> _logger;
 
@@ -21,39 +22,120 @@ namespace ESL.Core.Repositories
             EslDbContext context, ILogger<AllEventRepository> logger)
         {
             this._context = context;
-            this.dbSet = context.AllEvents;
+            this._dbSet = context.AllEvents;
+            this._dbSetCurrent = context.AllEventsCurrent;
             _logger = logger;
         }
 
-        public async Task<IEnumerable<AllEvent>> GetAll(int FacilNo)
+        public IQueryable<AllEventCurrent> GetAllEventsCurrentQuery(int FacilNo)
         {
-            var allEvents = await dbSet.Where(x => x.FacilNo == FacilNo).AsNoTracking().ToListAsync();
+            return _dbSetCurrent.Where(x => x.FacilNo == FacilNo).AsNoTracking();
 
-            if (allEvents.Any())
-            {
-                return allEvents;
-            }
+            //if (allEvents.Any())
+            //{
+            //    return allEvents;
+            //}
 
-            return allEvents;
+            //return allEvents;
         }
 
-        public async Task<IEnumerable<AllEvent>> GetDefaultAllEventsByFacil(int FacilNo, DateTime startDate, DateTime endDate)
+        public IQueryable<AllEvent> GetDefaultAllEventsByFacil(int FacilNo, DateTime startDate, DateTime endDate)
         {
-            return await dbSet.Where(x => x.FacilNo == FacilNo & x.EventDate >= startDate & x.EventDate <= endDate).AsNoTracking().ToListAsync();
-
+            return _dbSet.Where(x => x.FacilNo == FacilNo & x.EventDate >= startDate & x.EventDate <= endDate).AsNoTracking();
         }
 
-        public async Task<AllEvent> GetByEvent(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo, AllEvent? allEvent)
+        public IQueryable<AllEvent> GetByEvent(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo) //, AllEvent? allEvent
         {
-            allEvent = await dbSet.FirstOrDefaultAsync(x => x.FacilNo == FacilNo & x.LogTypeNo == LogTypeNo & x.EventID == EventID & x.EventID_RevNo == EventID_RevNo);
+            return _dbSet.Where(x => x.FacilNo == FacilNo & x.LogTypeNo == LogTypeNo & x.EventID == EventID & x.EventID_RevNo == EventID_RevNo);
 
-            if (allEvent == null) return null;
+            //if (allEvent == null) return null;
 
-            return allEvent;
+            //return allEvent;
         }
 
         // refer to the Reference region below
-        public async Task<IEnumerable<AllEvent>> FindEvents(Expression<Func<AllEvent, bool>> predicate) => await dbSet.Where(predicate).AsQueryable().AsNoTracking().ToListAsync();
+        public IQueryable<AllEvent> FindEvents(Expression<Func<AllEvent, bool>> predicate) => _dbSet.AsNoTracking().Where(predicate);
+
+        // TODO: consider using value objects for start-end daterange to capture business logic
+        // ESL.ESL_AllEvents_Active_Proc
+        public IQueryable<AllEventCurrent> GetListQuery(int? facilNo, int? logTypeNo, string strStartDate, string strEndDate, string strSearch, string strOperatorType) // DateTime? startDate, DateTime? endDate, string? searchString, string? alert, int? page, bool? operatorType = false
+        {
+            DateTime _startDate;
+            DateTime _endDate;
+            string _dateFormat = "MM/dd/yyyy";
+            CultureInfo provider = CultureInfo.InvariantCulture;
+
+            var query = _dbSetCurrent
+                   .AsNoTracking()
+                   .TagWith("GetListQuery");
+
+            bool isValidStartDate = DateTime.TryParseExact(strStartDate, _dateFormat, provider, DateTimeStyles.None, out _startDate);
+            bool isValidEndDate = DateTime.TryParseExact(strEndDate, _dateFormat, provider, DateTimeStyles.None, out _endDate);
+
+            
+            if (isValidStartDate && isValidEndDate && _endDate >= _startDate)
+            {
+                query = query.Where(a => a.EventDate >= _startDate && a.EventDate <= _endDate);
+            }
+
+            if (facilNo.HasValue && logTypeNo.HasValue && !string.IsNullOrWhiteSpace(strOperatorType))
+            { 
+             
+                query = query.Where(a => a.FacilNo == facilNo &&
+                               a.LogTypeNo == logTypeNo &&
+                               a.OperatorType == strOperatorType);
+            }
+
+            return query.OrderByDescending(e => e.EventDate).ThenByDescending(u => u.UpdateDate);
+        }
+
+        public IQueryable<AllEventCurrent> GetItemQuery(int? facilNo, int? logTypeNo, string eventID, int? eventID_RevNo)
+        {
+            return _dbSetCurrent
+                   .AsNoTracking()
+                   .TagWith("GetItemQuery")
+                   .Where(a => a.FacilNo == facilNo &&
+                          a.LogTypeNo == logTypeNo &&
+                          a.EventID == eventID &&
+                          a.EventID_RevNo == eventID_RevNo);
+        }
+
+        public IQueryable<AllEvent> GetReportQuery(int? facilNo, int? logTypeNo, string strStartDate, string strEndDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<AllEventRelatedTo> GetSearch_RelatedToListQuery(int FacilNo, int LogTypeNo, string strStartDate, string strEndDate, string strOperatorType, string optionAll, string searchValues)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Details> GetDetailsListQuery(int facilNo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Subject> GetSubjectListQuery(int facilNo)
+        {
+            throw new NotImplementedException();
+        }
+
+        #region private method
+
+        private DateTime To_Date(string strDate, string? strFormat)
+        {
+            if (strDate == null) return DateTime.MinValue;
+
+            DateTime _date;
+
+            CultureInfo provider = CultureInfo.InvariantCulture;
+
+            bool success = DateTime.TryParseExact(strDate, strFormat, provider, DateTimeStyles.None, out _date);
+
+            return _date;
+        }
+
+        #endregion
 
         //public async AllEvent? GetAllEvent(int FacilNo, int LogTypeNo, string EventID, int EventID_RevNo)
         //{
@@ -112,7 +194,7 @@ namespace ESL.Core.Repositories
         //    }
         //}
 
-        
+
         // Ref: ?
         //public async Task<IList<OrderOverviewDto>> GetFilteredAsync(OrderQueryFilter filter)
         //{
@@ -180,10 +262,5 @@ namespace ESL.Core.Repositories
         //}
 
         #endregion
-
-
-
-
-
     }
 }

@@ -37,6 +37,6 @@ namespace ESL.Mvc.ViewModels
 
         public IPagedList<AllEvent> AllEventsPagedList { get; set; } = new PagedList<AllEvent>(new List<AllEvent>(), 1, 40);
 
-        public AllEventDetails AllEventDetails { get; set; } = new AllEventDetails();
+        public AllEventDetailsVM AllEventDetails { get; set; } = new AllEventDetailsVM();
     }
 }

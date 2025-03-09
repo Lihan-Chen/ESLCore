@@ -6,7 +6,7 @@ namespace ESL.Core.Models.BusinessEntities;
 
 [Keyless]
 
-public partial class ViewSOCAll
+public partial record ViewSOCAll
 {
     public int FacilNo { get; set; }
 

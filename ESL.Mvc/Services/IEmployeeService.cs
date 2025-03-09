@@ -1,6 +1,7 @@
 ﻿using ESL.Core.IRepositories;
 using ESL.Core.Models.BusinessEntities;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,6 +31,7 @@ namespace ESL.Mvc.Services
         public Task<int?> GetEmployeeFacilNobyEmployeeName(string employeeName);
 
         public Task<string?> GetRole(string userID, int facilNo);
+        public Task<bool> IsInRole(string userID, string role, int facilNo);
 
         //Facilities
         public Task<IEnumerable<Facility>> GetAllPlants();
@@ -37,13 +39,17 @@ namespace ESL.Mvc.Services
         public Task<Facility?> GetFacility(int? facilNo);
 
         // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public Task<SelectList> GetPlantSelectList(int? facilNo);
+        public Task<List<Facil>> GetFaciList();
+
+        public Task<SelectList> GetFacilSelectList(int? facilNo);
+
+        public Task<List<string>> GetFacilTypeList();
 
         public Task<SelectList> GetFacilTypeSelectList();
 
         public Task<SelectList> GetLogTypeSelectList(int? logTypeNo);
 
-        public Task<bool> IsInRole(string userID, string role, int facilNo);
+        public Task<SelectList> GetLogTypeSelectList();
     }
 
     #region EmployeeService
@@ -78,14 +84,14 @@ namespace ESL.Mvc.Services
                 string firstName = employeeFullName.Split(',')[1];
                 string lastName = employeeFullName.Split(',')[0];
 
-                _employee = await _employees.GetEmployee(firstName, lastName);
+                _employee = await _employees.GetItemQuery(firstName, lastName).FirstOrDefaultAsync();
             }
 
             return _employee;
         }
 
         // employeeNo = 12345
-        public async Task<Employee?> GetEmployeeByEmployeeNo(int employeeNo) => await _employees.GetEmployee(employeeNo);
+        public async Task<Employee?> GetEmployeeByEmployeeNo(int employeeNo) => await _employees.GetItemQuery(employeeNo).FirstOrDefaultAsync();
 
         public async Task<Employee?> GetEmployeeByEmployeeID(string employeeID)
         {
@@ -135,10 +141,10 @@ namespace ESL.Mvc.Services
                     string firstName = employeeName.Split(',')[1];
                     string lastName = employeeName.Split(',')[0];
 
-                    _employee = await _employees.GetEmployee(firstName, lastName);
+                    _employee = await _employees.GetItemQuery(firstName, lastName).FirstOrDefaultAsync();
                 }
 
-                _employeeNo = _employee.EmployeeNo;
+                _employeeNo = _employee!.EmployeeNo;
 
                 //return employee?.EmployeeNo;
             }
@@ -206,15 +212,25 @@ namespace ESL.Mvc.Services
         public async Task<Facility?> GetFacility(int? facilNo) => await _facilities.GetFacility((int)facilNo!);
 
         // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public async Task<SelectList> GetPlantSelectList(int? facilNo) => new SelectList(await _facilities.GetFacilList(), "Value", "Text", facilNo);
+        public async Task<List<string>> GetFacilTypeList() => await _facilities.GetFacilTypeList();
 
-        public async Task<SelectList> GetFacilTypeSelectList() => new SelectList(await _facilities.GetFacilTypeList(), "Value", "Text");
+        public async Task<List<Facil>> GetFaciList() => await _facilities.GetFacilList();
+
+        public async Task<SelectList> GetFacilSelectList(int? facilNo) // => new SelectList(await _facilities.GetFacilList(), "FacilNo", "FacilAbbr", facilNo);
+        {
+            var _facilList = await _facilities.GetFacilList();
+            return new SelectList(_facilList.Select(x => new { value = x.FacilNo, text = x.FacilName.Split(' ').ElementAt(0) }), "FacilNo", "FacilName", facilNo);
+        }
+
+        public async Task<SelectList> GetFacilTypeSelectList() => new SelectList(await _facilities.GetFacilTypeList(), "FacilType", "FacilType");
 
         #endregion FacilityService
 
         #region LogTypeService
 
-        public async Task<SelectList> GetLogTypeSelectList(int? logTypeNo) => new SelectList(await _logTypes.GetLogTypeList(), "Value", "Text", logTypeNo);
+        public async Task<SelectList> GetLogTypeSelectList(int? logTypeNo) => new SelectList(await _logTypes.GetLogTypeList(), "LogTypeNo", "LogTypeName", logTypeNo);
+
+        public async Task<SelectList> GetLogTypeSelectList() => new SelectList(await _logTypes.GetLogTypeList(), "LogTypeName", "LogTypeName");
 
         #endregion LogTypeService
 

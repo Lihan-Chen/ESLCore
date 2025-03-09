@@ -1,18 +1,12 @@
 ﻿using ESL.Core.Data;
 using ESL.Core.IRepositories;
 using ESL.Core.Models.BusinessEntities;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESL.Core.Repositories
 {
-    internal class LogTypeRepository : GenericRepository<LogType>, ILogTypeRepository
+    public class LogTypeRepository : GenericRepository<LogType>, ILogTypeRepository
     {
         public LogTypeRepository(
             EslDbContext context,
@@ -31,7 +25,7 @@ namespace ESL.Core.Repositories
         
         public async Task<int> GetLogTypeNo(string LogTypeName) => await GetLogType(LogTypeName).ContinueWith(t => t.Result.LogTypeNo);
 
-        public async virtual Task<List<string>> GetLogTypeList() => await dbSet.Select(l => l.LogTypeName).Distinct().ToListAsync();
+        public async Task<List<string>> GetLogTypeList() => await dbSet.Select(l => l.LogTypeName).Distinct().ToListAsync();
         //{
         //    return await dbSet.Select(l => l.LogTypeName).Distinct().ToListAsync();
             

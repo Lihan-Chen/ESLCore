@@ -29,6 +29,8 @@ namespace ESL.Api.Models.DAL
 
         public virtual DbSet<ViewAlleventsCurrent> ViewAlleventsCurrents { get; set; }
 
+        public virtual DbSet<AllEvent> AllEvents { get; set; }
+
         public DbSet<ViewAlleventsLogType> AlleventLogTypes { get; set; }
 
         public DbSet<Details> DetailsList { get; set; }
@@ -157,9 +159,6 @@ namespace ESL.Api.Models.DAL
                 entity.HasNoKey();
             });
         }
-
-        
-
         #endregion
     }
 }

@@ -42,9 +42,18 @@ namespace ESL.Mvc.Controllers
             // logFilterPartial may be null
             // so use logFilterPartial last
 
-            //
-            if (startDate > endDate) { return BadRequest("Start Date cannot be after End Date"); }
-            
+            // Set up default values
+            // Default to tomorrow if the model EndDate or endDate is null
+            DateOnly _enDt = endDate ?? (logFilterPartial?.EndDate.HasValue == true ? logFilterPartial.EndDate.Value : Tomorrow);
+
+            DateOnly _stDt = startDate ?? (logFilterPartial?.StartDate.HasValue == true ? logFilterPartial.StartDate.Value : _enDt.AddDays(DaysOffSet));
+
+            if (_stDt > _enDt) { return BadRequest($"Start Date {_stDt} must not be later than End Date {_enDt}."); }
+
+            HttpContext.Session.SetString(SessionKeyUserSessionStartDate, _stDt.ToString("yyyyMMdd")); //"MM/dd/yyyy"
+            HttpContext.Session.SetString(SessionKeyUserSessionEndDate, _enDt.ToString("yyyyMMdd")); //"MM/dd/yyyy"
+
+            // Facility
             _facilNo = facilNo ?? logFilterPartial?.FacilNo ?? FacilNo;
 
             _facilName = _employeeService.GetFacility(_facilNo!)?.Result?.FacilName;
@@ -62,20 +71,11 @@ namespace ESL.Mvc.Controllers
                 int _shiftNo = Convert.ToInt32(GetDefaultShift());
             }
 
-            // Set up default values
-            // Default to tomorrow if the model EndDate or endDate is null
-            DateOnly? _enDt = endDate ?? (logFilterPartial?.EndDate.HasValue == true ? logFilterPartial.EndDate.Value :  Tomorrow);
-
-            DateOnly? _stDt = startDate ?? (logFilterPartial?.StartDate.HasValue == true ? logFilterPartial.StartDate.Value : _enDt?.AddDays(DaysOffSet));
-            
-            HttpContext.Session.SetString(SessionKeyUserSessionStartDate, _stDt.Value.ToString("yyyyMMdd")); //"MM/dd/yyyy"
-            HttpContext.Session.SetString(SessionKeyUserSessionEndDate, _enDt.Value.ToString("yyyyMMdd")); //"MM/dd/yyyy"
-
             searchString = !String.IsNullOrEmpty(logFilterPartial?.CurrentFilter) ? logFilterPartial.CurrentFilter : searchString;
 
             _opType = (bool)(operatorType.HasValue ? operatorType : (logFilterPartial?.OperatorType ?? _opType));
 
-            var facilAbbrSelectList = _employeeService.GetPlantSelectList(_facilNo).Result;
+            var facilAbbrSelectList = _employeeService.GetFacilSelectList(_facilNo).Result;
             var logTypeSelectList = _employeeService.GetLogTypeSelectList(_logTypeNo).Result;
             
 

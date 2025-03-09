@@ -144,6 +144,7 @@ namespace ESL.Mvc
             builder.Services.AddScoped<IFacilityRepository, FacilityRepository>();
             builder.Services.AddScoped<IEmpRoleRepositry, EmpRoleRepository>();
             builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
+            builder.Services.AddScoped<ILogTypeRepository, LogTypeRepository>();
             //builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
 
             // configure services https://github.com/sanckh/YourLibraryApp/blob/main/YourLibrary/Startup.cs

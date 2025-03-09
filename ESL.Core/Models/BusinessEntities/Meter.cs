@@ -17,7 +17,7 @@ namespace ESL.Core.Models.BusinessEntities
 
         [DataObjectField(true, true, false, 20)]
         [DisplayName("Meter ID.")]
-        [Column("METERID")]
+        [Column("METERID", TypeName = "VARCHAR2")]
         public string MeterID { get; set; } = null!;
 
         [DataObjectField(false, false, true, 20)]

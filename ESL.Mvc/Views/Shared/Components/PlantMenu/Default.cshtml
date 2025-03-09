@@ -1,6 +1,8 @@
-﻿@model List<Facility>
+﻿@using ESL.Mvc.ViewModels
+@model PlantMenuViewModel
+
 @addTagHelper *, ViewComponentsSample
 
-<select asp-for="FacilNo" asp-items="Model" class="form-control">
+<select asp-for="FacilNo" asp-items="Model.PlantSelectList" class="form-control">
     <option value="">Select a Plant</option>
 </select>

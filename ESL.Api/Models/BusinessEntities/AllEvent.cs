@@ -171,7 +171,7 @@ public partial record AllEvent //: EventIDentity
     //[DataObjectField(false, false, false)]
     //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
     [NotMapped]
-    public string EventIDentifier => $"{EventID}/{EventID_RevNo.ToString()}";
+    public string EventIDentifier => $"{EventID}/{EventID_RevNo}";
 
     /// <summary>
     /// Gets or sets the eventHighlight of the AllEvents.
@@ -179,14 +179,17 @@ public partial record AllEvent //: EventIDentity
     //[DataObjectField(false, false, false)]
     //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
     [NotMapped]
-    public string EventHighlight => $"{Subject}{_CrLf}{Details}{_CrLf}Updated By: {UpdatedBy} on {UpdateDate}";
+    public string EventHighlight => String.IsNullOrEmpty(Subject) ? string.Empty : $"{Subject}{_CrLf}" + (String.IsNullOrEmpty(Details) ? string.Empty : $"{Details}{_CrLf}") + $"Updated By: {UpdatedBy} on {UpdateDate}";
 
     ////// Navigation to be implemented with EF virtural
-    ////public virtual ScanDoc? scandoc { get; set; }
-    //[NotMapped]
-    //public virtual Facility Facility { get; set; } = new Facility();
-    //[NotMapped]
-    //public virtual LogType LogType { get; set; } = new LogType(); 
+    /// <summary>
+    /// 
+    /// </summary>    ////public virtual ScanDoc? scandoc { get; set; }
+
+    [NotMapped]
+    public virtual Facility Facility { get; set; } = new Facility();
+    [NotMapped]
+    public virtual LogType LogType { get; set; } = new LogType();
 
     #endregion
 }

@@ -114,7 +114,7 @@ namespace ESL.Mvc.Controllers
 
             // Prepare and set up model and ViewBag
             // FacilityList facilities = (FacilityList)FacilityManager.GetList();
-            var facilAbbrList = _employeeService.GetPlantSelectList();
+            var facilAbbrList = _employeeService.GetFacilSelectList(FacilNo);
             // var logTypeNames = LogTypeManager.GetList().AsEnumerable().Where(l => l.LogTypeNo < 7).Select(l => new SelectListItem { Value = l.LogTypeNo.ToString(), Text = l.LogTypeName }).ToList(); //.Where(f => f.LogTypeNo )
             var logTypeList = _employeeService.GetLogTypeSelectList();
 
@@ -165,7 +165,7 @@ namespace ESL.Mvc.Controllers
                 string _startDate = _stDt.ToString("MM/dd/yyyy");
                 string _endDate = _enDt.ToString("MM/dd/yyyy");
 
-                var _searchList = _context.ViewSearchAllevents.Where(a => a.FacilNo == _facilNo && a.LogTypeNo == _logTypeNo).ToList();//.GetList(_facilNo, _logTypeNo, _startDate, _endDate, _operatorType, _optionAll, searchString);
+                var _searchList = _context.AllEventsSearch.Where(a => a.FacilNo == _facilNo && a.LogTypeNo == _logTypeNo).ToList();//.GetList(_facilNo, _logTypeNo, _startDate, _endDate, _operatorType, _optionAll, searchString);
 
                 if (_searchList != null)
                 {

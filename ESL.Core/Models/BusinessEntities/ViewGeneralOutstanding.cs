@@ -6,7 +6,7 @@ namespace ESL.Core.Models.BusinessEntities;
 
 [Keyless]
 
-public partial class ViewGeneralOutstanding
+public partial record ViewGeneralOutstanding
 {
     public int FacilNo { get; set; }
 

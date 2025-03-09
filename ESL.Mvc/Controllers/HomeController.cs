@@ -1,32 +1,19 @@
 using ESL.Mvc.Models;
-using ESL.Mvc.Infrastructure;
 using ESL.Mvc.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-
-using Microsoft.Identity.Abstractions;
-using Microsoft.Identity.Client;
-using Microsoft.Extensions.Configuration;
-using ESL.Core.IRepositories;
-using System.Runtime.CompilerServices;
 using ESL.Core.Models.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shift = ESL.Core.Models.Enums.Shift;
-using ESL.Core.Models.ViewModels;
 using ESL.Core.Models.BusinessEntities;
 using ESL.Core.Data;
+using ESL.Mvc.ViewModels;
 
 namespace ESL.Mvc.Controllers
-{   
+{
     // https://github.com/Azure-Samples/active-directory-aspnetcore-webapp-openidconnect-v2/blob/master/5-WebApp-AuthZ/5-1-Roles/Controllers/HomeController.cs
     [Authorize]
     public class HomeController : BaseController<HomeController>
@@ -89,7 +76,7 @@ namespace ESL.Mvc.Controllers
 
             IsOperator = userRole == Role_Operator || userRole == Role_Admin || userRole == Role_SuperAdmin;
 
-            var plants = _employeeService.GetPlantSelectList(_facilNo);
+            var plants = _employeeService.GetFacilSelectList(_facilNo);
 
             var myOpTypeList = Enum.GetValues(typeof(OperatorType))
                 .Cast<OperatorType>()
@@ -109,8 +96,8 @@ namespace ESL.Mvc.Controllers
             {
                 UserID = UserID,
                 Shft = (Shift?)_shift,
-                optionOpType = new SelectList(myOpTypeList, "ID", "Name"),
-                optionShift = new SelectList(myShiftList, "ID", "Name", _shift)
+                OpTypeSelectList = new SelectList(myOpTypeList, "ID", "Name"),
+                ShiftSelectList = new SelectList(myShiftList, "ID", "Name", _shift)
             };
 
             ViewBag.ReturnUrl = returnUrl;
