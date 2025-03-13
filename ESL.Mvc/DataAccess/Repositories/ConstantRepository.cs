@@ -1,15 +1,8 @@
-﻿using ESL.Core.Data;
-using ESL.Core.IRepositories;
+﻿using ESL.Core.IRepositories;
 using ESL.Core.Models.BusinessEntities;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using ESL.Mvc.DataAccess.Persistence;
 
-namespace ESL.Core.Repositories
+namespace ESL.Mvc.DataAccess.Repositories
 {
     public class ConstantRepository : IConstantRepository //, IFacilityRepository GenericRepository<Constant>, 
     {
@@ -33,13 +26,13 @@ namespace ESL.Core.Repositories
             throw new NotImplementedException();
         }
 
-        
+
 
         public Task<int> Update(Constant constant, string forceUpdate)
         {
             throw new NotImplementedException();
         }
-        
+
         //public async Task<List<Constant>> GetConstants(int facilNo)
         //{
         //    try

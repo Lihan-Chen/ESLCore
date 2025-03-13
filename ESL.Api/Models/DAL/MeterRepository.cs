@@ -7,29 +7,36 @@ namespace ESL.Api.Models.DAL
     public class MeterRepository : IMeterRepository
     {
         private ApplicationDbContext _context;
-
         private ILogger<MeterRepository> _logger;
         
         public MeterRepository(
             ApplicationDbContext context,
-
             ILogger<MeterRepository> logger
-            )  // : base(context, logger)
+            ) 
         {
-            _context = context;
-            _logger = logger;
-
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<List<Meter>?> GetList(int facilNo) => await _context.Meters.Where(m => m.FacilNo == facilNo && m.Disable == null).OrderByDescending(o => o.UpdateDate).AsNoTracking().ToListAsync();
+        public IQueryable<Meter> GetList(int facilNo = 0)
+        {
+            var query = _context.Meters.AsNoTracking().Where(m => m.Disable == null);
+        
+            if (facilNo != 0)
+            {
+                query = query.Where(m => m.FacilNo == facilNo);
+            }
+
+            return query.OrderByDescending(o => o.UpdateDate);
+        }
 
         //.Take(10).Skip(1)
-        public async Task<Meter?> GetItem(int facilNo, string meterID) => await _context.Meters.Where(m => m.FacilNo == facilNo && m.MeterID == meterID).FirstOrDefaultAsync();
+        public IQueryable<Meter?> GetItem(int facilNo, string meterID) => this.GetList(facilNo).Where(m => m.MeterID.ToUpper() == meterID.ToUpper());
 
         public async Task<string> Update(int facilNo, string meterID, Meter meter, string forceUpdate = "D")
         {
             {
-                if (facilNo != meter.FacilNo && meterID != meter.MeterID)
+                if (facilNo != meter.FacilNo && meterID.ToUpper() != meter.MeterID.ToUpper())
                 {
                     return "Bad Request"; // BadRequest();
                 }
@@ -72,15 +79,7 @@ namespace ESL.Api.Models.DAL
 
         private bool MeterExists(int facilNo, string meterID)
         {
-            return _context.Meters.Any(e => e.FacilNo == facilNo && e.MeterID == meterID);
+            return _context.Meters.Any(e => e.FacilNo == facilNo && e.MeterID.ToUpper() == meterID.ToUpper());
         }
-
-
-        //public Task<string> GetFullName(Guid id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
     }
 }

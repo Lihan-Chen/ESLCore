@@ -1,14 +1,11 @@
-﻿using ESL.Core.Data;
-using ESL.Core.Models.BusinessEntities;
+﻿using ESL.Core.Models.BusinessEntities;
 using ESL.Core.Models.Enums;
+using ESL.Mvc.DataAccess.Persistence;
 using ESL.Mvc.Models;
 using ESL.Mvc.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
 namespace ESL.Mvc.Controllers
@@ -27,8 +24,8 @@ namespace ESL.Mvc.Controllers
 
         public BaseController(EslDbContext context, ILogger<T> logger, IEmployeeService employeeService) // IActionContextAccessor actionContextAccessor, 
         {
-            _context = context;
-            _logger = logger;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             // _actionContextAccessor = actionContextAccessor;
             _employeeService = employeeService;
         }
@@ -169,19 +166,16 @@ namespace ESL.Mvc.Controllers
             // 2.else determine if the session is new
             if (!IsAuthenticated)
             {
-                // return Results.Unauthorized HttpStatusCode=401;               
+                // return Results.Unauthorized HttpStatusCode=401;
+                // or, context.Result = new UnauthorizedResult();
                 context.Result = new UnauthorizedObjectResult("ESL does not recognize you.  Please Sign In.");
                 
-                // or 
-                // context.Result = new UnauthorizedResult();
-                
-                // also useful reference https://stackoverflow.com/questions/40217623/redirect-to-login-when-unauthorized-in-asp-net-core
+                // reference https://stackoverflow.com/questions/40217623/redirect-to-login-when-unauthorized-in-asp-net-core
                 // RedirectToAction(LoginUrl);
             }
             else
             {
-                // where no keys found in the session.
-                // user SessionState as an indicator
+                // user SessionState as an indicator forwhere no keys found in the session.
                 if (!HttpContext.Session.Keys.Any())  
                 {
                     IsNewSession = true;
@@ -197,7 +191,7 @@ namespace ESL.Mvc.Controllers
                     {
                         // write to cookies user keys
                         HttpContext.Session.SetString(SessionKeyUserName, UserName);
-                        HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo);
+                        HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo!);
                         HttpContext.Session.SetString(SessionKeyUserID, UserID!);
 
                         // set cookies to user browser

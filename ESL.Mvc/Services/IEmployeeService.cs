@@ -2,8 +2,6 @@
 using ESL.Core.Models.BusinessEntities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ESL.Mvc.Services
 {
@@ -101,15 +99,13 @@ namespace ESL.Mvc.Services
             {
                 int _employeeNo = employeeID.Substring(0, 2).ToUpper() == "U0" ? Int32.Parse(employeeID.Substring(2)) : Int32.Parse(employeeID.Substring(1));
 
-                // int _userEmployeeNo = userID.Substring(0, 2).ToUpper() == "U0" ? Convert.ToInt32(userID.Substring(2)) : Convert.ToInt32(userID.Substring(1));
-
                 _employee = await GetEmployeeByEmployeeNo(_employeeNo);
             }
 
             return _employee;
         }
 
-        // Get FullName
+        // Get FullName = lastName,firstName
         public async Task<string?> GetFullNameByEmployeeNo(int employeeNo)
         {
             Employee? _employee = await GetEmployeeByEmployeeNo(employeeNo);
@@ -207,30 +203,32 @@ namespace ESL.Mvc.Services
         #region FacilityService
         // Facilities and Plants
 
-        public async Task<IEnumerable<Facility>> GetAllPlants() => await _facilities.GetAll();
+        // ConfigureAwait(false) allows the continuation to run on a different thread, which can improve performance and avoid deadlocks in certain scenarios
+        // https://github.com/PiranhaCMS/piranha.core/tree/master
+        public async Task<IEnumerable<Facility>> GetAllPlants() => await _facilities.GetAll().ToListAsync().ConfigureAwait(false);
 
-        public async Task<Facility?> GetFacility(int? facilNo) => await _facilities.GetFacility((int)facilNo!);
+        public async Task<Facility?> GetFacility(int? facilNo) => await _facilities.GetFacility((int)facilNo!).FirstOrDefaultAsync();
 
         // For Selecting a plant (OCC, DOCC, pumping, treatment, DVL)
-        public async Task<List<string>> GetFacilTypeList() => await _facilities.GetFacilTypeList();
+        public async Task<List<string>> GetFacilTypeList() => await _facilities.GetFacilTypeList().ToListAsync();
 
-        public async Task<List<Facil>> GetFaciList() => await _facilities.GetFacilList();
+        public async Task<List<Facil>> GetFaciList() => await _facilities.GetFacilList().ToListAsync();
 
         public async Task<SelectList> GetFacilSelectList(int? facilNo) // => new SelectList(await _facilities.GetFacilList(), "FacilNo", "FacilAbbr", facilNo);
         {
-            var _facilList = await _facilities.GetFacilList();
+            var _facilList = await _facilities.GetFacilList().ToListAsync();
             return new SelectList(_facilList.Select(x => new { value = x.FacilNo, text = x.FacilName.Split(' ').ElementAt(0) }), "FacilNo", "FacilName", facilNo);
         }
 
-        public async Task<SelectList> GetFacilTypeSelectList() => new SelectList(await _facilities.GetFacilTypeList(), "FacilType", "FacilType");
+        public async Task<SelectList> GetFacilTypeSelectList() => new SelectList(await _facilities.GetFacilTypeList().ToListAsync(), "FacilType", "FacilType");
 
         #endregion FacilityService
 
         #region LogTypeService
 
-        public async Task<SelectList> GetLogTypeSelectList(int? logTypeNo) => new SelectList(await _logTypes.GetLogTypeList(), "LogTypeNo", "LogTypeName", logTypeNo);
+        public async Task<SelectList> GetLogTypeSelectList(int? logTypeNo) => new SelectList(await _logTypes.GetLogTypeList().ToListAsync(), "LogTypeNo", "LogTypeName", logTypeNo);
 
-        public async Task<SelectList> GetLogTypeSelectList() => new SelectList(await _logTypes.GetLogTypeList(), "LogTypeName", "LogTypeName");
+        public async Task<SelectList> GetLogTypeSelectList() => new SelectList(await _logTypes.GetLogTypeList().ToListAsync(), "LogTypeName", "LogTypeName");
 
         #endregion LogTypeService
 

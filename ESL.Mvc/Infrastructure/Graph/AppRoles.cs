@@ -1,4 +1,4 @@
-﻿namespace ESL.Mvc.Infrastructure
+﻿namespace ESL.Mvc.Infrastructure.Graph
 {
     /// <summary>
     /// Contains a list of all the Azure AD app roles this app depends on and works with.

@@ -12,7 +12,7 @@ namespace ESL.Api.Models.IRepositories
         /// </summary>
         /// <param name="meterID">The ID of Meter for whom the FacilList should be returned.</param>
         /// <returns>A list with Meter objects when the database contains FlowChangees for the parameters specified,
-        public Task<List<Meter>?> GetList(int facilNo);
+        public IQueryable<Meter> GetList(int facilNo);
 
         /// <summary>
         /// Gets a single Meter from the database by its FacilNo.
@@ -21,7 +21,7 @@ namespace ESL.Api.Models.IRepositories
         /// <param name="facilNo">The unique Facility No. in the database.</param>
         /// <param name="meterID">The unique Meter ID in the database.</param>
         /// <returns>An Meter object when the record exists in the database, or <see langword="null"/> otherwise.</returns>
-        public Task<Meter?> GetItem(int facilNo, string meterID);
+        public IQueryable<Meter?> GetItem(int facilNo, string meterID);
 
         /// <summary>
         /// Saves an Meter in the database.

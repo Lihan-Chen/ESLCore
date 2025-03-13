@@ -1,10 +1,10 @@
-﻿using ESL.Mvc.Infrastructure;
-using ESL.Mvc.Services;
+﻿using ESL.Mvc.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
+using ESL.Mvc.Infrastructure.Graph;
 
 namespace ESL.Mvc.Controllers
 {

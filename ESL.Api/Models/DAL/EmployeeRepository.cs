@@ -18,11 +18,10 @@ namespace ESL.Api.Models.DAL
         public EmployeeRepository(
             ApplicationDbContext context,
             ILogger<EmployeeRepository> logger
-            ) // : base(context, logger)
+            ) 
         {
-            _context = context;
-            _logger = logger;
-
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         // SQL = ESL.ESL_EMPLOYEELIST_PROC
@@ -34,16 +33,24 @@ namespace ESL.Api.Models.DAL
             {
                 query = query.Where(e => e.FacilNo == facilNo);
             }
-            return _context.Employees.AsNoTracking().Where(e=> e.FacilNo == facilNo).Where(d => d.Disable == null || d.Disable != "Y").Distinct().OrderBy(o => o.LastName).ThenBy(o => o.FirstName);
+            return query.Where(d => d.Disable == null || d.Disable != "Y").Distinct().OrderBy(o => o.LastName).ThenBy(o => o.FirstName);
         }
 
 
         public string UserID(int employeeNo) => employeeNo.ToString().Length == 4 ? $"U0{employeeNo}" : $"U{employeeNo}";
 
         // SQL = ESL.ESL_EMPLOYEELIST_FACIL_PROC
-        public async Task<List<Employee>> GetListByFacilNo(int facilNo)
+        public IQueryable<Employee> GetListByFacilNo(int facilNo)
         {
-            return await _context.Employees.Where(m => m.FacilNo == facilNo && m.Disable == null).OrderBy(o => o.LastName).ThenBy(o => o.FirstName).AsNoTracking().ToListAsync(); //.Take(10).Skip(1)
+            var query = _context.Employees.AsNoTracking();
+
+            if (facilNo != 0)
+            {
+                query = query.Where(e => e.FacilNo == facilNo);
+            }
+
+            return query.Where(d => d.Disable == null || d.Disable != "Y").Distinct().OrderBy(o => o.LastName).ThenBy(o => o.FirstName);
+            //return await _context.Employees.Where(m => m.FacilNo == facilNo && m.Disable == null).OrderBy(o => o.LastName).ThenBy(o => o.FirstName).AsNoTracking().ToListAsync(); //.Take(10).Skip(1)
         }
 
         // SQL = ESL.ESL_EMPLOYEELIST_EXT_PROC WHERE GROUPNAME LIKE '%WATER SYSTEM OPERATIONS GROUP%' AND LENGTH(EMPLOYEENO) <> 4

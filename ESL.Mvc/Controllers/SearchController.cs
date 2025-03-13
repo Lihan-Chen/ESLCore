@@ -1,12 +1,11 @@
-﻿using ESL.Core.Data;
-using ESL.Core.Models.BusinessEntities;
+﻿using ESL.Core.Models.BusinessEntities;
 using ESL.Core.Models.Enums;
+using ESL.Mvc.DataAccess.Persistence;
 using ESL.Mvc.Services;
 using ESL.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Graph.SecurityNamespace;
 using System.Collections;
 using X.PagedList;

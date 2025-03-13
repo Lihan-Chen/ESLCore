@@ -1,7 +1,9 @@
 ﻿using System.Data;
 using System.Linq.Expressions;
+using ESL.Mvc.Data;
 using Microsoft.EntityFrameworkCore;
-namespace ESL.Core.Data.Repositories
+
+namespace ESL.Mvc.Data.Repositories
 {
     public class GenericRepository<TEntity> where TEntity : class
     {

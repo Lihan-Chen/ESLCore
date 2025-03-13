@@ -1,5 +1,4 @@
-﻿using ESL.Core.Models.ComplexTypes;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +14,6 @@ namespace ESL.Core.Models.BusinessEntities
     public partial record Facility //: IEnumerable
     {
         #region Public Properties
-
 
         /// <summary>
         /// Gets or sets the Facility No [NUMBER(3)] of the Facility.

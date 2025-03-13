@@ -1,21 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using ESL.Core.IConfiguration;
 using ESL.Core.Models.BusinessEntities;
+using Microsoft.EntityFrameworkCore;
 
-
-namespace ESL.Core.Data
+namespace ESL.Mvc.DataAccess.Persistence
 {
-    public partial class ApplicationDbContext : DbContext
+    public partial class EslDbContext : DbContext, IEslDbContext
     {
-        public ApplicationDbContext()
+        public EslDbContext(DbContextOptions<EslDbContext> options)
+            : base(options)
         {
         }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public EslDbContext()
         {
+
         }
 
         public DbSet<AllEvent> AllEvents { get; set; }
@@ -64,33 +62,40 @@ namespace ESL.Core.Data
 
         public DbSet<AllEventSearch> AllEventsSearch { get; set; }
 
+        public DbSet<ViewSearchAllevent> ViewAllEventsSearch { get; set; }
+
+        public Task<int> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion Views
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //        {
 
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseOracle(EslDbContextHelpers.esl_connectionString);
+        //            if (!optionsBuilder.IsConfigured)
+        //            {
+        //                optionsBuilder.UseOracle(EslDbContextHelpers.esl_connectionString);
 
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. 
-                // You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148.
-                // For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-                // Alternatively, using Microsoft.Extensions.Configuration to read appsettings.json into configurationBuilder, see the helper file
-                //=> optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
-                //options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.");
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. 
+        //                // You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148.
+        //                // For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        //                // Alternatively, using Microsoft.Extensions.Configuration to read appsettings.json into configurationBuilder, see the helper file
+        //                //=> optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
+        //                //options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.");
 
-                // Enabling EF Core Logging https://dotnettutorials.net/lesson/crud-operations-in-entity-framework-core/
-                // To Display the Generated Database Script https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging
-                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);  // To Debug Window: message => Debug.WriteLine(message) // To File see example ref link above
+        //                // Enabling EF Core Logging https://dotnettutorials.net/lesson/crud-operations-in-entity-framework-core/
+        //                // To Display the Generated Database Script https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging
+        //                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);  // To Debug Window: message => Debug.WriteLine(message) // To File see example ref link above
 
-                // optionsBuilder.UseOracle("Data Source=ODev41.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;");
+        //                // optionsBuilder.UseOracle("Data Source=ODev41.world;Persist Security Info=false;User ID=ESL;Password=MWDesl01_#;");
 
-                //optionsBuilder.UseSqlite(ApplicationDbContextHelpers.sqlite_connectionString);
-                //}
-                base.OnConfiguring(optionsBuilder);
-            }
-        }
+        //                //optionsBuilder.UseSqlite(ApplicationDbContextHelpers.sqlite_connectionString);
+        //                //}
+        //                base.OnConfiguring(optionsBuilder);
+        //            }
+        //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -103,7 +108,7 @@ namespace ESL.Core.Data
             //    e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
             //    property.SetColumnType("varchar(100)");
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);  //ApplicationDbContext
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EslDbContext).Assembly);  //ApplicationDbContext
 
             // ref: m-jovanovic/rally-simulator/RallySimulatorDbCotext.cs
             // modelBuilder.ApplyUtcDateTimeConverter();
@@ -114,6 +119,16 @@ namespace ESL.Core.Data
             modelBuilder
             .HasDefaultSchema("ESL")
             .UseCollation("USING_NLS_COMP");
+
+            #region Tables
+
+            modelBuilder.Entity<Facility>(entity =>
+            {
+                entity.HasKey(e => e.FacilNo);
+                entity.ToTable("ESL_FACILITIES", "ESL");
+            });
+
+            #endregion Tables
 
             #region Views
             // Mapping to view instead of table with schema as the second parameter
@@ -522,5 +537,3 @@ namespace ESL.Core.Data
         //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
-
-

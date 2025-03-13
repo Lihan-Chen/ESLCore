@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ESL.Api.Models.BusinessEntities;
 using ESL.Api.Models.DAL;
+using ESL.Api.Models.IRepositories;
 
 namespace ESL.Api.Controllers
 {
@@ -15,19 +16,21 @@ namespace ESL.Api.Controllers
     public class MetersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMeterRepository _meterRepository;
 
-        public MetersController(ApplicationDbContext context)
+        public MetersController(ApplicationDbContext context, IMeterRepository meterRepository)
         {
             _context = context;
+            _meterRepository = meterRepository;
         }
 
         //private int _facilNo = sessionFacilNo; //Should be from ESLControllerBase.Session["FacilNo"]
 
         // GET: api/Meters
-        [HttpGet("Meters")]// 
-        public async Task<ActionResult<IEnumerable<Meter>>> GetMetersList() //
+        [HttpGet("MetersPerFacility")]// 
+        public async Task<ActionResult<IEnumerable<Meter>>> GetMetersList(int facilNo = 0) //
         {
-            return await _context.Meters.Where(m => m.Disable == null).Distinct().OrderByDescending(o => o.MeterID).AsNoTracking().ToListAsync(); //.Take(10).Skip(1)
+            return await _meterRepository.GetList(facilNo).ToListAsync(); //.Take(10).Skip(1)
         }
 
 
@@ -35,7 +38,7 @@ namespace ESL.Api.Controllers
         [HttpGet("GetMetersByFacility/{facilNo}")]// 
         public async Task<ActionResult<IEnumerable<Meter>>> GetMetersByFacilNo(int facilNo) //
         {
-            return await _context.Meters.Where(m => m.FacilNo == facilNo && m.Disable == null).OrderByDescending(o => o.UpdateDate).AsNoTracking().ToListAsync(); //.Take(10).Skip(1)
+            return await _meterRepository.GetList(facilNo).ToListAsync(); //.Take(10).Skip(1) //.Take(10).Skip(1)
         }
 
         // GET: api/Meters/5
@@ -44,7 +47,7 @@ namespace ESL.Api.Controllers
         {
             //string _sql = $"SELECT * FROM ESL.ESL_METERS WHERE FACILNO = {facilNo} AND METERID = {meterID}";
 
-            var meter = await _context.Meters.Where(m => m.FacilNo == facilNo && m.MeterID.ToUpper() == meterID.ToUpper()).FirstOrDefaultAsync();
+            var meter = await _meterRepository.GetItem(facilNo, meterID).FirstOrDefaultAsync();
 
             if (meter == null)
             {
@@ -126,14 +129,23 @@ namespace ESL.Api.Controllers
         [HttpDelete("Delete/{facilNo}/{meterID}")]
         public async Task<IActionResult> DeleteMeter(int facilNo, string meterID)
         {
-            var meter = await _context.Meters.FindAsync(facilNo, meterID.ToUpper());
+            if (facilNo == 0 || string.IsNullOrEmpty(meterID))
+            {
+                return BadRequest();
+            }
+
+            var meter = await _context.Meters.FindAsync(facilNo, meterID);
 
             if (meter == null)
             {
                 return NotFound();
             }
 
-            _context.Meters.Remove(meter);
+            //_context.Meters.Remove(meter);
+
+            // Soft Delete
+            meter.Disable = "Y";
+            _context.Entry(meter).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -141,7 +153,7 @@ namespace ESL.Api.Controllers
 
         private bool MeterExists(int facilNo, string meterID)
         {
-            return _context.Meters.Any(e => e.FacilNo == facilNo && e.MeterID.ToUpper() == meterID.ToUpper());
+            return _context.Meters.Any(e => e.FacilNo == facilNo && e.MeterID == meterID);
         }
 
         private bool MeterExists(Meter meter)

@@ -27,9 +27,7 @@ namespace ESL.Core.IConfiguration
 
         IFacilityRepository Facilities { get; }
 
-        //ILogTypeRepository LogTypes { get; }
-
-        //IConstantRepository Constants { get; }
+        ILogTypeRepository LogTypes { get; }
 
         //IClearanceIssueRepository ClearanceIssues { get; }
 
@@ -59,7 +57,7 @@ namespace ESL.Core.IConfiguration
 
         //ISOCRepository SOClog { get; }
 
-        //ISubjectRepository Subjects { get; }
+        ISubjectRepository Subjects { get; }
 
         //IUnitRepository Units { get; }
 

@@ -25,7 +25,7 @@ namespace ESL.Api.Models.IRepositories
         /// <returns>A list with Employee objects when the database contains Employees for the parameters specified, or an empty list otherwise.</returns>
 
 
-        public Task<List<Employee>> GetListByFacilNo(int facilNo);
+        public IQueryable<Employee> GetListByFacilNo(int facilNo);
 
         /// <summary>
         /// Gets a list of extermal Employees

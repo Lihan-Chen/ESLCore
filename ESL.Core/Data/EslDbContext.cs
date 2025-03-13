@@ -2,11 +2,6 @@
 using ESL.Core.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESL.Core.Data
 {
@@ -14,6 +9,10 @@ namespace ESL.Core.Data
     {
         public EslDbContext(DbContextOptions<EslDbContext> options)
             : base(options)
+        {
+        }
+
+        public EslDbContext()
         {
 
         }
@@ -66,6 +65,11 @@ namespace ESL.Core.Data
 
         public DbSet<ViewSearchAllevent> ViewAllEventsSearch { get; set; }
 
+        public Task<int> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion Views
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -73,7 +77,7 @@ namespace ESL.Core.Data
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseOracle(ApplicationDbContextHelpers.esl_connectionString);
+                optionsBuilder.UseOracle(EslDbContextHelpers.esl_connectionString);
 
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. 
                 // You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148.
@@ -116,6 +120,16 @@ namespace ESL.Core.Data
             modelBuilder
             .HasDefaultSchema("ESL")
             .UseCollation("USING_NLS_COMP");
+
+            #region Tables
+
+            modelBuilder.Entity<Facility>(entity =>
+            {
+                entity.HasKey(e => e.FacilNo);
+                entity.ToTable("ESL_FACILITIES", "ESL");
+            });
+
+            #endregion Tables
 
             #region Views
             // Mapping to view instead of table with schema as the second parameter

@@ -29,7 +29,7 @@ namespace ESL.Api.Controllers
         }
 
         // GET: api/Employees
-        [HttpGet("GetAll")]
+        [HttpGet("GetAllEmployeesByFacility")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees(int? facilNo, int page = DefaultPageIndex, int pageSize = DefaultPageSize, CancellationToken ct = default)
         {
             // Maps to string _sql = "ESL.ESL_EMPLOYEELIST_PROC";

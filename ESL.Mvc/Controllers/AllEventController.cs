@@ -1,10 +1,7 @@
-﻿using ESL.Core.Data;
-using ESL.Core.Models.Enums;
+﻿using ESL.Mvc.DataAccess.Persistence;
 using ESL.Mvc.Services;
 using ESL.Mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Mvc.Controllers
 {

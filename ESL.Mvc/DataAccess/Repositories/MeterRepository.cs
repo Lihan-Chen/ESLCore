@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using ESL.Core.IRepositories;
-using ESL.Core.Data;
 using ESL.Core.Models.BusinessEntities;
+using ESL.Mvc.DataAccess.Persistence;
 
-namespace ESL.Core.Repositories
+namespace ESL.Mvc.DataAccess.Repositories
 {
     public class MeterRepository : IMeterRepository // GenericRepository<Meter>, 
     {
@@ -41,7 +40,7 @@ namespace ESL.Core.Repositories
             }
         }
 
-        public async Task Upsert(Meter entity, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task Upsert(Meter entity, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -63,7 +62,7 @@ namespace ESL.Core.Repositories
             }
         }
 
-        public  async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             try
             {

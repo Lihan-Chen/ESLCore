@@ -1,4 +1,4 @@
-﻿namespace ESL.Mvc.Infrastructure
+﻿namespace ESL.Mvc.Infrastructure.Graph
 {
 
     public static class GraphScopes

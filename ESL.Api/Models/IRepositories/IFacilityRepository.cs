@@ -1,11 +1,11 @@
-﻿using ESL.Core.Models.BusinessEntities;
+﻿using ESL.Api.Models.BusinessEntities;
 
-namespace ESL.Core.IRepositories
+namespace ESL.Api.Models.IRepositories
 {
-    public interface IFacilityRepository 
+    public interface IFacilityRepository
     {
         public IOrderedQueryable<Facility> GetAll();
-        
+
         public IQueryable<Facility> GetFacility(int? FacilNo);
 
         public IQueryable<Facility> GetFacility(string FacilName);
@@ -20,5 +20,4 @@ namespace ESL.Core.IRepositories
 
         public IQueryable<string> GetFacilTypeList();
     }
-
 }

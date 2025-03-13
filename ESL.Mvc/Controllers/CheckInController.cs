@@ -1,5 +1,5 @@
-﻿using ESL.Core.Data;
-using ESL.Core.Models.Enums;
+﻿using ESL.Core.Models.Enums;
+using ESL.Mvc.DataAccess.Persistence;
 using ESL.Mvc.Services;
 using ESL.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;

@@ -1,32 +1,24 @@
 // <ms_docref_import_types>
-using ESL.Core.Data;
 using ESL.Core.IRepositories;
-using ESL.Core.Repositories;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using Constants = ESL.Mvc.Infrastructure.Constants;
+using Constants = ESL.Mvc.Infrastructure.Graph.Constants;
 using System.Net;
-using System.IdentityModel.Tokens.Jwt;
-using ESL.Mvc.Infrastructure;
 using ESL.Mvc.Services;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Azure;
-using System;
-using ESL.Core.IConfiguration;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Rewrite;
+using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
+using ESL.Mvc.DataAccess.Repositories;
+using ESL.Mvc.Infrastructure.Graph;
+using ESL.Mvc.DataAccess.Persistence;
 // </ms_docref_import_types>
-
-
 
 namespace ESL.Mvc
 {
@@ -81,6 +73,15 @@ namespace ESL.Mvc
             //    // The claim in the Jwt token where App roles are available.
             //    options.TokenValidationParameters.RoleClaimType = "roles";
             //});
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthorizationPolicies.AssignmentToUserReaderRoleRequired, policy => policy.RequireRole(AppRole.UserReaders));
+                options.AddPolicy(AuthorizationPolicies.AssignmentToDirectoryViewerRoleRequired, policy => policy.RequireRole(AppRole.DirectoryViewers));
+                options.AddPolicy("Admin", authBuilder =>
+                {
+                    authBuilder.RequireRole("Administrators");  // check if "Administrators" is the correct role name
+                });
+            });
 
             //// Adding authorization policies that enforce authorization using Azure AD roles.
             builder.Services.AddAuthorization(options =>
@@ -93,59 +94,94 @@ namespace ESL.Mvc
                 });
             });
 
+            #region ESLDbContext
+
             // <ms_docref_add_dbcontext>
-            // Just point to the ApplicationDBContext in the ESL.Core and use the connection string defined there.  Otherwise, use the one defined below
-            //builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
-            //
-            //builder.Services.AddDbContext<ApplicationDbContext>();
 
-            // use helper
-            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //options.UseOracle(ApplicationDbContextHelpers.esl_connectionString));
+            // Add the DbContextPool to create a pool of Oracle connections to the container. This is recommended for high traffic applications.
+            builder.Services.AddDbContextPool<EslDbContext>(options =>
+            { options.UseOracle(builder.Configuration.GetConnectionString("ConnectionESL")); }, poolSize: 128);
 
-            
+            // AddDatabaseDeveloperPageExceptionFilter should only be used in the development environment
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            // The following maybe used in future releases:
+
+            // 1 -
+            // Just point to the EslDBContext in the ESL.Core and use the connection string defined in EslDbContextHelpers.
+            // https://stackoverflow.com/questions/73193652/net-6-ef-core-dbcontext-and-models-in-separate-class-libary
+            // builder.Services.AddDbContext<EslDbContext>();
+
+            // 2 -
+            // AddDbContextPool is used to create a pool of connections to the database. This is recommended for high traffic applications.
+            // builder.Services.AddDbContextPool<EslDbContext>(options =>
+            //              { options.UseOracle(EslDbContextHelpers.esl_connectionString); }, poolSize: 128); //EslDbContextHelpers.esl_connectionString
+
+            // builder.Services.AddScoped(provider => provider.GetRequiredService<EslDbContext>());
+
+            // 3 -
+            // use helper for ConnectionString
+            // builder.Services.AddDbContextPool<EslDbContext>(options =>
+            //              options.UseOracle(ApplicationDbContextHelpers.esl_connectionString));
+
+            // 4 -
+            // builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+            // builder.Services.ImplementPersistence(); // (builder.Configuration);
 
             //var serviceProvider = builder.Services.BuildServiceProvider();
             //using (var context = serviceProvider.GetRequiredService<ApplicationDbContext>())
             //{
-                
             //}
 
             // </ms_docref_add_dbcontext>
 
             //// <ms_docref_add_ESL.Core_dbcontext>
-            //builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+            /// https://stackoverflow.com/questions/59753218/how-to-use-dbcontext-in-separate-class-library-net-core
+            //builder.Services.AddOracle<EslDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
 
+            // Remove the following line to avoid ASP0000 warning
             //ServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
-            //AppDbContext appDbContext = serviceProvider.GetService<AppDbContext>();
+            //EslDbContext applicationDbContext = serviceProvider.GetService<EslDbContext>();
+            //builder.Services.RegisterYourLibrary(EslDbContext); // <-- Here passing the DbConext instance to the class library
 
-            //builder.Services.RegisterYourLibrary(appDbContext); // <-- Here passing the DbConext instance to the class library
+            // Instead, use dependency injection to get the EslDbContext
+            //builder.Services.AddScoped(provider =>
+            //{
+            //    var optionsBuilder = new DbContextOptionsBuilder<EslDbContext>();
+            //    optionsBuilder.UseOracle(EslDbContextHelpers.esl_connectionString);
+            //    //var context = provider.GetRequiredService<EslDbContext>();
+            //    return new EslDbContext(optionsBuilder.Options);
+            //    // Register your library with the context
+            //    // provider.RegisterYourLibrary(context);
+            //    //return context;
+            //});
+            // </ms_docref_add_ESL.Core_dbcontext>
 
-            //// </ms_docref_add_ESL.Core_dbcontext>
-
-            // string userID = builder.Configuration.GetSection(USERNAME);
-            //var userID = GetValue<OptionsBuilderConfigurationExtensions>(USERNAME);
-
-            // For Database Verification, use SQLite
-
+            // ToDo for version 2
             // For things like soft delete with update approach
             //builder.Services.AddDbContext<ApplicationDbContext>(options =>   //(sp, options => 
             //options.UseOracle(builder.Configuration.GetConnectionString("ConnectionESL")));
             //.AddInterceptors(
             //.sp.GetRequiredService<UpdateAuditableInterceptor>())); //,
             // sp.GetRequiredService<InsertOutboxMessagesInterceptor>())
-            //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            // builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            #endregion ESLDbContext
+
+            // string userID = builder.Configuration.GetSection(USERNAME);
+            //var userID = GetValue<OptionsBuilderConfigurationExtensions>(USERNAME);
+
+            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(uow => new UnitOfWork(EslDbContext));
 
             // configure repositories
-            //builder.Services.AddScoped<IAllEventRepository, AllEventRepository>();
+            //builder.Services.AddScoped<FacilityRepository>();
+
+            builder.Services.AddScoped<IAllEventRepository, AllEventRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IFacilityRepository, FacilityRepository>();
             builder.Services.AddScoped<IEmpRoleRepositry, EmpRoleRepository>();
             builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
             builder.Services.AddScoped<ILogTypeRepository, LogTypeRepository>();
-            //builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
+            builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
 
             // configure services https://github.com/sanckh/YourLibraryApp/blob/main/YourLibrary/Startup.cs
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
@@ -154,17 +190,9 @@ namespace ESL.Mvc
             //builder.Service.AddScoped<IPublisherService, PublisherService>();
             //builder.Service.AddScoped<IAccountService, AccountService>();
             //builder.Service.AddScoped<IUserService, UserService>();
-            //builder.Service.AddScoped<IGoogleBooksService, GoogleBooksService>();
 
             //API Service(s)
             //service.AddHttpClient<GoogleBooksService>();
-
-            // For unit testing, use InMemoryDatabase
-            // builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("ESL"));
-            // For real application use Oracle with ConnectionString of ESLConnection as defined in appsetting.json file
-            // builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ESLConnection")); // "name=ConnectionStrings:DefaultConnection"
-
-
 
             // <ms_docref_add_default_controller_for_sign-in-out>
             // builder.Services.AddRazorPages().AddMvcOptions(options =>
@@ -217,10 +245,6 @@ namespace ESL.Mvc
             });
             // </ms_docref_add_session>
 
-            builder.Services.ImplementPersistence(); // (builder.Configuration);
-
-            // AddDatabaseDeveloperPageExceptionFilter should only be used in the development environment
-            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // Add OutputCache Service
             builder.Services.AddOutputCache(options =>

@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using ESL.Core.IRepositories;
-using ESL.Core.Data;
-using ESL.Core.Models.BusinessEntities;
+﻿using ESL.Core.IRepositories;
+using ESL.Mvc.DataAccess.Persistence;
 
-namespace ESL.Core.Repositories
+namespace ESL.Mvc.DataAccess.Repositories
 {
     public class UserRepository : IUserRepository // GenericRepository<User>, 
     {
@@ -14,7 +11,7 @@ namespace ESL.Core.Repositories
             ILogger logger
             ) // : base(context, logger)
         {
-            
+
         }
         //public async Task<string> GetFullName(int id)
         //{
@@ -39,7 +36,7 @@ namespace ESL.Core.Repositories
         //    catch (Exception ex)
         //    {
         //        _logger.LogError(ex, "{Repo} GetAllAsync Method error", typeof(UserRepository));
-                
+
         //        // null
         //        return new List<User>();
         //    }

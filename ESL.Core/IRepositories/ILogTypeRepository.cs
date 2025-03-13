@@ -5,19 +5,19 @@ namespace ESL.Core.IRepositories
     public interface ILogTypeRepository
     {
         // LogType GetItem(int logTypeNo)
-        public Task<LogType> GetLogType(int LogTypeNo);
+        public IQueryable<LogType> GetLogType(int LogTypeNo);
 
         // LogType GetItem(int logTypeNo)
-        public Task<LogType> GetLogType(string LogTypeName);
+        public IQueryable<LogType> GetLogType(string LogTypeName);
 
         // LogList GetList() ~ GetLogList
-        public Task<List<LogType>> GetLogTypes();
+        public IOrderedQueryable<LogType> GetLogTypes();
 
-        public Task<string> GetLogTypeName(int LogTypeNo);
+        public IQueryable<string> GetLogTypeName(int LogTypeNo);
        
-        public Task<int> GetLogTypeNo(string LogTypeName);
+        public IQueryable<int> GetLogTypeNo(string LogTypeName);
 
         // GetLogTypeList() for selectItem (LogTypeNo, LogTypeName)
-        public Task<List<string>> GetLogTypeList();
+        public IOrderedQueryable<string> GetLogTypeList();
     }
 }

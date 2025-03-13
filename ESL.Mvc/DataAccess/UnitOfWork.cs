@@ -1,10 +1,9 @@
 ﻿using ESL.Core.IConfiguration;
 using ESL.Core.IRepositories;
-using ESL.Core.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using ESL.Mvc.DataAccess.Persistence;
+using ESL.Mvc.DataAccess.Repositories;
 
-namespace ESL.Core.Data
+namespace ESL.Mvc.DataAccess
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
@@ -41,7 +40,7 @@ namespace ESL.Core.Data
         public IConstantRepository Constants { get; private set; }
 
         public IFacilityRepository Facilities { get; private set; }
-        
+
         public ILogTypeRepository LogTypes { get; private set; }
 
         public IMeterRepository Meters { get; private set; }
@@ -85,7 +84,8 @@ namespace ESL.Core.Data
         //public IWorkToBePerformedRepository WorkToBePerformedList => throw new NotImplementedException();
 
         //public IAllEventRepository AllEvents { get; private set; }
-        //public IMeterRepository Meters { get; private set; }
+
+        public ISubjectRepository Subjects { get; private set; }
 
         public UnitOfWork(
             EslDbContext context,

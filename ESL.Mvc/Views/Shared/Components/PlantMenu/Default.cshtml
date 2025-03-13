@@ -3,6 +3,11 @@
 
 @addTagHelper *, ViewComponentsSample
 
-<select asp-for="FacilNo" asp-items="Model.PlantSelectList" class="form-control">
+@* <select asp-for="FacilNo" asp-items="Model.PlantSelectList" class="form-control">
+    <option value="">Select a Plant</option>
+</select> *@
+
+@* How to pass a select list using partial view in .Net Core? (search term on SO) *@
+<select asp-for="FacilNo" asp-items="@ViewBag.Plants" class="form-control">
     <option value="">Select a Plant</option>
 </select>

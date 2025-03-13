@@ -21,7 +21,7 @@ namespace ESL.Core.IRepositories
         /// </summary>
         /// <param name="facilNo">The unique No of the Facility in the database.</param>
         /// <returns>An IQueryable of Employee list with Employee objects when the database contains Employees for the parameters specified, or an empty list otherwise.</returns>
-        public IQueryable<Employee> GetListExternalQuery();
+        public IOrderedQueryable<Employee> GetListExternalQuery();
 
         /// <summary>
         /// Gets an Employee? from the database by its EmployeeNo.

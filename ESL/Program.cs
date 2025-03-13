@@ -1,12 +1,7 @@
 using ESL.Core.Data;
-using ESL.Core.IRepositories;
-using ESL.Core.Repositories;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
@@ -54,7 +49,7 @@ namespace ESL.Web
 
             // builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            builder.Services.AddScoped<IAllEventRepository, AllEventRepository>();
+            //builder.Services.AddScoped<IAllEventRepository, AllEventRepository>();
             //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             //builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
 
