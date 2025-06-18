@@ -1,95 +1,95 @@
-﻿@using testCoreWeb.ViewModels
+﻿@using Microsoft.Graph
+@using testCoreWeb.ViewModels
 @model PlantViewModel
 <style>
     fieldset, legend {
-        all: revert;
+    all: revert;
     }
 
     .reset {
-        all: revert;
+    all: revert;
     }
 </style>
 @{
     ViewData["Title"] = "Home Page";
+
 }
 
-<div class="container col-8">
-    <div class="row">
-        <div class="display-6"><strong>Good morning, Lihan (u06337)</strong><div>
+<div class="container-fluid col-8 .bg-body-secondary">
+    <div class="row justify-content-center">
+        <strong>Good morning, Lihan (u06337)</strong>
     </div>
     <form asp-area ="" asp-controller="" asp-action="index">
-        <div class="row">           
-            <div class="col-4 justify-content-center">
-                <div class="form-group align-content-end mb-2">
-                    <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
-                    <select class="form-control col-2" id="operatortype" placeholder="Select your role as -" name="operatortype" aria-describedby="opTypeHelp">
-                        <option active>Primary</option>
-                        <option>Secondary</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-4 justify-content-center">
-                <div class="form-group align-content-end mb-2">
-                    <label class="control-label col-sm-4" for="selectShift">Shift</label>
-                    <select class="form-control col-2" id="shift" placeholder="Shift" name="shift" aria-describedby="shiftHelp">
-                        <option>Day</option>
-                        <option>Night</option>
-                    </select>
-                </div>
-        </div>
-        @* <div class="row">
-            <div class="col-4 justify-content-center">
-                <div class="form-group align-content-end mb-2">
-                    <label class="align-content-center text-black" for="FacilNo">FacilNo</label>
-                        <input asp-for="FacilNo" class="form-control readonly">                        
-                    </input>
-                </div>
-            </div>
-        </div> *@
-                    
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group">
+        <fieldset class="reset bg-info card">
+            <legend ><p><strong>Please select the facility of your shift:</strong></p></legend>
+            @* </fieldset> *@
+        <div class="row justify-content-left">
+            <div class="col-6">
+                <div class="form-group" id="selectaplant">
                     <div class="container mt-1">
-                        <h5>Please select the facility of your shift:</h5>
-                        @* <p class="display-6">Please select the facility of your shift:</p> *@
-                        <div class="btn-group btn-group-justified text-center mb-2 g-2">
-                            <button type="button" class="btn btn-primary m-1">OCC</button>
-                            <button type="button" class="btn btn-primary m-1">Diemer</button>
-                            <button type="button" class="btn btn-primary m-1">Jensen</button>
-                            <button type="button" class="btn btn-primary m-1">Mills</button>
-                            <button type="button" class="btn btn-primary m-1">Weymouth</button>
-                            <button type="button" class="btn btn-primary m-1">Skinner</button>
-                        </div>
-                        <div class="btn-group btn-group-justified text-center mb-2 g-2">
-                            <button type="button" class="btn btn-info m-1">DOCC</button>
-                            <button type="button" class="btn btn-info m-1">Intake</button>
-                            <button type="button" class="btn btn-info m-1">Gene</button>
-                            <button type="button" class="btn btn-info m-1">Iron</button>
-                            <button type="button" class="btn btn-info m-1">Eagle</button>
-                            <button type="button" class="btn btn-info m-1">Hinds</button>
-                            <button type="button" class="btn btn-info m-1">DVL</button>
-                        </div>
+                        <ol class="btn-group btn-group-justified text-center mb-2 g-2" id="selectable">
+                            <li><button type="button" class="btn m-1" value="1">OCC</button></li>
+                            <li><button type="button" class="btn m-1">Diemer</button></li>
+                            <li><button type="button" class="btn m-1">Jensen</button></li>
+                            <li><button type="button" class="btn m-1">Mills</button></li>
+                            <li><button type="button" class="btn m-1">Weymouth</button></li>
+                            <li><button type="button" class="btn m-1">Skinner</button></li>
+                            <div class="btn-group btn-group-justified text-center mb-2 g-2"></div>
+                            <li><button type="button" class="btn m-1">DOCC</button></li>
+                            <li><button type="button" class="btn m-1">Intake</button></li>
+                            <li><button type="button" class="btn m-1">Gene</button></li>
+                            <li><button type="button" class="btn m-1">Iron</button></li>
+                            <li><button type="button" class="btn m-1">Eagle</button></li>
+                            <li><button type="button" class="btn m-1">Hinds</button></li>
+                            @if (1 == 2)
+                            {
+                                <div class="btn-group btn-group-justified text-center mb-2 g-2"></div>
+                                <li><button type="button" class="btn m-1">DVL</button></li>
+                            }
+                        </ol>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group" id="selectable">
+        </div>
+        
+        <div class="row justify-content-center">
+            <strong>For Operators Only</strong>
+
+            <div class="col-4">
+                <div class="form-group align-content-end mb-2">
+                    <label class="align-content-center text-black" for="SelectOperatorType">Operator Type</label>
+                    <select class="form-control col-2" id="operatortype" placeholder="Select your role as -" name="operatortype" aria-describedby="opTypeHelp">
+                        <option value=""> n/a </option>
+                        <option value ="1" active>Primary</option>
+                        <option value="2">Secondary</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group align-content-end mb-2">
+                    <label class="control-label col-sm-4" for="selectShift">Shift</label>
+                    <select class="form-control col-2" id="shift" placeholder="Shift" name="shift" aria-describedby="shiftHelp">
+                        <option value=""> n/a </option>
+                        <option value="1">Day</option>
+                        <option value="2">Night</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div>Test Section on Dev
+            <div class="col-3">
+                <div class="form-group">
                     <select asp-for="FacilNo" asp-items="Model.Plants" class="form-control">
                                     <option value="">Select a Plant</option>
-                                    @* <option value="value">text</option> *@
                     </select>                   
                 </div>
             </div>
         </div>
+        </fieldset>
     </form>
 </div>
-
-@* <form asp-area="" asp-controller="Home" asp-action="Index" method="post">
-    <select asp-for="FacilNo" asp-items="Model.Plants"></select>
-    <br />
-    <button type="submit">Select</button>
-    </form> *@
 
 <div>
     <div class="container col-6 justify-content-center">
@@ -98,13 +98,6 @@
         <fieldset class="reset bg-warning card">
                 @* <legend class="reset"><strong>Good morning, Lihan (u06337)</strong></legend> *@
                 <div class="container">
-    	@* <div class="row">
-    		<div class="col-2">
-    			<div class="form-group">
-      				<label class="display-4" for="user">Hi! <mark>Lihan</></label>
-      				<input class="form-control hidden" id="user" placeholder="User Name" name="user" value="Lihan Chen" hidden>
-    			</div>
-    		</div>*@
 
                 <div class="col-6 justify-content-center">
                     <div class="form-group.aligh-content-center mb-4">
@@ -131,30 +124,30 @@
                 
             </div>
         </div>
-                        <div class="dropdown mx-3">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="plantDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <div class="dropdown mx-3">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="plantDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Genre
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="plantDropdownMenu">
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">OCC</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Diemer</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Jensen</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Mills</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Weymouth</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Skinner</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Desert</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Intake</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Gene</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Iron</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Eagle</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">Hinds</button>
-                                <button class="dropdown-item" type="button" onclick="showGenre(this)">DVL</button>
-                            </div>
+                    </button>
+                        <div class="dropdown-menu" aria-labelledby="plantDropdownMenu">
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">OCC</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Diemer</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Jensen</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Mills</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Weymouth</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Skinner</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Desert</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Intake</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Gene</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Iron</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Eagle</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">Hinds</button>
+                            <button class="dropdown-item" type="button" onclick="showGenre(this)">DVL</button>
                         </div>
+               </div>
                         <div class="checkbox g-3">
                             <label><input type="checkbox" name="remember"> Remember me</label>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                        <button type="submit" class="btn btn-primary mt-3">Continue</button>
                 @* <ol id="selectable">
                     @foreach (var plant in Model.Plants)
                     {
@@ -320,11 +313,10 @@
                             alert($(this).text())
             })
         }
-    });
 
         function showGenre(item) {
-              document.getElementById("plantDropdownMenu").innerHTML = item.innerHTML;
-        }
-
+                    document.getElementById("plantDropdownMenu").innerHTML = item.innerHTML;
+            }
+    });
 </script>
 }

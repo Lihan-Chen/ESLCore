@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Api.Models.BusinessEntities
 {
@@ -18,13 +19,14 @@ namespace ESL.Api.Models.BusinessEntities
         /// </summary>
         [DataObjectField(false, false, true, 10)]
         [Display(Name = "New Value")]
+        [Column(TypeName = "NUMBER(8,2)")]
         public decimal? Value { get; set; }
 
         /// <summary>
         /// Gets or sets the oldUnit of the FlowChange.
         /// </summary>
         [DataObjectField(false, false, true, 10)]
-        [Required(ErrorMessage = "All unit must be consistent.")]
+        [Required(ErrorMessage = "All units must be consistent.")]
         [Display(Name = "Unit")]
         public string? Unit { get; set; } = null!;
 
@@ -35,7 +37,6 @@ namespace ESL.Api.Models.BusinessEntities
         [Display(Name = "Effective Date")]
         [Required(ErrorMessage = "Event Date is Required.")]
         //[UIHint("Date")]
-        [DataType(DataType.Date)]
         public DateTime EventDate { get; set; }
 
         /// <summary>

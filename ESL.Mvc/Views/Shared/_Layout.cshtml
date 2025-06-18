@@ -16,7 +16,23 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/ESL.Mvc.styles.css" asp-append-version="true" />
     </environment>
+    <style>
+        .nav-item:hover {
+            display: block;
+            background-color: #ddd;
+            color: black;
+        }
 
+        /*         .dropdown {
+                    margin-left: 40rem;
+                    margin-right: 40rem;
+                } */
+
+        .name {
+            text-align: center;
+            color: green;
+        }
+    </style>
 </head>
 
 @* To create a cookie from _Layout for all pages; *@
@@ -30,23 +46,35 @@
     HttpContext.Response.Cookies.Append("ESL.Cookie", "20241231mwdh2o.OpsSupportTeam", options);
 } *@
 
-
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-inverse navbar-toggleable-sm bg-info navbar-dark border-bottom box-shadow mb-3">
-            @* navbar-light bg-white *@
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ESL.net Core</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar sticky-top navbar-expand-sm navbar-inverse navbar-toggleable-sm navbar-dark bg-info border-bottom box-shadow mb-3">
+            @* navbar-light style="background-color: #e3f2fd;" *@
+            
+            <div class="container-fluid">
+
+                <a class="navbar-brand me-5" asp-area="" asp-controller="Home" asp-action="Index">ESL.net Core</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarNav">
                     <ul class="navbar-nav flex-grow-1 justify-content-center">
-                        <li class="nav-item active">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</span></a>
+
+                        <!-- Main Menu Item 1 -->
+                        <li class="nav-item mx-3">
+                            @* <button class="btn-sm btn-danger rounded-bottom navbar-btn"> *@
+                            @* <a class="nav-link text-dark m-0 align-text-top" asp-area="" asp-controller="Home" asp-action="indexgroup"><strong>Check In</strong></a> *@
+                            <a class="nav-link btn btn-danger btn-sm text-light" role="button" asp-area="" asp-controller="Home" asp-action="indexgroup"><strong>Check In</strong></a>
+                            @* </button> *@
+                        </li>
+
+                        <li class="nav-item active mx-3">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             <ul>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SelectPlant">Select Plant</span></a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SelectPlant">Select Plant</a></li>
                             </ul>
                         </li>
 
@@ -64,6 +92,7 @@
                                 <a class="dropdown-item" asp-area="FlowChange" asp-controller="FlowChange" asp-action="Index">FlowChange</a>
                                 <a class="dropdown-item" asp-area="General" asp-controller="General" asp-action="Index">General</a>
                                 <a class="dropdown-item" asp-area="EOS" asp-controller="EOS" asp-action="Index">EOS</a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" asp-area="HotLine" asp-controller="HotLine" asp-action="Index">HotLine</a>
                             </div>
                         </li>
@@ -78,6 +107,10 @@
                                     <button class="btn btn-outline-success" type="submit">Search</button>
                                 </form>
                             </div>
+                        </li>
+
+                        <li class="nav-item">
+                                <a class="nav-link btn btn-danger btn-sm text-light" role="button" asp-area="" asp-controller="Search" asp-action="Index"><strong>Search</strong></a>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -112,10 +145,7 @@
                                 <a class="dropdown-item" asp-area="Admin" asp-controller="Zone" asp-action="Index">Zone</a>
                             </div>
                         </li>
-                        }       
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>  *@
+                        }                              
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

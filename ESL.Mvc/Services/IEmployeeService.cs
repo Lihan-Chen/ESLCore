@@ -1,9 +1,9 @@
-﻿using ESL.Core.IRepositories;
+﻿using ESL.Application.Interfaces.IRepositories;
 using ESL.Core.Models.BusinessEntities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace ESL.Mvc.Services
+namespace ESL.Application.Services
 {
     public interface IEmployeeService
     {
@@ -58,11 +58,11 @@ namespace ESL.Mvc.Services
 
         private readonly IFacilityRepository _facilities;
 
-        private readonly IEmpRoleRepositry _empRoles;
+        private readonly IEmpRoleRepository _empRoles;
 
         private readonly ILogTypeRepository _logTypes;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IFacilityRepository facilityRepository, IEmpRoleRepositry empRoleRepository, ILogTypeRepository logTypeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IFacilityRepository facilityRepository, IEmpRoleRepository empRoleRepository, ILogTypeRepository logTypeRepository)
         {
             _employees = employeeRepository;
             _facilities = facilityRepository;
@@ -110,14 +110,14 @@ namespace ESL.Mvc.Services
         {
             Employee? _employee = await GetEmployeeByEmployeeNo(employeeNo);
 
-            return _employee?.FullName;
+            return $"{_employee?.LastName} {_employee.FirstName}";
 
         }
         public async Task<string?> GetFullNameByEmployeeID(string employeeID)
         {
             Employee? _employee = await GetEmployeeByEmployeeID(employeeID);
 
-            return _employee?.FullName;
+            return $"{_employee?.LastName} {_employee.FirstName}";
         }
 
         // Get EmployeeNo integer
@@ -177,24 +177,30 @@ namespace ESL.Mvc.Services
             return await _empRoles.GetRole(userID, facilNo);
         }
 
-        public async Task<bool> IsInRole(string userID, string role, int facilNo)
+        public Task<bool> IsInRole(string userID, string role, int facilNo)
         {
-            switch(role)
+            switch (role)
             {
                 case "ESL_OPERATOR":
-                    return await _empRoles.IsInRole(userID, role, facilNo) ||
-                           await _empRoles.IsInRole(userID, "ESL_ADMIN", facilNo) ||
-                           await _empRoles.IsInRole(userID, "ESL_SUPERADMIN", facilNo);
-            
+                    return Task.FromResult(
+                        _empRoles.IsInRole(userID, role, facilNo) ||
+                        _empRoles.IsInRole(userID, "ESL_ADMIN", facilNo) ||
+                        _empRoles.IsInRole(userID, "ESL_SUPERADMIN", facilNo)
+                    );
+
                 case "ESL_ADMIN":
-                    return await _empRoles.IsInRole(userID, role, facilNo) ||
-                           await _empRoles.IsInRole(userID, "ESL_SUPERADMIN", facilNo);
+                    return Task.FromResult(
+                        _empRoles.IsInRole(userID, role, facilNo) ||
+                        _empRoles.IsInRole(userID, "ESL_SUPERADMIN", facilNo)
+                    );
 
                 case "ESL_SUPERADMIN":
-                    return  await _empRoles.IsInRole(userID, role, facilNo);
+                    return Task.FromResult(
+                        _empRoles.IsInRole(userID, role, facilNo)
+                    );
 
                 default:
-                    return false;
+                    return Task.FromResult(false);
             }
         }
 

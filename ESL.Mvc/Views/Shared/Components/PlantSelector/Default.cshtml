@@ -1,0 +1,62 @@
+﻿@model ESL.Mvc.ViewComponents.PlantSelectorViewComponent.PlantSelectorModel
+
+<div class="plant-selector">
+    @foreach (var plant in Model.Plants)
+    {
+        <label class="plant-option">
+            <input type="radio"
+                   name="@Model.InputName"
+                   value="@plant.Value"
+            @(Model.Required ? "required" : "")
+            @(Model.SelectedPlantId == plant.Value ? "checked" : "")>
+            <img src="@plant.ImagePath"
+                 alt="@plant.Text"
+                 title="@plant.Text"
+                 class="plant-image">
+            <span class="plant-name">@plant.Text</span>
+        </label>
+    }
+</div>
+
+<style>
+    .plant-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .plant-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .plant-option:hover {
+        transform: translateY(-2px);
+    }
+
+    .plant-option input[type="radio"] {
+        display: none;
+    }
+
+    .plant-image {
+        width: 100px;
+        height: 100px;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        padding: 4px;
+        transition: border-color 0.2s;
+    }
+
+    .plant-option input[type="radio"]:checked + .plant-image {
+        border-color: var(--bs-primary, #007bff);
+        box-shadow: 0 0 0 2px var(--bs-primary, #007bff);
+    }
+
+    .plant-name {
+        margin-top: 0.5rem;
+        font-weight: 500;
+    }
+</style>

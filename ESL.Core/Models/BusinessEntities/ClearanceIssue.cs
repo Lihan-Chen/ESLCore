@@ -1,488 +1,398 @@
-﻿using ESL.Core.Models.ComplexTypes;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
-namespace ESL.Core.Models.BusinessEntities
+namespace ESL.Core.Models.BusinessEntities;
+
+//[PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
+//[Table("ESL_CLEARANCEISSUES", Schema = "ESL")]
+//[Index("FACILNO", "LOGTYPENO", "EVENTID", "EVENTID_REVNO", Name = "ESL_CLEARANCEISSUES_PK", IsUnique = true)]
+public partial record ClearanceIssue
 {
-    /// <summary>
-    /// The ClearanceIssues class represents an ClearanceIssues that belongs to a <see cref="ClearanceIssue"> ClearanceIssues</see>.
-    /// </summary>
-    [DebuggerDisplay("ClearanceIssues : {FacilName, nq} {LogTypeName, nq} {EventID, nq} - {EventID_RevNo, nq})")] // ({Type, nq})
-    [PrimaryKey(nameof(FacilNo), nameof(LogTypeNo), nameof(EventID), nameof(EventID_RevNo))]
-    [Table($"ESL_CLEARANCEISSUES", Schema = "ESL")]
-    public partial record ClearanceIssue // : LogEvent
-    {
-
-        #region Private Variables
-
-        private string _CrLf = "<br />"; // Environment.NewLine ; // "\\r?\\n"; "<br />"; "\r\n";
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets or sets the FacilNo of the Facility.
-        /// <summary>
-        /// Gets or sets the FacilNo of the Facility.
-        /// </summary>
-        [DataObjectField(true, true, false, 2)]
-        [DisplayName("Facil. No.")]
-        [Column("FACILNO", TypeName = "NUMBER")]
-        public int FacilNo { get; set; }
-        /// <summary>
-        /// Gets or sets the LogTypeNo of the Log Type.
-        /// </summary>
-        [DataObjectField(true, true, false, 2)]
-        [DisplayName("Log Type No.")]
-        [Column("LOGTYPENO", TypeName = "NUMBER")]
-        public int LogTypeNo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the EventID of the Event.
-        /// </summary>
-        [DataObjectField(true, true, false, 20)]
-        [DisplayName("Event ID")]
-        [Column("EVENTID", TypeName = "VARCHAR2")]
-        public string EventID { get; set; } = null!;
-        /// <summary>
-        /// Gets or sets the EventID_RevNo of the Event.
-        /// </summary>
-        [DataObjectField(true, true, false, 2)]
-        [DisplayName("Revision No.")]
-        [Column("EVENTID_REVNO", TypeName = "NUMBER")]
-        public int EventID_RevNo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the FacilName of the event.
-        /// </summary>
-        /// 
-        [DataObjectField(false, false, false)]
-        [DisplayName("Facility")]
-        [NotMapped]
-        public string FacilName { get; set; } = null!;
-
-        /// <summary>
-        /// Gets or sets the LogTypeName of the FlowChange.
-        /// </summary>
-        /// 
-        [DataObjectField(false, false, false)]
-        [DisplayName("Log Type")]
-        [NotMapped]
-        public string LogTypeName { get; set; } = null!;
-
-        /// <summary>
-        /// Gets or sets the OperatorID of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, false, 7)]
-        [DisplayName("Operator")]
-        [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        [ForeignKey(nameof(OperatorID))]
-        [Column("OPERATORID", TypeName = "NUMBER")]
-        public int OperatorID { get; set; }
-
-        /// <summary>
-        /// Gets or sets the CreatedBy of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 7)]
-        [DisplayName("Created By")]
-        [Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
-        //[ForeignKey(nameof(CreatedBy_Employee))]
-        [Column("CREATEDBY", TypeName = "NUMBER")]
-        public int? CreatedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the CreatedDate of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true)]
-        [DataType("date")]
-        [DisplayName("Created Date")]
-        [Column("CREATEDDATE", TypeName = "DATE")]
-        public DateTime? CreatedDate { get; set; }
-
-        [DataObjectField(false, false, false, 7)]
-        [Column("ISSUEDTO", TypeName = "NUMBER")]
-        public int IssuedTo { get; set; }
-
-        [DataObjectField(false, false, false, 7)]
-        [Column("ISSUEDBY", TypeName = "NUMBER")]
-        public int IssuedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the IssedDate of the ClearanceIssues .
-        /// </summary>
-        [DataObjectField(false, false, false)]
-        [Column("ISSUEDDATE", TypeName = "DATE")]
-        public DateTime IssuedDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the EventTime of the ClearanceIssues .
-        /// </summary>
-        [DataObjectField(false, false, false, 5)]
-        [Display(Name = "Issued Time", Prompt = "hh:mm")]
-        [RegularExpression("([01]?[0-9]|2[0-3]):[0-5][0-9]", ErrorMessage = "Time must be a valid 24 hour time in HH:MM format")]
-        [Column("ISSUEDTIME", TypeName = "VARCHAR2")]
-        public string IssuedTime { get; set; } = null!;
-
-        /// <summary>
-        /// Gets or sets the ModifyFlag of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 100)]
-        [DisplayName("Modify Flag")]
-        [Column("MODIFYFLAG", TypeName = "VARCHAR2")]
-        public string? ModifyFlag { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ModifiedBy of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 7)]
-        [DisplayName("Modified By")]
-        //[ForeignKey(nameof(ModifiedBy_Employee))]
-        [Column("MODIFIEDBY", TypeName = "NUMBER")]
-        public int? ModifiedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the modifyDate of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true)]
-        [DisplayName("Date Modified")]
-        [Column("MODIFIEDDATE", TypeName = "DATE")]
-        public DateTime? ModifiedDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the yr of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, false, 2)]
-        //[NotNullOrEmpty(Key = "DetailsNotEmpty")]
-        //[RegularExpression("^d{2}$", ErrorMessage = "Please enter YY format.")]
-        [DisplayName("Year")]
-        [Column("YR", TypeName = "VARCHAR2")]
-        public string Yr { get; set; } = DateTime.Now.Year.ToString();
-
-
-        [DataObjectField(false, false, false, 6)]
-        [Column("FACILABBR", TypeName = "VARCHAR2")]
-        public string FacilAbbr { get; set; } = null!;
-
-        /// <summary>
-        /// Gets or sets the SeqNo of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, false, 6)]
-        [DisplayName("Sequence No.")]
-        [Column("SEQNO", TypeName = "NUMBER")]
-        public int SeqNo { get; set; }
-
-        [DataObjectField(false, false, false, 2)]
-        [Column("CLEARANCETYPE", TypeName = "VARCHAR2")]
-        public string ClearanceType { get; set; } = null!;
-
-        [DataObjectField(false, false, false, 300)]
-        [Column("CLEARANCEZONE", TypeName = "VARCHAR2")]
-        public string ClearanceZone { get; set; } = null!;
-
-        [DataObjectField(false, false, true, 200)]
-        [Column("LOCATION", TypeName = "VARCHAR2")]
-        public string? Location { get; set; }
-
-        [DataObjectField(false, false, true, 600)]
-        [Column("WORKTOBEPERFORMED", TypeName = "VARCHAR2")]
-        public string? WorkToBePerformed { get; set; }
-
-        [DataObjectField(false, false, true, 200)]
-        [Column("EQUIPMENTINVOLVED", TypeName = "VARCHAR2")]
-        public string? EquipmentInvolved { get; set; }
-
-        /// <summary>
-        /// Gets or sets the WorkOrders of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 100)]
-        [DisplayName("Work Orders")]
-        [Column("WORKORDERS", TypeName = "VARCHAR2")]
-        public string? WorkOrders { get; set; }
-
-        /// <summary>
-        /// Gets or sets the RelatedTo of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 200)]
-        [DisplayName("Rnelated To")]
-        [Column("RELATEDTO", TypeName = "VARCHAR2")]
-        public string? RelatedTo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the notes of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 400)]
-        [DisplayName("Notes")]
-        [Column("NOTES", TypeName = "VARCHAR2")]
-        public string? Notes { get; set; }
-
-        /// <summary>
-        /// Gets or sets the NotifiedFacil of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 200)]
-        [DisplayName("Notified Facility")]
-        [Column("NOTIFIEDFACIL", TypeName = "VARCHAR2")]
-        public string? NotifiedFacil { get; set; }
-
-        /// <summary>
-        /// Gets or sets the NotifiedPerson of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 7)]
-        // [DisplayName("Notified Person (optional)")]
-        //[ForeignKey(nameof(NotifiedPerson_Employee))]
-        [Column("NOTIFIEDPERSON", TypeName = "NUMBER")]
-        public int? NotifiedPerson { get; set; }
-
-        /// <summary>
-        /// Gets or sets the NotifiedPerson of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 80)]
-        [DisplayName("Notified Person (optional)")]
-        [NotMapped]
-        public string? NotifiedPerson_Name { get; set; } = string.Empty; // => NotifiedPerson_Employee.FullName;
-
-        /// <summary>
-        /// Gets or sets the ShiftNo of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 2)]
-        [DisplayName("Shift No")]
-        [Column("SHIFTNO", TypeName = "NUMBER")]
-        public int? ShiftNo { get; set; }
-
-        [DataObjectField(false, false, true, 7)]
-        [Column("RELEASEDTO", TypeName = "NUMBER")]
-        public int? ReleasedTo { get; set; }
-
-        [DataObjectField(false, false, true, 7)]
-        [Column("RELEASEDBY", TypeName = "NUMBER")]
-        public int? ReleasedBy { get; set; }
-
-        [DataObjectField(false, false, true)]
-        [Column("RELEASEDDATE", TypeName = "DATE")]
-        public DateTime? ReleasedDate { get; set; }
-
-        [DataObjectField(false, false, true, 5)]
-        [Column("RELEASEDTIME", TypeName = "VARCHAR2")]
-        public string? ReleasedTime { get; set; }
-
-        [DataObjectField(false, false, true, 30)]
-        [Column("RELEASETYPE", TypeName = "VARCHAR2")]
-        public string? ReleaseType { get; set; }
-
-        [DataObjectField(false, false, true, 200)]
-        [Column("TAGSREMOVED", TypeName = "VARCHAR2")]
-        public string? TagsRemoved { get; set; }
-
-        /// <summary>
-        /// Gets or sets the OperatorType of the FlowChange.
-        /// </summary>
-        [DataObjectField(false, false, true, 15)]
-        [DisplayName("Operator Type (Optional)")]
-        [Column("OPERATORTYPE", TypeName = "VARCHAR2")]
-        public string? OperatorType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ScanDocsNo of the AllEvents.
-        /// </summary>
-        [DataObjectField(false, false, true, 2)]
-        [NotMapped]
-        public int ScanDocsNo { get; set; }
-
-
-        /// <summary>
-        /// Gets or sets the UID of the record.
-        /// </summary>
-        [DataObjectField(false, false, false, 60)]
-        [DisplayName("Updated By")]
-        [Column("UPDATEDBY", TypeName = "VARCHAR2")]
-        public string? UpdatedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the UpdateDate of the record.
-        /// </summary>
-        [DataObjectField(false, false, false)]
-        [DisplayName("Updated on")]
-        [Column("UPDATEDATE", TypeName = "DATE")]
-        public DateTime? UpdateDate { get; set; }
-
-        [DataObjectField(false, false, true, 20)]
-        [Column("CLEARANCEID", TypeName = "VARCHAR2")]
-        public string? ClearanceID { get; set; }
-
-        //[NotMapped]
-        //public Facility Facility { get; init; } = new Facility();
-
-        //[NotMapped]
-        //public LogType LogType { get; init; } = new LogType();
-
-        //[NotMapped]        
-        //public Employee Operator { get; init; } = new Employee();
-
-        //[NotMapped]
-        //public Employee CreatedBy_Employee { get; init; } = new Employee();
-
-        //[NotMapped] 
-        //public Employee ModifiedBy_Employee { get; init; } = new Employee();
-
-        //[NotMapped] 
-        //public Employee NotifiedPerson_Employee { get; init; } = new Employee();
-
-        //[NotMapped]
-        //public Employee UpdatedBy_Employee { get; init; } = new Employee();
-
-        //[NotMapped]
-        //public Facility NotifiedFacility { get; init; } = new Facility();
-
-        //[NotMapped]
-        //public Employee IssedBy_Employee { get; set; } = new Employee();
-
-        //[NotMapped]
-        //public Employee IssedTo_Employee { get; set; } = new Employee();
-
-        //[NotMapped]public Employee ReleasedBy_Employee { get; set;} = new Employee();
-
-        //[NotMapped]
-        //public Employee ReleasedTo_Employee { get;set; } = new Employee();
-
-        /// <summary>
-        /// Gets or sets the EventIDentifier of the FlowChange.
-        /// </summary>
-        //[DataObjectField(false, false, false)]
-        [NotMapped]
-        public string EventIDentifier => $"{ClearanceID} / {Convert.ToString(EventID_RevNo)}";
-
-        /// <summary>
-        /// Gets or sets the eventHighlight of the FlowChange.
-        /// </summary>
-        [NotMapped]
-        public string EventHighlight
-        {
-            get
-            {
-                string _EventHighlight = null!;
-
-                if (!string.IsNullOrEmpty(Location))
-                {
-                    _EventHighlight = $"Location: {Location}{_CrLf}";
-                }
-
-                if (!string.IsNullOrEmpty(ClearanceZone))
-                {
-                    _EventHighlight += $"Clearance Area: {ClearanceZone}{_CrLf}";
-                }
-
-                if (!string.IsNullOrEmpty(WorkToBePerformed))
-                {
-                    _EventHighlight += $"Work to be performed: {WorkToBePerformed}{_CrLf}";
-                }
-
-                if (!string.IsNullOrEmpty(EquipmentInvolved))
-                {
-                    _EventHighlight += $"Equipment involved: {EquipmentInvolved}{_CrLf}";
-                }
-
-                if (!string.IsNullOrEmpty(RelatedTo))
-                {
-                    _EventHighlight += $"Related to Event Nos.: {RelatedTo}{_CrLf}";
-                }
-
-                if (!string.IsNullOrEmpty(WorkOrders))
-                {
-                    _EventHighlight += $"Work Order Nos.: {WorkOrders}{_CrLf}";
-                }
-
-                if (!string.IsNullOrEmpty(Notes))
-                {
-                    _EventHighlight += $"Additional Notes: {Notes}{_CrLf}";
-                }
-
-                if (!string.IsNullOrEmpty(ReleaseType))
-                {
-                    _EventHighlight += $"Tags removed: {TagsRemoved}{_CrLf}";
-                }
-
-                _EventHighlight += "Scanned docs stored: " + ScanDocsNo;
-
-                return _EventHighlight;
-            }
-        }
-
-        // need to add "Scanned Docs Stored: " (scandocs.count) when scanned docs directory are established on servers, or just ignore for now.
-
-        /// <summary>
-        /// Gets or sets the eventTrail of the FlowChange.
-        /// </summary>
-
-        [NotMapped]
-        public string EventTrail
-        {
-            get
-            {
-                string _EventTrail = null!;
-                string _ReleasedBy = null!;
-                string _ReleasedTo = null!;
-                string _IssuedTo = null!;
-
-                _EventTrail = $"Issued to: IssedBy_Name{_CrLf}"; // {IssedBy_Name}
-
-                _EventTrail += $"Issued by: IssedBy_Name{_CrLf}"; // {IssedBy_Name}
-
-                if (IssuedDate != DateTime.MinValue)
-                {
-                    _EventTrail += $"Requested Dt/Tm: {IssuedDate.ToString("MM/dd/yyyy")} {IssuedTime}{_CrLf}";
-                }
-
-                _ReleasedBy = ReleasedBy.HasValue ? $"ReleasedBy_Name" : "n/a";
-
-                _ReleasedTo = ReleasedTo.HasValue ? $"ReleasedTo_Name" : "n/a";
-
-                _IssuedTo = $"IssuedTo_Name";
-
-
-                switch (ReleaseType)
-                {
-                    case "Full Release":
-                        _EventTrail += $"Full Released by: {_ReleasedBy}{_CrLf}Full Released to: {_ReleasedTo}{_CrLf}";
-                        if (ReleasedDate.HasValue) _EventTrail += $"Full Released Dt/Tm: {ReleasedDate.Value.ToString("MM/dd/yyyy")} {ReleasedTime}{_CrLf}";
-                        break;
-
-                    case "Test Release":
-                        _EventTrail += $"Test Released by: {_ReleasedBy}{_CrLf}Test Released to: {_ReleasedTo}{_CrLf}";
-                        if (ReleasedDate.HasValue) _EventTrail += $"Test Released Dt/Tm: {ReleasedDate.Value.ToString("MM/dd/yyyy")} {ReleasedTime}{_CrLf}";
-
-                        break;
-
-                    case "Transfer":
-                        _EventTrail += $"Released by: {_ReleasedBy}{_CrLf} + Issud to: {_IssuedTo}{_CrLf}";
-                        _EventTrail += $"Transfer Dt/Tm: {IssuedDate.ToString("MM/dd/yyyy")} {IssuedTime}{_CrLf}";
-                        //_EventTrail += "Released Dt/Tm: " + (ReleasedDate.HasValue ? ReleasedDate.Value.ToString("MM/dd/yyyy") : "n/a") + " " + ReleasedTime + _CrLf;
-
-                        //_EventTrail = "Transferred to: " + IssedTo.ToString() + _CrLf + "Relased by: " + IssedTo.ToString() + _CrLf;
-                        //_EventTrail += "Transferred Dt/Tm: " + IssedDate.ToString("MM/dd/yyyy") + " " + IssedTime + _CrLf;
-                        break;
-                }
-
-                if (!string.IsNullOrEmpty(OperatorID.ToString()))
-                {
-                    _EventTrail += $"Logged By: Operator.FullName{_CrLf}";
-                    _EventTrail += $"Logged Dt/Tm: {UpdateDate?.ToString("MM/dd/yyyy hh:mm")}{_CrLf}";
-                }
-
-                //if (!String.IsNullOrEmpty(NotifiedPerson))
-                if (!string.IsNullOrEmpty(NotifiedPerson.ToString()))
-                {
-                    _EventTrail += $"Notified Person: {NotifiedPerson_Name}{_CrLf}";
-                }
-
-                return _EventTrail;
-            }
-        }
-
-        #endregion
-
-    }
+    #region POCO Properties
+
+    public int FacilNo { get; set; }
+
+    public byte LogTypeNo { get; set; }
+
+    public string EventID { get; set; } = null!;
+
+    public int EventID_RevNo { get; set; }
+
+    public int OperatorID { get; set; }
+
+    public int? CreatedBy { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public int IssuedTo { get; set; }
+
+    public int IssuedBy { get; set; }
+
+    public DateTime IssuedDate { get; set; }
+
+    public string IssuedTime { get; set; } = null!;
+
+    public string? ModifyFlag { get; set; }
+
+    public int? ModifiedBy { get; set; }
+
+    public DateTime? ModifiedDate { get; set; }
+
+    public string Yr { get; set; } = null!;
+
+    public string FacilAbbr { get; set; } = null!;
+
+    public int SeqNo { get; set; }
+
+    public string ClearanceType { get; set; } = null!;
+
+    public string ClearanceZone { get; set; } = null!;
+
+    public string? Location { get; set; }
+
+    public string? WorkToBePerformed { get; set; }
+
+    public string? EquipmentInvolved { get; set; }
+
+    public string? WorkOrders { get; set; }
+
+    public string? RelatedTo { get; set; }
+
+    public string? Notes { get; set; }
+
+    public string? NotifiedFacil { get; set; }
+
+    public int? NotifiedPerson { get; set; }
+
+    public int? ShiftNo { get; set; }
+
+    public int? ReleasedTo { get; set; }
+
+    public int? ReleasedBy { get; set; }
+
+    public DateTime? ReleasedDate { get; set; }
+
+    public string? ReleasedTime { get; set; }
+
+    public string? ReleaseType { get; set; }
+
+    public string? TagsRemoved { get; set; }
+
+    public string? OperatorType { get; set; }
+
+    public string UpdatedBy { get; set; } = null!;
+
+    public DateTime UpdateDate { get; set; }
+
+    public string? ClearanceID { get; set; }
+
+    #endregion POCO Properties
+
+    //#region Public Properties
+    ///// <summary>
+    ///// Gets or sets the FacilNo of the Facility of the Event.
+    ///// </summary>
+    //[DataObjectField(true, true, false, 2)]
+    //[DisplayName("Facil. No.")]
+    //[Column("FACILNO", TypeName = "NUMBER")]
+    ////[Key]
+    ////[Precision(2)]
+    //public int FacilNo { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the LogTypeNo of the Log Type of the Event.
+    ///// </summary>
+    //[DataObjectField(true, true, false, 2)]
+    //[DisplayName("Log Type No.")]
+    //[Column("LOGTYPENO", TypeName = "NUMBER")]
+    ////[Key]
+    ////[Precision(2)]
+    //public int LogTypeNo { get; set; } = 1;
+
+    ///// <summary>
+    ///// Gets or sets the EventID of the Event.
+    ///// </summary>
+    //[DataObjectField(true, true, false, 20)]
+    //[DisplayName("Event ID")]
+    //[Column("EVENTID", TypeName = "VARCHAR2")]
+    ////[Key]
+    ////[StringLength(20)]
+    ////[Unicode(false)]
+    //public string EventID { get; set; } = null!;
+
+    ///// <summary>
+    ///// Gets or sets the EventID RevNo of the Event.
+    ///// </summary>
+    //[DataObjectField(true, true, false, 2)]
+    //[DisplayName("Revision No.")]
+    //[Column("EVENTID_REVNO", TypeName = "NUMBER")]
+    ////[Key]
+    ////[Precision(2)]
+    //public int EventID_RevNo { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the operatorID of the FlowChange.
+    ///// </summary>
+    //[DataObjectField(false, false, false, 7)]
+    //[Display(Name = "Operator")]
+    //[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
+    //[Column("OPERATORID", TypeName = "NUMBER")]
+    //public int OperatorID { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the createdBy of the FlowChange.
+    ///// </summary>
+    //[DataObjectField(false, false, true, 7)]
+    //[Column("CREATEDBY", TypeName = "NUMBER")]
+    ////[Display(Name = "Created By")]
+    ////[Required(ErrorMessage = "Need to select a name from pull-down list.  Please try again.")]
+    //public int? CreatedBy { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the createdDate of the FlowChange.
+    ///// </summary>
+    //[DataObjectField(false, false, true)]
+    //[Display(Name = "Created Date")]
+    //[Column("CREATEDDATE", TypeName = "DATE")]
+    //public DateTime? CreatedDate { get; set; }
+
+    //[DataObjectField(false, false, false, 7)]
+    //[Display(Name = "Issued To")]
+    //[Column("ISSUEDTO", TypeName = "NUMBER")]
+    ////[Precision(7)]
+    //public int IssuedTo { get; set; }
+
+    //[DataObjectField(false, false, false, 7)]
+    //[Display(Name = "Issued By")]
+    //[Column("ISSUEDBY", TypeName = "NUMBER")]
+    ////[Precision(7)]
+    //public int IssuedBy { get; set; }
+
+    //[DataObjectField(false, false, false)]
+    //[Display(Name = "Issued Date")]
+    //[Column("ISSUEDDATE", TypeName = "DATE")]
+    //public DateTime IssuedDate { get; set; }
+
+    //[DataObjectField(false, false, false, 5)]
+    //[Display(Name = "Issued Time")]
+    //[Column("ISSUEDTIME", TypeName = "NUMBER")]
+    //[StringLength(5)]
+    ////[Unicode(false)]
+    //public string IssuredTime { get; set; } = null!;
+
+    ///// <summary>
+    ///// Gets or sets the modifyFlag of the FlowChange.
+    ///// </summary>
+    //[DataObjectField(false, false, true, 100)]
+    //[Display(Name = "Modify Flag")]
+    //[Column("MODIFYFLAG", TypeName = "VARCHAR2")]
+    //public string ModifyFlag { get; set; } = null!;
+
+    ///// <summary>
+    ///// Gets or sets the modifiedBy of the FlowChange.
+    ///// </summary>
+    //[DataObjectFieldAttribute(false, false, true, 7)]
+    //[Display(Name = "Modified By")]
+    //[Column("MODIFIEDBY", TypeName = "NUMBER")]
+    //public int? ModifiedBy { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the modifyDate of the FlowChange.
+    ///// </summary>
+    //[DataObjectFieldAttribute(false, false, true)]
+    //[Display(Name = "Date Modified")]
+    //[Column("MODIFYDATE", TypeName = "DATE")]
+    //public DateTime? ModifiedDate { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the yr of the FlowChange.
+    ///// </summary>
+    //[DataObjectFieldAttribute(false, false, false, 2)]
+    //[Column("YR", TypeName = "NUMBER")]
+    ////[NotNullOrEmpty(Key = "DetailsNotEmpty")]
+    ////[RegularExpression("^d{2}$", ErrorMessage = "Please enter YY format.")]
+    //[Display(Name = "Year")]
+    //public string Yr { get; set; } = null!;
+
+    //[DataObjectField(false, false, false, 5)]
+    //[Display(Name = "Facility Abbr.")]
+    //[Column("FACILABBR", TypeName = "VARCHAR2")]
+    ////[StringLength(5)]
+    ////[Unicode(false)]
+    //public string FacilAbbr { get; set; } = null!;
+
+    ///// <summary>
+    ///// Gets or sets the seqNo of the FlowChange.
+    ///// </summary>
+    //[DataObjectFieldAttribute(false, false, false, 6)]
+    //[Display(Name = "Sequence No.")]
+    //[Column("SEQNO", TypeName = "NUMBER")]
+    //public int SeqNo { get; set; }
+
+    //[DataObjectField(false, false, false, 2)]
+    //[Display(Name = "Clearance Type")]
+    //[Column("CLEARANCETYPE", TypeName = "NUMBER")]
+    ////[StringLength(2)]
+    ////[Unicode(false)]
+    //public string ClearanceType { get; set; } = null!;
+
+    //[DataObjectField(false, false, false, 300)]
+    //[Display(Name = "Clearance Zone")]
+    //[Column("CLEARANCEZONE", TypeName = "VARCHAR2")]
+    ////[StringLength(300)]
+    ////[Unicode(false)]
+    //public string ClearanceZone { get; set; } = null!;
+
+    //[DataObjectField(false, false, true, 200)]
+    //[Display(Name = "Location")]
+    //[Column("LOCATION", TypeName = "VARCHAR2")]
+    ////[StringLength(200)]
+    ////[Unicode(false)]
+    //public string? Location { get; set; }
+
+    //[DataObjectField(false, false, true, 600)]
+    //[Display(Name = "Work to be Performed")]
+    //[Column("WORKTOBEPERFORMED", TypeName = "VARCHAR2")]
+    ////[StringLength(600)]
+    ////[Unicode(false)]
+    //public string? WorkToBePerformed { get; set; }
+
+    //[DataObjectField(false, false, true, 200)]
+    //[Display(Name = "Equipment Involved")]
+    //[Column("EQUIPMENTINVOLVED", TypeName = "VARCHAR2")]
+    ////[StringLength(200)]
+    ////[Unicode(false)]
+    //public string? EquipmentInvolved { get; set; }
+
+    //[DataObjectField(false, false, true, 100)]
+    //[Display(Name = "Work Orders")]
+    //[Column("WORKORDERS", TypeName = "VARCHAR2")]
+    //[StringLength(100)]
+    //[Unicode(false)]
+    //public string? WorkOrders { get; set; }
+
+    //[DataObjectField(false, false, true, 200)]
+    //[Display(Name = "Related To")]
+    //[Column("RELATEDTO", TypeName = "VARCHAR2")]
+    //[StringLength(200)]
+    //[Unicode(false)]
+    //public string? RelatedTo { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the notes of the FlowChange.
+    ///// </summary>
+    //[DataObjectField(false, false, true, 400)]
+    //[Display(Name = "Notes")]
+    //[Column("NOTES", TypeName = "VARCHAR2")]
+    //public string Notes { get; set; } = null!;
+
+    ///// <summary>
+    ///// Gets or sets the notifiedFacil of the FlowChange.
+    ///// </summary>
+    //[DataObjectFieldAttribute(false, false, true, 200)]
+    //[Display(Name = "Notified Facility")]
+    //[Column("NOTIFIEDFACIL", TypeName = "VARCHAR2")]
+    //public string? NotifiedFacil { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the notifiedPerson of the FlowChange.
+    ///// </summary>
+    //[DataObjectFieldAttribute(false, false, true, 7)]
+    //[Column("NOTIFIEDPERSON", TypeName = "NUMBER")]
+    ////[Display(Name = "Notified Person")]
+    //// [Display(Name = "Notified Person (optional)")]
+    //public int? NotifiedPerson { get; set; }
+
+    //[DataObjectField(false, false, true, 2)]
+    //[Display(Name = "Shift No.")]
+    //[Column("SHIFTNO", TypeName = "NUMBER")]
+    ////[Precision(2)]
+    //public int? ShiftNo { get; set; }
+
+    //[DataObjectField(false, false, true, 7)]
+    //[Display(Name = "Released To")]
+    //[Column("RELEASEDTO", TypeName = "NUMBER")]
+    ////[Precision(7)]
+    //public int? ReleasedTo { get; set; }
+
+    //[DataObjectField(false, false, true, 7)]
+    //[Display(Name = "Released By")]
+    //[Column("RELEASEDBY", TypeName = "NUMBER")]
+    ////[Precision(7)]
+    //public int? ReleasedBy { get; set; }
+
+    //[DataObjectField(false, false, true)]
+    //[Display(Name = "Released Date")]
+    //[Column("RELEASEDDATE", TypeName = "DATE")]
+    ////[Column(TypeName = "DATE")]
+    //public DateTime? ReleasedDate { get; set; }
+
+    //[DataObjectField(false, false, true, 5)]
+    //[Display(Name = "Released Time")]
+    //[Column("RELEASEDTIME", TypeName = "VARCHAR2")]
+    ////[StringLength(5)]
+    ////[Unicode(false)]
+    //public string? ReleasedTime { get; set; }
+
+    //[DataObjectField(false, false, true, 30)]
+    //[Display(Name = "Release Type")]
+    ////[NotNullOrEmpty(Key = "DetailsNotEmpty")]
+    //[Column("RELEASETYPE", TypeName = "VARCHAR2")]
+    ////[StringLength(30)]
+    ////[Unicode(false)]
+    //public string? ReleaseType { get; set; }
+
+    //[DataObjectField(false, false, true, 200)]
+    //[Display(Name = "Tags Removed")]
+    ////[NotNullOrEmpty(Key = "DetailsNotEmpty")]
+    //[Column("TAGSREMOVED", TypeName = "VARCHAR2")]
+    ////[StringLength(200)]
+    ////[Unicode(false)]
+    //public string? TagsRemoved { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the OperatorType of the AllEvents.
+    ///// </summary>
+    //[DataObjectField(false, false, true, 15)]
+    //[Display(Name = "Operator Type")]
+    ////[NotNullOrEmpty(Key = "DetailsNotEmpty")]
+    //[Column("OPERATORYTYPE", TypeName = "VARCHAR2")]
+    ////[StringLength(15)]
+    ////[Unicode(false)]
+    //public string? OperatorType { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the UID of the record.
+    ///// </summary>
+    //[DataObjectField(false, false, false, 60)]
+    //[DisplayName("Updated By")]
+    //[Column("UPDATEDBY", TypeName = "VARCHAR2")]
+    ////[StringLength(60)]
+    ////[Unicode(false)]
+    //public string UpdatedBy { get; set; } = null!;
+
+    ///// <summary>
+    ///// Gets or sets the UpdateDate of the record.
+    ///// </summary>
+    //[DataObjectField(false, false, false)]
+    //[DisplayName("Updated on")]
+    //[Column("UPDATEDATE", TypeName = "DATE")]
+    ////[Column(TypeName = "DATE")]
+    //public DateTime UpdateDate { get; set; }
+
+    ///// <summary>
+    ///// Gets or sets the ClearanceID of the AllEvents.
+    ///// </summary>
+    //[DataObjectField(false, false, true, 20)]
+    ////[NotNullOrEmpty(Key = "DetailsNotEmpty")]
+    //[Column("CLEARANCEID", TypeName = "VARCHAR2")]
+    ////[StringLength(20)]
+    ////[Unicode(false)]
+    //public string? ClearanceID { get; set; }
+
+    //#endregion Public Properties
 }

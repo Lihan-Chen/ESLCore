@@ -8,8 +8,12 @@ namespace testCoreWeb.ViewModels
 
         //public string FacilName { get; set; }
 
+        public int SelectedPlantId { get; set; }
+
+        //public List<PlantViewModel> Plants { get;
+
         public List<SelectListItem> Plants { get; } = new List<SelectListItem>
-        { 
+        {
             new SelectListItem { Value = "1", Text = "OCC"},
             new SelectListItem { Value = "2", Text = "Diemer"},
             new SelectListItem { Value = "3", Text = "Jensen"},

@@ -1,7 +1,6 @@
-﻿using ESL.Core.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using testCoreWeb.ViewModels;
 
 namespace testCoreWeb.Controllers
 {
@@ -13,7 +12,7 @@ namespace testCoreWeb.Controllers
         string _eventID; // = string.Empty;
         int _eventID_RevNo;
 
-        // Lookup
+        //// Lookup
         string _facilName;
         string _logTypeName;
 
@@ -28,11 +27,11 @@ namespace testCoreWeb.Controllers
         HttpRequest request;
         HttpResponse response;
 
-        public AllEventsController()
-        {
-            request = HttpContext.Request;
-            response = HttpContext.Response;
-        }
+        //public AllEventsController()
+        //{
+        //    request = HttpContext.Request;
+        //    response = HttpContext.Response;
+        //}
 
         // GET: AllEventsController
         [HttpGet("AllEvents")]

@@ -6,22 +6,26 @@ namespace ESL.Mvc.ViewModels
 {
     public record class UserSessionViewModel
     {
-        [Required]
+        [RegularExpression(@"'[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}")]
+        [Display(Name = "Session ID")] 
+        public required Guid SessionID { get; set; }
+
         [Display(Name = "User ID")]
-        public string? UserID { get; set; }
+        public required string? UserID { get; set; }
 
-        [Required]
-        //[DataType(DataType.Password)]
-        [Display(Name = "Facility")]
-        public int? FacilNo { get; set; }
+        public int? EmployeeNo => int.Parse(UserID.AsSpan(1));
 
-        [Required]
+        public string? UserRole { get; set; }
+             
+        [Display(Name = "Plant")]
+        public int? SelectedPlantId { get; set; }
+
         [Display(Name = "Operator Type")]
-        public OperatorType? OpType { get; set; }
+        public OperatorType? SelectedOperatorType { get; set; }
 
         [Required]
         [Display(Name = "Shift: Day/Night")]
-        public Shift? Shft { get; set; }
+        public Shift? SelectedShift { get; set; }
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }

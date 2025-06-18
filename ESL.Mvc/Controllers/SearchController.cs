@@ -1,7 +1,7 @@
 ﻿using ESL.Core.Models.BusinessEntities;
 using ESL.Core.Models.Enums;
-using ESL.Mvc.DataAccess.Persistence;
-using ESL.Mvc.Services;
+using ESL.Infrastructure.DataAccess;
+using ESL.Application.Interfaces.IServices;
 using ESL.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +10,16 @@ using Microsoft.Graph.SecurityNamespace;
 using System.Collections;
 using X.PagedList;
 using X.PagedList.Extensions;
+using System.Linq;
 
 namespace ESL.Mvc.Controllers
 {
     public class SearchController : BaseController<SearchController>
     {
         private readonly EslDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<SearchController> _logger;
-        private readonly IEmployeeService _employeeService;
+        private readonly ICoreService _coreService;
         private readonly ISearchService _searchService;
 
         //
@@ -40,11 +42,12 @@ namespace ESL.Mvc.Controllers
 
         int _pageSize = 10;
 
-        public SearchController(EslDbContext context, ILogger<SearchController> logger, IEmployeeService employeeService, ISearchService searchService) : base(context, logger, employeeService)
+        public SearchController(EslDbContext context, IHttpContextAccessor httpContextAccessor, ILogger<SearchController> logger, ICoreService coreService, ISearchService searchService) : base(context, httpContextAccessor, logger, coreService)
         {
             this._context = context;
+            this._httpContextAccessor = httpContextAccessor;
             this._logger = logger;
-            this._employeeService = employeeService;
+            this._coreService = coreService;
 
         }
 
@@ -70,7 +73,7 @@ namespace ESL.Mvc.Controllers
                 return RedirectToAction("Index", "Home", new { ReturnUrl = this.Url, ShowAlert = _showAlert });
             }
 
-            Facility facility = _employeeService.GetFacility(_facilNo).Result;
+            Facility facility = _coreService.GetFacility(_facilNo).Result;
 
             _facilName = facility.FacilName.Split(' ').ElementAt(0);
 
@@ -86,8 +89,8 @@ namespace ESL.Mvc.Controllers
             DateTime _enDt = searchFilterPartial.EndDate ?? (endDate.HasValue ? endDate.Value : System.DateTime.Now.Date); //.AddDays(-30) for testing on dev7
             DateTime _stDt = searchFilterPartial.StartDate ?? (startDate.HasValue ? startDate.Value : _enDt.AddDays(_daysOffSet));
 
-            HttpContext.Session.SetString(SessionKeyUserSessionStartDate, _stDt.ToString("MM/dd/yyyy"));
-            HttpContext.Session.SetString(SessionKeyUserSessionEndDate, _enDt.ToString("MM/dd/yyyy"));
+            HttpContext.Session.SetString(SessionKeyUserSessionStart, _stDt.ToString("MM/dd/yyyy"));
+            HttpContext.Session.SetString(SessionKeyUserSessionEnd, _enDt.ToString("MM/dd/yyyy"));
 
             searchString = !String.IsNullOrEmpty(searchFilterPartial.SearchValues) ? searchFilterPartial.SearchValues : searchString;
 
@@ -113,21 +116,21 @@ namespace ESL.Mvc.Controllers
 
             // Prepare and set up model and ViewBag
             // FacilityList facilities = (FacilityList)FacilityManager.GetList();
-            var facilAbbrList = _employeeService.GetFacilSelectList(FacilNo);
+            var facilAbbrList = _coreService.GetFaciList();
             // var logTypeNames = LogTypeManager.GetList().AsEnumerable().Where(l => l.LogTypeNo < 7).Select(l => new SelectListItem { Value = l.LogTypeNo.ToString(), Text = l.LogTypeName }).ToList(); //.Where(f => f.LogTypeNo )
-            var logTypeList = _employeeService.GetLogTypeSelectList();
+            var logTypeList = Enum.GetValues<ESL.Core.Models.Enums.LogType>()
+                    .Cast<ESL.Core.Models.Enums.LogType>()
+                    .Select(s => new { ID = s, Name = s.ToString() });
+            // _employeeService.GetLogTypeList();
 
-            var defaultItem = new SelectListItem()
-            {
-                Value = "0",
-                Text = "All Events",
-                Selected = true
-            };
+            //var defaultItem = new SelectListItem()
+            //{
+            //    Value = "0",
+            //    Text = "All Events",
+            //    Selected = true
+            //};
 
-            //defaultItem.Value = "0";
-            //defaultItem.Text = "All Events";
-            //defaultItem.Selected = true;
-            logTypeList.Result.Prepend(defaultItem);
+            //logTypeList.Result.Prepend(defaultItem);
             ViewBag.Title = "Searching All Events for " + _facilName;
 
             SearchFilterPartialViewModel _searchFilterPartial = new SearchFilterPartialViewModel()
@@ -164,7 +167,7 @@ namespace ESL.Mvc.Controllers
                 string _startDate = _stDt.ToString("MM/dd/yyyy");
                 string _endDate = _enDt.ToString("MM/dd/yyyy");
 
-                var _searchList = _context.AllEventsSearch.Where(a => a.FacilNo == _facilNo && a.LogTypeNo == _logTypeNo).ToList();//.GetList(_facilNo, _logTypeNo, _startDate, _endDate, _operatorType, _optionAll, searchString);
+                var _searchList = _context.AllEvent_Searches.Where(a => a.FacilNo == _facilNo && a.LogTypeNo == _logTypeNo).ToList();//.GetList(_facilNo, _logTypeNo, _startDate, _endDate, _operatorType, _optionAll, searchString);
 
                 if (_searchList != null)
                 {

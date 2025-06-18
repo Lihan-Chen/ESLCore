@@ -19,7 +19,7 @@
                         @Html.LabelFor(m => m.UserID)
                     </td>
                     <td class="login_secondColumn">
-                        @Html.LabelFor(m => m.OpType)
+                        @Html.LabelFor(m => m.SelectedOperatorType)
 
                     </td>
                 </tr>
@@ -29,8 +29,8 @@
                         @Html.ValidationMessageFor(m => m.UserID)
                     </td>
                     <td class="login_secondColumn">
-                        @Html.DropDownListFor(m => m.OpType, Model.OpTypeSelectList, new { @class = "dropdownlist", tabindex = 3 })
-                        @Html.ValidationMessageFor(m => m.OpType)
+                        @Html.DropDownListFor(m => m.SelectedOperatorType, Model.OpTypeSelectList, new { @class = "dropdownlist", tabindex = 3 })
+                        @Html.ValidationMessageFor(m => m.SelectedOperatorType)
                     </td>
                 </tr>
                 <tr style="vertical-align: top;">
@@ -38,7 +38,7 @@
                         @* @Html.LabelFor(m => m.Password) *@
                     </td>
                     <td class="login_secondColumn">
-                        @Html.LabelFor(m => m.Shft)
+                        @Html.LabelFor(m => m.SelectedShift)
                     </td>
                 </tr>
                 <tr style="vertical-align: middle;">
@@ -47,8 +47,8 @@
                         @Html.ValidationMessageFor(m => m.Password) *@
                     </td>
                     <td class="login_secondColumn">
-                        @Html.DropDownListFor(m => m.Shft, Model.ShiftSelectList, new { @class = "dropdownlist", tabindex = 4 })
-                        @Html.ValidationMessageFor(m => m.Shft)
+                        @Html.DropDownListFor(m => m.SelectedShift, Model.ShiftSelectList, new { @class = "dropdownlist", tabindex = 4 })
+                        @Html.ValidationMessageFor(m => m.SelectedShift)
                     </td>
                 </tr>
                 <tr style="vertical-align: top;">

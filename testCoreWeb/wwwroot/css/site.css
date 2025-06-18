@@ -21,6 +21,10 @@ body {
   margin-bottom: 60px;
 }
 
+.navbar {
+    --bs-bg-opacity: .3;
+}
+
 .dropdown-menu {
     color: red;
     width: 200px;
@@ -29,4 +33,67 @@ body {
     .dropdown-menu option {
         background: #000;
         color: #fff
+    }
+
+
+#selectaplant {
+    --bs-bg-opacity: .3;
+}
+
+#selectable {
+    background-color: #7ac0da;
+    background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+    list-style-type: none;
+    text-align: center;
+    vertical-align: middle;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 840px;
+    /*height: 270px;*/
+    display: flex;
+    flex-wrap: wrap; /* This enables wrapping to multiple lines */
+}
+
+    #selectable li {
+        border: thin outset #FFFF99;
+        font-size: 1em;
+        text-align: center;
+        background-color: #C0C0C0;
+        width: 100px;
+        /*height: 50px;*/
+        display: inline-block;
+        vertical-align: middle;
+        float: left;
+        margin-right: 8px;
+        margin-left: 8px;
+        margin-top: 8px;
+        /*padding-top: 20px;*/
+        font-weight: 600;
+    }
+    
+    #selectable .button {
+        width: 84px;
+        height: 24px;
+        background-color: #C0C0C0;
+        border: none;
+        /*outline: unset;*/
+        -ms-align-content: inherit;
+        -webkit-align-content: inherit;
+        align-content: inherit;
+        vertical-align: middle;
+        justify-content: center;
+    }
+
+    #selectable .ui-selecting {
+        background: #FECA40;
+        color: #00FFFF;
+        list-style-type: square;
+    }
+
+    #selectable .ui-selected {
+        background: #FFCC00;
+        color: #FFFFFF;
+        font-size: 1.1em;
+        list-style-type: square;
     }

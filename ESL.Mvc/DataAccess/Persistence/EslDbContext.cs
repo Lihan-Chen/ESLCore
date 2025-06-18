@@ -1,10 +1,10 @@
-﻿using ESL.Core.IConfiguration;
+﻿using ESL.Application.Models;
 using ESL.Core.Models.BusinessEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Mvc.DataAccess.Persistence
 {
-    public partial class EslDbContext : DbContext, IEslDbContext
+    public partial class EslDbContext : DbContext //, IEslDbContext
     {
         public EslDbContext(DbContextOptions<EslDbContext> options)
             : base(options)
@@ -18,51 +18,52 @@ namespace ESL.Mvc.DataAccess.Persistence
 
         public DbSet<AllEvent> AllEvents { get; set; }
 
-        public virtual DbSet<AllScadaUsersRole> Roles { get; set; }
+        public virtual DbSet<UserRole> Roles { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
 
         public DbSet<Facility> Facilities { get; set; }
 
-        public DbSet<Constant> Constants { get; set; }
+        //public DbSet<Constant> Constants { get; set; }
 
-        public DbSet<Location> Locations { get; set; }
+        //public DbSet<Location> Locations { get; set; }
 
         public DbSet<LogType> LogTypes { get; set; }
 
-        public DbSet<Meter> Meters { get; set; }
+        //public DbSet<Meter> Meters { get; set; }
 
-        public DbSet<Subject> Subjects { get; set; }
+        //public DbSet<Subject> Subjects { get; set; }
 
-        public DbSet<Unit> Units { get; set; }
+        //public DbSet<Unit> Units { get; set; }
 
         // this seems not being used.
         // public DbSet<RealTime> RealTime { get; set; }
 
         // this is from the VIEW_REALTIME
-        public DbSet<ViewRealTime> ViewRealtimes { get; set; }
+        //public DbSet<ViewRealTime> ViewRealtimes { get; set; }
 
-        // this seems not being used.
-        // public DbSet<ViewWorkOrder> ViewWorkOrders { get; set; }
+        //// this seems not being used.
+        //// public DbSet<ViewWorkOrder> ViewWorkOrders { get; set; }
 
-        public DbSet<WorkOrder> WorkOrders { get; set; }
+        //public DbSet<WorkOrder> WorkOrders { get; set; }
 
-        public DbSet<WorkToBePerformed> WorkToBePerformeds { get; set; }
+        //public DbSet<WorkToBePerformed> WorkToBePerformeds { get; set; }
 
         #region Views
 
         // this maps to view ESL.VIEW_ALLEVENTS_CURRENT
-        public DbSet<AllEventCurrent> AllEventsCurrent { get; set; }
+        public DbSet<AllEvent_Current> AllEventsCurrent { get; set; }
 
-        public DbSet<AllEventFacil> AllEventFacils { get; set; }
+        //public DbSet<AllEventFacil> AllEventFacils { get; set; }
 
-        public DbSet<AllEventLogType> AllEventLogTypes { get; set; }
+        //public DbSet<AllEventLogType> AllEventLogTypes { get; set; }
 
-        public DbSet<AllEventRelatedTo> AllEventsRelatedTo { get; set; }
+        //public DbSet<AllEventRelatedTo> AllEventsRelatedTo { get; set; }
 
-        public DbSet<AllEventSearch> AllEventsSearch { get; set; }
+        public DbSet<AllEvent_Search> AllEventsSearch { get; set; }
+        public DbSet<Current_AllEvent>? Current_AllEvents { get; internal set; }
 
-        public DbSet<ViewSearchAllevent> ViewAllEventsSearch { get; set; }
+        //public DbSet<ViewSearchAllevent> ViewAllEventsSearch { get; set; }
 
         public Task<int> SaveChangesAsync()
         {
@@ -133,224 +134,224 @@ namespace ESL.Mvc.DataAccess.Persistence
             #region Views
             // Mapping to view instead of table with schema as the second parameter
 
-            // AllEvent-related
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventsCurrent",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_CURRENT", "ESL");
-                });
+            //AllEvent - related
+             modelBuilder.Entity("AllEventsCurrent",
+                 b =>
+                 {
+                     b.HasNoKey();
+                     b.ToView("VIEW_ALLEVENTS_CURRENT", "ESL");
+                 });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventFacil",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
-                });
+            // modelBuilder.Entity("AllEventFacil",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventLogType",
-                            b =>
-                            {
-                                b.HasNoKey();
-                                b.ToView("VIEW_ALLEVENTS_LOGTYPES", "ESL");
-                            });
+            // modelBuilder.Entity(".AllEventLogType",
+            //                 b =>
+            //                 {
+            //                     b.HasNoKey();
+            //                     b.ToView("VIEW_ALLEVENTS_LOGTYPES", "ESL");
+            //                 });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventRelatedTo",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_RELATEDTO", "ESL");
-                });
+            // modelBuilder.Entity(".AllEventRelatedTo",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_ALLEVENTS_RELATEDTO", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventSearch",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_SEARCH", "ESL");
-                });
-
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.AllEventFacil",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
-                    // b.Property(v => v.BlogName).HasColumnName("Name");
-                });
-
-            modelBuilder.Entity("ESL.Core.Models.BusinessEntities.ViewAllEventLogType",
-           b =>
-           {
-               b.HasNoKey();
-               b.ToView("VIEW_ALLEVENTS_LOGTYPE", "ESL");
-           });
-
-            modelBuilder.Entity("ESL.Core.Models.AllEventRelatedTo",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_ALLEVENTS_RelatedTo", "ESL");
-                });
-
-            modelBuilder.Entity("ESL.Core.Models.AllEventSearch",
+            modelBuilder.Entity("AllEventSearch",
                 b =>
                 {
                     b.HasNoKey();
                     b.ToView("VIEW_ALLEVENTS_SEARCH", "ESL");
-                    // b.Property(v => v.BlogName).HasColumnName("Name");
                 });
 
-            // Clearance
-            modelBuilder.Entity("ESL.Core.Models.ViewAClearanceAll",
-            b =>
-            {
-                b.HasNoKey();
-                b.ToView("VIEW_CLEARANCE_ALL", "ESL");
-            });
+            // modelBuilder.Entity("AllEventFacil",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_ALLEVENTS_FACILNOS", "ESL");
+            //         // b.Property(v => v.BlogName).HasColumnName("Name");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewClearanceissue",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_CLEARANCEISSUES", "ESL");
-                });
+            // modelBuilder.Entity("ViewAllEventLogType",
+            //b =>
+            //{
+            //    b.HasNoKey();
+            //    b.ToView("VIEW_ALLEVENTS_LOGTYPE", "ESL");
+            //});
 
-            modelBuilder.Entity("ESL.Core.Models.ViewClearanceissuesCurrent",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_CLEARANCEISSUES_CURRENT", "ESL");
-                });
+            // modelBuilder.Entity("AllEventRelatedTo",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_ALLEVENTS_RelatedTo", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewClearanceissuesOutstanding",
-                            b =>
-                            {
-                                b.HasNoKey();
-                                b.ToView("VIEW_CLEARANCEISSUES_OUTSTANDING", "ESL");
-                            });
+            // modelBuilder.Entity("ESL.Core.Models.AllEventSearch",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_ALLEVENTS_SEARCH", "ESL");
+            //         // b.Property(v => v.BlogName).HasColumnName("Name");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewClearanceType",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_CLEARANCE_TYPES", "ESL");
-                    // b.Property(v => v.BlogName).HasColumnName("Name");
-                });
+            // // Clearance
+            // modelBuilder.Entity("ESL.Core.Models.ViewAClearanceAll",
+            // b =>
+            // {
+            //     b.HasNoKey();
+            //     b.ToView("VIEW_CLEARANCE_ALL", "ESL");
+            // });
 
-            // EOS
-            modelBuilder.Entity("ESL.Core.Models.ViewEosAlL",
-            b =>
-            {
-                b.HasNoKey();
-                b.ToView("VIEW_EOS_ALL", "ESL");
-            });
+            // modelBuilder.Entity("ESL.Core.Models.ViewClearanceissue",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_CLEARANCEISSUES", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewEosCurrent",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_EOS_CURRENT", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewClearanceissuesCurrent",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_CLEARANCEISSUES_CURRENT", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewEosOutstanding",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_EOS_OUTSTANDING", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewClearanceissuesOutstanding",
+            //                 b =>
+            //                 {
+            //                     b.HasNoKey();
+            //                     b.ToView("VIEW_CLEARANCEISSUES_OUTSTANDING", "ESL");
+            //                 });
 
-            //Flowchange
-            modelBuilder.Entity("ESL.Core.Models.ViewFlowchangeAlL",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_FLOWCHANGE_ALL", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewClearanceType",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_CLEARANCE_TYPES", "ESL");
+            //         // b.Property(v => v.BlogName).HasColumnName("Name");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewFlowchangePresched",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_FLOWCHANGE_PRESCHED", "ESL");
-                });
+            // // EOS
+            // modelBuilder.Entity("ESL.Core.Models.ViewEosAlL",
+            // b =>
+            // {
+            //     b.HasNoKey();
+            //     b.ToView("VIEW_EOS_ALL", "ESL");
+            // });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewFlowchangesCurrent",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_FLOWCHANGES_CURRENT", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewEosCurrent",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_EOS_CURRENT", "ESL");
+            //     });
 
-            // General
-            modelBuilder.Entity("ESL.Core.Models.ViewGeneralAll",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_GENERAL_ALL", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewEosOutstanding",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_EOS_OUTSTANDING", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewGeneralCurrent",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_GENERAL_CURRENT", "ESL");
-                });
+            // //Flowchange
+            // modelBuilder.Entity("ESL.Core.Models.ViewFlowchangeAlL",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_FLOWCHANGE_ALL", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewGeneralOutstanding",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_GENERAL_OUTSTANDING", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewFlowchangePresched",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_FLOWCHANGE_PRESCHED", "ESL");
+            //     });
 
-            // Realtime
-            modelBuilder.Entity("ESL.Core.Models.ViewRealtime",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_REALTIME", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewFlowchangesCurrent",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_FLOWCHANGES_CURRENT", "ESL");
+            //     });
 
-            // Search AllEvents
-            modelBuilder.Entity("ESL.Core.Models.ViewSearchAllevent",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_SEARCH_ALLEVENTS", "ESL");
-                });
+            // // General
+            // modelBuilder.Entity("ESL.Core.Models.ViewGeneralAll",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_GENERAL_ALL", "ESL");
+            //     });
 
-            // SOC
-            modelBuilder.Entity("ESL.Core.Models.ViewSocAll",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_SOC_ALL", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewGeneralCurrent",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_GENERAL_CURRENT", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewSocCurrent",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_SOC_CURREMT", "ESL");
-                });
+            // modelBuilder.Entity("ESL.Core.Models.ViewGeneralOutstanding",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_GENERAL_OUTSTANDING", "ESL");
+            //     });
 
-            modelBuilder.Entity("ESL.Core.Models.ViewSocOutstanding",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_SOC_OUTSTANDING", "ESL");
-                });
+            // // Realtime
+            // modelBuilder.Entity("ESL.Core.Models.ViewRealtime",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_REALTIME", "ESL");
+            //     });
 
-            // Work Orders
-            modelBuilder.Entity("ESL.Core.Models.ViewWorkorder",
-                b =>
-                {
-                    b.HasNoKey();
-                    b.ToView("VIEW_WorkOrders", "ESL");
-                });
+            // // Search AllEvents
+            // modelBuilder.Entity("ESL.Core.Models.ViewSearchAllevent",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_SEARCH_ALLEVENTS", "ESL");
+            //     });
+
+            // // SOC
+            // modelBuilder.Entity("ESL.Core.Models.ViewSocAll",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_SOC_ALL", "ESL");
+            //     });
+
+            // modelBuilder.Entity("ESL.Core.Models.ViewSocCurrent",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_SOC_CURREMT", "ESL");
+            //     });
+
+            // modelBuilder.Entity("ESL.Core.Models.ViewSocOutstanding",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_SOC_OUTSTANDING", "ESL");
+            //     });
+
+            // // Work Orders
+            // modelBuilder.Entity("ESL.Core.Models.ViewWorkorder",
+            //     b =>
+            //     {
+            //         b.HasNoKey();
+            //         b.ToView("VIEW_WorkOrders", "ESL");
+            //     });
 
             #endregion
 
-            modelBuilder.HasSequence("PLSQL_PROFILER_RUNNUMBER");
+            //modelBuilder.HasSequence("PLSQL_PROFILER_RUNNUMBER");
 
             OnModelCreatingPartial(modelBuilder);
         }

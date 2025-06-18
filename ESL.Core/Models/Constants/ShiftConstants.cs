@@ -8,7 +8,7 @@ namespace ESL.Core.Models.Constants
 {
     public class ShiftConstants
     {
-        public const String shiftStartText = "06:00:00";  // for Day shift
-        public const String shiftEndText = "17:59:00";
+        public const String DayShiftStartText = "06:00:00";  // for Day shift
+        public const String DayShiftEndText = "17:59:00";
     }
 }

@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿//using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Core.Models.BusinessEntities;
 
-[Keyless]
+//[Keyless]
 public partial record AllEventFacil
 {
     [Column("FACILNO", TypeName = "NUMBER")]

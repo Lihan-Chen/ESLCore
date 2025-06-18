@@ -1,20 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Api.Models.BusinessEntities
 {
     //[PrimaryKey(nameof(SessionID))]
     //[Index("UserID", AllDescending = false, IsUnique = false, Name = "UserID")]
     
-    [Keyless]
     public partial record UserSession
     {
         public Guid SessionID { get; set; }
-
-        public string? UserName { get; set; }
-
+      
         public string? UserID { get; set; }
+
+        public DateTimeOffset SessionStart { get; set; } = DateTimeOffset.Now;
 
         public bool IsAuthenticated { get; set; } = false;
 
@@ -22,12 +19,16 @@ namespace ESL.Api.Models.BusinessEntities
          
         public int? ShiftNo { get; set; } //= System.Web.HttpContext.Current.Session["ShiftNo"].ToString();
 
+        // primary or secondary
         public string? OperatorType { get; set; }
 
-        public int FacilNo { get; set; } = 1;
-
-        public DateTimeOffset SessionStart { get; set; } = DateTimeOffset.Now;
+        public int FacilNo { get; set; } = 1;       
 
         public DateTimeOffset? SessionEnd { get; set; }
+
+        public Guid LastSessionID { get; set; }
+
+        [ForeignKey("UserId")]
+        public Employee User { get; set; } = null!;
     }
 }

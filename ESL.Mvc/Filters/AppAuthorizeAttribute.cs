@@ -9,9 +9,9 @@ namespace ESL.Mvc.Filters
     {
         public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
-            var user = filterContext.HttpContext.User.Identity;
+            var user = filterContext.HttpContext.User?.Identity;
 
-            if (!user.IsAuthenticated)
+            if (user == null || !user.IsAuthenticated) // Fixed CS8602 by adding null check
             {
                 filterContext.Result = new UnauthorizedObjectResult("ESL does not recognize you.  Please Sign In.");
                 return;
@@ -26,7 +26,7 @@ namespace ESL.Mvc.Filters
             //}
         }
 
-        private void HandleUnauthorizedRequest(AuthorizationFilterContext filterContext)
+        private static void HandleUnauthorizedRequest(AuthorizationFilterContext filterContext)
         {
             if (IsAjaxRequest(filterContext.HttpContext.Request))
             {
@@ -38,10 +38,9 @@ namespace ESL.Mvc.Filters
             }
         }
 
-        private bool IsAjaxRequest(HttpRequest request)
+        private static bool IsAjaxRequest(HttpRequest request)
         {
-            return request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return request.Headers.XRequestedWith == "XMLHttpRequest";
         }
-
     }
 }

@@ -1,16 +1,21 @@
 ﻿using ESL.Core.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ESL.Core.Models.BusinessEntities
 {
+    /// <summary>
+    /// This represents the user session information.
+    /// </summary>
     public partial record UserSession
     {
         public UserSession() { }
 
+        [RegularExpression(@"'[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}")]
         public Guid SessionID { get; set; }
 
         public string? UserName { get; set; }
@@ -18,29 +23,33 @@ namespace ESL.Core.Models.BusinessEntities
         public string? UserID { get; set; }
 
         // used to redirect to log in if not authenticated
-        public bool IsAuthenticated { get; set; } = false;
+        public bool IsUserAnOperator { get; set; } = false;
 
         public string[] UserRole { get; set; } = null!;
 
-        public int? ShiftNo { get; set; } //= System.Web.HttpContext.Current.Session["ShiftNo"].ToString();
+        public int? UserShiftNo { get; set; } //= System.Web.HttpContext.Current.Session["ShiftNo"].ToString();
 
-        public string ShiftName => ShiftNo == 1 ? "Day" : ShiftNo == 2 ? "Night" : string.Empty;
+        public string UserShiftName => UserShiftNo == 1 ? Shift.Day.ToString() : UserShiftNo == 2 ? Shift.Night.ToString() : string.Empty;
 
-        public string? OperatorType { get; set; }
+        public int? UserOpertorTypeNo { get; set; }
+        
+        public string? UserOperatorType => UserOpertorTypeNo == 1 ? OperatorType.Primary.ToString() : UserOpertorTypeNo == 2 ? OperatorType.Secondary.ToString() : string.Empty;
 
-        public int FacilNo { get; set; } = 1;
+        public int UserFacilNo { get; set; }
 
-        public string FacilName => PlantsDictionary.Plants[FacilNo].PlantName; //.GetPlant(FacilNo).PlantName;
+        public string FacilName => PlantsDictionary.Plants[UserFacilNo].PlantName; //.GetPlant(FacilNo).PlantName;
 
-        // User is logged in when the authenticated has selected a plant, shift and operatory type
+        // User is checked in when the authenticated has selected a plant, shift and operatory type
         // updated on the httppost action of HomeController's Login Method
-        public bool UserLoggedIn;
+        //public bool UserCheckedIn;
 
         public SessionState UserSessionState;
 
         public DateTimeOffset SessionStart { get; set; } = DateTimeOffset.Now;
 
         public DateTimeOffset? SessionEnd { get; set; }
+
+        public Guid LastSessionID { get; set; }
 
     }
 

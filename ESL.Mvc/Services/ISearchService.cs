@@ -1,4 +1,4 @@
-﻿using ESL.Core.IRepositories;
+﻿using ESL.Application.Interfaces.IRepositories;
 using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Mvc.Services
@@ -8,8 +8,6 @@ namespace ESL.Mvc.Services
         public Task<SearchDTO?> GetSearchDTO(int facilNo, int logTypeNo, string eventID, int eventID_RevNo);
 
         public Task<List<SearchDTO>> GetSearchDTOList(int FacilNo, int LogTypeNo, string strStartDate, string strEndDate, string strOperatorType, string optionAll, string searchValues);
-
-
     }
 
     public class SearchService : ISearchService

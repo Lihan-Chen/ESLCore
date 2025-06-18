@@ -1,12 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel;
 using ESL.Core.Models.BusinessEntities;
 
 namespace ESL.Core.Models.ValueObjects
 {
-    [Owned]
     public partial record BaseOperator: Employee
     {
         ///// <summary>
@@ -20,15 +16,11 @@ namespace ESL.Core.Models.ValueObjects
         /// <summary>
         /// Gets or sets the OperatorType of the FlowChange.
         /// </summary>
-        [DataObjectField(false, false, true, 15)]
-        [DisplayName("Operator Type (Optional)")]
         public string OperatorType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the ShiftNo of the FlowChange.
         /// </summary>
-        [DataObjectField(false, false, true, 2)]
-        [DisplayName("Shift No")]
         public int? ShiftNo { get; set; }
 
         public virtual Employee Operator { get; set; } = new Employee();

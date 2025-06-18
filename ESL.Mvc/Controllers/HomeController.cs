@@ -1,295 +1,191 @@
-using ESL.Mvc.Models;
-using ESL.Mvc.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Microsoft.Graph;
-using Microsoft.Identity.Web;
-using ESL.Core.Models.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using ESL.Application.Interfaces.IServices;
+using ESL.Infrastructure.DataAccess;
 using Shift = ESL.Core.Models.Enums.Shift;
+using OperatorType = ESL.Core.Models.Enums.OperatorType;
+using Plant = ESL.Core.Models.Enums.Plant;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Model.Strings;
+using ESL.Application.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using ESL.Core.Models.BusinessEntities;
-using ESL.Mvc.ViewModels;
-using ESL.Mvc.DataAccess.Persistence;
+using Microsoft.Identity.Web;
 
 namespace ESL.Mvc.Controllers
 {
     // https://github.com/Azure-Samples/active-directory-aspnetcore-webapp-openidconnect-v2/blob/master/5-WebApp-AuthZ/5-1-Roles/Controllers/HomeController.cs
+    [AuthorizeForScopes(ScopeKeySection = "MicrosoftGraph:Scopes")]
     [Authorize]
-    public class HomeController : BaseController<HomeController>
+    public class HomeController(EslDbContext context,
+                                IHttpContextAccessor httpContextAccessor,
+                                ILogger<HomeController> logger,
+                                ICoreService coreService) : BaseController<HomeController>(context, httpContextAccessor, logger, coreService)
     {
-        private readonly EslDbContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly GraphHelper _graphHelper;
-        private readonly IEmployeeService _employeeService;
-        private readonly GraphServiceClient _graphServiceClient;
-        private readonly ILogger<HomeController> _logger;
+        private readonly EslDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly ILogger<HomeController>? _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        private readonly ICoreService _CoreService = coreService ?? throw new ArgumentNullException(nameof(coreService));
 
-        public HomeController(EslDbContext context, ILogger<HomeController> logger, GraphServiceClient graphServiceClient, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IEmployeeService employeeService) : base(context, logger, employeeService) //, IDownstreamApi downstreamApi
+        private string? _userID;
+        private string? _userName;
+        private int? _facilNo;
+        private string? _facilName;
+        private bool _showAlert = false;
+        private Shift? _shift;
+        private bool _isUserAuthenticatedOnly; // IsAuthenticatedOnly;
+        private bool _isUserAnOperator = false;
+
+        [Authorize]  // user must have been authenticated to access this action
+        public IActionResult Index(string returnUrl, bool showAlert = false)
         {
+            // get the username from the authenticated user  
+            string? _userName = UserName;
+
+            // look for user in the database using the username
+            _userID = UserID; // SessionUser.EmployeeID
+
+            // _isUserAnOperator is used as a flag to redirect the user to the SelectPlant action if they are not authenticated or not an operator
+            _isUserAnOperator = IsOperator;
             
-            _context = context;
-            _logger = logger;
+            // Check if the user has a valid session  
+            var session = HttpContext.Session;
+            
+            try
+            {               
+                if (session != null && session.IsAvailable)
+                {
+                    // string sessionId = session.Id;
+ 
+                    Guid _sessionGuid = Guid.Parse(session.Id);
 
-            _graphServiceClient = graphServiceClient;
-            this._httpContextAccessor = httpContextAccessor;
-            this._employeeService = employeeService;
-            string[] graphScopes = configuration.GetValue<string>("DownstreamApi:Scopes")?.Split(' ');
+                    // check if the session is new, i.e. it contains a UserSelectedPlant  
+                    if (!IsSessionReady(SessionKeyUserSelectedPlant)) // "UserSelectedPlant"  
+                    {
+                        var userSession = new UserSession
+                        {
+                            SessionID = _sessionGuid, // Use the converted Guid  
+                            UserName = _userName,
+                            UserID = _userID,
+                            IsUserAnOperator = _isUserAnOperator,
+                            //Role = string.Empty // Default role, can be updated later  
+                        };
 
-            if (this._httpContextAccessor.HttpContext != null)
+                        // Clear the content of the session (not the session itself)
+                        session.Clear();
+
+                        // Set Session Values for UserSession
+                        SetSessionValueAsync(SessionKeyUserSessionID, _sessionGuid.ToString());
+                        SetSessionValueAsync(SessionKeyUserName, _userName ?? string.Empty);
+                        SetSessionValueAsync(SessionKeyUserID, _userID ?? string.Empty);
+                        SetSessionValueAsync(SessionKeyIsUserAnOperator, _isUserAnOperator.ToString());
+
+                        // Guid savedSessionId = _CoreService.SaveUserSession(userSession).Result;
+                        // Redirect to the SelectPlant action to set UserSession (UserID, UserName, isAuthenticatedOnly, role) if the session is not ready  
+
+                        // ViewData["IsUserAnOperator"] = _isUserAnOperator; // Pass the flag to the view  
+                        ViewData["UserSession"] = userSession; // Pass the username to the view  
+                        ViewData["ShowAlert"] = showAlert; // Pass the showAlert flag to the view  
+                        ViewData["ReturnUrl"] = returnUrl; // Pass the returnUrl to the view  
+
+                        return RedirectToAction("SelectPlant", "Home");
+                    }
+
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(7), // Cookie expires in 7 days
+                        Path = "/", // Cookie is accessible from the root path
+                        HttpOnly = true, // Cookie is not accessible by client-side scripts
+                        Secure = true, // Cookie is only transmitted over HTTPS
+                        SameSite = SameSiteMode.Strict // Restrict cookie to same-site requests
+                    };
+
+                    Response.Cookies.Append("AdvancedCookie", "someValue", cookieOptions);
+                    // Additional logic here...  
+                    return RedirectToAction("Index", "AllEvents");
+                }
+            }
+            catch (Exception ex)
             {
-                this._graphHelper = new GraphHelper(this._httpContextAccessor.HttpContext, graphScopes);
+                // Handle any exceptions related to session management  
+                Console.WriteLine($"Session error: {ex.Message}");
+
+                session.Clear(); // Clear the session in case of an error
+
+                // https://stackoverflow.com/questions/40217623/redirect-to-login-when-unauthorized-in-asp-net-core
+                RedirectToAction(LoginUrl);
+            }
+
+            return View();
+        }
+
+        public IActionResult SelectPlant(string? returnUrl = null)
+        {
+            //// Get the session
+            //_ = HttpContext.Session;
+
+            //// Check if the session is ready
+            //if (IsSessionReady(SessionKeyUserSelectedPlant)) // "UserSelectedPlant"
+            //{
+            //    // If the session is ready, redirect to the Index action
+            //    return RedirectToAction("Index");
+            //}
+
+            // If not ready, prepare the view model or data for selecting a plant
+            ViewData["ReturnUrl"] = returnUrl; // Pass the returnUrl to the view
+            return View();
+        }
+
+        public bool IsSessionReady(string key)
+        {
+            // Get the session
+            var session = HttpContext.Session;
+
+            // Fix for CS1503: Convert the byte[] value to string after retrieving it
+            if (session.TryGetValue(key, out byte[]? valueBytes))
+            {
+                return valueBytes is not null;
+            }
+            else
+            {
+                // Key doesn't exist, handle accordingly
+                return valueBytes is null; // Or return a different result
             }
         }
 
-        private int? _facilNo => FacilNo;
-        private string _facilName;
-        private bool _showAlert = false;
-        private Shift _shift;
-
-        [AuthorizeForScopes(ScopeKeySection = "MicrosoftGraph:Scopes")]
-        // [AuthorizeForScopes(ScopeKeySection = "DownstreamApi:Scopes")]
-        public async Task<IActionResult> Index(string returnUrl, bool showAlert = false)
+        public void SetSessionValueAsync(string key, string value)
         {
-            _showAlert = _showAlert is true ? true : false;
+            // Get the session
+            var session = HttpContext.Session;
 
-            DateTime _shiftStartTime = Convert.ToDateTime(ShiftStartTimeString); // Converts only the time
-            DateTime _shiftEndTime = Convert.ToDateTime(ShiftEndTimeString);
+            // Convert the string value to byte[] for storage
+            byte[] valueBytes = System.Text.Encoding.UTF8.GetBytes(value);
 
-            // Login logic
-            // if UserSession.UserLoggedIn is true, redirect to AllEventsController Index with user, shift, operatype, and role info;
-            // otherwise, redirect for login
+            // Set the session value
+            session.Set(key, valueBytes);
 
-            // if user successfully logged in, 
-            bool isAuthenticated = User.Identity!.IsAuthenticated;
-                   
-            var userName =  isAuthenticated ? User.FindFirst(c => c.Type == "name")?.Value : UserName;
+            //return Task.CompletedTask;
+        }
 
-            // Get employee object using EmployeeService from DbContext and set it to BaseController's SessionUser          
-            Employee essionUser = await _employeeService.GetEmployeeByEmployeeName(userName!);
-            
-            string? userRole = await _employeeService.GetRole(UserID, (int)_facilNo);
-            
-            IsSuperAdmin = userRole == Role_SuperAdmin;
+        public string GetSessionValueAsync(string key)
+        {
+            string value = string.Empty;
 
-            IsAdmin = userRole == Role_Admin || userRole == Role_SuperAdmin;
-
-            IsOperator = userRole == Role_Operator || userRole == Role_Admin || userRole == Role_SuperAdmin;
-
-            var plants = _employeeService.GetFacilSelectList(_facilNo);
-
-            var myOpTypeList = Enum.GetValues(typeof(OperatorType))
-                .Cast<OperatorType>()
-                .Select(s => new { ID = s, Name = s.ToString() });
-
-            var myShiftList = Enum.GetValues(typeof(Core.Models.Enums.Shift))
-                .Cast<Core.Models.Enums.Shift>()
-                .Select(s => new { ID = s, Name = s.ToString() });
-
-            // Set Shift based on current time
-            Enum _shift = GetDefaultShift();
-
-            
-            ViewBag.Shift = _shift;
-
-            var model = new UserSessionViewModel()
+            // Get the session
+            var session = HttpContext.Session;
+            // Try to get the value from the session
+            if (session.TryGetValue(key, out byte[]? valueBytes))
             {
-                UserID = UserID,
-                Shft = (Shift?)_shift,
-                OpTypeSelectList = new SelectList(myOpTypeList, "ID", "Name"),
-                ShiftSelectList = new SelectList(myShiftList, "ID", "Name", _shift)
-            };
-
-            ViewBag.ReturnUrl = returnUrl;
-
-            return View(model);
-
-
-
-
-
-
-
-
-            //// Reference code for accessing MS Graph
-
-            //// Extract values from HttppContext.User.Claims
-            //var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "name");
-
-            //// user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
-            //// need to check if the token is in the cache. https://github.com/AzureAD/microsoft-identity-web/issues/13
-            //var user = await _graphServiceClient.Me.Request().GetAsync();
-
-            //ViewData["GraphApiResult"] = $"{userName} is authenticated from Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
-
-            //// ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
-            //HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
-
-            //string _loginUserName = HttpContext.Session.GetString("_UserName");
-
-            //// user may not have the facilNo assigned
-            ////int? facilNo = SessionUser?.FacilNo;
-
-
-            //if (FacilNo == 0)
-            //{
-            //    showAlert = FacilNo == 0;
-            //    if (UserSessionState == SessionState.New)
-            //    {
-            //        HttpContext.Session.SetString(SessionKeyUserSessionState, UserSessionState.ToString());
-            //    }
-                
-            //    // redirect to plant selection to set FacilNo
-            //    if (showAlert)
-            //    {
-            //        ViewBag.ShowAlert = true;
-            //        ViewBag.Alert = "You must select a facility first!";
-            //    }
-
-            //    ViewBag.ShowPlantMenu = IsCheckingFacility; // true;
-            //    ViewBag.Message = "Please select one facility from the list - ";
-            //    ViewBag.ReturnUrl = this.Url;
-
-            //    return View();
-            //}
-            //else
-            //{
-            //    IsNewSession = false;
-            //    HttpContext.Session.SetString(SessionKeyUserSessionState, SessionState.Valid.ToString());
-            //    HttpContext.Session.SetString(SessionKeyUserName, $"{userName}");
-            //    HttpContext.Session.SetString(SessionKeyUserID, $"{UserID}");
-            //    HttpContext.Session.SetInt32(SessionKeyUserEmployeeNo, (int)UserEmployeeNo);
-            //    HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, (int)FacilNo);
-            //    HttpContext.Session.SetInt32(SessionKeyUserShiftNo, ShiftNo);
-            //    HttpContext.Session.SetString(SessionKeyUserOpType, OperatorType);
-
-            //    return RedirectToAction("Index", "AllEvents");
-            //}
-
-            // For future use
-            // https://learn.microsoft.com/en-us/answers/questions/1226274/azure-ad-b2c-net-web-app-calling-web-api-no-accoun
-            //AuthenticationResult result = null;
-            //try
-            //{
-            //    result = await app.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
-            //                      .ExecuteAsync();
-            //}
-            //catch (MsalUiRequiredException ex)
-            //{
-            //    // A MsalUiRequiredException happened on AcquireTokenSilent.
-            //    // This indicates you need to call AcquireTokenInteractive to acquire a token
-            //    Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
-
-            //    try
-            //    {
-            //        result = await app.AcquireTokenInteractive(scopes)
-            //                          .ExecuteAsync();
-            //    }
-            //    catch (MsalException msalex)
-            //    {
-            //        ResultText.Text = $"Error Acquiring Token:{System.Environment.NewLine}{msalex}";
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ResultText.Text = $"Error Acquiring Token Silently:{System.Environment.NewLine}{ex}";
-            //    return;
-            //}
-
-            //if (result != null)
-            //{
-            //    string accessToken = result.AccessToken;
-            //    // Use the token
-            //}
-
-            //// user is from Microsoft Graph which contains GivenName, Surname, Id (Guid), DisplayName, OfficeLocation, BusinessPhones, MobilePhone, JobTitle, ODataType (Mocrosoft.Graphu.User), Mail, UserPrincipalName (=email)
-            //var user = await _graphServiceClient.Me.Request().GetAsync();
-
-            //// ViewData["GraphApiResult"] = user.DisplayName;
-
-            //ViewData["GraphApiResult"] = $"{userName} is authenticated from Microsoft Graph: User Given Name: {user.GivenName}, Surname: {user.Surname}{Environment.NewLine}DisplayName: {user.DisplayName}, UserPrincipalName: {user.UserPrincipalName}"; // {userInfo.EmployeeNo}
-
-            //// ToDo: Update Session with Username, Isauthenticated, DisplayName, UserID, and roles 
-            //HttpContext.Session.SetString("_userName", $"{userName}");
-
-            //string _loginUserName = HttpContext.Session.GetString("_userName");
-
-            // Session
-            //public const string SessionKeyUserName = "_UserName";
-            //public const string SessionKeyUserID = "_UserID";
-            //public const string SessionKeyFacilNo = "_FacilNo";
-
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUserName)))
-            //{
-            //    HttpContext.Session.SetString(SessionKeyUserName, "Lihan Chen");
-            //    HttpContext.Session.SetString(SessionKeyUserID, "U06337");
-            //    HttpContext.Session.SetInt32(SessionKeyFacilNo, 1);
-            //}
-
-            //var userName = HttpContext.Session.GetString(SessionKeyUserName);
-            //var facilNo = HttpContext.Session.GetInt32(SessionKeyFacilNo).ToString();
-
-            //return View();
+                // Convert the byte[] back to string
+                value = System.Text.Encoding.UTF8.GetString(valueBytes);
+            }
+            
+            return value;
         }
 
-        //[AuthorizeForScopes(ScopeKeySection = "DownstreamApi:Scopes")]
-        //public async Task<IActionResult> Profile()
-        //{
-        //    ViewData["Me"] = await _graphHelper.GetMeAsync();
-
-        //    if (ViewData["Me"] == null)
-        //    {
-        //        return new EmptyResult();
-        //    }
-
-        //    var photoStream = await this._graphHelper.GetMyPhotoAsync();
-        //    ViewData["Photo"] = photoStream != null ? Convert.ToBase64String(((MemoryStream)photoStream).ToArray()) : null;
-
-        //    return View();
-        //}
-
-        /// <summary>
-        /// Fetches and displays all the users in this directory. This method requires the signed-in user to be assigned to the 'UserReaders' approle.
-        /// </summary>
-        /// <returns></returns>
-        //[AuthorizeForScopes(Scopes = new[] { GraphScopes.UserReadBasicAll })]
-        //[Authorize(Policy = AuthorizationPolicies.AssignmentToUserReaderRoleRequired)]
-        //public async Task<IActionResult> Users()
-        //{
-        //    ViewData["Users"] = await this._graphHelper.GetUsersAsync();
-
-        //    if (ViewData["Users"] == null)
-        //    {
-        //        return new EmptyResult();
-        //    }
-
-        //    return View();
-        //}
-
-        [AllowAnonymous]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public Employee? GetEmployeeByEmployeeName(string? userName)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult Privacy()
-        {
-            //return View();
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        private void SetPersistentCookie(HttpContext httpContext, string key, string value, int daysToExpire)
-        {
-            CookieOptions options = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(daysToExpire),
-                IsEssential = true,
-                HttpOnly = true,
-                Secure = true
-            };
-
-            httpContext.Response.Cookies.Append(key, value, options);
+            // Use _CoreService (instance of ICoreService) to fetch employee details
+            return userName != null ? _CoreService.GetEmployeeByEmployeeName(userName).Result : null;
         }
     }
 }

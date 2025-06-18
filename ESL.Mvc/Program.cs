@@ -1,5 +1,4 @@
 // <ms_docref_import_types>
-using ESL.Core.IRepositories;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -15,9 +14,14 @@ using Azure.Security.KeyVault.Secrets;
 using Azure;
 using Microsoft.AspNetCore.Rewrite;
 using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
-using ESL.Mvc.DataAccess.Repositories;
+using ESL.Infrastructure.DataAccess.Repositories;
 using ESL.Mvc.Infrastructure.Graph;
-using ESL.Mvc.DataAccess.Persistence;
+//using ESL.Mvc.DataAccess.Persistence;
+using ESL.Application.Interfaces.IRepositories;
+using ESL.Infrastructure.DataAccess;
+using ESL.Application.Interfaces.IServices;
+using ESL.Application.Services;
+//using IEmployeeService = ESL.Application.Interfaces.IServices.IEmployeeService;
 // </ms_docref_import_types>
 
 namespace ESL.Mvc
@@ -27,6 +31,8 @@ namespace ESL.Mvc
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            var ConnectionESL = builder.Configuration.GetConnectionString("ConnectionESL");
 
             // <ms_docref_add_msal>
             // Ref: https://github.com/MicrosoftDocs/mslearn-m365-microsoftgraph-dotnetcorerazor/blob/main/End/Startup.cs
@@ -54,6 +60,8 @@ namespace ESL.Mvc
             //builder.Services.AddSingleton<IMSGraphService, MSGraphService>();
 
             // Sign-in users with the Microsoft identity platform
+            // builder.Services.AddAuthentication.AddJwtBearer();
+
             builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 // Microsoft identity platform web app that requires an auth code flow
                 .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))                
@@ -73,8 +81,17 @@ namespace ESL.Mvc
             //    // The claim in the Jwt token where App roles are available.
             //    options.TokenValidationParameters.RoleClaimType = "roles";
             //});
+
+            // Adding authorization policies that enforce authorization using ESL existing UserRoles Azure AD roles.
+            // https://learn.microsoft.com/en-us/aspnet/core/security/authorization/roles?view=aspnetcore-9.0           
             builder.Services.AddAuthorization(options =>
             {
+                options.AddPolicy("Operator", policy => policy.RequireRole("Operator", "Administrator", "SuperAdmin"));
+                options.AddPolicy("Admin", policy => policy.RequireRole("Administrator", "SuperAdmin"));
+                options.AddPolicy("SuperAdmin", policy => policy.RequireRole("SuperAdmin"));
+
+                // The following policies are used to enforce authorization using Azure AD roles.
+                options.AddPolicy(AuthorizationPolicies.AssignmentToUserReaderRoleRequired, policy => policy.RequireClaim("roles", AppRole.UserReaders));
                 options.AddPolicy(AuthorizationPolicies.AssignmentToUserReaderRoleRequired, policy => policy.RequireRole(AppRole.UserReaders));
                 options.AddPolicy(AuthorizationPolicies.AssignmentToDirectoryViewerRoleRequired, policy => policy.RequireRole(AppRole.DirectoryViewers));
                 options.AddPolicy("Admin", authBuilder =>
@@ -83,27 +100,42 @@ namespace ESL.Mvc
                 });
             });
 
-            //// Adding authorization policies that enforce authorization using Azure AD roles.
             builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy(AuthorizationPolicies.AssignmentToUserReaderRoleRequired, policy => policy.RequireRole(AppRole.UserReaders));
-                options.AddPolicy(AuthorizationPolicies.AssignmentToDirectoryViewerRoleRequired, policy => policy.RequireRole(AppRole.DirectoryViewers));
-                options.AddPolicy("Admin", authBuilder =>
-                {
-                    authBuilder.RequireRole("Administrators");  // check if "Administrators" is the correct role name
-                });
+                
             });
 
             #region ESLDbContext
 
             // <ms_docref_add_dbcontext>
 
-            // Add the DbContextPool to create a pool of Oracle connections to the container. This is recommended for high traffic applications.
-            builder.Services.AddDbContextPool<EslDbContext>(options =>
-            { options.UseOracle(builder.Configuration.GetConnectionString("ConnectionESL")); }, poolSize: 128);
+            // Add the DbContextPool for Oracle to create a pool of Oracle connections to the container. This is recommended for high traffic applications.
+            // https://learn.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/implement-resilient-entity-framework-core-sql-connections
+            //builder.Services.AddDbContextPool<EslDbContext>(options =>
+            //                                                options.UseOracle(ConnectionESL, b =>
+            //                                                                                 b.UseOracleSQLCompatibility(OracleSQLCompatibility.DatabaseVersion23))
+            //                                                       .LogTo(Console.WriteLine, LogLevel.Information)
+            //                                                       .EnableSensitiveDataLogging(), poolSize: 128);
+            
+            builder.Services.AddDbContextPool<EslDbContext>((serviceProvider, options) =>
+            {
+                var logger = serviceProvider.GetRequiredService<ILogger<EslDbContext>>();
+
+                options.UseOracle(ConnectionESL, b =>
+                    b.UseOracleSQLCompatibility(OracleSQLCompatibility.DatabaseVersion23))
+                    .LogTo(message => logger.LogInformation(message), LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            }, poolSize: 128);
+
 
             // AddDatabaseDeveloperPageExceptionFilter should only be used in the development environment
+            // Need to Nuget Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            // Add health checks CD1061 error
+            //builder.Services.AddHealthChecks()
+            //                .AddDbContextCheck<EslDbContext>();
 
             // The following maybe used in future releases:
 
@@ -178,13 +210,17 @@ namespace ESL.Mvc
             builder.Services.AddScoped<IAllEventRepository, AllEventRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IFacilityRepository, FacilityRepository>();
-            builder.Services.AddScoped<IEmpRoleRepositry, EmpRoleRepository>();
+            builder.Services.AddScoped<IEmpRoleRepository, EmpRoleRepository>();
             builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
             builder.Services.AddScoped<ILogTypeRepository, LogTypeRepository>();
             builder.Services.AddScoped<IConstantRepository, ConstantRepository>();
+            builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+            builder.Services.AddScoped<IMeterRepository, MeterRepository>();
+            builder.Services.AddScoped<ISearchDTORepository, SearchDTORepository>();
+
 
             // configure services https://github.com/sanckh/YourLibraryApp/blob/main/YourLibrary/Startup.cs
-            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<ESL.Application.Interfaces.IServices.ICoreService, ESL.Application.Services.CoreService>();
             //builder.Service.AddScoped<IConstantService, ConstantService>();
             //builder.Service.AddScoped<IAuthorService, AuthorService>();
             //builder.Service.AddScoped<IPublisherService, PublisherService>();
@@ -237,11 +273,11 @@ namespace ESL.Mvc
             builder.Services.AddSession(options =>
             {
                 options.Cookie.Name = ".ESL.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromHours(12);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
                 options.Cookie.Path = "/";
-                //options.Cookie.Expiration = TimeSpan.FromDays(30);
+                options.Cookie.Expiration = TimeSpan.FromDays(30);
             });
             // </ms_docref_add_session>
 
@@ -256,6 +292,20 @@ namespace ESL.Mvc
 
             var app = builder.Build();
 
+            // Add after other middleware configurations
+            app.Use(async (context, next) =>
+            {
+                using var scope = app.Services.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<EslDbContext>();
+
+                if (!dbContext.Database.CanConnect())
+                {
+                    throw new InvalidOperationException("Database connection not available");
+                }
+
+                await next();
+            });
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -269,6 +319,22 @@ namespace ESL.Mvc
                 {
                     errorApp.Run(async context =>
                     {
+                        // Per suggestion by Copilot for DbContext error handling
+                        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                        var exception = exceptionHandlerPathFeature?.Error;
+
+                        if (exception is InvalidOperationException &&
+                            exception.Message.Contains("Database"))
+                        {
+                            context.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
+                            await context.Response.WriteAsJsonAsync(new
+                            {
+                                error = "Database service unavailable",
+                                details = exception.Message
+                            });
+                        }
+
+                        // Handle other regular exceptions
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; ;
                         context.Response.ContentType = "text/html";
 
@@ -280,8 +346,8 @@ namespace ESL.Mvc
                         await context.Response.WriteAsync("<a href=\"/\">Back to Home</a><br>\r\n");
                         await context.Response.WriteAsync("<h2>Exception Overview</h2><br>\r\n");
 
-                        var exceptionHandlerPathFeature =
-                            context.Features.Get<IExceptionHandlerPathFeature>();
+                        //var exceptionHandlerPathFeature =
+                        //    context.Features.Get<IExceptionHandlerPathFeature>();
                         if (exceptionHandlerPathFeature?.Error is Exception)
                         {
                             if (exceptionHandlerPathFeature.Error.InnerException != null)
@@ -345,6 +411,9 @@ namespace ESL.Mvc
             //app.UseEndpoints(endpoints => {
             //    endpoints.MapControllers();
             //});
+
+            // Configure endpoints
+            app.MapHealthChecks("/health");
 
             app.UseEndpoints(endpoints =>
             {

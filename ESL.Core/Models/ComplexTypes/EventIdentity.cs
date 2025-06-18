@@ -1,13 +1,8 @@
-﻿using ESL.Core.IConfiguration;
-using System.ComponentModel.DataAnnotations;
+﻿using ESL.Core.Interfaces;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESL.Core.Models.ComplexTypes
 {
-    [Owned]
-
     public record EventIDentity : IEventIDentity
     {
         /// <summary>

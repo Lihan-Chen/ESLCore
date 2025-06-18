@@ -1,27 +1,17 @@
-﻿using ESL.Api.Models.BusinessEntities;
-using ESL.Api.Models.IRepositories;
-using ESL.Core.Models.BusinessEntities;
+﻿using ESL.Api.Models.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using X.PagedList.Extensions;
 using Facil = ESL.Api.Models.BusinessEntities.Facil;
 using Facility = ESL.Api.Models.BusinessEntities.Facility;
 
 namespace ESL.Api.Models.DAL
 {
-    public class FacilityRepository : IFacilityRepository
-    {
-        private ApplicationDbContext _context;
-
-        private ILogger<FacilityRepository> _logger;
-
-        public FacilityRepository(
+    public class FacilityRepository(
             ApplicationDbContext context,
             ILogger<FacilityRepository> logger
-            )
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
+            ) : IFacilityRepository
+    {
+        private ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private ILogger<FacilityRepository> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         public IOrderedQueryable<Facility> GetAll()
         {

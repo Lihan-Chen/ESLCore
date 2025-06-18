@@ -1,4 +1,4 @@
-using ESL.Core.Data;
+using ESL.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -18,29 +18,29 @@ namespace ESL.Web
             var initialScopes = builder.Configuration["DownstreamApi:Scopes"]?.Split(' ') ?? builder.Configuration["MicrosoftGraph:Scopes"]?.Split(' ');
 
             // Add services to the container. per program.cs from testWebApi project
-            // builder.Services.AddOracle<ApplicationDbContext>(new ApplicationDbContext(null,null, null));
+            // builder.Services.AddOracle<EslDbContext>(new EslDbContext(null,null, null));
 
-            // Just point to the ApplicationDBContext in the ESL.Core and use the connection string defined there.  Otherwise, use the one defined below
-            builder.Services.AddDbContext<ApplicationDbContext>();
+            // Just point to the EslDbContext in the ESL.Core and use the connection string defined there.  Otherwise, use the one defined below
+            builder.Services.AddDbContext<EslDbContext>();
             
-            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //options.UseOracle(ApplicationDbContextHelpers.esl_connectionString));
+            //builder.Services.AddDbContext<EslDbContext>(options =>
+            //options.UseOracle(EslDbContextHelpers.esl_connectionString));
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // string userID = builder.Configuration.GetSection(USERNAME);
             //var userID = GetValue<OptionsBuilderConfigurationExtensions>(USERNAME);
 
-            //builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+            //builder.Services.AddOracle<EslDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
             //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // 8/14
-            // builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
+            // builder.Services.AddOracle<EslDbContext>(builder.Configuration.GetConnectionString("ConnectionESL"));
 
             // For Database Verification, use SQLite
 
             // 8/14
-            //builder.Services.AddDbContext<ApplicationDbContext>(options =>   //(sp, options => 
+            //builder.Services.AddDbContext<EslDbContext>(options =>   //(sp, options => 
             //options.UseOracle(builder.Configuration.GetConnectionString("ConnectionESL")));
             //.AddInterceptors(
             //.sp.GetRequiredService<UpdateAuditableInterceptor>())); //,
@@ -70,9 +70,9 @@ namespace ESL.Web
             
 
             // For unit testing, use InMemoryDatabase
-            // builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("ESL"));
+            // builder.Services.AddDbContext<EslDbContext>(options => options.UseInMemoryDatabase("ESL"));
             // For real application use Oracle with ConnectionString of ESLConnection as defined in appsetting.json file
-            // builder.Services.AddOracle<ApplicationDbContext>(builder.Configuration.GetConnectionString("ESLConnection")); // "name=ConnectionStrings:DefaultConnection"
+            // builder.Services.AddOracle<EslDbContext>(builder.Configuration.GetConnectionString("ESLConnection")); // "name=ConnectionStrings:DefaultConnection"
 
 
 

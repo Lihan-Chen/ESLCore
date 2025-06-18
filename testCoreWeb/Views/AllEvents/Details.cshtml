@@ -3,3 +3,61 @@
 *@
 @{
 }
+<div class="container mt-4">
+    <form class="row gx-2 align-items-center">
+        <!-- Dropdown for Facilities -->
+        <div class="col-auto">
+            <label for="facilities" class="form-label visually-hidden">Facilities</label>
+            <select class="form-select" id="facilities">
+                <option selected>Choose Facility</option>
+                <option value="1">Facility 1</option>
+                <option value="2">Facility 2</option>
+                <option value="3">Facility 3</option>
+            </select>
+        </div>
+
+        <!-- Dropdown for Logs -->
+        <div class="col-auto">
+            <label for="logs" class="form-label visually-hidden">Logs</label>
+            <select class="form-select" id="logs">
+                <option selected>Choose Log</option>
+                <option value="1">Log 1</option>
+                <option value="2">Log 2</option>
+                <option value="3">Log 3</option>
+            </select>
+        </div>
+
+        <!-- Start Date -->
+        <div class="col-auto">
+            <label for="startDate" class="form-label visually-hidden">Start Date</label>
+            <input type="date" class="form-control" id="startDate" placeholder="Start Date">
+        </div>
+
+        <!-- End Date -->
+        <div class="col-auto">
+            <label for="endDate" class="form-label visually-hidden">End Date</label>
+            <input type="date" class="form-control" id="endDate" placeholder="End Date">
+        </div>
+
+        <!-- Text Input for Search -->
+        <div class="col-auto">
+            <label for="search" class="form-label visually-hidden">Search</label>
+            <input type="text" class="form-control" id="search" placeholder="Search">
+        </div>
+
+        <!-- Checkbox for Primary/Secondary Role -->
+        <div class="col-auto">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="roleCheck">
+                <label class="form-check-label" for="roleCheck">
+                    Primary/Secondary Role
+                </label>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>

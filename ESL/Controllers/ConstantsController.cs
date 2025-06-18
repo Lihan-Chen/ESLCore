@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ESL.Core.Data;
 using ESL.Core.Models.BusinessEntities;
+using ESL.Infrastructure.DataAccess;
 
 namespace ESL.Web.Controllers
 {
     public class ConstantsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly EslDbContext _context;
 
-        public ConstantsController(ApplicationDbContext context)
+        public ConstantsController(EslDbContext context)
         {
             _context = context;
         }
@@ -22,7 +17,7 @@ namespace ESL.Web.Controllers
         // GET: Constants
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Constants.ToListAsync());
+            return View(await _context.EslContants.ToListAsync());
         }
 
         // GET: Constants/Details/5
@@ -33,7 +28,7 @@ namespace ESL.Web.Controllers
                 return NotFound();
             }
 
-            var constant = await _context.Constants
+            var constant = await _context.EslContants
                 .FirstOrDefaultAsync(m => m.FacilNo == id);
             if (constant == null)
             {
@@ -73,7 +68,7 @@ namespace ESL.Web.Controllers
                 return NotFound();
             }
 
-            var constant = await _context.Constants.FindAsync(id);
+            var constant = await _context.EslContants.FindAsync(id);
             if (constant == null)
             {
                 return NotFound();
@@ -86,9 +81,9 @@ namespace ESL.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FacilNo,StartDate,ConstantName,Value,EndDate,Notes,UpdatedBy,UpdateDate")] Constant constant)
+        public async Task<IActionResult> Edit(int id, [Bind("FacilNo,StartDate,ConstantName,Value,EndDate,Notes,UpdatedBy,UpdateDate")] EslConstant eslConstant)
         {
-            if (id != constant.FacilNo)
+            if (id != eslConstant.FacilNo)
             {
                 return NotFound();
             }
@@ -97,12 +92,12 @@ namespace ESL.Web.Controllers
             {
                 try
                 {
-                    _context.Update(constant);
+                    _context.Update(eslConstant);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConstantExists(constant.FacilNo))
+                    if (!ConstantExists(eslConstant.FacilNo))
                     {
                         return NotFound();
                     }
@@ -113,7 +108,7 @@ namespace ESL.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(constant);
+            return View(eslConstant);
         }
 
         // GET: Constants/Delete/5
@@ -124,7 +119,7 @@ namespace ESL.Web.Controllers
                 return NotFound();
             }
 
-            var constant = await _context.Constants
+            var constant = await _context.EslContants
                 .FirstOrDefaultAsync(m => m.FacilNo == id);
             if (constant == null)
             {
@@ -139,10 +134,10 @@ namespace ESL.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var constant = await _context.Constants.FindAsync(id);
+            var constant = await _context.EslContants.FindAsync(id);
             if (constant != null)
             {
-                _context.Constants.Remove(constant);
+                _context.EslContants.Remove(constant);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +146,7 @@ namespace ESL.Web.Controllers
 
         private bool ConstantExists(int id)
         {
-            return _context.Constants.Any(e => e.FacilNo == id);
+            return _context.EslContants.Any(e => e.FacilNo == id);
         }
     }
 }

@@ -29,6 +29,8 @@ namespace ESL.Api.Models.DAL
 
         public virtual DbSet<ViewAlleventsCurrent> ViewAlleventsCurrents { get; set; }
 
+        //public virtual DbSet<AllEventCurrent> CurrentAllEvents { get; set; }
+
         public virtual DbSet<AllEvent> AllEvents { get; set; }
 
         public DbSet<ViewAlleventsLogType> AlleventLogTypes { get; set; }
@@ -50,7 +52,7 @@ namespace ESL.Api.Models.DAL
 
         public virtual DbSet<MeterReading> MetersReadings { get; set; }
 
-        public DbSet<MeterReadingSP> MeterReadingSPs { get; set; }
+        //public DbSet<MeterReadingSP> MeterReadingSPs { get; set; }
 
         public DbSet<Subject> Subjects { get; set; }
 
@@ -99,33 +101,40 @@ namespace ESL.Api.Models.DAL
                     eb.ToView("VIEW_ALLEVENTS_LOGTYPES", schema: "ESL");
                 });
 
-            modelBuilder
-                .Entity<MeterReadingSP>(entity =>
-                {
-                    entity.HasNoKey();
+            //modelBuilder.Entity<AllEventCurrent>( //"ESL.Core.Models.ViewAllEventsCurrent",
+            //    b =>
+            //    {
+            //        b.HasNoKey();
+            //        b.ToView("VIEW_ALLEVENTS_CURRENT", schema: "ESL");
+            //    });
 
-                    entity.Property(e => e.MeterID)
-                      .HasColumnName("METERID");
+            //modelBuilder
+            //    .Entity<MeterReadingSP>(entity =>
+            //    {
+            //        entity.HasNoKey();
 
-                    entity.Property(e => e.NewValue)
-                   .HasColumnName("NEWVALUE");
+            //        entity.Property(e => e.MeterID)
+            //          .HasColumnName("METERID");
 
-                    entity.Property(e => e.Unit)
-                   .HasColumnName("UNIT");
+            //        entity.Property(e => e.NewValue)
+            //       .HasColumnName("NEWVALUE");
 
-                    entity.Property(e => e.EventDate)
-                    .HasColumnName("EVENTDATE");
-                    //.HasConversion(val => val.ToShortDateString(), val => DateTime.Parse(val));
+            //        entity.Property(e => e.Unit)
+            //       .HasColumnName("UNIT");
 
-                    entity.Property(e => e.EventTime)
-                   .HasColumnName("EVENTTIME");
+            //        entity.Property(e => e.EventDate)
+            //        .HasColumnName("EVENTDATE");
+            //        //.HasConversion(val => val.ToShortDateString(), val => DateTime.Parse(val));
 
-                    entity.Property(e => e.UpdateDate)
-                   .HasColumnName("UPDATEDATE");
+            //        entity.Property(e => e.EventTime)
+            //       .HasColumnName("EVENTTIME");
 
-                    entity.Property(e => e.EventID_RevNo)
-                   .HasColumnName("EVENTID_REVNO");
-                });
+            //        entity.Property(e => e.UpdateDate)
+            //       .HasColumnName("UPDATEDATE");
+
+            //        entity.Property(e => e.EventID_RevNo)
+            //       .HasColumnName("EVENTID_REVNO");
+            //    });
 
             modelBuilder.Entity<MeterReading>(entity =>
             {
@@ -135,7 +144,7 @@ namespace ESL.Api.Models.DAL
                   .HasColumnName("METERID");
 
                 entity.Property(e => e.Value)
-               .HasColumnName("NEWVALUE");
+               .HasColumnName("NEWVALUE").HasColumnType("NUMBER(8,2)");
 
                 entity.Property(e => e.Unit)
                .HasColumnName("UNIT");

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
 using ESL.Mvc.Infrastructure.Graph;
+using Microsoft.AspNetCore.Http;
 
 namespace ESL.Mvc.Controllers
 {
@@ -18,7 +19,8 @@ namespace ESL.Mvc.Controllers
             {
                 throw new ArgumentNullException(nameof(httpContextAccessor.HttpContext));
             }
-            this._graphHelper = new GraphHelper(httpContextAccessor.HttpContext, new[] { GraphScopes.DirectoryReadAll });
+
+            _graphHelper = new GraphHelper(httpContextAccessor.HttpContext, new[] { GraphScopes.DirectoryReadAll });
         }
 
         /// <summary>

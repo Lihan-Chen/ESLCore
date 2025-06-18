@@ -1,7 +1,8 @@
 ﻿namespace ESL.Core.Models.BusinessEntities.ValueObjects
 {
     // Learn more: https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/implement-value-objects
-    public abstract class ValueObject
+    // https://www.milanjovanovic.tech/blog/value-objects-in-dotnet-ddd-fundamentals
+    public abstract record ValueObject : IEquatable<ValueObject>
     {
         protected static bool EqualOperator(ValueObject left, ValueObject right)
         {
@@ -20,14 +21,13 @@
 
         protected abstract IEnumerable<object> GetEqualityComponents();
 
-        public override bool Equals(object? obj)
+        public virtual bool Equals(ValueObject? other) // Marked as virtual to allow overriding
         {
-            if (obj == null || obj.GetType() != GetType())
+            if (other == null || other.GetType() != GetType())
             {
                 return false;
             }
 
-            var other = (ValueObject)obj;
             return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 

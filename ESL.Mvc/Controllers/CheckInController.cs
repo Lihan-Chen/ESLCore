@@ -1,6 +1,6 @@
 ﻿using ESL.Core.Models.Enums;
-using ESL.Mvc.DataAccess.Persistence;
-using ESL.Mvc.Services;
+using ESL.Infrastructure.DataAccess;
+using ESL.Application.Interfaces.IServices;
 using ESL.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,23 +13,21 @@ namespace ESL.Mvc.Controllers
     {
         
         private readonly EslDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<CheckInController> _logger;
-        private readonly IEmployeeService _employeeService;
-        // private readonly IHttpContextAccessor _httpContextAccessor;
-        // private readonly GraphHelper _graphHelper;
-        // private readonly GraphServiceClient _graphServiceClient;
-
+        private readonly ICoreService _coreService;
 
         private int? _facilNo;
         private string _facilName = string.Empty;
         private bool showAlert = false;
         private ESL.Core.Models.Enums.Shift _shift;
 
-        public CheckInController(EslDbContext context, ILogger<CheckInController> logger, IEmployeeService employeeService) : base(context, logger, employeeService) //, IDownstreamApi downstreamApi
+        public CheckInController(EslDbContext context, IHttpContextAccessor httpContextAccessor, ILogger<CheckInController> logger, ICoreService coreService) : base(context, httpContextAccessor, logger, coreService) //, IDownstreamApi downstreamApi
         {
             this._context = context;
+            this._httpContextAccessor = httpContextAccessor;
             this._logger = logger;
-            this._employeeService = employeeService;
+            this._coreService = coreService;
         }
 
         // https://github.com/Azure-Samples/active-directory-aspnetcore-webapp-openidconnect-v2/blob/master/5-WebApp-AuthZ/5-1-Roles/Controllers/HomeController.cs
@@ -37,6 +35,8 @@ namespace ESL.Mvc.Controllers
         [HttpGet]
         public IActionResult Index(string returnUrl, bool showAlert = false)   // this only checks necessary parameters are available before redirecting to AllEvents/
         {
+            Guid sessionId = Guid.Parse(HttpContext.Session.Id);
+
             showAlert = showAlert.Equals(true);
 
             // Redirect to select a plant by setting true if facilName is not found
@@ -52,7 +52,9 @@ namespace ESL.Mvc.Controllers
                 ViewBag.Message = "Please select one facility from the list - ";
                 ViewBag.ReturnUrl = this.Url;
 
-                var plants = _employeeService.GetFacilSelectList(FacilNo);
+                var plants = Enum.GetValues<Plant>()
+                    .Cast<OperatorType>()
+                    .Select(s => new { ID = s, Name = s.ToString() });
 
                 var myOpTypeList = Enum.GetValues<OperatorType>()
                     .Cast<OperatorType>()
@@ -75,10 +77,11 @@ namespace ESL.Mvc.Controllers
 
                 var model = new UserSessionViewModel()
                 {
+                    SessionID = sessionId,
                     UserID = UserID,
-                    Shft = _shift,
-                    FacilNo = FacilNo,
-                    FacilSelectList = plants.Result,
+                    SelectedShift = _shift,
+                    SelectedPlantId = FacilNo,
+                    FacilSelectList = new SelectList(plants, "ID", "Name", _facilNo),
                     OpTypeSelectList = new SelectList(myOpTypeList, "ID", "Name"),
                     ShiftSelectList = new SelectList(myShiftList, "ID", "Name", _shift)
                 };
@@ -111,7 +114,7 @@ namespace ESL.Mvc.Controllers
 
         public ActionResult SelectPlant()
         {
-            FacilNo = 0;
+            // FacilNo = 0;
             HttpContext.Session.SetString(SessionKeyUserEmployeeNo, String.Empty);
             HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, (int)this.FacilNo);
             
@@ -140,21 +143,21 @@ namespace ESL.Mvc.Controllers
                 //Roles.RemoveUserFromRoles(UserID, _roles);
 
                 // set FacilNo to session
-                FacilNo = facilNo;
-                HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, (int)this.FacilNo);                               
+                facilNo = FacilNo ?? 0;
+                HttpContext.Session.SetInt32(SessionKeyUserSelectedPlant, facilNo);                               
             }
 
-            _facilName = (await _employeeService.GetAllPlants())
+            _facilName = (await _coreService.GetAllPlants())
                     .Where(predicate: p => p.FacilNo == facilNo)
                     .Select(p => p.FacilName)
                     .FirstOrDefault() ?? string.Empty;
 
             FacilName = _facilName;
 
-            string _userID = SessionUser.Result?.UID;
+            string _userID = SessionUser.Result?.EmployeeID;
 
             // reset all roles
-            string? _role = await _employeeService.GetRole(_userID!, facilNo);
+            string? _role = await _coreService.GetRole(_userID!, facilNo);
 
             // To do IsInRole not defined in IEmployeeService
             //IsSuperAdmin = false;

@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Api.Models.BusinessEntities
 {
     //[Table("VIEW_ALLEVENTS_CURRENT", Schema = "ESL")]
-    [Keyless]
+    //[Keyless]
     public partial record AllEventCurrent
     {
         [Column("FACILNO", TypeName = "NUMBER")]

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\BaseController - Copy.cs" />
+    <Compile Remove="Controllers\GraphController.cs" />
     <Compile Remove="DataAccess\Repositories\GenericRepository.cs" />
     <Compile Remove="DataAccess\Repositories\GenericRepositoryT.cs" />
     <Compile Remove="DataAccess\Repositories\LogEventRepository.cs" />
@@ -20,30 +21,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.3" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="3.8.0" />
-    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="3.8.0" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.8.0" />
-    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.8.3" />
+    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="3.8.3" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.8.3" />
+    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.8.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
-    <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.60" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.80" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.8.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.3.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.3.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="8.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.1" />
     <PackageReference Include="X.PagedList.EF" Version="10.5.7" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.7" />
   </ItemGroup>
@@ -62,7 +59,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ESL.Application\ESL.Application.csproj" />
     <ProjectReference Include="..\ESL.Core\ESL.Core.csproj" />
+    <ProjectReference Include="..\ESL.Infrastructure\ESL.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,98 +1,109 @@
 ﻿using ESL.Core.Models.BusinessEntities.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESL.Core.Models.ValueObjects
 {
-    public abstract class Flow : ValueObject
+    public record Flow(decimal value, string unit) //: ValueObject
     {
-        public int? Value { get; private set; }
+        // ToDo: verify the conversion factors with OCC
+        private decimal? mlminToCFS = (decimal)5.88577770211022e7; // 1699010.8
+        private decimal? lbsdayToCFS = (decimal)2.50766394e7; // 1/5393775.79
+        private decimal? mgdToCFS = (decimal)1.5472286365101; // 1.547
 
-        public string? Unit { get; private set; }
+        public decimal? Value { get; set; }
 
-        public Flow(int? value, string? unit)
+        public string? Unit { get; set; }
+
+        public decimal? ValueInCFS => Unit?.ToLower() switch
         {
-            Value = value;
-            Unit = unit;
-        }
+            "cfs" => Value,
+            "ml/min" => Value * mlminToCFS,
+            "lbsday" => Value * lbsdayToCFS,
+            "mgd" => Value * mgdToCFS,
+            _ => null
+        };
 
-        public Flow ToFlow(Flow from, Flow to)
-        {
-            if (from == null) throw new ArgumentNullException(nameof(from));
+        //protected abstract Flow CreateFlow(decimal? value, string? unit);
 
-            if (to == null) throw new ArgumentNullException(nameof(to));
+        //protected override IEnumerable<object> GetEqualityComponents()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-            if (from.Unit != to.Unit)
-            {
-                switch (from.Unit)
-                {
-                    case "CFS": // verified
-                        switch (to.Unit)
-                        {
-                            case "CFS":
-                                return from;
-                            case "mL/min":
-                                return CreateFlow(from.Value * 1699010.8, to.Unit);
-                            case "MGD":
-                                return CreateFlow(from.Value * 0.646317, to.Unit);
-                            case "lbs/day":
-                                return CreateFlow(from.Value * 5393775.79, to.Unit);
-                            default:
-                                throw new ArgumentException("Cannot convert between different units.");
-                        }
-                    case "mL/min":
-                        switch (to.Unit)
-                        {
-                            case "CFS":
-                                return CreateFlow(from.Value / 1699010.8, to.Unit);
-                            case "mL/min":
-                                return from;
-                            case "MGD":
-                                return CreateFlow(from.Value / 2628758.18, to.Unit); //ok
-                            case "lbs/day":
-                                return CreateFlow(from.Value * 2.36, to.Unit);
-                            default:
-                                throw new ArgumentException("Cannot convert between different units.");
-                        }
-                    case "MGD":
-                        switch (to.Unit)
-                        {
-                            case "CFS":
-                                return CreateFlow(from.Value * 1.547, to.Unit);
-                            case "mL/min":
-                                return CreateFlow(from.Value * 2628758.18, to.Unit);
-                            case "MGD":
-                                return from;
-                            case "lbs/day":
-                                return CreateFlow(from.Value * 8340000, to.Unit);
-                            default:
-                                throw new ArgumentException("Cannot convert between different units.");
-                        }
-                    case "lbs/day":
-                        switch (to.Unit)
-                        {
-                            case "CFS":
-                                return CreateFlow(from.Value / 5393775.79, to.Unit);
-                            case "mL/min":
-                                return CreateFlow(from.Value / 3.17515, to.Unit);
-                            case "MGD":
-                                return CreateFlow(from.Value / 8340000, to.Unit);
-                            case "lbs/day":
-                                return from;
-                            default:
-                                throw new ArgumentException("Cannot convert between different units.");
-                        }
-                    default:
-                        throw new ArgumentException("Cannot convert between different units.");
-                }
-            }
+        //public Flow ToFlow(Flow from, Flow to)
+        //{
+        //    if (from == null) throw new ArgumentNullException(nameof(from));
 
-            return from;
-        }
+        //    if (to == null) throw new ArgumentNullException(nameof(to));
 
-        protected abstract Flow CreateFlow(double? value, string? unit);
+        //    if (from.Unit != to.Unit)
+        //    {
+        //        switch (from.Unit)
+        //        {
+        //            case "CFS": // verified
+        //                switch (to.Unit)
+        //                {
+        //                    case "CFS":
+        //                        return from;
+        //                    case "mL/min":
+        //                        return CreateFlow(from.Value * 1699010.8, to.Unit);
+        //                    case "MGD":
+        //                        return CreateFlow(from.Value * 0.646317, to.Unit);
+        //                    case "lbs/day":
+        //                        return CreateFlow(from.Value * 5393775.79, to.Unit);
+        //                    default:
+        //                        throw new ArgumentException("Cannot convert between different units.");
+        //                }
+        //            case "mL/min":
+        //                switch (to.Unit)
+        //                {
+        //                    case "CFS":
+        //                        return CreateFlow(from.Value / 1699010.8, to.Unit);
+        //                    case "mL/min":
+        //                        return from;
+        //                    case "MGD":
+        //                        return CreateFlow(from.Value / 2628758.18, to.Unit); //ok
+        //                    case "lbs/day":
+        //                        return CreateFlow(from.Value * 2.36, to.Unit);
+        //                    default:
+        //                        throw new ArgumentException("Cannot convert between different units.");
+        //                }
+        //            case "MGD":
+        //                switch (to.Unit)
+        //                {
+        //                    case "CFS":
+        //                        return CreateFlow(from.Value * 1.547, to.Unit);
+        //                    case "mL/min":
+        //                        return CreateFlow(from.Value * 2628758.18, to.Unit);
+        //                    case "MGD":
+        //                        return from;
+        //                    case "lbs/day":
+        //                        return CreateFlow(from.Value * 8340000, to.Unit);
+        //                    default:
+        //                        throw new ArgumentException("Cannot convert between different units.");
+        //                }
+        //            case "lbs/day":
+        //                switch (to.Unit)
+        //                {
+        //                    case "CFS":
+        //                        return CreateFlow(from.Value / 5393775.79, to.Unit);
+        //                    case "mL/min":
+        //                        return CreateFlow(from.Value / 3.17515, to.Unit);
+        //                    case "MGD":
+        //                        return CreateFlow(from.Value / 8340000, to.Unit);
+        //                    case "lbs/day":
+        //                        return from;
+        //                    default:
+        //                        throw new ArgumentException("Cannot convert between different units.");
+        //                }
+        //            default:
+        //                throw new ArgumentException("Cannot convert between different units.");
+        //        }
+        //    }
+
+        //    return from;
+        //}
+
+
+
     }
 }

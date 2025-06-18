@@ -3,21 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESL.Mvc.Filters
 {
-    public class LayoutInjecterAttribute : ActionFilterAttribute
+    public class LayoutInjecterAttribute(string layoutName) : ActionFilterAttribute
     {
-        private readonly string _layoutName;
-        public LayoutInjecterAttribute(string layoutName)
-        {
-            _layoutName = layoutName;
-        }
-
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
             var result = filterContext.Result as ViewResult;
             if (result != null)
             {
-                result.ViewData["Layout"] = _layoutName;
+                result.ViewData["Layout"] = layoutName;
             }
         }
     }

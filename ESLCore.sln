@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESL.Web", "ESL\ESL.Web.csproj", "{AABB01EE-8BD1-455F-A079-B12667539162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESL.Web_delete", "ESL\ESL.Web_delete.csproj", "{AABB01EE-8BD1-455F-A079-B12667539162}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESL.Core", "ESL.Core\ESL.Core.csproj", "{A5A15EEC-1863-4545-9F8E-8D0DF29DEAC1}"
 EndProject
@@ -15,8 +15,22 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESL.Api", "ESL.Api\ESL.Api.csproj", "{674C0FA7-0176-405C-ACFA-7F81F3CB1AA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESL.Mvc", "ESL.Mvc\ESL.Mvc.csproj", "{4C47920E-5E06-4C88-AC2F-4C88C4132D4E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8} = {2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8}
+		{BDC149C6-624E-4DDF-A303-56C615B4A7AC} = {BDC149C6-624E-4DDF-A303-56C615B4A7AC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testCoreWeb", "testCoreWeb\testCoreWeb.csproj", "{17813259-1185-4A2F-85F1-76D83DAE8D84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESL.Application", "ESL.Application\ESL.Application.csproj", "{2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A5A15EEC-1863-4545-9F8E-8D0DF29DEAC1} = {A5A15EEC-1863-4545-9F8E-8D0DF29DEAC1}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESL.Infrastructure", "ESL.Infrastructure\ESL.Infrastructure.csproj", "{BDC149C6-624E-4DDF-A303-56C615B4A7AC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8} = {2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +58,14 @@ Global
 		{17813259-1185-4A2F-85F1-76D83DAE8D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17813259-1185-4A2F-85F1-76D83DAE8D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17813259-1185-4A2F-85F1-76D83DAE8D84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C5BF27C-01C0-4E46-8774-FC94E4EA8AD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDC149C6-624E-4DDF-A303-56C615B4A7AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDC149C6-624E-4DDF-A303-56C615B4A7AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDC149C6-624E-4DDF-A303-56C615B4A7AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDC149C6-624E-4DDF-A303-56C615B4A7AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

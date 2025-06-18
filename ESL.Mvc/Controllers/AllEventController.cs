@@ -1,24 +1,23 @@
-﻿using ESL.Mvc.DataAccess.Persistence;
-using ESL.Mvc.Services;
+﻿using ESL.Application.Interfaces.IServices;
+using ESL.Infrastructure.DataAccess;
 using ESL.Mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Graph;
 
 namespace ESL.Mvc.Controllers
 {
-    public class AllEventController : BaseController<AllEventController>
+    public class AllEventController(EslDbContext context,
+                                    IHttpContextAccessor httpContextAccessor,
+                                    ILogger<AllEventController> logger,
+                                    ICoreService coreService,
+                                    IAllEventService allEventService) : BaseController<AllEventController>(context, httpContextAccessor, logger, coreService)
     {
-        private readonly EslDbContext _context;
-        private ILogger<AllEventController>? _logger;
-        private readonly IEmployeeService _employeeService;
-        private IAllEventService _allEventService;
-
-        public AllEventController(EslDbContext context, ILogger<AllEventController> logger, IEmployeeService employeeService, IAllEventService allEventService) : base(context, logger, employeeService)
-        {
-            _context = context;
-            _logger = logger;
-            _employeeService = employeeService;
-            _allEventService = allEventService;
-        }
+        private readonly EslDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private ILogger<AllEventController>? _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        private ICoreService _employeeService = coreService ?? throw new ArgumentNullException(nameof(coreService));
+        private IAllEventService _allEventService = allEventService ?? throw new ArgumentNullException(nameof(allEventService));
 
         int? _facilNo;
         int? _logTypeNo;
@@ -47,8 +46,8 @@ namespace ESL.Mvc.Controllers
 
             if (_stDt > _enDt) { return BadRequest($"Start Date {_stDt} must not be later than End Date {_enDt}."); }
 
-            HttpContext.Session.SetString(SessionKeyUserSessionStartDate, _stDt.ToString("yyyyMMdd")); //"MM/dd/yyyy"
-            HttpContext.Session.SetString(SessionKeyUserSessionEndDate, _enDt.ToString("yyyyMMdd")); //"MM/dd/yyyy"
+            HttpContext.Session.SetString(SessionKeyUserSessionStart, _stDt.ToString("yyyyMMdd")); //"MM/dd/yyyy"
+            HttpContext.Session.SetString(SessionKeyUserSessionEnd, _enDt.ToString("yyyyMMdd")); //"MM/dd/yyyy"
 
             // Facility
             _facilNo = facilNo ?? logFilterPartial?.FacilNo ?? FacilNo;
@@ -72,8 +71,12 @@ namespace ESL.Mvc.Controllers
 
             _opType = (bool)(operatorType.HasValue ? operatorType : (logFilterPartial?.OperatorType ?? _opType));
 
-            var facilAbbrSelectList = _employeeService.GetFacilSelectList(_facilNo).Result;
-            var logTypeSelectList = _employeeService.GetLogTypeSelectList(_logTypeNo).Result;
+            var facilTypeList = _employeeService.GetFacilTypeList().Result;
+
+            var logTypeList = _employeeService.GetLogTypeList().Result;
+
+            var facilAbbrSelectList = new SelectList(facilTypeList, "Value", "Text", _facilNo);
+            var logTypeSelectList = new SelectList(facilTypeList, "Value", "Text"); ;
             
 
             //_logFilterPartial is a new record which  may be different from the logFilterPartial record

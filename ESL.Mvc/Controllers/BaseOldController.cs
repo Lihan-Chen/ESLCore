@@ -30,7 +30,7 @@ namespace ESL.Mvc.Controllers
 
         // User Authenticated by WIP (Windows Identity Protection)
         // https://learn.microsoft.com/en-us/answers/questions/804629/how-to-access-user-identity-in-basecontroller       
-        public  bool IsAuthenticated => User.Identity!.IsAuthenticated;
+        public bool IsAuthenticated => User.Identity!.IsAuthenticated;
 
         public static string UserSessionID; // => _httpContextAccessor.HttpContext.Session.Id;
         
@@ -40,7 +40,7 @@ namespace ESL.Mvc.Controllers
         // SessionUser is the authenticated user that should have been recorded in the ESL_Employee table from Oracle ESL schema
         public static Employee? SessionUser { get; set; } // set by HomeController
         public static int? UserEmployeeNo => SessionUser?.EmployeeNo;
-        public static string? UserID => SessionUser?.UID;
+        public static string? UserID => SessionUser?.EmployeeID;
 
         // Shift Info
         public static string Shift = null!;  // Day or Night

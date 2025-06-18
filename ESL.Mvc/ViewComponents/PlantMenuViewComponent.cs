@@ -1,9 +1,6 @@
-﻿using ESL.Core.Models.BusinessEntities;
-using ESL.Mvc.Services;
-using ESL.Mvc.ViewModels;
+﻿using ESL.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 
 
 namespace ESL.Mvc.ViewComponents

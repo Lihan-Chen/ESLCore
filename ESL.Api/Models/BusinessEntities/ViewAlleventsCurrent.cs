@@ -1,12 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Api.Models.BusinessEntities;
 
-
-[Keyless]
+// This should serve as a view model for the ViewAlleventsCurrent table
 public partial record ViewAlleventsCurrent
 {
     [Column("FACILNO", TypeName = "NUMBER")]

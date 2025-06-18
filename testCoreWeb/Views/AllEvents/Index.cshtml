@@ -1,11 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<select id="Select1">
-    <option></option>
+﻿<div class="container-fluid toast-container mt-4">
+    <form class="row gx-2 align-items-center bg-info bg-opacity-25">
+        <!-- Dropdown for Facilities -->
+        <div class="col-auto">
+            <label for="facilities" class="form-label visually-hidden">Facilities</label>
+            <select class="form-select" id="facilities">
+                <option value="" selected>Facility</option>
+                <option value="1">Facility 1</option>
+                <option value="2">Facility 2</option>
+                <option value="3">Facility 3</option>
+            </select>
+        </div>
 
-</select>
-<input id="Hidden1" type="hidden" />
-<input id="Checkbox1" type="checkbox" /> 
+        <!-- Dropdown for Logs -->
+        <div class="col-auto">
+            <label for="logs" class="form-label visually-hidden">Logs</label>
+            <select class="form-select" id="logs">
+                <option value="" selected>Log</option>
+                <option value="1">Log 1</option>
+                <option value="2">Log 2</option>
+                <option value="3">Log 3</option>
+            </select>
+        </div>
+
+        <!-- Start Date -->
+        <div class="col-auto">
+            <label for="startDate" class="form-label visually-hidden">Start Date</label>
+            <input type="date" class="form-control" id="startDate" placeholder="Start Date">
+        </div>
+
+        <!-- End Date -->
+        <div class="col-auto">
+            <label for="endDate" class="form-label visually-hidden">End Date</label>
+            <input type="date" class="form-control" id="endDate" placeholder="End Date">
+        </div>
+
+        <!-- Text Input for Search -->
+        <div class="col-auto">
+            <label for="keywords" class="form-label visually-hidden">Search</label>
+            <input type="text" class="form-control" id="keywords" placeholder="Keywords">
+        </div>
+
+        <!-- Checkbox for Primary/Secondary Role -->
+        <div class="col-auto">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="roleCheck">
+                <label class="form-check-label" for="roleCheck">
+					<small>Primary Operator?</small>
+                </label>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>

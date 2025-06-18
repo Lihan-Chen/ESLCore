@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESL.Api.Models.BusinessEntities
 {
@@ -45,9 +47,11 @@ namespace ESL.Api.Models.BusinessEntities
         public string MeterID { get; set; } = string.Empty;
 
         [JsonProperty(PropertyName = "new_value")]
+        [Column(TypeName = "NUMBER(8,2)")]
         public decimal? NewValue { get; set; } 
 
         [JsonProperty(PropertyName = "old-value")]
+        [Column(TypeName = "NUMBER(8,2)")]
         public decimal? OldValue { get; set; }
 
         //[JsonProperty(PropertyName = "accepted")]

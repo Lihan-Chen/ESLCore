@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESL.Core.Data;
 using ESL.Core.Models.BusinessEntities;
+using ESL.Infrastructure.DataAccess;
 
 namespace ESL.Web.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly EslDbContext _context;
 
-        public EmployeesController(ApplicationDbContext context)
+        public EmployeesController(EslDbContext context)
         {
             _context = context;
         }

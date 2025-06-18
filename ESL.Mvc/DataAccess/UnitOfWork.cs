@@ -1,107 +1,40 @@
-﻿using ESL.Core.IConfiguration;
-using ESL.Core.IRepositories;
-using ESL.Mvc.DataAccess.Persistence;
-using ESL.Mvc.DataAccess.Repositories;
+﻿using ESL.Application.Interfaces;
+using ESL.Application.Interfaces.IRepositories;
+using ESL.Infrastructure.DataAccess;
+using ESL.Infrastructure.DataAccess.Repositories;
 
 namespace ESL.Mvc.DataAccess
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly EslDbContext _context;
-
         private readonly ILogger<UnitOfWork> _logger;
 
-        public UnitOfWork(EslDbContext context, ILogger<UnitOfWork> logger, IEmployeeRepository employees, IEmpRoleRepositry empRoles, IConstantRepository constants, IFacilityRepository facilities, ILogTypeRepository logTypes, IMeterRepository meters, IAllEventRepository allEvents)
-        {
-            _context = context;
-            _logger = logger;
-            Employees = employees;
-            EmpRoles = empRoles;
-            Constants = constants;
-            Facilities = facilities;
-            LogTypes = logTypes;
-            Meters = meters;
-            AllEvents = allEvents;
-        }
+        public IEmployeeRepository Employees { get; private set; }
+        public IEmpRoleRepository EmpRoles { get; private set; }
+        public IConstantRepository Constants { get; private set; }
+        public IFacilityRepository Facilities { get; private set; }
+        public ILogTypeRepository LogTypes { get; private set; }
+        public IMeterRepository Meters { get; private set; }
+        public IAllEventRepository AllEvents { get; private set; }
+        public ISubjectRepository Subjects { get; private set; }
+
+        public ISearchDTORepository SearchDTOs { get; private set; }
 
         public UnitOfWork(EslDbContext context, ILogger<UnitOfWork> logger)
         {
-            _context = context;
-            _logger = logger;
-        }
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        // Add all IRepositories here
-        //public IUserRepository Users { get; private set; }
-
-        public IEmployeeRepository Employees { get; private set; }
-
-        public IEmpRoleRepositry EmpRoles { get; private set; }
-
-        public IConstantRepository Constants { get; private set; }
-
-        public IFacilityRepository Facilities { get; private set; }
-
-        public ILogTypeRepository LogTypes { get; private set; }
-
-        public IMeterRepository Meters { get; private set; }
-
-        public IAllEventRepository AllEvents { get; private set; }
-
-        //public IClearanceIssueRepository ClearanceIssues => throw new NotImplementedException();
-
-        //public IClearanceTypeRepository ClearanceTypes => throw new NotImplementedException();
-
-        //public IClearanceZoneRepository ClearanceZones => throw new NotImplementedException();
-
-        //public IDetailsUserRepository DetailsList => throw new NotImplementedException();
-
-        //public IEOSRepository EOSLog => throw new NotImplementedException();
-
-        //public IEquipmentInvolvedRepository EquipmentInvolvedList => throw new NotImplementedException();
-
-        //public IFlowchangeRepository FlowChanges => throw new NotImplementedException();
-
-        //public IGeneralRepository GeneralLog => throw new NotImplementedException();
-
-        //public ILocationRepository Locations => throw new NotImplementedException();
-
-        //public IPlantShiftRepository PlantsShiftList => throw new NotImplementedException();
-
-        //public IRelatedToRepository RelatedToList => throw new NotImplementedException();
-
-        //public IScanDocRepository ScanDocs => throw new NotImplementedException();
-
-        //public IScanLobRepository ScanLobs => throw new NotImplementedException();
-
-        //public ISOCRepository SOClog => throw new NotImplementedException();
-
-        //public ISubjectRepository Subjects => throw new NotImplementedException();
-
-        //public IUnitRepository Units => throw new NotImplementedException();
-
-        //public IWorkOrderRepository WorkOrders => throw new NotImplementedException();
-
-        //public IWorkToBePerformedRepository WorkToBePerformedList => throw new NotImplementedException();
-
-        //public IAllEventRepository AllEvents { get; private set; }
-
-        public ISubjectRepository Subjects { get; private set; }
-
-        public UnitOfWork(
-            EslDbContext context,
-            ILoggerFactory loggerFactory)
-        {
-            _context = context;
-            _logger = (ILogger<UnitOfWork>?)loggerFactory.CreateLogger("Logs");
-
-            //Users = new UserRepository(_context, _logger);
             Employees = new EmployeeRepository(_context, (ILogger<EmployeeRepository>)_logger);
-
+            EmpRoles = new EmpRoleRepository(_context, (ILogger<EmpRoleRepository>)_logger);
+            Constants = new ConstantRepository(_context, (ILogger<ConstantRepository>)_logger);
             Facilities = new FacilityRepository(_context, (ILogger<FacilityRepository>)_logger);
-
-            AllEvents = new AllEventRepository(_context, (ILogger<AllEventRepository>)_logger);
-
+            LogTypes = new LogTypeRepository(_context, (ILogger<LogTypeRepository>)_logger);
             Meters = new MeterRepository(_context, (ILogger<MeterRepository>)_logger);
+            AllEvents = new AllEventRepository(_context, (ILogger<AllEventRepository>)_logger);
+            Subjects = new SubjectRepository(_context, (ILogger<SubjectRepository>)_logger);
+            SearchDTOs = new SearchDTORepository(_context, (ILogger<SearchDTORepository>)_logger);
         }
 
         public async Task CompleteAsync()
@@ -111,8 +44,6 @@ namespace ESL.Mvc.DataAccess
 
         public void Dispose()
         {
-            _context.Dispose();
-
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -125,14 +56,14 @@ namespace ESL.Mvc.DataAccess
             }
         }
 
-        //public async Task Dispose()
-        //{
-        //    await _context.DisposeAsync();
-        //}
+        public Task SaveChangesAsync()
+        {            
+            throw new NotImplementedException();
+        }
 
-
-
-
-
+        public Task SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

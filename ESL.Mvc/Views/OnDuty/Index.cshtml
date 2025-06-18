@@ -1,0 +1,80 @@
+﻿@model ESL.Mvc.ViewModels.OnDutyViewModel
+@using ESL.Core.Models.Enums
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Check In</h3>
+                </div>
+                <div class="card-body">
+                    @if (!Model.IsAuthenticatedOnly)
+                    {
+                        <form asp-action="Index" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <!-- Existing employee fields -->
+
+                            <div class="mb-4">
+                                <label asp-for="SelectedShift" class="form-label"></label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="SelectedShift"
+                                           id="Day" value="@Shift.Day"
+                                           asp-for="SelectedShift">
+                                    <label class="btn btn-outline-primary" for="Day">Day Shift</label>
+
+                                    <input type="radio" class="btn-check" name="SelectedShift"
+                                           id="Night" value="@Shift.Night"
+                                           asp-for="SelectedShift">
+                                    <label class="btn btn-outline-primary" for="Night">Night Shift</label>
+                                </div>
+                                <span asp-validation-for="SelectedShift" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="SelectedPlantId" class="form-label"></label>
+                                @await Component.InvokeAsync("PlantSelector", new
+                                    {
+                                        selectedPlantId = Model.SelectedPlantId,
+                                        inputName = "SelectedPlantId",
+                                        required = true
+                                    })
+                                <span asp-validation-for="SelectedPlantId" class="text-danger"></span>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    Start Shift
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function() {
+            // Custom client-side validation
+            $('form').on('submit', function(e) {
+                if (!$('input[name="SelectedShift"]:checked').length) {
+                    e.preventDefault();
+                    $('.shift-error').remove();
+                    $('.btn-group').after('<div class="text-danger shift-error">Please select a shift</div>');
+                }
+
+                if (!$('input[name="SelectedPlantId"]').val()) {
+                    e.preventDefault();
+                    $('.plant-error').remove();
+                    $('.plant-selector').after('<div class="text-danger plant-error">Please select a plant</div>');
+                }
+            });
+        });
+    </script>
+}

@@ -1,11 +1,12 @@
-﻿using ESL.Core.Models.BusinessEntities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace testCoreWeb.ViewModels
+﻿namespace testCoreWeb.ViewModels
 {
-    public class UserSessionViewModel
+    public record UserSessionViewModel
     {
-        public string UserID { get; set; }
+        public string SessionID { get; set; } = new Guid().ToString();
+
+        public DateTimeOffset DateTimeOffset { get; set; } = DateTimeOffset.UtcNow;
+
+        public string UserID { get; set; } = string.Empty;
 
         public string UserName { get; set; } = string.Empty;
         
@@ -13,8 +14,16 @@ namespace testCoreWeb.ViewModels
 
         public string? FacilName { get; set; }
 
-        public string? Shift { get; set; }
+        public RoleEnum UserRole { get; set; } = RoleEnum.None;
 
-        public string? OperatorType {  get; set; }
+        public ShiftEnum Shift { get; set; } = ShiftEnum.Day;
+
+        public OperatorTypeEnum OperatorType {  get; set; } = OperatorTypeEnum.Primary;
+
+        public string? UserIP { get; set; }
+
+        public string? UserAgent { get; set; }
+
+        public string? LastSessionID { get; set; }
     }
 }

@@ -17,9 +17,8 @@ namespace ESL.Web.Controllers
         //
         // GET: /Account/Login
 
+        [OutputCache(NoStore = true, Duration = 0, VaryByQueryKeys = new string[] { "None" })]  //http://stackoverflow.com/questions/14970102/anti-forgery-token-is-meant-for-user-but-the-current-user-is-username
         [AllowAnonymous]
-        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]  //http://stackoverflow.com/questions/14970102/anti-forgery-token-is-meant-for-user-but-the-current-user-is-username
-        public ActionResult Login(string returnUrl)
         {
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
 
